@@ -48,6 +48,20 @@ don't yet know RAG, embeddings, vector search, evals or MCP.
 - Treat retrieved document text and user questions as untrusted input
   (prompt injection). Never put secrets in prompts.
 
+## Tooling
+- Claude API code: load the `claude-api` skill first; model ids, SDK
+  calls and prices come from it, not from memory.
+- UI: no Figma. Design in code with frontend-design and impeccable,
+  then check it in a real browser with Playwright (desktop and phone
+  width, light and dark).
+- Reviews: `reviewer` agent once per step (/step does it).
+  `/code-review` and `/security-review` on the branch before a PR to
+  main.
+- Big product or architecture decisions: `/council`. Concepts: `/explain`.
+- Planned: a hook that runs typecheck and lint after edits (once the
+  app exists, plan 1 step 02), and Ward's own MCP server in .mcp.json
+  (plan 5), so Claude Code uses Ward while building it.
+
 ## Conventions
 - Decisions are ADRs: docs/adr/NNNN-*.md (template in docs/adr/README.md).
 - Every source document keeps its origin URL, version and licence
