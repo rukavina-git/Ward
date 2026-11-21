@@ -4,7 +4,8 @@
   https://github.com/rukavina-git/Ward/actions/runs/44947344852)
 - [x] 02 example app and clean twin (bd3d7d1, CI green:
   https://github.com/rukavina-git/Ward/actions/runs/44957675627)
-- [x] 03 eval harness v0 (hash and CI run: next commit)
+- [x] 03 eval harness v0 (4d5d2f9, CI green:
+  https://github.com/rukavina-git/Ward/actions/runs/44962340094)
 - [ ] 04 baseline
 
 ## Deviations
