@@ -1,7 +1,7 @@
 # 4. Embedding model
 
 Date: 2026-11-21
-Status: Accepted
+Status: Accepted (Voyage option narrowed by 0007)
 
 ## What is this
 The model that turns text into an embedding. Ward uses it twice: once at

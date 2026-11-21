@@ -15,5 +15,5 @@ Include what you found, how to reproduce it, and what an attacker could
 do with it. Prompt-injection findings are in scope: tell us the input and
 what the assistant did. You'll get a reply within 7 days.
 
-Please don't run load or denial-of-service tests against the hosted
-demo; it runs on paid API credits.
+Please don't run load or denial-of-service tests against
+ward.rukavina.app.

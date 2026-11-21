@@ -12,15 +12,15 @@ Rewritten after the council of 2026-11-21
 - [x] Repo, README, licence
 - [x] Claude setup: CLAUDE.md, /step, /explain, /council, reviewer, guard hook
 - [x] Product council: Ward is a local pre-publish check plugin (ADR 0001)
+- [x] No paid APIs: LLM work runs in Claude Code on my plan (ADR 0007)
 
 ## Plan 1: foundations
-Learn: how an LLM API call works, tokens, streaming, system prompts, cost.
+Learn: how an agent calls a tool (MCP), and a repo set up for AI work.
 - [x] 1.1 Stack ADRs: language and layout, retrieval storage, embeddings,
       LLM for offline work, distribution and site hosting
 - [ ] 1.2 Scaffold: TypeScript workspace, lint, typecheck, tests, CI
-- [ ] 1.3 (me) Anthropic API key, $5 prepaid, auto-reload off
-- [ ] 1.4 LLM spike: one streaming call from a script, prompt from
-      prompts/, tokens and cost logged
+- [ ] 1.3 Hello MCP: a tiny local MCP server with one tool, connected to
+      Claude Code; watch the agent call it
 
 ## Plan 2: example app and baseline
 Learn: what an eval is, and why you measure before you build.
@@ -73,13 +73,16 @@ Learn: local tools that are safe by design.
 - [ ] .ward/decisions.json; reruns show new or changed items; /ward:fix
 
 ## Plan 9: website and v1 release
-- [ ] Static site: landing, video, install guide, in-browser search,
-      sample report, eval page with traces
+- [ ] Static site: landing, demo video or slideshow of a real run,
+      2-minute install guide, in-browser search, sample report, eval page
+      with traces
 - [ ] (me) Deploy, DNS for ward.rukavina.app
 - [ ] Publish the plugin (npm, trusted publishing); weekly source-update job
 - [ ] Case study on rukavina.app
 
 ## Later
+- v2 or v3: direct Claude API work (streaming, prompt caching, batches),
+  optional and capped at $5 (ADR 0007)
 - Play policy module (plain-code checks), licences (existing tools),
   targetSdk bump module
 - Auditor and pentester pack

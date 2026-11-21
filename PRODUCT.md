@@ -17,8 +17,8 @@ and Ward remembers your decisions.
 - **Claude Code plugin:** a local MCP server (stdio, npm package), a skill
   that drives the run, and local code analyzers. It runs on the user's
   machine, and no code leaves it.
-- **Website (ward.rukavina.app):** static. Landing page, demo video,
-  install guide, in-browser search over the sources (no LLM), a sample
+- **Website (ward.rukavina.app):** static. Landing page, a demo video or
+  slideshow of a real run, an install guide that takes about two minutes, in-browser search over the sources (no LLM), a sample
   report, the public eval page and a case study.
 - **No hosted backend in v1.** A remote MCP endpoint may come later.
 
@@ -117,8 +117,7 @@ answer key lives outside the app folder.
 
 ## Constraints
 
-- **Near-zero running cost:** static site, local plugin, and about $5 of
-  prepaid API credit (auto-reload off) for offline work only: ingestion
-  help, eval judging, pre-generated demo answers. Agent eval runs use the
-  owner's Claude plan or Haiku.
+- **Zero running cost (ADR 0007):** static site, local plugin, no paid
+  APIs and no API keys. Eval scoring is code. Agent eval runs and
+  ingestion help use Claude Code on the owner's plan.
 - **Not affiliated with OWASP.** "OWASP" is never part of the product name.

@@ -13,10 +13,6 @@ they don't have to compare a query with every vector. It finds almost
 the closest ones, much faster, at huge scale. Ward doesn't need one yet;
 brute force is fast enough for its corpus.
 
-**Batches (Message Batches API).** A way to send many LLM requests at
-once and collect the results later, at half price. Good for jobs that
-can wait, like Ward's ingestion passes and eval judging.
-
 **BM25.** The classic formula for keyword search. A chunk scores higher
 when it contains the query's words, especially rare words, and isn't
 padded with lots of other text. Ward pairs it with vector search, because
@@ -49,10 +45,6 @@ cut-off has to be measured, not guessed.
 e.g. 384. More dimensions can capture more nuance but take more space.
 All embeddings in one index must have the same dimensions.
 
-**Effort.** A setting on newer Claude models that controls how much the
-model thinks before answering. Lower is cheaper and faster, higher is
-more thorough. Ward's scripts set it explicitly.
-
 **Embedding.** A list of numbers that represents what a piece of text
 means. Texts with similar meaning get similar numbers, which is how
 search can match "security breach" to "ICT incident".
@@ -70,13 +62,20 @@ issues, false passes and made-up citations.
 security check it's the worst kind of error, so Ward never says "PASS",
 only "NO FINDING", with the files it inspected.
 
+**Headless mode (`claude -p`).** Running Claude Code from a script
+instead of the chat window: you pass a prompt, it does the work and
+prints the result, optionally as JSON with token use and an estimated
+cost. It runs on your Claude plan, no API key. Ward's eval runs use it
+(ADR 0007).
+
 **Hybrid search.** Running keyword search (BM25) and vector search
 together and merging their results. Each catches what the other misses:
 exact IDs and terms vs. meaning.
 
 **LLM (large language model).** The model that reads text and writes
-text, such as Claude. Ward uses one only offline (evals, ingestion help);
-at runtime the user's own agent does the reasoning.
+text, such as Claude. Ward never calls one itself (ADR 0007): the user's
+agent does the reasoning, and Karlo's offline work runs in Claude Code on
+his plan.
 
 **Marketplace (Claude Code).** A git repo that lists plugins, so users can
 add it once and install plugins from it. Ward's repo is its own
@@ -120,9 +119,9 @@ those sources instead of from memory.
 chunk appears in the top k results. Recall@5 = "did the right answer make
 the top 5?".
 
-**Refusal.** When a model's safety system declines a request. The API
-marks it with `stop_reason: "refusal"`. Security text can trigger this,
-so Ward's scripts check for it and log it.
+**Refusal.** When a model's safety system declines a request. Security
+text can trigger this, so Ward's evals count an agent refusing a check
+separately from a missed issue.
 
 **Skill.** A set of written instructions Claude Code loads for a task.
 Ward's skill tells the agent how to run the check and how to write the

@@ -1,7 +1,7 @@
 # 5. LLM for offline work
 
 Date: 2026-11-21
-Status: Accepted
+Status: Superseded by 0007
 
 ## What is this
 The LLM that Ward's own scripts call. Ward makes no LLM calls at runtime
