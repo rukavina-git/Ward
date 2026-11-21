@@ -1,0 +1,20 @@
+import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
+// This file sits in evals/src (tests) or evals/dist (CLI): two levels below
+// the repo root either way.
+export const repoRoot = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  "../..",
+);
+
+export const keyPath = join(repoRoot, "evals/answer-keys/example-app.json");
+export const taskPromptPath = join(repoRoot, "prompts/eval-task.md");
+export const findingsSchemaPath = join(
+  repoRoot,
+  "prompts/eval-findings.schema.json",
+);
+export const resultsRoot = join(repoRoot, "evals/results/example-app");
+
+// The leaf folder name the agent sees, the same for both apps.
+export const appFolderName = "penny-jar";

@@ -1,0 +1,65 @@
+{
+  "run": "2026-11-22-alone-clean-t1-smoke",
+  "setup": "alone",
+  "trial": 1,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "clean",
+  "provisional": false,
+  "findings": 4,
+  "ungraded": 0,
+  "duplicates": 0,
+  "decoyHits": [
+    "EA-D7",
+    "EA-D8"
+  ],
+  "falseAlarms": 3,
+  "realUnplanted": 1,
+  "generic": 0,
+  "precision": null,
+  "citations": {
+    "locations": 15,
+    "bad": []
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "Analytics SDK starts and tracks before the user gives consent; user ID is sent regardless of choice",
+      "outcome": {
+        "kind": "false-alarm",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 1,
+      "title": "Auto Backup enabled; local expense data is not excluded from cloud backup or device transfer",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D7"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 2,
+      "title": "Biometric unlock is only a UI gate and does not protect the session token or data",
+      "outcome": {
+        "kind": "real-unplanted",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 3,
+      "title": "Exported deep-link activity hosts a WebView with JavaScript and a JS bridge, loading a caller-supplied page",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D8"
+        ],
+        "how": "auto"
+      }
+    }
+  ]
+}

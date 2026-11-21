@@ -7,3 +7,5 @@ dist/
 coverage/
 # Written by Claude Code (e.g. MCP server approval); never committed.
 .claude/settings.local.json
+# Eval results: agent output is kept exactly as returned.
+evals/results/

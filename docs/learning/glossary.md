@@ -73,6 +73,12 @@ model sizes.
 answers, a script that scores the output. Ward's evals measure missed
 issues, false passes and made-up citations.
 
+**Eval harness.** The test rig around an AI system: it gives the system
+the same input every time, runs it, collects what it returns and scores
+that against the answer key, all in code. Ward's harness (`evals/`)
+copies Penny Jar to a temp folder, runs `claude -p` on it and scores the
+findings. Only the setup changes between arms.
+
 **False pass.** The tool says nothing is wrong, but something is. For a
 security check it's the worst kind of error, so Ward never says "PASS",
 only "NO FINDING", with the files it inspected.
@@ -81,6 +87,16 @@ only "NO FINDING", with the files it inspected.
 the same thing. Ward's fixtures are the two Penny Jar apps in
 `fixtures/`. Their answer key lives in `evals/`, so an agent given a
 fixture never sees the answers.
+
+**Hallucinated citation.** A reference the model made up: a file or line
+that doesn't exist, or an ID that isn't in the standard. Ward's scorer
+counts citations to missing files and lines past the end; checking IDs
+comes with plan 3's index.
+
+**Hand grading.** A person deciding the cases code can't match safely,
+such as a finding in the right file but about something else. In Ward,
+the scorer writes these to `grades.json` with a suggestion, and Karlo
+labels each one. A score with ungraded findings is marked provisional.
 
 **Headless mode (`claude -p`).** Running Claude Code from a script
 instead of the chat window: you pass a prompt, it does the work and
@@ -171,6 +187,11 @@ report.
 starts the server as a child process and they exchange messages over its
 standard input and output. Local only, no network. Ward uses it.
 
+**Structured output.** Making the model answer in JSON that fits a schema
+you give it, instead of free text. Code can then read the answer without
+guessing. Ward's eval passes its findings schema to `claude -p
+--json-schema` and validates the answer again with the same file.
+
 **Token.** The unit a model reads and writes, about three quarters of an
 English word. API prices are per million input and output tokens.
 
@@ -186,6 +207,10 @@ the code. So the description works like a small prompt: it decides
 whether the model picks the tool. Claude Code first shows the model only
 MCP tool names and loads a full schema when needed, so the name matters
 too.
+
+**Trial.** One run of one setup on one input. Models are random, so the
+same setup can find 15 issues once and 18 the next time. Ward runs at
+least 3 trials per setup and reports the spread, not just one number.
 
 **True positive, false positive, false negative.** The three ways a
 finding can line up with the answer key. True positive: a real issue,

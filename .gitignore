@@ -7,3 +7,7 @@ coverage/
 .env*.local
 .DS_Store
 *.log
+
+# Eval transcripts and stderr stay local until there is a trace viewer.
+evals/results/**/transcript.jsonl
+evals/results/**/stderr.txt

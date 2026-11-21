@@ -1,0 +1,83 @@
+{
+  "grades": [
+    {
+      "finding": 2,
+      "title": "JavaScript bridge leaks session token to WebView loading attacker-controllable URL",
+      "candidates": [
+        "EA-14",
+        "EA-15",
+        "EA-D4",
+        "EA-D6"
+      ],
+      "suggested": null,
+      "label": "EA-14+EA-15",
+      "note": "The exported deep link loads any URL into the WebView, and the bridge hands out the session token."
+    },
+    {
+      "finding": 7,
+      "title": "Hardcoded third-party secrets (helpdesk API token, Mixpanel token)",
+      "candidates": [
+        "EA-05",
+        "EA-D5"
+      ],
+      "suggested": null,
+      "label": "EA-05",
+      "note": "Also calls the hardcoded Mixpanel token 'lower risk' (decoy EA-D5). Counted as EA-05 only."
+    },
+    {
+      "finding": 9,
+      "title": "Analytics runs without consent and sends PII",
+      "candidates": [
+        "EA-20",
+        "EA-21"
+      ],
+      "suggested": null,
+      "label": "EA-20+EA-21",
+      "note": "Tracking before consent, plus email as the user ID and merchant names in events."
+    },
+    {
+      "finding": 10,
+      "title": "Background location permission and unnecessary location use",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-22",
+      "label": "EA-22",
+      "note": "Manifest lines near EA-02 and EA-04, but only about background location."
+    },
+    {
+      "finding": 11,
+      "title": "Backups written to public Documents folder; legacy storage permissions; allowBackup enabled",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-04",
+      "label": "EA-02+EA-04",
+      "note": "CSV in public Documents with WRITE_EXTERNAL_STORAGE, plus allowBackup."
+    },
+    {
+      "finding": 12,
+      "title": "targetSdk 34 is below Google Play's current requirement",
+      "candidates": [
+        "EA-18"
+      ],
+      "suggested": "EA-18",
+      "label": "EA-18",
+      "note": "No IDs given, so not matched automatically."
+    },
+    {
+      "finding": 13,
+      "title": "Session token and cached data issues: token decryption exposed to JS; share-link/receipt URLs over HTTP",
+      "candidates": [
+        "EA-03"
+      ],
+      "suggested": null,
+      "label": "EA-10",
+      "note": "The bearer token goes along with the http:// receipt-image download (AuthInterceptor adds it to every request). A consequence of EA-10, so a duplicate."
+    }
+  ]
+}

@@ -1,0 +1,171 @@
+{
+  "findings": [
+    {
+      "title": "Analytics SDK starts and tracks before the user gives consent; user ID is sent regardless of choice",
+      "category": "privacy",
+      "severity": "high",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PRIVACY-3",
+        "MASVS-PRIVACY-4"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+          "line": 48,
+          "endLine": 50
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+          "line": 13,
+          "endLine": 16
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/auth/AuthRepository.kt",
+          "line": 23
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/auth/AuthRepository.kt",
+          "line": 32
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/auth/AuthRepository.kt",
+          "line": 44
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/consent/ConsentScreen.kt",
+          "line": 19,
+          "endLine": 23
+        }
+      ],
+      "explanation": "MixpanelAPI.getInstance is called on every start with automatic events enabled and no default opt-out, so a new user is tracked before the consent screen appears. signedIn(userId) calls identify and track without checking ConsentStore. Sign-in and registration happen before the consent screen, so the account ID is sent even if the user later declines. signedOut() also tracks regardless of consent. Fix: opt out by default (or initialise Mixpanel only after consent), gate every Analytics call on consent, and make sure the Data safety form and privacy policy match."
+    },
+    {
+      "title": "Auto Backup enabled; local expense data is not excluded from cloud backup or device transfer",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 10,
+          "endLine": 12
+        },
+        {
+          "file": "app/src/main/res/xml/data_extraction_rules.xml",
+          "line": 3,
+          "endLine": 12
+        },
+        {
+          "file": "app/src/main/res/xml/backup_rules.xml",
+          "line": 2,
+          "endLine": 6
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/backup/AutoBackupWorker.kt",
+          "line": 20,
+          "endLine": 23
+        }
+      ],
+      "explanation": "The backup rules only exclude three SharedPreferences files. The receipts database (merchant, amounts, city, notes), the plaintext CSV in filesDir/backup, and the receipt images in filesDir are all backed up to Google cloud or transferred to a new device. The Keystore keys are not restored, so restored encrypted notes become unreadable, while the plaintext CSV and database remain exposed. Exclude the database, files/backup and files/receipts, or set allowBackup=false."
+    },
+    {
+      "title": "Biometric unlock is only a UI gate and does not protect the session token or data",
+      "category": "security",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-2"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
+          "line": 110,
+          "endLine": 128
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/auth/TokenStore.kt",
+          "line": 14,
+          "endLine": 22
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/MainActivity.kt",
+          "line": 62,
+          "endLine": 70
+        }
+      ],
+      "explanation": "The biometric-bound key only seals a random 32-byte secret that nothing else uses. The session token and notes use separate Keystore keys with no user-authentication requirement, and the app never re-locks when it returns to the foreground. The 'Unlock with fingerprint' setting therefore gives only a screen-level barrier. Decide whether this is acceptable. If not, bind the token or note key to the biometric key and re-lock on resume."
+    },
+    {
+      "title": "Exported deep-link activity hosts a WebView with JavaScript and a JS bridge, loading a caller-supplied page",
+      "category": "security",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PLATFORM-2"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 28,
+          "endLine": 40
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+          "line": 22,
+          "endLine": 45
+        }
+      ],
+      "explanation": "Any app or web page can open pennyjar://help?page=... and choose which help.pennyjar.example URL loads with JavaScript and the PennyJar bridge. The host check limits the impact, and the bridge only exposes appVersion and close. Any XSS or content injection on the help host would still run in the app's WebView, and navigations to other hosts are handed to an external browser. Keep the bridge minimal, consider a path allow-list, and secure the help site."
+    }
+  ],
+  "inspected": [
+    "app/src/main/AndroidManifest.xml",
+    "app/build.gradle.kts",
+    "app/proguard-rules.pro",
+    "app/src/main/res/xml/network_security_config.xml",
+    "app/src/debug/res/xml/network_security_config.xml",
+    "app/src/main/res/xml/data_extraction_rules.xml",
+    "app/src/main/res/xml/backup_rules.xml",
+    "app/src/main/res/xml/file_paths.xml",
+    "sync/src/main/AndroidManifest.xml",
+    "sync/build.gradle.kts",
+    "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+    "app/src/main/java/app/pennyjar/MainActivity.kt",
+    "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+    "app/src/main/java/app/pennyjar/auth/AuthRepository.kt",
+    "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
+    "app/src/main/java/app/pennyjar/auth/CredentialStore.kt",
+    "app/src/main/java/app/pennyjar/auth/TokenStore.kt",
+    "app/src/main/java/app/pennyjar/consent/ConsentScreen.kt",
+    "app/src/main/java/app/pennyjar/consent/ConsentStore.kt",
+    "app/src/main/java/app/pennyjar/crypto/NoteCipher.kt",
+    "app/src/main/java/app/pennyjar/crypto/NoteKeys.kt",
+    "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt",
+    "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+    "app/src/main/java/app/pennyjar/help/HelpBridge.kt",
+    "app/src/main/java/app/pennyjar/location/PlaceTagger.kt",
+    "app/src/main/java/app/pennyjar/backup/AutoBackupWorker.kt",
+    "app/src/main/java/app/pennyjar/backup/ExpenseCsv.kt",
+    "app/src/main/java/app/pennyjar/share/ShareLinks.kt",
+    "app/src/main/java/app/pennyjar/support/SupportClient.kt",
+    "app/src/main/java/app/pennyjar/settings/SettingsScreen.kt",
+    "app/src/main/java/app/pennyjar/ui/ReceiptSharing.kt",
+    "app/src/main/java/app/pennyjar/ui/ThumbnailCache.kt",
+    "sync/src/main/java/app/pennyjar/sync/ApiClient.kt",
+    "sync/src/main/java/app/pennyjar/sync/Sync.kt",
+    "sync/src/main/java/app/pennyjar/sync/AuthInterceptor.kt",
+    "sync/src/main/java/app/pennyjar/sync/Endpoints.kt",
+    "sync/src/main/java/app/pennyjar/sync/UploadClient.kt",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptsProvider.kt",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptQueries.kt",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptStore.kt"
+  ]
+}

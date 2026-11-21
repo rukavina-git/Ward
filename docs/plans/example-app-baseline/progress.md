@@ -4,7 +4,7 @@
   https://github.com/rukavina-git/Ward/actions/runs/44947344852)
 - [x] 02 example app and clean twin (bd3d7d1, CI green:
   https://github.com/rukavina-git/Ward/actions/runs/44957675627)
-- [ ] 03 eval harness v0
+- [x] 03 eval harness v0 (hash and CI run: next commit)
 - [ ] 04 baseline
 
 ## Deviations
@@ -49,6 +49,33 @@
   - After review: the twin kept Mixpanel's automatic events on
     (`true, true`), so the diff holds only EA-20's fix.
 
+- Step 03:
+  - Model: Sonnet 5.5 (`claude-sonnet-5-5`), Karlo's choice.
+  - The findings schema has no `$schema` line: Claude Code's
+    `--json-schema` rejects the 2020-12 meta-schema URL. It also avoids
+    minimum, minItems and pattern; line ≥ 1 and endLine ≥ line are
+    checked in code. zod's `fromJSONSchema` validates against the same
+    file (zod was already a dependency; ajv would have been a new one).
+  - `--safe-mode` keeps four built-in plugins (cc-plugin-agents-md,
+    -telemetry, -privacy, -plugin-authoring) and lists bundled skills.
+    With no Skill tool they can't run. User plugins, MCP servers,
+    CLAUDE.md, hooks and auto memory are off. Only `--bare` drops the
+    built-ins, and it needs an API key.
+  - Extra flags: `--strict-mcp-config`, `--settings
+    {"autoMemoryEnabled":false}`, `--permission-mode dontAsk`,
+    `--allowedTools`. The child env drops `ANTHROPIC_*` and `CLAUDE*`
+    (except `CLAUDE_CONFIG_DIR`).
+  - Scorer rules added while grading: a label can join item IDs with
+    "+" (hand-graded chains), and an automatic match with another issue
+    nearby that shares no ID goes to hand grading. Twin precision is
+    null; its number is false alarms.
+  - The temp copy is deleted after each run. `evals/results/` is in
+    .prettierignore, so agent output stays as returned.
+  - Smoke (not baseline): planted 18/23 found, 0 false alarms, 55 s,
+    about $0.19 estimated. Missed EA-08, 09, 11, 19, 23. Twin: 4
+    findings, 3 false alarms (EA-D7, EA-D8, analytics opt-out misread),
+    1 real unplanted. Grades proposed by Claude, confirmed by Karlo.
+
 ## Gotchas
 Carried over from plan 1: see docs/plans/foundations/progress.md.
 - Building the fixtures: `JAVA_HOME="/Applications/Android
@@ -91,3 +118,40 @@ Carried over from plan 1: see docs/plans/foundations/progress.md.
     be a cheap extra eval arm (idea only).
 - Gson 2.8.5 in the planted app may raise a Dependabot alert. Dismiss
   it as a test fixture.
+- Step 04:
+  - Manifest items sit within 5 lines of each other, so manifest
+    findings often go to hand grading, as do findings with no IDs
+    (targetSdk). Expect about 7 hand grades per planted run.
+  - The twin's EA-09 fix seals a secret nothing uses; the smoke run
+    flagged it (graded real-unplanted). Decide before step 04: a key v3
+    item, or a better fix in the twin.
+  - One smoke trial found 18 of 23. ADR 0001 says rethink Ward if Claude
+    Code alone finds almost everything: step 04's trials decide.
+  - Runs take 1 to 1.5 minutes and about $0.2 to $0.3 (estimated, on the
+    plan), so 3+ trials per setup and app are cheap.
+  - The scorer refuses a run whose fixture tree differs from HEAD's, so
+    changing a fixture means old runs can't be rescored.
+  - Skill and plugin setups need `Skill` in `--tools`. Whether
+    `--plugin-dir` works with `--safe-mode` is untested.
+  - Open from step 03's review (not fixed; none changes the smoke
+    scores):
+    - An automatic decoy match with an issue nearby is scored as a
+      false alarm; the "issue nearby → hand" rule only covers issue
+      matches (e.g. an EA-14 finding tagged only MASWE-0018 next to
+      EA-D6).
+    - Isolation is recorded, not enforced: fail a run when
+      apiKeySource isn't "none", MCP servers or extra plugins load, the
+      tools differ, or a tool reads outside the copy.
+    - grades.json has no "graded by". Proposals should go in
+      `suggested` with `label` left null until Karlo confirms.
+    - The failed-run paths in run-cli.ts and score-cli.ts have no tests
+      (they're top-level CLI code).
+    - Duplicates count as correct in precision, which favours arms that
+      repeat themselves.
+    - The README doesn't yet say a hand label may credit an item at none
+      of its locations (smoke #13).
+    - Timeout sends SIGTERM with no SIGKILL; no error handler on the
+      child's stdin; validation errors printed without `clean()`;
+      childEnv passes npm's INIT_CWD and npm_package_json (repo path),
+      which matters once an arm has a shell; duplicate grade entries
+      for one finding: last wins silently.

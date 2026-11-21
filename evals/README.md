@@ -50,10 +50,62 @@ Each entry in `items` is a planted issue or a decoy:
   counts for that item. Issue anchors are looked up in the planted app;
   decoy anchors in every app the decoy is in.
 
-## Scoring (step 03)
+## Findings format
 
-- A finding on a planted issue is a true positive. A planted issue with
-  no finding is a miss.
-- A finding on a decoy, or anywhere in the clean twin, is a false alarm.
-- Anything else gets graded by hand. A real issue nobody planted goes
-  into the key as a new item.
+What every setup must return, defined in
+`prompts/eval-findings.schema.json`. Claude Code gets the schema with
+`--json-schema` and returns matching JSON (structured output); the
+scorer validates the same file. Per finding: `title`, `category`
+(`security`, `privacy`, `play`), `severity` (`high`, `medium`, `low`),
+`verdict` (`FAIL`, `NEEDS DYNAMIC`, `MANUAL`; never PASS), `masvs` and
+`maswe` (IDs, may be empty), `locations` (`file` relative to the app
+root, `line`, optional `endLine`) and `explanation`. Top level:
+`findings` and `inspected` (files read). The task prompt is
+`prompts/eval-task.md`. Changing either file is a prompt change: each
+result records both hashes.
+
+## Running
+
+Node 26 and a logged-in Claude Code. Runs use the plan, never an API
+key: the runner drops `ANTHROPIC_*` variables.
+
+```
+npm run eval:run -- --app planted --setup alone --model <id> --trial 1
+npm run eval:score -- evals/results/example-app/<run>
+```
+
+The runner copies the app's committed files to a fresh temp folder named
+`penny-jar`, runs `claude -p` there with only Read, Grep and Glob (no
+web, no shell, no writes) and writes `meta.json` (date, versions, model,
+setup, hashes, tokens, estimated cost) and `findings.json` (the output
+as returned). Setups are listed in `src/setups.ts`; `alone` adds
+`--safe-mode`, so no CLAUDE.md, user plugins, MCP servers, hooks or
+memory. Output that is missing or invalid marks the run failed; it is
+never scored as "no findings". `transcript.jsonl` and `stderr.txt` stay
+local (gitignored). Add `--smoke` for a test run that the baseline
+doesn't count.
+
+## Scoring
+
+- Each anchor resolves to a line. An anchor found zero times or more
+  than once stops the scorer.
+- A finding location matches an item location when it's in the same
+  file and its lines are within 5 of the anchor's. Its type matches when
+  it shares a MASWE ID or a MASVS control with the item.
+- Location and type match one item: matched automatically. An issue is
+  a true positive; a decoy is a false alarm.
+- Two items matching at one location (a tie), a mix of issue and decoy,
+  location without type, a finding anywhere else, and every finding in
+  the twin that isn't a decoy hit go to `grades.json`, with candidates
+  and a suggestion. Karlo sets each `label` to an item ID,
+  `false-alarm`, `real-unplanted` (a real issue nobody planted: a key
+  candidate) or `generic` (hardening advice). A label also overrules an
+  automatic match. Until all are labelled, the score is provisional.
+- One finding counts for every item it matches, so a finding citing
+  both places of a chain (EA-12 and EA-13) scores both.
+- `score.json`, planted app: issues found out of 23, misses (false
+  passes) by ID, by difficulty, MASVS group and category, duplicates,
+  decoy hits and other false alarms, and precision (correct findings
+  over correct plus false alarms; generic left out). Twin: false alarms
+  and decoy hits. Both: bad citations (a file that doesn't exist, a line
+  past its end, a path outside the app).

@@ -28,7 +28,7 @@ Learn: what an eval is, and why you measure before you build.
       plus decoys, mapped to MASVS and MASWE
 - [x] 2.2 Example Kotlin app with the planted issues, plus a clean twin;
       answer key outside the app folder
-- [ ] 2.3 Eval harness v0: findings format, task prompt, runner, scoring
+- [x] 2.3 Eval harness v0: findings format, task prompt, runner, scoring
       script (missed issues, false passes)
 - [ ] 2.4 Baseline: Claude Code alone, + plain checklist skill, + OWASP's
       plugin (small N, on my Claude plan)
