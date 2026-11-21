@@ -24,10 +24,13 @@ Learn: how an agent calls a tool (MCP), and a repo set up for AI work.
 
 ## Plan 2: example app and baseline
 Learn: what an eval is, and why you measure before you build.
-- [ ] Example Kotlin app with planted security and privacy issues, plus a
-      clean twin; answer key outside the app folder
-- [ ] Scoring script v0: findings vs answer key (missed issues, false passes)
-- [ ] Baseline: Claude Code alone, + plain checklist skill, + OWASP's
+- [ ] 2.1 Issue list and answer key: planted security and privacy issues
+      plus decoys, mapped to MASVS and MASWE
+- [ ] 2.2 Example Kotlin app with the planted issues, plus a clean twin;
+      answer key outside the app folder
+- [ ] 2.3 Eval harness v0: findings format, task prompt, runner, scoring
+      script (missed issues, false passes)
+- [ ] 2.4 Baseline: Claude Code alone, + plain checklist skill, + OWASP's
       plugin (small N, on my Claude plan)
 
 ## Plan 3: knowledge base (first RAG)
