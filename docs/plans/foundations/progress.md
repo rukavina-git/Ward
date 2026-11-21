@@ -1,7 +1,8 @@
 # Plan 1 progress
 
 - [x] 01 stack ADRs (b0892ab)
-- [x] 02 scaffold
+- [x] 02 scaffold (29c2d26, CI green:
+  https://github.com/rukavina-git/Ward/actions/runs/44871708314)
 - [ ] 03 hello MCP
 
 ## Deviations
