@@ -1,0 +1,11 @@
+{
+  "name": "ward",
+  "owner": { "name": "Ivan Karlo Rukavina" },
+  "plugins": [
+    {
+      "name": "ward",
+      "source": "./plugin",
+      "description": "Pre-publish check for Android apps. Work in progress: no skill or MCP server yet."
+    }
+  ]
+}

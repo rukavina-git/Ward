@@ -68,6 +68,12 @@ prints the result, optionally as JSON with token use and an estimated
 cost. It runs on your Claude plan, no API key. Ward's eval runs use it
 (ADR 0007).
 
+**Hook (Claude Code).** A script Claude Code runs on its own at a set
+moment, such as before a shell command or after a file edit. The agent
+can't skip it, and its output goes back to the agent. Ward's repo uses
+one to block risky commands and one to typecheck and lint after every
+edit, so the agent fixes errors right away.
+
 **Hybrid search.** Running keyword search (BM25) and vector search
 together and merging their results. Each catches what the other misses:
 exact IDs and terms vs. meaning.

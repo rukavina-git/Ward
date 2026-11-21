@@ -1,0 +1,5 @@
+# Docs are hand-wrapped prose; Prettier would reflow them.
+*.md
+package-lock.json
+dist/
+coverage/

@@ -18,7 +18,7 @@ Rewritten after the council of 2026-11-21
 Learn: how an agent calls a tool (MCP), and a repo set up for AI work.
 - [x] 1.1 Stack ADRs: language and layout, retrieval storage, embeddings,
       LLM for offline work, distribution and site hosting
-- [ ] 1.2 Scaffold: TypeScript workspace, lint, typecheck, tests, CI
+- [x] 1.2 Scaffold: TypeScript workspace, lint, typecheck, tests, CI
 - [ ] 1.3 Hello MCP: a tiny local MCP server with one tool, connected to
       Claude Code; watch the agent call it
 

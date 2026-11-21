@@ -7,16 +7,27 @@ runtime. Static website. Portfolio project for rukavina.app
 (ward.rukavina.app). Product and audience: PRODUCT.md. Shape: ADR 0001.
 
 ## Repo
-Planned layout. Not scaffolded yet; plan 1 sets it up. Update this
-section when it lands.
-- docs/     roadmap (docs/roadmap.md), plans (docs/plans/), ADRs
-            (docs/adr/), learning notes (docs/learning/)
-- prompts/  every prompt the app sends, as versioned text files
-- evals/    question set, expected answers, scoring scripts, results
+npm workspace, TypeScript, Node 26 (ADR 0002, tooling ADR 0008).
+- packages/core   shared library (placeholder; index + search in plan 3)
+- plugin/         the Claude Code plugin (manifest only so far)
+- .claude-plugin/ marketplace.json: this repo is the plugin marketplace
+- .github/        CI: all checks below, on push to develop and PRs to main
+- docs/           roadmap (docs/roadmap.md), plans (docs/plans/), ADRs
+                  (docs/adr/), learning notes (docs/learning/)
+Planned (ADR 0002), created when their plan starts: packages/mcp,
+analyzers, report, ingest; evals/ (questions, answer keys, scoring,
+results); fixtures/; site/; prompts/ (every prompt, as versioned files).
 
 ## Commands
-None yet. Add build, test, lint, ingest and eval commands here as they
-appear.
+Use Node 26 (`nvm use` reads .nvmrc).
+- `npm ci`                install
+- `npm run lint`          ESLint with type-aware rules
+- `npm run format:check`  Prettier (`npm run format` fixes; skips .md)
+- `npm run typecheck`     tsc in every package
+- `npm test`              Vitest
+- `npm run build`         compile packages to dist/
+After every Edit/Write, .claude/hooks/check-after-edit.sh runs the
+typecheck and lints the edited file.
 
 ## I am learning AI engineering on this project
 This is my first AI project. I know web, Android and security well; I
@@ -59,9 +70,8 @@ don't yet know RAG, embeddings, vector search, evals or MCP.
   `/code-review` and `/security-review` on the branch before a PR to
   main.
 - Big product or architecture decisions: `/council`. Concepts: `/explain`.
-- Planned: a hook that runs typecheck and lint after edits (once the
-  app exists, plan 1 step 02), and Ward's own MCP server in .mcp.json
-  (plan 4), so Claude Code uses Ward while building it.
+- Planned: Ward's own MCP server in .mcp.json (plan 4), so Claude Code
+  uses Ward while building it.
 
 ## Conventions
 - Decisions are ADRs: docs/adr/NNNN-*.md (template in docs/adr/README.md).

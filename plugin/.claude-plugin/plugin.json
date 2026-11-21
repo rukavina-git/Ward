@@ -1,0 +1,8 @@
+{
+  "name": "ward",
+  "version": "0.0.0",
+  "description": "Pre-publish check for Android apps. Work in progress: no skill or MCP server yet.",
+  "author": { "name": "Ivan Karlo Rukavina" },
+  "license": "MIT",
+  "repository": "https://github.com/rukavina-git/Ward"
+}
