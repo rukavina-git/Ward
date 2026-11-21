@@ -3,7 +3,8 @@
 - [x] 01 stack ADRs (b0892ab)
 - [x] 02 scaffold (29c2d26, CI green:
   https://github.com/rukavina-git/Ward/actions/runs/44871708314)
-- [x] 03 hello MCP
+- [x] 03 hello MCP (5dde6cf, CI green:
+  https://github.com/rukavina-git/Ward/actions/runs/44880632501)
 
 ## Deviations
 - Plan rewritten after the product council of 2026-11-21 (ADR 0001):
