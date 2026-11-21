@@ -1,6 +1,6 @@
 # Plan 1 progress
 
-- [x] 01 stack ADRs (commit: see "Step 01" in git log; hash added below)
+- [x] 01 stack ADRs (b0892ab)
 - [ ] 02 scaffold
 - [ ] 03 (me) API key
 - [ ] 04 LLM spike
