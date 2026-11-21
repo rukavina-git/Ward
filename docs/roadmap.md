@@ -15,7 +15,7 @@ Rewritten after the council of 2026-11-21
 
 ## Plan 1: foundations
 Learn: how an LLM API call works, tokens, streaming, system prompts, cost.
-- [ ] 1.1 Stack ADRs: language and layout, retrieval storage, embeddings,
+- [x] 1.1 Stack ADRs: language and layout, retrieval storage, embeddings,
       LLM for offline work, distribution and site hosting
 - [ ] 1.2 Scaffold: TypeScript workspace, lint, typecheck, tests, CI
 - [ ] 1.3 (me) Anthropic API key, $5 prepaid, auto-reload off
