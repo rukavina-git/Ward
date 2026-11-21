@@ -1,6 +1,6 @@
 {
   "name": "example-app",
-  "keyVersion": 1,
+  "keyVersion": 2,
   "created": "2026-11-21",
   "apps": {
     "planted": "fixtures/example-app",
@@ -36,7 +36,8 @@
     "MASTG test IDs are from tests-beta/android (the v2 tests). The older tests/android are all deprecated in v2.0.0.",
     "One OWASP mapping disagrees: MASTG-TEST-0334 tests JavaScript bridges (addJavascriptInterface) but names beta MASWE-0069, which v1.0.0 maps to MASWE-0034. EA-15 uses MASWE-0033, the v1.0.0 weakness for JavaScript bridges.",
     "A location is a file path relative to the app root plus an anchor: text that occurs exactly once in that file. Step 02 makes every anchor exist; the scorer turns anchors into lines.",
-    "No issue needs a running app, so none is NEEDS DYNAMIC."
+    "No issue needs a running app, so none is NEEDS DYNAMIC.",
+    "A decoy with \"app\": \"clean\" exists only in the clean twin: risky-looking code that stays after a fix. In the planted app the same anchor may belong to an issue. Decoys without \"app\" are in both apps."
   ],
   "items": [
     {
@@ -70,7 +71,7 @@
       "mastg": ["MASTG-TEST-0202"],
       "verdict": "FAIL",
       "difficulty": "obvious",
-      "planted": "A periodic WorkManager job writes every expense (date, amount, merchant, note) to a CSV file in the public Documents folder, using WRITE_EXTERNAL_STORAGE and requestLegacyExternalStorage. With minSdk 26, on Android 8 to 10 any app with storage permission can read it. On every version the file outlives an uninstall and is readable in the Files app, over USB and by apps with all-files access.",
+      "planted": "A periodic WorkManager job writes every expense (date, amount, category, merchant, place) to a CSV file in the public Documents folder, using WRITE_EXTERNAL_STORAGE and requestLegacyExternalStorage. With minSdk 26, on Android 8 to 10 any app with storage permission can read it. On every version the file outlives an uninstall and is readable in the Files app, over USB and by apps with all-files access.",
       "fix": "Write the automatic backup to app-private storage. Export to shared storage only when the user asks, through the system file picker (ACTION_CREATE_DOCUMENT). Remove the storage permission.",
       "locations": [
         {
@@ -139,7 +140,7 @@
       "locations": [
         {
           "file": "app/src/main/java/app/pennyjar/support/SupportClient.kt",
-          "anchor": "HELPDESK_API_TOKEN"
+          "anchor": "HELPDESK_API_TOKEN ="
         }
       ]
     },
@@ -199,7 +200,7 @@
       "locations": [
         {
           "file": "app/src/main/java/app/pennyjar/share/ShareLinks.kt",
-          "anchor": "java.util.Random()"
+          "anchor": "Random()"
         }
       ]
     },
@@ -215,7 +216,7 @@
       "verdict": "FAIL",
       "difficulty": "obvious",
       "planted": "App unlock calls BiometricPrompt without a CryptoObject and sets an 'unlocked' flag in the success callback. Hooking the callback bypasses the lock.",
-      "fix": "Authenticate with a CryptoObject for a Keystore key that requires user authentication, and decrypt the session token with it only on success.",
+      "fix": "Authenticate with a CryptoObject for a Keystore key of its own that requires biometric authentication, and unlock only if decrypting a secret sealed with that key succeeds. The session token keeps its own key, which background sync uses without a prompt.",
       "locations": [
         {
           "file": "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
@@ -243,7 +244,7 @@
         },
         {
           "file": "sync/src/main/java/app/pennyjar/sync/Endpoints.kt",
-          "anchor": "RECEIPT_IMAGE_BASE"
+          "anchor": "RECEIPT_IMAGE_BASE ="
         }
       ]
     },
@@ -489,6 +490,10 @@
         {
           "file": "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
           "anchor": ".identify("
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+          "anchor": "put(\"merchant\""
         }
       ]
     },
@@ -619,7 +624,7 @@
       "locations": [
         {
           "file": "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
-          "anchor": "MIXPANEL_PROJECT_TOKEN"
+          "anchor": "MIXPANEL_PROJECT_TOKEN ="
         }
       ]
     },
@@ -640,6 +645,86 @@
         {
           "file": "app/src/main/AndroidManifest.xml",
           "anchor": "androidx.core.content.FileProvider"
+        }
+      ]
+    },
+    {
+      "id": "EA-D7",
+      "decoy": true,
+      "app": "clean",
+      "title": "Backup on, with rules that exclude credentials",
+      "category": "security",
+      "masvs": ["MASVS-STORAGE-2"],
+      "maswe": ["MASWE-0006"],
+      "verdict": "NO FINDING",
+      "whyFine": "Backup stays on so users keep their expenses. The data extraction rules (and full backup rules for older versions) exclude the files with the email, the session token and the unlock secret.",
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "anchor": "android:allowBackup=\"true\""
+        },
+        {
+          "file": "app/src/main/res/xml/data_extraction_rules.xml",
+          "anchor": "<cloud-backup>"
+        }
+      ]
+    },
+    {
+      "id": "EA-D8",
+      "decoy": true,
+      "app": "clean",
+      "title": "JavaScript bridge in the help WebView",
+      "category": "security",
+      "masvs": ["MASVS-PLATFORM-2"],
+      "maswe": ["MASWE-0033"],
+      "verdict": "NO FINDING",
+      "whyFine": "The bridge exposes only the app version and a close action, and the WebView loads only https pages on the help host.",
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+          "anchor": "addJavascriptInterface("
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/help/HelpBridge.kt",
+          "anchor": "class HelpBridge"
+        }
+      ]
+    },
+    {
+      "id": "EA-D9",
+      "decoy": true,
+      "app": "clean",
+      "title": "Exported help activity with a deep link",
+      "category": "security",
+      "masvs": ["MASVS-PLATFORM-1"],
+      "maswe": ["MASWE-0029"],
+      "verdict": "NO FINDING",
+      "whyFine": "A deep link needs an exported activity. It loads the requested page only if it is an https URL on the help host, and opens anything else in the browser.",
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "anchor": "android:scheme=\"pennyjar\""
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+          "anchor": "getQueryParameter(\"page\")"
+        }
+      ]
+    },
+    {
+      "id": "EA-D10",
+      "decoy": true,
+      "app": "clean",
+      "title": "HTTP logging in debug builds",
+      "category": "security",
+      "masvs": ["MASVS-STORAGE-2"],
+      "maswe": ["MASWE-0005"],
+      "verdict": "NO FINDING",
+      "whyFine": "The logging interceptor is added only when BuildConfig.DEBUG is true, logs request and response lines without bodies, and redacts the Authorization header. Release builds log no HTTP traffic.",
+      "locations": [
+        {
+          "file": "sync/src/main/java/app/pennyjar/sync/ApiClient.kt",
+          "anchor": "HttpLoggingInterceptor.Level.BASIC"
         }
       ]
     }

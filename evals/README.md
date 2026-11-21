@@ -12,6 +12,10 @@ app. One JSON file is the single source of truth: a script can read it,
 and nothing has to be kept in sync with a second copy.
 
 Header:
+- `name`: the test set (`example-app`).
+- `keyVersion`: goes up whenever items, anchors or wording change, so
+  every result can say which key scored it.
+- `created`: the date of the first version.
 - `apps`: folders of the planted app and the clean twin.
 - `concept`: what the app does, so planted issues fit it naturally.
 - `sources`: MASVS, MASWE and MASTG versions, links and licences.
@@ -20,6 +24,10 @@ Header:
 Each entry in `items` is a planted issue or a decoy:
 - `id`: `EA-01`… for issues, `EA-D1`… for decoys. Neutral on purpose.
 - `decoy`: `true` for code that looks risky but is fine.
+- `app` (decoys only, optional): `clean` when the decoy exists only in
+  the twin, i.e. risky-looking code that stays after a fix. In the
+  planted app the same anchor may belong to an issue. Without `app`, a
+  decoy is in both apps.
 - `title`, `category` (`security`, `privacy` or `play`).
 - `severity` (issues only): `high` blocks publishing or exposes user
   data directly; `medium` weakens protection or needs a second flaw.
@@ -39,7 +47,8 @@ Each entry in `items` is a planted issue or a decoy:
 - `locations`: where it is. Each is a `file` (relative to the app root)
   and an `anchor`: text that occurs exactly once in that file. Anchors
   survive edits that move lines. A finding at any location of an item
-  counts for that item.
+  counts for that item. Issue anchors are looked up in the planted app;
+  decoy anchors in every app the decoy is in.
 
 ## Scoring (step 03)
 

@@ -1,6 +1,8 @@
 # Docs are hand-wrapped prose; Prettier would reflow them.
 *.md
 package-lock.json
+# Test apps (Kotlin and Gradle). They're eval inputs: never reformat them.
+fixtures/
 dist/
 coverage/
 # Written by Claude Code (e.g. MCP server approval); never committed.

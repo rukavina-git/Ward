@@ -32,6 +32,11 @@ millisecond.
 **Chunk.** A small piece of a source document (in Ward, usually one
 requirement or one section). Search finds chunks, not whole documents.
 
+**Clean twin.** A copy of the test app with every planted issue fixed
+and nothing else changed. Anything an agent flags in it is a false
+alarm (or a real issue nobody planted). It measures precision the way
+the planted app measures recall.
+
 **Contamination (training-data).** When test material was in the model's
 training data, so the model "remembers" the answers instead of working
 them out. Well-known vulnerable apps like InsecureBankv2 are
@@ -71,6 +76,11 @@ issues, false passes and made-up citations.
 **False pass.** The tool says nothing is wrong, but something is. For a
 security check it's the worst kind of error, so Ward never says "PASS",
 only "NO FINDING", with the files it inspected.
+
+**Fixture.** Fixed test input kept in the repo so every run starts from
+the same thing. Ward's fixtures are the two Penny Jar apps in
+`fixtures/`. Their answer key lives in `evals/`, so an agent given a
+fixture never sees the answers.
 
 **Headless mode (`claude -p`).** Running Claude Code from a script
 instead of the chat window: you pass a prompt, it does the work and
