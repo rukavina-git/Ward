@@ -1,6 +1,7 @@
 # Plan 2 progress
 
-- [x] 01 issue list and answer key
+- [x] 01 issue list and answer key (e0121ef, CI green:
+  https://github.com/rukavina-git/Ward/actions/runs/44947344852)
 - [ ] 02 example app and clean twin
 - [ ] 03 eval harness v0
 - [ ] 04 baseline
