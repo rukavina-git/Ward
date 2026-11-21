@@ -2,7 +2,8 @@
 
 - [x] 01 issue list and answer key (e0121ef, CI green:
   https://github.com/rukavina-git/Ward/actions/runs/44947344852)
-- [x] 02 example app and clean twin
+- [x] 02 example app and clean twin (bd3d7d1, CI green:
+  https://github.com/rukavina-git/Ward/actions/runs/44957675627)
 - [ ] 03 eval harness v0
 - [ ] 04 baseline
 
