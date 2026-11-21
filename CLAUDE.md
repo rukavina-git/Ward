@@ -1,9 +1,10 @@
 # Ward
 
-AI assistant for web and mobile app security. Answers questions from OWASP
-standards and platform security docs, with a citation for every claim.
-Web app and MCP server on one backend. Portfolio project for rukavina.app
-(ward.rukavina.app). Product and audience: PRODUCT.md.
+Pre-publish check for Android apps, run by the user's own coding agent.
+A local Claude Code plugin (MCP server + skill + analyzers) supplies cited
+checklists from OWASP MASVS/MASTG (later privacy/GDPR); no LLM calls at
+runtime. Static website. Portfolio project for rukavina.app
+(ward.rukavina.app). Product and audience: PRODUCT.md. Shape: ADR 0001.
 
 ## Repo
 Planned layout. Not scaffolded yet; plan 1 sets it up. Update this
@@ -60,7 +61,7 @@ don't yet know RAG, embeddings, vector search, evals or MCP.
 - Big product or architecture decisions: `/council`. Concepts: `/explain`.
 - Planned: a hook that runs typecheck and lint after edits (once the
   app exists, plan 1 step 02), and Ward's own MCP server in .mcp.json
-  (plan 5), so Claude Code uses Ward while building it.
+  (plan 4), so Claude Code uses Ward while building it.
 
 ## Conventions
 - Decisions are ADRs: docs/adr/NNNN-*.md (template in docs/adr/README.md).

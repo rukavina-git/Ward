@@ -1,36 +1,38 @@
 # Ward
 
-**Ask the security standards.**
+**Check your Android app before you publish it.**
 
-Ward is an AI assistant for web and mobile application security. It answers questions from
-OWASP standards and platform security documentation, and every claim cites its source.
+Ward is a pre-publish check that runs inside your coding agent. Add it to Claude Code as a
+plugin, ask "is this app ready to publish?", and your agent works through Ward's checklist:
+security first, then privacy and GDPR. Every finding cites the rule it comes from.
 
 > Status: early development.
 
 ## What it will do
 
-- **Answer with sources.** Every answer cites the exact requirement or section it comes from.
-- **Admit when it doesn't know.** If the sources don't cover a question, Ward says so instead of guessing.
-- **Work inside your tools.** Ward is also an MCP server, so you can use it from Claude Code, Cursor and other MCP clients.
-- **Publish its quality scores.** A public evaluation set shows how often Ward answers correctly.
+- **Check what's easy to forget.** Security (OWASP MASVS/MASTG), then privacy and GDPR. Later: Play policy and licences.
+- **Cite every finding.** Each one has a file and line, the exact rule it breaks, and a fix.
+- **Say what it couldn't verify.** No "PASS" badges: items it can't check from code are marked for manual or dynamic testing.
+- **Remember your decisions.** Triage the report in your browser (fix, accept, skip). Decisions are saved in your repo.
+- **Stay on your machine.** Ward runs locally and makes no AI calls of its own; your agent does the work.
+- **Publish its scores.** A public eval compares Claude Code with and without Ward, including where Ward fails.
 
 ## Sources (planned)
 
 - OWASP MASVS and MASTG (mobile)
-- OWASP ASVS (web)
-- OWASP Top 10 and Cheat Sheet Series
-- Android platform security documentation
+- Android developer documentation
+- GDPR and EU guidance (privacy module)
 
 Ward is an independent project and is not affiliated with or endorsed by the OWASP Foundation.
 Its source material is used under each source's own licence.
 
 ## Architecture (planned)
 
-1. **Ingestion:** fetch sources on a schedule, split them into chunks, compute embeddings and store them.
-2. **Retrieval:** hybrid search (keyword + vector) with reranking.
-3. **Generation:** answers grounded only in the retrieved sources, with citations.
-4. **Interfaces:** a web app and an MCP server on the same backend.
-5. **Evals:** a fixed question set, scored automatically on every change.
+1. **Knowledge:** sources split into chunks by requirement and test, embedded locally, shipped as an index file.
+2. **Retrieval:** keyword + vector search, built by hand.
+3. **MCP server:** local tools for the checklist, single checks and search.
+4. **Analyzers:** plain code for facts with exact answers (merged manifest, network config, targetSdk, dependencies).
+5. **Evals:** an example app with planted issues, scored automatically.
 
 ## Licence
 
