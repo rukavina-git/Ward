@@ -9,13 +9,16 @@ runtime. Static website. Portfolio project for rukavina.app
 ## Repo
 npm workspace, TypeScript, Node 26 (ADR 0002, tooling ADR 0008).
 - packages/core   shared library (placeholder; index + search in plan 3)
+- packages/mcp    stdio MCP server (`hello` tool only; real tools plan 4).
+                  Logs to stderr only: stdout is the protocol.
+- .mcp.json       starts packages/mcp/dist as server `ward`
 - plugin/         the Claude Code plugin (manifest only so far)
 - .claude-plugin/ marketplace.json: this repo is the plugin marketplace
 - .github/        CI: all checks below, on push to develop and PRs to main
 - docs/           roadmap (docs/roadmap.md), plans (docs/plans/), ADRs
                   (docs/adr/), learning notes (docs/learning/)
-Planned (ADR 0002), created when their plan starts: packages/mcp,
-analyzers, report, ingest; evals/ (questions, answer keys, scoring,
+Planned (ADR 0002), created when their plan starts:
+packages/analyzers, report, ingest; evals/ (questions, answer keys, scoring,
 results); fixtures/; site/; prompts/ (every prompt, as versioned files).
 
 ## Commands
@@ -24,7 +27,7 @@ Use Node 26 (`nvm use` reads .nvmrc).
 - `npm run lint`          ESLint with type-aware rules
 - `npm run format:check`  Prettier (`npm run format` fixes; skips .md)
 - `npm run typecheck`     tsc in every package
-- `npm test`              Vitest
+- `npm test`              Vitest (builds first: the stdio test runs dist)
 - `npm run build`         compile packages to dist/
 After every Edit/Write, .claude/hooks/check-after-edit.sh runs the
 typecheck and lints the edited file.
@@ -70,8 +73,8 @@ don't yet know RAG, embeddings, vector search, evals or MCP.
   `/code-review` and `/security-review` on the branch before a PR to
   main.
 - Big product or architecture decisions: `/council`. Concepts: `/explain`.
-- Planned: Ward's own MCP server in .mcp.json (plan 4), so Claude Code
-  uses Ward while building it.
+- Ward's own MCP server is in .mcp.json (hello only for now); from plan
+  4, Claude Code uses Ward's real tools while building it.
 
 ## Conventions
 - Decisions are ADRs: docs/adr/NNNN-*.md (template in docs/adr/README.md).

@@ -27,8 +27,10 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      # Build first: packages import each other's dist/ types, and the
+      # stdio test spawns the built MCP server.
+      - run: npm run build
       - run: npm run lint
       - run: npm run format:check
       - run: npm run typecheck
       - run: npm test
-      - run: npm run build

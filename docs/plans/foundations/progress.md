@@ -3,7 +3,7 @@
 - [x] 01 stack ADRs (b0892ab)
 - [x] 02 scaffold (29c2d26, CI green:
   https://github.com/rukavina-git/Ward/actions/runs/44871708314)
-- [ ] 03 hello MCP
+- [x] 03 hello MCP
 
 ## Deviations
 - Plan rewritten after the product council of 2026-11-21 (ADR 0001):
@@ -21,21 +21,43 @@
   `engines` is a minimum (`>=26`), and `.nvmrc` holds the pin.
   Adding `npm run format:check` to the settings allow-list was blocked
   by the permission classifier, so it was dropped.
+- Step 03: SDK v2 serves stdio with `serveStdio(factory)`, not
+  `StdioServerTransport` + `connect`. CI now builds right after `npm ci`
+  (packages import each other's dist types; the stdio test spawns dist),
+  and root `pretest` builds so tests never run a stale dist. ESLint
+  `no-console` (error/warn allowed) guards stdout in packages/mcp.
+  CLAUDE.md Repo/Commands/Tooling updated. The exchange was captured with
+  three headless `claude -p` runs (clear description, vague description,
+  vague name + description), plus Karlo's interactive session. `bin`
+  field added to packages/mcp ahead of plan 5. Approving the server
+  writes `.claude/settings.local.json`, which broke local
+  `format:check`; added to `.prettierignore`.
 
 ## Gotchas
-For step 03 (hello MCP):
-- MCP TypeScript SDK v2 is stable: `@modelcontextprotocol/server` 2.4.0
-  (Apache-2.0, npm `latest`). v1 is `@modelcontextprotocol/sdk` 1.32.2
-  (MIT). Read the v2 docs for the stdio server API before writing code.
-- TS 6 defaults `types` to `[]`. A package that uses Node APIs needs
-  `@types/node` and `"types": ["node"]`. Relative imports need `.js`.
-- A new package needs `typecheck` and `build` scripts and a tsconfig
-  extending `tsconfig.base.json` (copy packages/core).
+For plan 2 and later:
+- Fresh clone: run `npm run build` before typecheck, the edit hook or
+  the `ward` MCP server. Workspaces build alphabetically (core before
+  mcp); a new package that imports another must sort after it, or switch
+  to TS project references (`tsc -b`).
+- `.mcp.json` runs `node` from PATH (nvm default Node 24) on
+  packages/mcp/dist. A project server shows "Pending approval" in
+  `claude mcp list` until approved in an interactive session.
+- Headless `claude -p` in this repo can run Bash on its own (one run ran
+  `npm test`, which rebuilt dist mid-experiment). For experiments and
+  baselines, restrict tools with `--tools` and `--allowedTools`, and use
+  `--strict-mcp-config --mcp-config` to load only the servers you mean.
+- Claude Code defers MCP tools: the model first sees only the
+  `mcp__<server>__<tool>` name, then loads the schema via ToolSearch.
+- `total_cost_usd` in `claude -p` JSON is an API-price estimate; on the
+  plan nothing is billed. The 3 runs in step 03 showed ~$0.06 to $0.21.
+- Open reviewer items for plan 4: no test that stdout carries only
+  JSON-RPC (collect `client.onerror`); no-console doesn't cover
+  @ward/core or `process.stdout.write`; stdio test hides server stderr;
+  decide whether tool descriptions live in prompts/ and need evals.
+- TS 6 defaults `types` to `[]`: Node packages need `@types/node` and
+  `"types": ["node"]`. Relative imports need `.js`.
 - The shell's nvm default is Node 24. Run `nvm use` before npm.
-- The edit hook lints only the edited file. Lint errors it causes in
-  other files show up only in `npm run lint` or CI.
-- MPL-2.0 is allowed only for dev-only packages (ADR 0008). Check that
-  anything the server ships with is MIT, Apache or BSD.
+- MPL-2.0 is allowed only for dev-only packages (ADR 0008).
 - npm 11 skips fsevents' install script (macOS-only, optional, harmless).
 - `claude plugin validate .` warns that the README has no install line.
   That's for plan 5.

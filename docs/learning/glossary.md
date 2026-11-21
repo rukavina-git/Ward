@@ -78,6 +78,13 @@ edit, so the agent fixes errors right away.
 together and merging their results. Each catches what the other misses:
 exact IDs and terms vs. meaning.
 
+**JSON-RPC.** A simple message format for "call this method with these
+arguments" and "here is the result", one JSON object per message. An `id`
+pairs each reply with its request; a message without an `id` is a
+notification that gets no reply. MCP uses it. Over stdio, every line on
+stdout must be one of these messages, which is why Ward's server logs
+only to stderr.
+
 **LLM (large language model).** The model that reads text and writes
 text, such as Claude. Ward never calls one itself (ADR 0007): the user's
 agent does the reasoning, and Karlo's offline work runs in Claude Code on
@@ -139,6 +146,19 @@ standard input and output. Local only, no network. Ward uses it.
 
 **Token.** The unit a model reads and writes, about three quarters of an
 English word. API prices are per million input and output tokens.
+
+**Tool call.** When the model, instead of replying with text, asks the
+app to run a tool: "call `hello` with `{name: "Karlo"}`". The app runs it
+(for MCP tools, by sending a JSON-RPC request to the server), puts the
+result back into the conversation, and the model continues from there.
+The user's agent will get Ward's checklist this way.
+
+**Tool schema.** A tool's name, description and the shape of its input
+(as JSON Schema). It is all the model knows about a tool; it never sees
+the code. So the description works like a small prompt: it decides
+whether the model picks the tool. Claude Code first shows the model only
+MCP tool names and loads a full schema when needed, so the name matters
+too.
 
 **Vector database.** A database that stores embeddings and can quickly
 find the ones closest to a question's embedding. Ward doesn't need one

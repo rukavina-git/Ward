@@ -20,4 +20,12 @@ export default defineConfig(
       },
     },
   },
+  {
+    // stdio MCP server: stdout carries JSON-RPC, so log to stderr only.
+    files: ["packages/mcp/src/**/*.ts"],
+    ignores: ["**/*.test.ts"],
+    rules: {
+      "no-console": ["error", { allow: ["error", "warn"] }],
+    },
+  },
 );

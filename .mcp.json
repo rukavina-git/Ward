@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "ward": {
+      "command": "node",
+      "args": ["packages/mcp/dist/index.js"]
+    }
+  }
+}
