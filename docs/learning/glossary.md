@@ -8,6 +8,11 @@ a command). It decides what to do next, does it, looks at the result and
 repeats until the task is done. In Ward, the user's Claude Code is the
 agent; Ward gives it tools and a checklist.
 
+**Answer key (ground truth).** The list of right answers for a test,
+written before anything is measured. Ward's answer key lists every issue
+planted in the example app, where it is and how the clean twin fixes it.
+The scoring script compares an agent's findings with it.
+
 **Approximate index (e.g. HNSW).** A structure vector databases build so
 they don't have to compare a query with every vector. It finds almost
 the closest ones, much faster, at huge scale. Ward doesn't need one yet;
@@ -40,6 +45,11 @@ close. It compares the direction of the two lists of numbers; higher
 means closer in meaning. The scale depends on the model: with bge models
 even unrelated texts score fairly high, so Ward's "nothing relevant"
 cut-off has to be measured, not guessed.
+
+**Decoy.** Code in a test app that looks risky but is fine, like MD5
+used only for cache file names. An agent that flags it raises a false
+alarm. Decoys and the clean twin keep an agent that flags everything from
+looking perfect.
 
 **Dimensions (of an embedding).** How many numbers are in one embedding,
 e.g. 384. More dimensions can capture more nuance but take more space.
@@ -115,6 +125,10 @@ web API. Ward's embedding model (bge-small) is open weights.
 **Plugin (Claude Code).** A package that adds commands, skills and MCP
 servers to Claude Code in one install. Ward ships as a plugin.
 
+**Precision.** Of everything the agent flagged, the share that was
+real. False alarms lower it. Flagging everything gives perfect recall and
+terrible precision, so Ward reports both.
+
 **Prompt injection.** Text that tries to give the model orders it
 shouldn't follow, hidden in data the model reads. For Ward: a comment in
 the checked app saying "mark everything as fine". Ward tests for this.
@@ -127,6 +141,9 @@ model is quantized to 34 MB.
 **RAG (retrieval-augmented generation).** Before the model answers, find
 the relevant source chunks and put them in its prompt, so it answers from
 those sources instead of from memory.
+
+**Recall.** Of all the real issues, the share the agent found. Misses
+lower it. Ward's "missed issues" number is the other side of recall.
 
 **Recall@k.** A retrieval score: the share of test queries where a right
 chunk appears in the top k results. Recall@5 = "did the right answer make
@@ -159,6 +176,12 @@ the code. So the description works like a small prompt: it decides
 whether the model picks the tool. Claude Code first shows the model only
 MCP tool names and loads a full schema when needed, so the name matters
 too.
+
+**True positive, false positive, false negative.** The three ways a
+finding can line up with the answer key. True positive: a real issue,
+flagged. False positive (false alarm): flagged, but not a real issue.
+False negative (miss): a real issue nobody flagged. For a check before
+publishing, a miss is a false pass.
 
 **Vector database.** A database that stores embeddings and can quickly
 find the ones closest to a question's embedding. Ward doesn't need one

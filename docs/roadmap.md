@@ -24,7 +24,7 @@ Learn: how an agent calls a tool (MCP), and a repo set up for AI work.
 
 ## Plan 2: example app and baseline
 Learn: what an eval is, and why you measure before you build.
-- [ ] 2.1 Issue list and answer key: planted security and privacy issues
+- [x] 2.1 Issue list and answer key: planted security and privacy issues
       plus decoys, mapped to MASVS and MASWE
 - [ ] 2.2 Example Kotlin app with the planted issues, plus a clean twin;
       answer key outside the app folder
