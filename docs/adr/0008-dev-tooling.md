@@ -1,7 +1,7 @@
 # 8. Dev tooling
 
 Date: 2026-11-21
-Status: Proposed
+Status: Accepted
 
 ## What is this
 The tools that check the code while we write it: the package manager,
@@ -63,6 +63,12 @@ in `package.json`, and the lockfile is committed.
 TypeScript settings: ESM only, `module: nodenext`, `target: es2025`,
 `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`,
 `verbatimModuleSyntax`.
+
+**Licence exception, accepted by the owner:** Vitest pulls in 12 MPL-2.0
+packages (lightningcss and its platform binaries, via vite). MPL-2.0 is
+weak copyleft, which is outside the MIT/Apache/BSD rule. They are dev-only:
+they're never in the npm package or the website's output, so publishing
+isn't affected. Re-check if a shipped package ever depends on them.
 
 ## Consequences
 - `npm run lint | format:check | typecheck | test | build` work the same

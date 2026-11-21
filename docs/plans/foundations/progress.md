@@ -16,7 +16,8 @@
   Step 03 (API key) removed; step 04 (LLM spike) replaced by 03 hello
   MCP.
 - Step 02: TypeScript 6.0.3, not 7.0.2, because typescript-eslint 8.73
-  supports TS <6.1. ADR 0008 is committed as Proposed; owner to accept.
+  supports TS <6.1. ADR 0008 was accepted after the step, including the
+  MPL-2.0 dev-only exception.
   `engines` is a minimum (`>=26`), and `.nvmrc` holds the pin.
   Adding `npm run format:check` to the settings allow-list was blocked
   by the permission classifier, so it was dropped.
@@ -33,9 +34,8 @@ For step 03 (hello MCP):
 - The shell's nvm default is Node 24. Run `nvm use` before npm.
 - The edit hook lints only the edited file. Lint errors it causes in
   other files show up only in `npm run lint` or CI.
-- Owner decision pending: 12 MPL-2.0 dev-only packages (lightningcss,
-  via vitest → vite). They're never shipped. Accept them in ADR 0008, or
-  switch to `node:test`.
+- MPL-2.0 is allowed only for dev-only packages (ADR 0008). Check that
+  anything the server ships with is MIT, Apache or BSD.
 - npm 11 skips fsevents' install script (macOS-only, optional, harmless).
 - `claude plugin validate .` warns that the README has no install line.
   That's for plan 5.
