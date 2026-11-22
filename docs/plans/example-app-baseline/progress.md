@@ -6,7 +6,8 @@
   https://github.com/rukavina-git/Ward/actions/runs/44957675627)
 - [x] 03 eval harness v0 (4d5d2f9, CI green:
   https://github.com/rukavina-git/Ward/actions/runs/44962340094)
-- [x] 04 baseline (hash and CI run: next commit)
+- [x] 04 baseline (68ca023, CI green:
+  https://github.com/rukavina-git/Ward/actions/runs/44967494490)
 
 ## Deviations
 - The roadmap had three steps. The app step was split into 01 (issue
