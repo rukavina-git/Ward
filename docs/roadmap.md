@@ -47,9 +47,9 @@ and deciding by measurement.
 - [ ] Ingest MASVS and MASTG by ID (control → MASWE → test → demo);
       docs/sources.md
 - [ ] Chunk and store as an index file; exact ID lookup over the graph
-- [ ] BM25 keyword search, built by hand
 - [ ] Retrieval eval: 40–60 queries with expected IDs (recall@5, MRR),
       seeded from the baseline runs' findings
+- [ ] BM25 keyword search, built by hand
 - [ ] Embeddings and vector search, built by hand, compared with BM25 on
       the retrieval eval; shipped only if they win (ADR 0009)
 
