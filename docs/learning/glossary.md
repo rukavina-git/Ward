@@ -107,6 +107,11 @@ the same thing. Ward's fixtures are the two Penny Jar apps in
 `fixtures/`. Their answer key lives in `evals/`, so an agent given a
 fixture never sees the answers.
 
+**Front matter.** A block of YAML fields at the top of a markdown file,
+between `---` lines: ID, title, status, links. MASWE and MASTG files
+carry their IDs and mappings there. Ward's ingest reads it as data and
+keeps the rest of the file as the body.
+
 **Hallucinated citation.** A reference the model made up: a file or line
 that doesn't exist, or an ID that isn't in the standard. Ward's scorer
 counts citations to missing files and lines past the end; checking IDs
@@ -138,12 +143,21 @@ edit, so the agent fixes errors right away.
 together and merging their results. Each catches what the other misses:
 exact IDs and terms vs. meaning.
 
+**Ingestion.** Turning outside documents into data a system can search:
+download, parse, clean, link, check. Ward's ingest clones MASVS, MASWE
+and MASTG at pinned versions and writes one record per ID.
+
 **JSON-RPC.** A simple message format for "call this method with these
 arguments" and "here is the result", one JSON object per message. An `id`
 pairs each reply with its request; a message without an `id` is a
 notification that gets no reply. MCP uses it. Over stdio, every line on
 stdout must be one of these messages, which is why Ward's server logs
 only to stderr.
+
+**Knowledge graph.** Records joined by typed links instead of loose text.
+Ward's graph is control → weakness (MASWE) → test → demo, stored both
+ways, so a control can list its tests and a cited test can name its
+control.
 
 **Leakage.** When the answer to a test reaches the system under test, so
 the score measures lookup, not skill. MASTG demos can't be Ward's held-out
@@ -176,6 +190,10 @@ download it and run it on your own computer, free and offline, instead
 of calling the vendor's servers. Like an open-source library vs. a paid
 web API. Ward's embedding model (bge-small) is open weights.
 
+**Pinning.** Fixing a dependency or source to one exact version (a tag
+and its commit), so every run sees the same input. Ward pins the OWASP
+sources and fails if the cloned commit differs.
+
 **Plugin (Claude Code).** A package that adds commands, skills and MCP
 servers to Claude Code in one install. Ward ships as a plugin.
 
@@ -207,6 +225,11 @@ lower it. Ward's "missed issues" number is the other side of recall.
 **Recall@k.** A retrieval score: the share of test queries where a right
 chunk appears in the top k results. Recall@5 = "did the right answer make
 the top 5?".
+
+**Record.** One unit of source data with a stable ID: a control, a
+weakness, a test or a demo. It keeps its text, its links and where it
+came from (URL at the tag, version, commit, licence), so citations are
+built from fields, never generated.
 
 **Refusal.** When a model's safety system declines a request. Security
 text can trigger this, so Ward's evals count an agent refusing a check

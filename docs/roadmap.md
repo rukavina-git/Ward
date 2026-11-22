@@ -44,7 +44,7 @@ Learn: what an eval is, and why you measure before you build.
 ## Plan 3: knowledge base (first RAG)
 Learn: chunking, keyword and vector search, embeddings, retrieval evals,
 and deciding by measurement.
-- [ ] Ingest MASVS and MASTG by ID (control → MASWE → test → demo);
+- [x] Ingest MASVS and MASTG by ID (control → MASWE → test → demo);
       docs/sources.md
 - [ ] Chunk and store as an index file; exact ID lookup over the graph
 - [ ] Retrieval eval: 40–60 queries with expected IDs (recall@5, MRR),

@@ -1,3 +1,5 @@
+export * from "./records.js";
+
 /**
  * Placeholder so lint, typecheck, test and build have real code to run on.
  * Plan 3 replaces it with the index format and search.

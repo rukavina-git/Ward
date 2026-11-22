@@ -14,3 +14,7 @@ evals/results/**/stderr.txt
 
 # Third-party plugins for eval arms, fetched at a pinned tag; not vendored.
 evals/.cache/
+
+# OWASP sources cloned at pinned tags, and the ingest output (plan 3).
+packages/ingest/.cache/
+packages/ingest/out/
