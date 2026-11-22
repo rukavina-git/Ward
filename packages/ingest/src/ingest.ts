@@ -1,6 +1,9 @@
 import { createHash } from "node:crypto";
+import { mkdirSync, renameSync, writeFileSync } from "node:fs";
+import { dirname } from "node:path";
 import {
   RECORDS_FORMAT,
+  type KnowledgeIndex,
   type LinkOverride,
   type RecordsFile,
 } from "@ward/core";
@@ -55,10 +58,21 @@ export function buildRecords(
 }
 
 /** The output bytes: no dates, no local paths, LF, fixed key order. */
-export function serialize(file: RecordsFile): string {
+export function serialize(file: RecordsFile | KnowledgeIndex): string {
   return `${JSON.stringify(file, null, 2)}\n`;
 }
 
 export function sha256(text: string): string {
   return createHash("sha256").update(text).digest("hex");
+}
+
+/**
+ * Writes next to the target, then renames: a failed run never leaves a
+ * half-written file, and the old one stays until the new one is whole.
+ */
+export function writeAtomic(path: string, text: string): void {
+  mkdirSync(dirname(path), { recursive: true });
+  const tmp = `${path}.tmp`;
+  writeFileSync(tmp, text);
+  renameSync(tmp, path);
 }

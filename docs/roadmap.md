@@ -46,7 +46,7 @@ Learn: chunking, keyword and vector search, embeddings, retrieval evals,
 and deciding by measurement.
 - [x] Ingest MASVS and MASTG by ID (control → MASWE → test → demo);
       docs/sources.md
-- [ ] Chunk and store as an index file; exact ID lookup over the graph
+- [x] Chunk and store as an index file; exact ID lookup over the graph
 - [ ] Retrieval eval: 40–60 queries with expected IDs (recall@5, MRR),
       seeded from the baseline runs' findings
 - [ ] BM25 keyword search, built by hand

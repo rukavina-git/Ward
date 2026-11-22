@@ -12,8 +12,10 @@ const packageRoot = join(repoRoot, "packages/ingest");
 
 /** Gitignored: the OWASP repos, cloned at their pinned tags. */
 export const cacheRoot = join(packageRoot, ".cache");
-/** Gitignored: step 02 decides what ships. */
+/** Gitignored: the full records, bodies and demo files included. */
 export const outPath = join(packageRoot, "out/records.json");
+/** Committed and shipped: the chunked index (CC BY-SA 4.0, see its NOTICE). */
+export const indexPath = join(repoRoot, "packages/core/data/index.json");
 /** A few real OWASP files, copied verbatim, for tests. */
 export const fixturesRoot = join(packageRoot, "test/fixtures");
 /** Plan 2's answer key: its hand-checked test → weakness → control paths. */

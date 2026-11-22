@@ -15,3 +15,8 @@ Notes:
   code stays MIT.
 - Versions and licences of the MASVS, MASWE and MASTG IDs in the answer
   key are also in its `sources` header (`evals/answer-keys/`).
+- The knowledge base ships as `packages/core/data/index.json`, chunked
+  from the three MAS sources above, under CC BY-SA 4.0 with its own
+  `LICENSE` (OWASP's licence file, copied verbatim) and `NOTICE`
+  (attribution, pinned commits, what was changed). `@ward/core` declares
+  `MIT AND CC-BY-SA-4.0`.

@@ -42,6 +42,23 @@ millisecond.
 **Chunk.** A small piece of a source document (in Ward, usually one
 requirement or one section). Search finds chunks, not whole documents.
 
+**Chunk size.** How long a chunk may get. Too long and a match on one
+sentence drags in pages of unrelated text, and an embedding model cuts
+off what it can't read (bge-small stops at 512 tokens). Too short and
+the chunk loses its context. Ward's limit is 1,500 characters, about
+375 tokens.
+
+**Chunking.** Splitting documents into chunks before search. Ward splits
+by structure: one chunk per `##` section, long sections at blank lines,
+one chunk per demo code file. The common alternative, fixed-size windows
+with overlap, cuts through sentences and loses the section a piece
+belongs to.
+
+**Citation fields.** The fields every chunk carries so a citation can be
+built from data instead of generated: source URL at the pinned tag (with
+a heading anchor), version and licence. A model can't make up a link it
+only copies.
+
 **Clean twin.** A copy of the test app with every planted issue fixed
 and nothing else changed. Anything an agent flags in it is a false
 alarm (or a real issue nobody planted). It measures precision the way
@@ -142,6 +159,11 @@ edit, so the agent fixes errors right away.
 **Hybrid search.** Running keyword search (BM25) and vector search
 together and merging their results. Each catches what the other misses:
 exact IDs and terms vs. meaning.
+
+**Index file.** Ward's whole searchable knowledge base in one file
+(`packages/core/data/index.json`): records, their links, and the chunks
+with their text. It ships with the code and is read into memory, so
+search needs no database and no network (ADR 0003).
 
 **Ingestion.** Turning outside documents into data a system can search:
 download, parse, clean, link, check. Ward's ingest clones MASVS, MASWE

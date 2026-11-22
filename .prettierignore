@@ -15,3 +15,5 @@ evals/.cache/
 packages/ingest/.cache/
 packages/ingest/out/
 packages/ingest/test/fixtures/
+# The shipped index is written by ingest; its bytes are part of the build check.
+packages/core/data/
