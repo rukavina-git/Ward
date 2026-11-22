@@ -1,5 +1,12 @@
 import type { Chunk, IndexRecord, KnowledgeIndex } from "./index-file.js";
 import type { RecordKind, RecordLinks } from "./records.js";
+import {
+  ChunkSearch,
+  indexKey,
+  type SearchHit,
+  type SearchOptions,
+} from "./search.js";
+import { idPattern } from "./tokenize.js";
 
 /** The chain the graph is built on: control → weakness → test → demo. */
 const chain: readonly RecordKind[] = ["control", "weakness", "test", "demo"];
@@ -26,6 +33,8 @@ export interface Related {
 export class KnowledgeBase {
   private readonly records = new Map<string, IndexRecord>();
   private readonly chunks = new Map<string, Chunk>();
+  /** Built on first search, one per set of indexing options. */
+  private readonly searchers = new Map<string, ChunkSearch>();
 
   constructor(readonly index: KnowledgeIndex) {
     for (const r of index.records) this.records.set(r.id, r);
@@ -74,6 +83,50 @@ export class KnowledgeBase {
       current = this.resolve(current.flatMap((r) => r.links[list]));
     }
     return { redirectedFrom, records: current };
+  }
+
+  /**
+   * Records named by ID in the query come first (their first chunk, in the
+   * order named), then BM25 matches. Unknown IDs are dropped, never
+   * guessed; a query with no known words returns nothing.
+   */
+  search(query: string, options: SearchOptions = {}): SearchHit[] {
+    const limit = options.limit ?? 20;
+    const hits: SearchHit[] = [];
+    const seen = new Set<string>();
+    for (const match of query.matchAll(idPattern)) {
+      const found = this.get(match[0]);
+      const first = found?.chunks[0];
+      if (!found || !first || seen.has(first.id)) continue;
+      seen.add(first.id);
+      hits.push({
+        chunk: first.id,
+        record: found.record.id,
+        match: "id",
+        score: null,
+      });
+    }
+    for (const hit of this.searcher(options).search(query, options)) {
+      if (hits.length >= limit) break;
+      if (seen.has(hit.chunk)) continue;
+      seen.add(hit.chunk);
+      hits.push(hit);
+    }
+    return hits.slice(0, limit);
+  }
+
+  private searcher(options: SearchOptions): ChunkSearch {
+    const key = indexKey(options);
+    let s = this.searchers.get(key);
+    if (!s) {
+      s = new ChunkSearch(this.index.chunks, this.records, {
+        stopwords: options.stopwords ?? false,
+        stem: options.stem ?? false,
+        titleWeight: options.titleWeight ?? 1,
+      });
+      this.searchers.set(key, s);
+    }
+    return s;
   }
 
   private resolve(ids: readonly string[]): IndexRecord[] {

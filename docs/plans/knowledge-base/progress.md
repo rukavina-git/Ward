@@ -4,7 +4,7 @@
   https://github.com/rukavina-git/Ward/actions/runs/44995159280)
 - [x] 02 chunks, index file and ID lookup (5ce8970)
 - [x] 03 retrieval eval (0b7f82c)
-- [ ] 04 BM25 by hand
+- [x] 04 BM25 by hand (HASH)
 - [ ] 05 embeddings and vector search by hand
 
 ## Deviations
@@ -89,6 +89,27 @@ Step 03:
 - The `ids` score (dev 0.148, test 0.118) is the floor; BM25 must keep
   id queries at 1.0. The query file checks its index pins: a pin bump
   fails the CLI until the queries are rechecked.
+
+Step 04:
+- Raw BM25 scores can't say "nothing relevant": dev `none` queries top
+  at 10.3–20.3, real queries at 5.5–32.9. Plan 4 needs another signal
+  (e.g. score ratio, or vectors in step 05) before a cutoff.
+- Step 05 compares against `bm25-tuned` (test 1.000 / 0.845). Test
+  recall@5 is already at the ceiling; MRR is the score left to win.
+- Gains came from stemming and halving demo code scores. Tuned on 27
+  dev queries, so a 0.02 MRR gap is one query; don't read small diffs.
+- `KnowledgeBase.search` builds the BM25 index lazily, one per set of
+  indexing options (stopwords, stem, titleWeight); k1, b and codeWeight
+  apply at query time.
+
+Step 04 (reviewer, not fixed):
+- `idPattern` is an exported `/g` regex: safe with `matchAll`, but
+  `.test()` or `.exec()` on it would carry state between calls.
+- The stemmer is uneven: "cookies" → "cooky" but "cookie" stays; "uses"
+  → "use" but "used" stays.
+- `isCodeChunk` treats any demo section ending in `.\w+` as a file; a
+  heading like "Frida 16.1" would be down-weighted too.
+- A non-integer `titleWeight` rounds up (1.5 indexes the title twice).
 
 Step 03 (reviewer, not fixed):
 - RQ-31 (EA-09) and RQ-36 (EA-08) are `missed`, but the baseline found

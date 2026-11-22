@@ -1,0 +1,747 @@
+{
+  "retriever": "bm25",
+  "querySet": {
+    "name": "retrieval",
+    "version": 1
+  },
+  "indexSha256": "5fa9c454817c6aaae12e9897e54ba73190f318a33da319f09f07069ed7044699",
+  "scores": {
+    "dev": {
+      "all": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.568
+      },
+      "byOrigin": {
+        "finding": {
+          "queries": 18,
+          "recallAt5": 0.722,
+          "mrr": 0.509
+        },
+        "missed": {
+          "queries": 5,
+          "recallAt5": 0.8,
+          "mrr": 0.433
+        },
+        "id": {
+          "queries": 4,
+          "recallAt5": 1,
+          "mrr": 1
+        }
+      },
+      "none": {
+        "queries": 3,
+        "returnedAny": 3
+      }
+    },
+    "test": {
+      "all": {
+        "queries": 17,
+        "recallAt5": 0.882,
+        "mrr": 0.708
+      },
+      "byOrigin": {
+        "finding": {
+          "queries": 12,
+          "recallAt5": 0.917,
+          "mrr": 0.669
+        },
+        "missed": {
+          "queries": 3,
+          "recallAt5": 0.667,
+          "mrr": 0.667
+        },
+        "id": {
+          "queries": 2,
+          "recallAt5": 1,
+          "mrr": 1
+        }
+      },
+      "none": {
+        "queries": 2,
+        "returnedAny": 2
+      }
+    }
+  },
+  "queries": [
+    {
+      "id": "RQ-01",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 6,
+      "top": [
+        "MASTG-DEMO-0059",
+        "MASTG-DEMO-0130",
+        "MASTG-DEMO-0129",
+        "MASTG-DEMO-0101",
+        "MASWE-0003"
+      ],
+      "returned": 47
+    },
+    {
+      "id": "RQ-02",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 6,
+      "top": [
+        "MASTG-DEMO-0059",
+        "MASTG-DEMO-0130",
+        "MASTG-DEMO-0129",
+        "MASWE-0003",
+        "MASTG-DEMO-0101"
+      ],
+      "returned": 41
+    },
+    {
+      "id": "RQ-03",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 1,
+      "top": [
+        "MASTG-TEST-0202",
+        "MASTG-DEMO-0020",
+        "MASTG-DEMO-0003",
+        "MASTG-TEST-0200",
+        "MASTG-DEMO-0002"
+      ],
+      "returned": 36
+    },
+    {
+      "id": "RQ-04",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 2,
+      "top": [
+        "MASTG-DEMO-0034",
+        "MASTG-TEST-0262",
+        "MASTG-DEMO-0040",
+        "MASWE-0006",
+        "MASTG-DEMO-0020"
+      ],
+      "returned": 47
+    },
+    {
+      "id": "RQ-05",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 2,
+      "top": [
+        "MASTG-DEMO-0034",
+        "MASWE-0006",
+        "MASTG-DEMO-0020",
+        "MASTG-TEST-0262",
+        "MASTG-DEMO-0040"
+      ],
+      "returned": 49
+    },
+    {
+      "id": "RQ-06",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 1,
+      "top": [
+        "MASWE-0004",
+        "MASTG-DEMO-0082",
+        "MASTG-DEMO-0090",
+        "MASTG-DEMO-0017",
+        "MASTG-TEST-0212"
+      ],
+      "returned": 52
+    },
+    {
+      "id": "RQ-07",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 1,
+      "top": [
+        "MASWE-0004",
+        "MASTG-TEST-0287",
+        "MASWE-0029",
+        "MASTG-DEMO-0082",
+        "MASTG-DEMO-0090"
+      ],
+      "returned": 60
+    },
+    {
+      "id": "RQ-08",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 4,
+      "top": [
+        "MASTG-DEMO-0058",
+        "MASTG-DEMO-0023",
+        "MASTG-DEMO-0017",
+        "MASTG-TEST-0232",
+        "MASWE-0007"
+      ],
+      "returned": 31
+    },
+    {
+      "id": "RQ-09",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 6,
+      "top": [
+        "MASTG-DEMO-0090",
+        "MASWE-0022",
+        "MASWE-0021",
+        "MASTG-TEST-0328",
+        "MASWE-0016"
+      ],
+      "returned": 53
+    },
+    {
+      "id": "RQ-10",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 1,
+      "top": [
+        "MASTG-TEST-0235",
+        "MASWE-0026",
+        "MASTG-TEST-0236",
+        "MASTG-DEMO-0057",
+        "MASTG-TEST-0286"
+      ],
+      "returned": 48
+    },
+    {
+      "id": "RQ-11",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 3,
+      "top": [
+        "MASTG-DEMO-0090",
+        "MASTG-DEMO-0005",
+        "MASTG-TEST-0233",
+        "MASTG-DEMO-0115",
+        "MASWE-0049"
+      ],
+      "returned": 45
+    },
+    {
+      "id": "RQ-12",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 1,
+      "top": [
+        "MASTG-TEST-0339",
+        "MASTG-DEMO-0102",
+        "MASTG-DEMO-0120",
+        "MASTG-TEST-0364",
+        "MASVS-CODE-4"
+      ],
+      "returned": 34
+    },
+    {
+      "id": "RQ-13",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 4,
+      "top": [
+        "MASTG-DEMO-0120",
+        "MASTG-TEST-0364",
+        "MASTG-TEST-0202",
+        "MASTG-TEST-0355",
+        "MASTG-TEST-0356"
+      ],
+      "returned": 52
+    },
+    {
+      "id": "RQ-14",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 1,
+      "top": [
+        "MASTG-TEST-0226",
+        "MASWE-0063",
+        "MASWE-0064",
+        "MASWE-0061",
+        "MASWE-0059"
+      ],
+      "returned": 47
+    },
+    {
+      "id": "RQ-15",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 12,
+      "top": [
+        "MASWE-0054",
+        "MASTG-DEMO-0114",
+        "MASTG-DEMO-0009",
+        "MASTG-DEMO-0050",
+        "MASTG-TEST-0392"
+      ],
+      "returned": 66
+    },
+    {
+      "id": "RQ-16",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 69,
+      "top": [
+        "MASTG-DEMO-0082",
+        "MASWE-0004",
+        "MASWE-0055",
+        "MASTG-DEMO-0059",
+        "MASTG-DEMO-0058"
+      ],
+      "returned": 73
+    },
+    {
+      "id": "RQ-17",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 3,
+      "top": [
+        "MASWE-0021",
+        "MASTG-DEMO-0089",
+        "MASWE-0020",
+        "MASTG-DEMO-0090",
+        "MASTG-TEST-0326"
+      ],
+      "returned": 38
+    },
+    {
+      "id": "RQ-18",
+      "split": "dev",
+      "origin": "finding",
+      "rank": 2,
+      "top": [
+        "MASTG-TEST-0341",
+        "MASTG-TEST-0262",
+        "MASWE-0019",
+        "MASWE-0006",
+        "MASWE-0001"
+      ],
+      "returned": 63
+    },
+    {
+      "id": "RQ-19",
+      "split": "test",
+      "origin": "finding",
+      "rank": 2,
+      "top": [
+        "MASWE-0061",
+        "MASWE-0005",
+        "MASWE-0063",
+        "MASWE-0004",
+        "MASWE-0059"
+      ],
+      "returned": 64
+    },
+    {
+      "id": "RQ-20",
+      "split": "test",
+      "origin": "finding",
+      "rank": 11,
+      "top": [
+        "MASTG-DEMO-0050",
+        "MASTG-DEMO-0009",
+        "MASTG-DEMO-0030",
+        "MASTG-TEST-0217",
+        "MASTG-DEMO-0029"
+      ],
+      "returned": 49
+    },
+    {
+      "id": "RQ-21",
+      "split": "test",
+      "origin": "finding",
+      "rank": 3,
+      "top": [
+        "MASTG-DEMO-0008",
+        "MASTG-TEST-0205",
+        "MASTG-TEST-0204",
+        "MASTG-DEMO-0007",
+        "MASWE-0012"
+      ],
+      "returned": 53
+    },
+    {
+      "id": "RQ-22",
+      "split": "test",
+      "origin": "finding",
+      "rank": 1,
+      "top": [
+        "MASWE-0027",
+        "MASTG-DEMO-0055",
+        "MASTG-TEST-0282",
+        "MASTG-DEMO-0054",
+        "MASTG-TEST-0283"
+      ],
+      "returned": 48
+    },
+    {
+      "id": "RQ-23",
+      "split": "test",
+      "origin": "finding",
+      "rank": 1,
+      "top": [
+        "MASTG-TEST-0227",
+        "MASWE-0063",
+        "MASTG-TEST-0226",
+        "MASWE-0005",
+        "MASWE-0061"
+      ],
+      "returned": 43
+    },
+    {
+      "id": "RQ-24",
+      "split": "test",
+      "origin": "finding",
+      "rank": 2,
+      "top": [
+        "MASTG-DEMO-0051",
+        "MASTG-TEST-0272",
+        "MASTG-DEMO-0050",
+        "MASWE-0044",
+        "MASWE-0048"
+      ],
+      "returned": 58
+    },
+    {
+      "id": "RQ-25",
+      "split": "test",
+      "origin": "finding",
+      "rank": 5,
+      "top": [
+        "MASTG-DEMO-0003",
+        "MASTG-TEST-0291",
+        "MASWE-0024",
+        "MASTG-TEST-0355",
+        "MASWE-0066"
+      ],
+      "returned": 57
+    },
+    {
+      "id": "RQ-26",
+      "split": "test",
+      "origin": "finding",
+      "rank": 1,
+      "top": [
+        "MASWE-0033",
+        "MASTG-DEMO-0097",
+        "MASTG-DEMO-0123",
+        "MASTG-TEST-0253",
+        "MASTG-DEMO-0029"
+      ],
+      "returned": 44
+    },
+    {
+      "id": "RQ-27",
+      "split": "test",
+      "origin": "finding",
+      "rank": 1,
+      "top": [
+        "MASWE-0078",
+        "MASWE-0068",
+        "MASWE-0073",
+        "MASWE-0044",
+        "MASTG-TEST-0200"
+      ],
+      "returned": 58
+    },
+    {
+      "id": "RQ-28",
+      "split": "test",
+      "origin": "finding",
+      "rank": 1,
+      "top": [
+        "MASWE-0066",
+        "MASWE-0024",
+        "MASTG-DEMO-0003",
+        "MASVS-PRIVACY-3",
+        "MASWE-0071"
+      ],
+      "returned": 60
+    },
+    {
+      "id": "RQ-29",
+      "split": "test",
+      "origin": "finding",
+      "rank": 1,
+      "top": [
+        "MASTG-TEST-0283",
+        "MASWE-0027",
+        "MASTG-DEMO-0049",
+        "MASTG-DEMO-0056",
+        "MASTG-TEST-0284"
+      ],
+      "returned": 44
+    },
+    {
+      "id": "RQ-30",
+      "split": "test",
+      "origin": "finding",
+      "rank": 2,
+      "top": [
+        "MASTG-DEMO-0008",
+        "MASTG-TEST-0204",
+        "MASWE-0012",
+        "MASTG-DEMO-0007",
+        "MASTG-TEST-0205"
+      ],
+      "returned": 53
+    },
+    {
+      "id": "RQ-31",
+      "split": "dev",
+      "origin": "missed",
+      "rank": 1,
+      "top": [
+        "MASTG-TEST-0327",
+        "MASTG-DEMO-0090",
+        "MASWE-0020",
+        "MASTG-DEMO-0092",
+        "MASTG-TEST-0330"
+      ],
+      "returned": 44
+    },
+    {
+      "id": "RQ-32",
+      "split": "dev",
+      "origin": "missed",
+      "rank": 3,
+      "top": [
+        "MASVS-PRIVACY-4",
+        "MASWE-0043",
+        "MASWE-0076",
+        "MASWE-0072",
+        "MASWE-0051"
+      ],
+      "returned": 76
+    },
+    {
+      "id": "RQ-33",
+      "split": "dev",
+      "origin": "missed",
+      "rank": 3,
+      "top": [
+        "MASTG-DEMO-0023",
+        "MASTG-DEMO-0058",
+        "MASTG-TEST-0232",
+        "MASTG-DEMO-0075",
+        "MASTG-DEMO-0090"
+      ],
+      "returned": 23
+    },
+    {
+      "id": "RQ-34",
+      "split": "dev",
+      "origin": "missed",
+      "rank": 3,
+      "top": [
+        "MASTG-DEMO-0102",
+        "MASTG-DEMO-0121",
+        "MASTG-TEST-0339",
+        "MASTG-TEST-0357",
+        "MASTG-DEMO-0139"
+      ],
+      "returned": 27
+    },
+    {
+      "id": "RQ-35",
+      "split": "dev",
+      "origin": "missed",
+      "rank": 6,
+      "top": [
+        "MASTG-DEMO-0017",
+        "MASTG-DEMO-0071",
+        "MASTG-DEMO-0023",
+        "MASTG-DEMO-0140",
+        "MASTG-DEMO-0141"
+      ],
+      "returned": 51
+    },
+    {
+      "id": "RQ-36",
+      "split": "test",
+      "origin": "missed",
+      "rank": 1,
+      "top": [
+        "MASWE-0012",
+        "MASTG-TEST-0205",
+        "MASTG-TEST-0204",
+        "MASTG-DEMO-0007",
+        "MASWE-0009"
+      ],
+      "returned": 46
+    },
+    {
+      "id": "RQ-37",
+      "split": "test",
+      "origin": "missed",
+      "rank": 1,
+      "top": [
+        "MASTG-TEST-0272",
+        "MASTG-TEST-0274",
+        "MASTG-DEMO-0050",
+        "MASTG-DEMO-0133",
+        "MASWE-0044"
+      ],
+      "returned": 47
+    },
+    {
+      "id": "RQ-38",
+      "split": "test",
+      "origin": "missed",
+      "rank": 11,
+      "top": [
+        "MASWE-0077",
+        "MASTG-DEMO-0009",
+        "MASTG-DEMO-0081",
+        "MASTG-TEST-0318",
+        "MASWE-0023"
+      ],
+      "returned": 59
+    },
+    {
+      "id": "RQ-39",
+      "split": "dev",
+      "origin": "id",
+      "rank": 1,
+      "top": [
+        "MASWE-0063",
+        "MASWE-0064"
+      ],
+      "returned": 2
+    },
+    {
+      "id": "RQ-40",
+      "split": "dev",
+      "origin": "id",
+      "rank": 1,
+      "top": [
+        "MASTG-TEST-0039",
+        "MASTG-DEMO-0116",
+        "MASWE-0073",
+        "MASWE-0020",
+        "MASWE-0025"
+      ],
+      "returned": 54
+    },
+    {
+      "id": "RQ-41",
+      "split": "dev",
+      "origin": "id",
+      "rank": 1,
+      "top": [
+        "MASVS-PLATFORM-2",
+        "MASTG-DEMO-0029",
+        "MASTG-DEMO-0032",
+        "MASTG-DEMO-0097",
+        "MASTG-TEST-0037"
+      ],
+      "returned": 27
+    },
+    {
+      "id": "RQ-42",
+      "split": "dev",
+      "origin": "id",
+      "rank": 1,
+      "top": [
+        "MASTG-TEST-0226",
+        "MASWE-0033",
+        "MASTG-TEST-0039",
+        "MASWE-0035",
+        "MASTG-TEST-0227"
+      ],
+      "returned": 60
+    },
+    {
+      "id": "RQ-43",
+      "split": "test",
+      "origin": "id",
+      "rank": 1,
+      "top": [
+        "MASTG-TEST-0019",
+        "MASWE-0046",
+        "MASWE-0045",
+        "MASWE-0021",
+        "MASTG-TEST-0011"
+      ],
+      "returned": 75
+    },
+    {
+      "id": "RQ-44",
+      "split": "test",
+      "origin": "id",
+      "rank": 1,
+      "top": [
+        "MASTG-DEMO-0001"
+      ],
+      "returned": 1
+    },
+    {
+      "id": "RQ-45",
+      "split": "dev",
+      "origin": "none",
+      "rank": null,
+      "top": [
+        "MASWE-0001",
+        "MASWE-0022",
+        "MASWE-0017",
+        "MASWE-0020",
+        "MASWE-0016"
+      ],
+      "returned": 67
+    },
+    {
+      "id": "RQ-46",
+      "split": "dev",
+      "origin": "none",
+      "rank": null,
+      "top": [
+        "MASWE-0068",
+        "MASWE-0054",
+        "MASWE-0042",
+        "MASWE-0044",
+        "MASTG-DEMO-0009"
+      ],
+      "returned": 66
+    },
+    {
+      "id": "RQ-47",
+      "split": "dev",
+      "origin": "none",
+      "rank": null,
+      "top": [
+        "MASTG-DEMO-0037",
+        "MASTG-DEMO-0072",
+        "MASTG-TEST-0320",
+        "MASTG-TEST-0284",
+        "MASTG-DEMO-0132"
+      ],
+      "returned": 69
+    },
+    {
+      "id": "RQ-48",
+      "split": "test",
+      "origin": "none",
+      "rank": null,
+      "top": [
+        "MASWE-0044",
+        "MASWE-0042",
+        "MASWE-0023",
+        "MASTG-DEMO-0006",
+        "MASWE-0048"
+      ],
+      "returned": 74
+    },
+    {
+      "id": "RQ-49",
+      "split": "test",
+      "origin": "none",
+      "rank": null,
+      "top": [
+        "MASWE-0048",
+        "MASWE-0075",
+        "MASTG-DEMO-0050",
+        "MASTG-TEST-0006",
+        "MASTG-TEST-0272"
+      ],
+      "returned": 62
+    }
+  ]
+}

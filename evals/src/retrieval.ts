@@ -1,5 +1,10 @@
 import { readFileSync } from "node:fs";
-import type { KnowledgeBase } from "@ward/core";
+import {
+  idPattern,
+  TUNED_SEARCH,
+  type KnowledgeBase,
+  type SearchOptions,
+} from "@ward/core";
 import { z } from "zod";
 
 /** How deep the scores look: recall@5, and MRR over the top 10. */
@@ -138,9 +143,6 @@ function round(x: number): number {
   return Math.round(x * 1000) / 1000;
 }
 
-/** OWASP MAS IDs: MASVS-STORAGE-1, MASWE-0001, MASTG-TEST-0001, MASTG-DEMO-0001. */
-const idPattern = /\bMAS(?:VS|WE|TG)(?:-[A-Z]+)?-\d+\b/gi;
-
 /**
  * Baseline retriever: exact lookup of every ID named in the query, in the
  * order named. Unknown IDs are dropped, never guessed.
@@ -156,7 +158,26 @@ export function idsRetriever(kb: KnowledgeBase): Retriever {
   };
 }
 
+/**
+ * Chunks to fetch per query: enough that, after chunks collapse to
+ * records, MRR's top 10 is filled.
+ */
+export const SEARCH_DEPTH = 100;
+
+/** core's search (named IDs, then BM25) with the given options. */
+export function searchRetriever(
+  kb: KnowledgeBase,
+  options: SearchOptions = {},
+): Retriever {
+  return (query) =>
+    kb.search(query, { limit: SEARCH_DEPTH, ...options }).map((h) => h.chunk);
+}
+
 /** Retrievers the CLI can run, by name. Steps 04–05 add theirs here. */
 export const retrievers: Record<string, (kb: KnowledgeBase) => Retriever> = {
   ids: idsRetriever,
+  /** Textbook BM25 (k1 1.2, b 0.75, no stopwords or stemming): before tuning. */
+  bm25: (kb) => searchRetriever(kb),
+  /** The settings tuned on dev, from core's TUNED_SEARCH: after. */
+  "bm25-tuned": (kb) => searchRetriever(kb, TUNED_SEARCH),
 };

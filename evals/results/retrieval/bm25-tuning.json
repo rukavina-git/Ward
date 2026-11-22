@@ -1,0 +1,6649 @@
+{
+  "split": "dev",
+  "querySet": {
+    "name": "retrieval",
+    "version": 1
+  },
+  "best": {
+    "k1": 0.9,
+    "b": 0.75,
+    "stopwords": false,
+    "stem": true,
+    "titleWeight": 1,
+    "codeWeight": 0.5
+  },
+  "grid": [
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.785
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.785
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.767
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.767
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.765
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.765
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.765
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.765
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.763
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.763
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.763
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.763
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.761
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.761
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.76
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.76
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.759
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.759
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.759
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.759
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.757
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.757
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.754
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.754
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.751
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.751
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.747
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.747
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.747
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.747
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.746
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.746
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.745
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.745
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.742
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.742
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.742
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.742
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.742
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.742
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.741
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.741
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.741
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.741
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.74
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.74
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.74
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.74
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.738
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.738
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.735
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.735
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.735
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.735
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.733
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.733
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.73
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.73
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.73
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.73
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.73
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.73
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.728
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.728
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.727
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.727
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.727
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.727
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.727
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.727
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.722
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.722
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.721
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.721
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.719
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.719
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.717
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.717
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.717
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.717
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.716
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.716
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.716
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.716
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.714
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.714
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.714
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.714
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.713
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.713
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.712
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.712
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.712
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.712
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.711
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.711
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.711
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.711
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.711
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.711
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.709
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.709
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.708
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.708
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.708
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.707
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.707
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.706
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.705
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.705
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.705
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.705
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.704
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.704
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.704
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.704
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.703
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.703
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.701
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.701
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.701
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.701
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.698
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.698
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.698
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.698
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.696
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.696
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.695
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.695
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.694
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.693
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.693
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.69
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.69
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.688
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.687
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.685
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.685
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.685
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.685
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.684
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.683
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.683
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.681
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.681
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.681
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.68
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.68
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.68
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.679
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.679
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.679
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.679
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.679
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.679
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.678
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.678
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.678
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.677
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.677
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.677
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.677
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.677
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.676
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.676
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.676
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.676
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.676
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.675
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.675
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.674
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.673
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.673
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.673
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.673
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.67
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.67
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.67
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.669
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.669
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.667
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.666
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.666
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.666
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.666
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.665
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.665
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.665
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.665
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.665
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.664
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.664
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.664
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.664
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.662
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.662
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.662
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.662
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.662
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.661
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.66
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.66
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.66
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.66
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.66
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.66
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.659
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.658
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.658
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.657
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.657
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.655
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.655
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.654
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.654
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.654
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.654
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.654
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.653
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.652
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.652
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.652
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.652
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.652
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.652
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.651
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.651
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.651
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.651
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.649
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.649
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.649
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.649
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.648
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.648
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.648
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.648
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.648
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.648
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.647
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.647
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.646
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.646
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.646
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.646
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.646
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.645
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.645
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.645
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.645
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.645
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.644
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.644
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.644
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.644
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.643
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.643
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.643
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.642
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.642
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.642
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.642
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.642
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.641
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.641
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.641
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.641
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.641
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.64
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.639
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.639
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.638
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.638
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.638
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.638
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.638
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.638
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.638
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.638
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.637
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.637
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.637
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.637
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.636
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.636
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.636
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.636
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.636
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.636
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.636
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.636
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.635
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.635
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.635
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.635
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.635
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.634
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.634
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.634
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.634
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.633
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.633
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.633
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.631
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.631
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.63
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.629
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.629
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.628
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.628
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.628
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.627
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.627
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.627
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.627
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.626
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.625
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.624
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.623
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.623
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.623
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.623
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.623
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.623
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.623
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.621
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.62
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.619
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.619
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.619
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.619
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.618
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.618
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.616
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.616
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.616
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.615
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.613
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.613
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.613
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.612
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.612
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.611
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.611
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.611
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.609
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.607
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.607
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.606
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.606
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.963,
+        "mrr": 0.604
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.604
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.603
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.602
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.602
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.602
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.602
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.601
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.6
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.6
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.599
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.598
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.597
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.597
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.5
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.596
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 0.25
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.596
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": true,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.926,
+        "mrr": 0.593
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": true,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.592
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.592
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.592
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.59
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.589
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.587
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.586
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.586
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.741,
+        "mrr": 0.585
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.584
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.584
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.741,
+        "mrr": 0.584
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.583
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.741,
+        "mrr": 0.58
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.579
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.741,
+        "mrr": 0.579
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.577
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.741,
+        "mrr": 0.577
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.741,
+        "mrr": 0.576
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.573
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.573
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.573
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.572
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.572
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.571
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.571
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.57
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.57
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.57
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.569
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.569
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.568
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.889,
+        "mrr": 0.566
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.566
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.566
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.565
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.565
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.564
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.564
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.564
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.564
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.564
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.563
+      }
+    },
+    {
+      "options": {
+        "k1": 0.9,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.741,
+        "mrr": 0.562
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.741,
+        "mrr": 0.562
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.56
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": false,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.559
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.559
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.559
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.559
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.558
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.558
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.557
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 1,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.556
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.556
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.555
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.554
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.9,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.553
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.815,
+        "mrr": 0.552
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.552
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.552
+      }
+    },
+    {
+      "options": {
+        "k1": 1.5,
+        "b": 0.5,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 2,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.551
+      }
+    },
+    {
+      "options": {
+        "k1": 2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.852,
+        "mrr": 0.55
+      }
+    },
+    {
+      "options": {
+        "k1": 1.2,
+        "b": 0.75,
+        "stopwords": true,
+        "stem": false,
+        "titleWeight": 3,
+        "codeWeight": 1
+      },
+      "dev": {
+        "queries": 27,
+        "recallAt5": 0.778,
+        "mrr": 0.549
+      }
+    }
+  ],
+  "topScores": [
+    {
+      "id": "RQ-01",
+      "origin": "finding",
+      "top": 11.940874899633991
+    },
+    {
+      "id": "RQ-02",
+      "origin": "finding",
+      "top": 11.11926503357322
+    },
+    {
+      "id": "RQ-03",
+      "origin": "finding",
+      "top": 15.328971731668355
+    },
+    {
+      "id": "RQ-04",
+      "origin": "finding",
+      "top": 17.399547023727227
+    },
+    {
+      "id": "RQ-05",
+      "origin": "finding",
+      "top": 10.980206094181547
+    },
+    {
+      "id": "RQ-06",
+      "origin": "finding",
+      "top": 14.15087628466616
+    },
+    {
+      "id": "RQ-07",
+      "origin": "finding",
+      "top": 13.670073569782097
+    },
+    {
+      "id": "RQ-08",
+      "origin": "finding",
+      "top": 23.830695607058964
+    },
+    {
+      "id": "RQ-09",
+      "origin": "finding",
+      "top": 22.999366969782415
+    },
+    {
+      "id": "RQ-10",
+      "origin": "finding",
+      "top": 24.245439994858717
+    },
+    {
+      "id": "RQ-11",
+      "origin": "finding",
+      "top": 11.62645808530969
+    },
+    {
+      "id": "RQ-12",
+      "origin": "finding",
+      "top": 19.08513256802506
+    },
+    {
+      "id": "RQ-13",
+      "origin": "finding",
+      "top": 14.866953106264589
+    },
+    {
+      "id": "RQ-14",
+      "origin": "finding",
+      "top": 16.459829220865366
+    },
+    {
+      "id": "RQ-15",
+      "origin": "finding",
+      "top": 16.633056561682345
+    },
+    {
+      "id": "RQ-16",
+      "origin": "finding",
+      "top": 11.181029305762202
+    },
+    {
+      "id": "RQ-17",
+      "origin": "finding",
+      "top": 24.293907759359936
+    },
+    {
+      "id": "RQ-18",
+      "origin": "finding",
+      "top": 20.446174621768144
+    },
+    {
+      "id": "RQ-31",
+      "origin": "missed",
+      "top": 26.411270349551344
+    },
+    {
+      "id": "RQ-32",
+      "origin": "missed",
+      "top": 16.630018979550595
+    },
+    {
+      "id": "RQ-33",
+      "origin": "missed",
+      "top": 23.8959068284205
+    },
+    {
+      "id": "RQ-34",
+      "origin": "missed",
+      "top": 32.891651899928846
+    },
+    {
+      "id": "RQ-35",
+      "origin": "missed",
+      "top": 19.61108598966182
+    },
+    {
+      "id": "RQ-39",
+      "origin": "id",
+      "top": 6.911849613734301
+    },
+    {
+      "id": "RQ-40",
+      "origin": "id",
+      "top": 6.090442727863466
+    },
+    {
+      "id": "RQ-41",
+      "origin": "id",
+      "top": 5.528014902603939
+    },
+    {
+      "id": "RQ-42",
+      "origin": "id",
+      "top": 9.28893652038532
+    },
+    {
+      "id": "RQ-45",
+      "origin": "none",
+      "top": 20.30823574197009
+    },
+    {
+      "id": "RQ-46",
+      "origin": "none",
+      "top": 15.598219519540539
+    },
+    {
+      "id": "RQ-47",
+      "origin": "none",
+      "top": 10.292079521574703
+    }
+  ]
+}

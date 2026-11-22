@@ -1,4 +1,9 @@
-import { KnowledgeBase, loadIndex, type KnowledgeIndex } from "@ward/core";
+import {
+  KnowledgeBase,
+  loadIndex,
+  TUNED_SEARCH,
+  type KnowledgeIndex,
+} from "@ward/core";
 import { describe, expect, it } from "vitest";
 import { loadKey } from "./key.js";
 import { keyPath, retrievalQueriesPath } from "./paths.js";
@@ -11,8 +16,10 @@ import {
   score,
   scoreSplit,
   type QueryResult,
+  retrievers,
   type RetrievalQuery,
 } from "./retrieval.js";
+import { bm25Grid, pickBest } from "./tune.js";
 
 function q(expected: string[], patch: Partial<RetrievalQuery> = {}) {
   return {
@@ -165,6 +172,50 @@ describe("query set", () => {
       const seen = splitOf.get(x.item);
       if (seen !== undefined) expect(x.split, `${x.id} ${x.item}`).toBe(seen);
       splitOf.set(x.item, x.split);
+    }
+  });
+});
+
+describe("bm25 retrievers", () => {
+  it("are registered next to ids", () => {
+    expect(Object.keys(retrievers)).toEqual(["ids", "bm25", "bm25-tuned"]);
+  });
+
+  it("tuned settings are in the grid, and the grid starts at the defaults", () => {
+    const grid = bm25Grid();
+    expect(grid).toHaveLength(432);
+    expect(grid[0]).toEqual({
+      k1: 1.2,
+      b: 0.75,
+      stopwords: false,
+      stem: false,
+      titleWeight: 1,
+      codeWeight: 1,
+    });
+    expect(grid).toContainEqual(TUNED_SEARCH);
+  });
+
+  it("picks by MRR, then recall@5, then grid order", () => {
+    const row = (mrr: number, recallAt5: number, name: string) => ({
+      name,
+      dev: { queries: 1, mrr, recallAt5 },
+    });
+    const picked = pickBest([
+      row(0.5, 0.9, "a"),
+      row(0.6, 0.5, "b"),
+      row(0.6, 0.8, "c"),
+      row(0.6, 0.8, "d"),
+    ]);
+    expect(picked.map((r) => r.name)).toEqual(["c", "d", "b", "a"]);
+  });
+
+  it("keep id queries on top over the real index", () => {
+    const kb = new KnowledgeBase(loadIndex());
+    for (const name of ["bm25", "bm25-tuned"]) {
+      const retrieve = retrievers[name]?.(kb);
+      expect(retrieve?.("is MASWE-0006 relevant to logs?")[0]).toBe(
+        "MASWE-0006#0",
+      );
     }
   });
 });

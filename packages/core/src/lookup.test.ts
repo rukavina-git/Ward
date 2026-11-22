@@ -160,3 +160,107 @@ describe("KnowledgeBase.related", () => {
     expect(ids("MASTG-TEST-0002", "weakness")?.ids).toEqual([]);
   });
 });
+
+describe("search", () => {
+  const recs = [
+    { ...rec("MASWE-0001", "weakness"), title: "Sensitive data in logs" },
+    rec("MASWE-0002", "weakness"),
+    rec("MASTG-TEST-0200", "test"),
+    {
+      ...rec("MASTG-DEMO-0001", "demo"),
+      chunks: ["MASTG-DEMO-0001#0", "MASTG-DEMO-0001#1"],
+    },
+    rec("MASWE-0099", "weakness", {}, "placeholder"),
+  ];
+  const chunk = (
+    id: string,
+    record: IndexRecord,
+    text: string,
+    section: string[] = [],
+  ): Chunk => ({
+    id,
+    record: record.id,
+    kind: record.kind,
+    status: record.status,
+    section,
+    text,
+    url: "",
+    version: "",
+    licence: "",
+  });
+  const [w1, w2, t1, d1, p1] = recs as [
+    IndexRecord,
+    IndexRecord,
+    IndexRecord,
+    IndexRecord,
+    IndexRecord,
+  ];
+  const kb = new KnowledgeBase({
+    format: 1,
+    sources: [],
+    overrides: [],
+    embedding: null,
+    records: recs,
+    chunks: [
+      chunk("MASWE-0001#0", w1, "Apps write tokens to logcat."),
+      chunk("MASWE-0002#0", w2, "Keys are stored in plain SharedPreferences."),
+      chunk("MASTG-TEST-0200#0", t1, "Check external storage for files."),
+      chunk("MASTG-DEMO-0001#0", d1, "Run the sample and read the files."),
+      chunk(
+        "MASTG-DEMO-0001#1",
+        d1,
+        "external storage files; external storage files",
+        ["MastgTest.kt"],
+      ),
+      chunk("MASWE-0099#0", p1, "Placeholder about logcat tokens."),
+    ],
+  });
+  const ids = (q: string, o = {}) => kb.search(q, o).map((h) => h.chunk);
+
+  it("finds text matches, with record and score", () => {
+    const [hit] = kb.search("tokens in logcat");
+    expect(hit).toMatchObject({
+      chunk: "MASWE-0001#0",
+      record: "MASWE-0001",
+      match: "text",
+    });
+    expect(hit?.score).toBeGreaterThan(0);
+  });
+
+  it("searches the record title too", () => {
+    expect(ids("sensitive")).toEqual(["MASWE-0001#0"]);
+  });
+
+  it("puts named IDs first, then text hits, without duplicates", () => {
+    const hits = kb.search("maswe-0002: logcat tokens, MASWE-0002");
+    expect(hits.map((h) => [h.chunk, h.match])).toEqual([
+      ["MASWE-0002#0", "id"],
+      ["MASWE-0001#0", "text"],
+    ]);
+    expect(hits[0]?.score).toBeNull();
+  });
+
+  it("never returns placeholders from text, but finds them by ID", () => {
+    expect(ids("placeholder")).toEqual([]);
+    expect(ids("MASWE-0099")).toEqual(["MASWE-0099#0"]);
+  });
+
+  it("returns nothing for unknown words, unknown IDs or stopwords only", () => {
+    expect(ids("kerberos")).toEqual([]);
+    expect(ids("MASWE-9999")).toEqual([]);
+    expect(ids("the of", { stopwords: true })).toEqual([]);
+    expect(ids("")).toEqual([]);
+  });
+
+  it("down-weights demo code with codeWeight", () => {
+    expect(ids("external storage files")[0]).toBe("MASTG-DEMO-0001#1");
+    expect(ids("external storage files", { codeWeight: 0.1 })[0]).toBe(
+      "MASTG-TEST-0200#0",
+    );
+  });
+
+  it("respects limit and gives the same order every time", () => {
+    expect(ids("files", { limit: 1 })).toHaveLength(1);
+    expect(ids("storage files")).toEqual(ids("storage files"));
+  });
+});

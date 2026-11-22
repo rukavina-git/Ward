@@ -165,6 +165,16 @@ edit, so the agent fixes errors right away.
 together and merging their results. Each catches what the other misses:
 exact IDs and terms vs. meaning.
 
+**Hyperparameter tuning.** Trying different settings of a method (not
+its data) and keeping the ones that score best. Done on the dev split only,
+then the test split is scored once, so the result isn't flattered by the
+tuning. Ward tuned BM25's k1, b, stemming and code weight this way.
+
+**IDF (inverse document frequency).** How rare a word is across the
+corpus. Rare words ("webview") get a high IDF and count a lot in BM25;
+common words ("app") count little. Ward computes it from the 2,000-odd
+chunks when the search index is built.
+
 **Index file.** Ward's whole searchable knowledge base in one file
 (`packages/core/data/index.json`): records, their links, and the chunks
 with their text. It ships with the code and is read into memory, so
@@ -173,6 +183,11 @@ search needs no database and no network (ADR 0003).
 **Ingestion.** Turning outside documents into data a system can search:
 download, parse, clean, link, check. Ward's ingest clones MASVS, MASWE
 and MASTG at pinned versions and writes one record per ID.
+
+**Inverted index.** A map from each word to the chunks that contain it
+and how often, like the index at the back of a book. A search only looks
+at the chunks listed under its own words. Ward builds one in memory from
+the index file when the first search runs.
 
 **JSON-RPC.** A simple message format for "call this method with these
 arguments" and "here is the result", one JSON object per message. An `id`
@@ -189,6 +204,10 @@ control.
 **Leakage.** When the answer to a test reaches the system under test, so
 the score measures lookup, not skill. MASTG demos can't be Ward's held-out
 cases: they're in Ward's own index.
+
+**Length normalisation (b).** BM25's setting for how much a long chunk
+is penalised, since long text matches many words by chance. 0 ignores
+length, 1 penalises fully; 0.75 is the usual default, and Ward kept it.
 
 **LLM (large language model).** The model that reads text and writes
 text, such as Claude. Ward never calls one itself (ADR 0007): the user's
@@ -294,13 +313,31 @@ smaller than their spread isn't a real difference.
 starts the server as a child process and they exchange messages over its
 standard input and output. Local only, no network. Ward uses it.
 
+**Stemming.** Cutting word endings so forms of a word match: "keys" and
+"key", "logged" and "logging". Ward uses a small hand-written stemmer
+(plurals, -ing, -ed, -ly), on in the tuned search; IDs are never stemmed.
+
+**Stopwords.** Very common words ("the", "of", "is") that a search may
+drop. BM25's IDF already gives them little weight. In Ward's tuning,
+dropping them didn't help, so the tuned search keeps them.
+
 **Structured output.** Making the model answer in JSON that fits a schema
 you give it, instead of free text. Code can then read the answer without
 guessing. Ward's eval passes its findings schema to `claude -p
 --json-schema` and validates the answer again with the same file.
 
+**Term frequency saturation (k1).** BM25's setting for how much a word
+repeated in one chunk adds: the first match counts most, later ones less
+and less. Lower k1 saturates faster. Ward's tuned search uses 0.9 (the
+default is 1.2).
+
 **Token.** The unit a model reads and writes, about three quarters of an
 English word. API prices are per million input and output tokens.
+
+**Tokenizer.** The code that cuts text into tokens. For BM25 in Ward a
+token is a lower-case word, or a whole OWASP ID like `maswe-0067`, so an
+ID is never split into "maswe" and "0067". (A model's tokenizer is a
+different thing: it cuts text into sub-word pieces.)
 
 **Tool call.** When the model, instead of replying with text, asks the
 app to run a tool: "call `hello` with `{name: "Karlo"}`". The app runs it
