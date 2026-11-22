@@ -1,0 +1,473 @@
+{
+  "retriever": "ids",
+  "querySet": {
+    "name": "retrieval",
+    "version": 1
+  },
+  "indexSha256": "5fa9c454817c6aaae12e9897e54ba73190f318a33da319f09f07069ed7044699",
+  "scores": {
+    "dev": {
+      "all": {
+        "queries": 27,
+        "recallAt5": 0.148,
+        "mrr": 0.148
+      },
+      "byOrigin": {
+        "finding": {
+          "queries": 18,
+          "recallAt5": 0,
+          "mrr": 0
+        },
+        "missed": {
+          "queries": 5,
+          "recallAt5": 0,
+          "mrr": 0
+        },
+        "id": {
+          "queries": 4,
+          "recallAt5": 1,
+          "mrr": 1
+        }
+      },
+      "none": {
+        "queries": 3,
+        "returnedAny": 0
+      }
+    },
+    "test": {
+      "all": {
+        "queries": 17,
+        "recallAt5": 0.118,
+        "mrr": 0.118
+      },
+      "byOrigin": {
+        "finding": {
+          "queries": 12,
+          "recallAt5": 0,
+          "mrr": 0
+        },
+        "missed": {
+          "queries": 3,
+          "recallAt5": 0,
+          "mrr": 0
+        },
+        "id": {
+          "queries": 2,
+          "recallAt5": 1,
+          "mrr": 1
+        }
+      },
+      "none": {
+        "queries": 2,
+        "returnedAny": 0
+      }
+    }
+  },
+  "queries": [
+    {
+      "id": "RQ-01",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-02",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-03",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-04",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-05",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-06",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-07",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-08",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-09",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-10",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-11",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-12",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-13",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-14",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-15",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-16",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-17",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-18",
+      "split": "dev",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-19",
+      "split": "test",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-20",
+      "split": "test",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-21",
+      "split": "test",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-22",
+      "split": "test",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-23",
+      "split": "test",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-24",
+      "split": "test",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-25",
+      "split": "test",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-26",
+      "split": "test",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-27",
+      "split": "test",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-28",
+      "split": "test",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-29",
+      "split": "test",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-30",
+      "split": "test",
+      "origin": "finding",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-31",
+      "split": "dev",
+      "origin": "missed",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-32",
+      "split": "dev",
+      "origin": "missed",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-33",
+      "split": "dev",
+      "origin": "missed",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-34",
+      "split": "dev",
+      "origin": "missed",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-35",
+      "split": "dev",
+      "origin": "missed",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-36",
+      "split": "test",
+      "origin": "missed",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-37",
+      "split": "test",
+      "origin": "missed",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-38",
+      "split": "test",
+      "origin": "missed",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-39",
+      "split": "dev",
+      "origin": "id",
+      "rank": 1,
+      "top": [
+        "MASWE-0063"
+      ],
+      "returned": 1
+    },
+    {
+      "id": "RQ-40",
+      "split": "dev",
+      "origin": "id",
+      "rank": 1,
+      "top": [
+        "MASTG-TEST-0039"
+      ],
+      "returned": 1
+    },
+    {
+      "id": "RQ-41",
+      "split": "dev",
+      "origin": "id",
+      "rank": 1,
+      "top": [
+        "MASVS-PLATFORM-2"
+      ],
+      "returned": 1
+    },
+    {
+      "id": "RQ-42",
+      "split": "dev",
+      "origin": "id",
+      "rank": 1,
+      "top": [
+        "MASTG-TEST-0226",
+        "MASWE-0033"
+      ],
+      "returned": 2
+    },
+    {
+      "id": "RQ-43",
+      "split": "test",
+      "origin": "id",
+      "rank": 1,
+      "top": [
+        "MASTG-TEST-0019"
+      ],
+      "returned": 1
+    },
+    {
+      "id": "RQ-44",
+      "split": "test",
+      "origin": "id",
+      "rank": 1,
+      "top": [
+        "MASTG-DEMO-0001"
+      ],
+      "returned": 1
+    },
+    {
+      "id": "RQ-45",
+      "split": "dev",
+      "origin": "none",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-46",
+      "split": "dev",
+      "origin": "none",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-47",
+      "split": "dev",
+      "origin": "none",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-48",
+      "split": "test",
+      "origin": "none",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    },
+    {
+      "id": "RQ-49",
+      "split": "test",
+      "origin": "none",
+      "rank": null,
+      "top": [],
+      "returned": 0
+    }
+  ]
+}

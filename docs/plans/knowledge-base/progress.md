@@ -3,7 +3,7 @@
 - [x] 01 sources and ingest (4fe6225, CI green:
   https://github.com/rukavina-git/Ward/actions/runs/44995159280)
 - [x] 02 chunks, index file and ID lookup (5ce8970)
-- [ ] 03 retrieval eval
+- [x] 03 retrieval eval (HASH)
 - [ ] 04 BM25 by hand
 - [ ] 05 embeddings and vector search by hand
 
@@ -23,6 +23,18 @@
 - Step 02: result: 2,132 chunks (demo 1,268, test 490, weakness 326,
   control 48); text median 607 chars, p90 1,475, max 4,064; 8 chunks
   over the limit, all single long lines in decompiled Java. Index 2.8 MB.
+
+- Step 03: the step file was written in this session (none existed) and
+  approved by Karlo before work began.
+- Step 03: `missed` also covers items only ever reported bundled with
+  another (EA-06, 07, 13, 21), not just items some runs missed.
+- Step 03: the split is by answer key item (all of an item's queries on
+  one side), which the step file didn't require; a test enforces it.
+- Step 03: 49 queries. dev 30 (finding 18, missed 5, id 4, none 3),
+  test 19 (finding 12, missed 3, id 2, none 2).
+- Step 03: first score, `ids` retriever. dev: recall@5 0.148, MRR 0.148
+  (id 1.0, finding 0, missed 0; none: 0 of 3 returned anything). test:
+  recall@5 0.118, MRR 0.118 (id 1.0, others 0; none: 0 of 2).
 
 ## Gotchas
 Carried over: see docs/plans/foundations/progress.md and
@@ -67,3 +79,19 @@ Step 02 (reviewer, not fixed):
   (CommonMark doesn't). No effect on current data.
 - The heading regex strips a trailing `#` ("## C#" gives "C").
 - The over-limit check doesn't list the 8 chunk IDs it allows.
+
+Step 03:
+- Add a retriever by adding it to `retrievers` in
+  `evals/src/retrieval.ts`; `npm run eval:retrieval -- --retriever <name>`
+  writes `evals/results/retrieval/<name>.json`. Tune on dev only.
+- EA-16 (test) and EA-17 (dev) share MASWE-0063, so one expected ID sits
+  on both sides even though items don't.
+- The `ids` score (dev 0.148, test 0.118) is the floor; BM25 must keep
+  id queries at 1.0. The query file checks its index pins: a pin bump
+  fails the CLI until the queries are rechecked.
+
+Step 03 (reviewer, not fixed):
+- RQ-31 (EA-09) and RQ-36 (EA-08) are `missed`, but the baseline found
+  those items in 8 of 9 runs; they may flatter the missed group.
+- No test checks that a query's `expected` equals its item's MASWE and
+  MASTG IDs in the answer key; they match today (checked by script).

@@ -20,3 +20,9 @@ export const cacheRoot = join(repoRoot, "evals/.cache");
 
 // The leaf folder name the agent sees, the same for both apps.
 export const appFolderName = "penny-jar";
+
+export const retrievalQueriesPath = join(
+  repoRoot,
+  "evals/questions/retrieval.json",
+);
+export const retrievalResultsRoot = join(repoRoot, "evals/results/retrieval");

@@ -1,0 +1,430 @@
+{
+  "name": "retrieval",
+  "version": 1,
+  "created": "2026-11-22",
+  "index": {
+    "OWASP MASVS": "8e133d09f4140518ed04cc254b18be9ff4990ffc",
+    "OWASP MASWE": "308b82b4bbe29166934fb5a621b40471cfea61db",
+    "OWASP MASTG": "990472dbcffe126f5556045d60270c4ffdfdde72"
+  },
+  "notes": [
+    "Written by Claude in plan 3 step 03, before any search code existed. None were written by Karlo.",
+    "finding: a baseline finding's title (evals/results/example-app, non-smoke planted runs), word for word. Expected IDs are the MASWE and MASTG IDs of the answer key item(s) the finding was matched to, not the IDs the finding cited (some cited wrong ones, e.g. MASWE-0067 for a debuggable build).",
+    "missed: answer key issues the baseline missed in some runs, or only ever reported bundled with another issue, rewritten by Claude from the item's planted text. These know the answer key's wording, so they may flatter search more than finding queries.",
+    "id: queries that name an ID. Expected: that record (a deprecated v1 test is expected as itself).",
+    "none: questions the corpus can't answer. Expected IDs are empty; they are scored apart.",
+    "Split by item: an answer key item's queries are all in dev or all in test, so tuning on dev can't learn a test item's words. Exceptions: none.",
+    "A hit is any expected record, whatever its kind. Chunk IDs count as their record."
+  ],
+  "queries": [
+    {
+      "id": "RQ-01",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-01",
+      "query": "User password stored in plaintext SharedPreferences ('remember me')",
+      "expected": ["MASWE-0001", "MASTG-TEST-0287"]
+    },
+    {
+      "id": "RQ-02",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-01",
+      "query": "Plaintext password stored in SharedPreferences",
+      "expected": ["MASWE-0001", "MASTG-TEST-0287"]
+    },
+    {
+      "id": "RQ-03",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-02",
+      "query": "Backup CSV of expenses written to public shared storage",
+      "expected": ["MASWE-0002", "MASTG-TEST-0202"]
+    },
+    {
+      "id": "RQ-04",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-04",
+      "query": "allowBackup enabled with no backup rules for sensitive data",
+      "expected": ["MASWE-0006", "MASTG-TEST-0262"]
+    },
+    {
+      "id": "RQ-05",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-02",
+      "query": "Backup CSV written to public Documents folder; allowBackup enabled",
+      "expected": [
+        "MASWE-0002",
+        "MASTG-TEST-0202",
+        "MASWE-0006",
+        "MASTG-TEST-0262"
+      ],
+      "why": "Matched EA-02 and EA-04."
+    },
+    {
+      "id": "RQ-06",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-05",
+      "query": "Hardcoded helpdesk API token in the app",
+      "expected": ["MASWE-0004"]
+    },
+    {
+      "id": "RQ-07",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-05",
+      "query": "Hard-coded secrets in source: helpdesk API token and Mixpanel token",
+      "expected": ["MASWE-0004"]
+    },
+    {
+      "id": "RQ-08",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-06",
+      "query": "Hardcoded static AES key with ECB mode for note encryption",
+      "expected": [
+        "MASWE-0003",
+        "MASTG-TEST-0212",
+        "MASWE-0007",
+        "MASTG-TEST-0232"
+      ],
+      "why": "Matched EA-06 and EA-07."
+    },
+    {
+      "id": "RQ-09",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-09",
+      "query": "Biometric gate is not cryptographically bound and unlock is only a UI flag",
+      "expected": ["MASWE-0020", "MASTG-TEST-0327"]
+    },
+    {
+      "id": "RQ-10",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-10",
+      "query": "Release network security config permits cleartext traffic",
+      "expected": ["MASWE-0026", "MASTG-TEST-0235", "MASTG-TEST-0233"]
+    },
+    {
+      "id": "RQ-11",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-10",
+      "query": "Receipt images fetched over plain HTTP with auth token attached",
+      "expected": ["MASWE-0026", "MASTG-TEST-0235", "MASTG-TEST-0233"]
+    },
+    {
+      "id": "RQ-12",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-12",
+      "query": "Exported ContentProvider without permissions and with SQL injection",
+      "expected": [
+        "MASWE-0018",
+        "MASTG-TEST-0355",
+        "MASWE-0050",
+        "MASTG-TEST-0339"
+      ],
+      "why": "Matched EA-12 and EA-13."
+    },
+    {
+      "id": "RQ-13",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-12",
+      "query": "Exported ContentProvider without permissions exposes all receipts and allows write/delete",
+      "expected": ["MASWE-0018", "MASTG-TEST-0355"]
+    },
+    {
+      "id": "RQ-14",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-17",
+      "query": "Release build is debuggable",
+      "expected": ["MASWE-0063", "MASTG-TEST-0226"]
+    },
+    {
+      "id": "RQ-15",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-18",
+      "query": "targetSdk 34 is below the current Google Play requirement",
+      "expected": ["MASWE-0042"]
+    },
+    {
+      "id": "RQ-16",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-23",
+      "query": "No in-app account deletion option",
+      "expected": ["MASWE-0076"]
+    },
+    {
+      "id": "RQ-17",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-09",
+      "query": "Weak biometric gate that isn't cryptographically bound, and without device credential fallback",
+      "expected": ["MASWE-0020", "MASTG-TEST-0327"]
+    },
+    {
+      "id": "RQ-18",
+      "split": "dev",
+      "origin": "finding",
+      "item": "EA-04",
+      "query": "Auto-backup enabled; session and credential prefs and the database can be extracted via backup",
+      "expected": ["MASWE-0006", "MASTG-TEST-0262"]
+    },
+    {
+      "id": "RQ-19",
+      "split": "test",
+      "origin": "finding",
+      "item": "EA-03",
+      "query": "HTTP body logging in release builds leaks credentials and tokens",
+      "expected": ["MASWE-0005", "MASTG-TEST-0231"]
+    },
+    {
+      "id": "RQ-20",
+      "split": "test",
+      "origin": "finding",
+      "item": "EA-03",
+      "query": "HTTP body logging in OkHttp client",
+      "expected": ["MASWE-0005", "MASTG-TEST-0231"]
+    },
+    {
+      "id": "RQ-21",
+      "split": "test",
+      "origin": "finding",
+      "item": "EA-08",
+      "query": "Share-link tokens generated with non-cryptographic java.util.Random",
+      "expected": ["MASWE-0012", "MASTG-TEST-0204"]
+    },
+    {
+      "id": "RQ-22",
+      "split": "test",
+      "origin": "finding",
+      "item": "EA-11",
+      "query": "TLS validation disabled in UploadClient (trust-all manager and hostname verifier)",
+      "expected": ["MASWE-0027", "MASTG-TEST-0282", "MASTG-TEST-0283"]
+    },
+    {
+      "id": "RQ-23",
+      "split": "test",
+      "origin": "finding",
+      "item": "EA-16",
+      "query": "WebView remote debugging enabled in production",
+      "expected": ["MASWE-0063", "MASTG-TEST-0227"]
+    },
+    {
+      "id": "RQ-24",
+      "split": "test",
+      "origin": "finding",
+      "item": "EA-19",
+      "query": "Outdated Gson dependency with known vulnerability",
+      "expected": ["MASWE-0044", "MASTG-TEST-0272"]
+    },
+    {
+      "id": "RQ-25",
+      "split": "test",
+      "origin": "finding",
+      "item": "EA-22",
+      "query": "Background location permission declared without need or justification",
+      "expected": ["MASWE-0066", "MASTG-TEST-0254"]
+    },
+    {
+      "id": "RQ-26",
+      "split": "test",
+      "origin": "finding",
+      "item": "EA-14",
+      "query": "Exported HelpActivity loads attacker-controlled URL in WebView with JS bridge exposing session token",
+      "expected": [
+        "MASWE-0035",
+        "MASWE-0029",
+        "MASTG-TEST-0394",
+        "MASTG-TEST-0398",
+        "MASWE-0033",
+        "MASTG-TEST-0334"
+      ],
+      "why": "Matched EA-14 and EA-15."
+    },
+    {
+      "id": "RQ-27",
+      "split": "test",
+      "origin": "finding",
+      "item": "EA-20",
+      "query": "Analytics collected before and regardless of consent; email used as identifier",
+      "expected": ["MASWE-0078", "MASWE-0068"],
+      "why": "Matched EA-20 and EA-21."
+    },
+    {
+      "id": "RQ-28",
+      "split": "test",
+      "origin": "finding",
+      "item": "EA-22",
+      "query": "Background location permission requested without clear need",
+      "expected": ["MASWE-0066", "MASTG-TEST-0254"]
+    },
+    {
+      "id": "RQ-29",
+      "split": "test",
+      "origin": "finding",
+      "item": "EA-11",
+      "query": "Upload client disables TLS certificate and hostname verification",
+      "expected": ["MASWE-0027", "MASTG-TEST-0282", "MASTG-TEST-0283"]
+    },
+    {
+      "id": "RQ-30",
+      "split": "test",
+      "origin": "finding",
+      "item": "EA-08",
+      "query": "Predictable share-link tokens from java.util.Random",
+      "expected": ["MASWE-0012", "MASTG-TEST-0204"]
+    },
+    {
+      "id": "RQ-31",
+      "split": "dev",
+      "origin": "missed",
+      "item": "EA-09",
+      "query": "BiometricPrompt called without a CryptoObject, the success callback only sets an unlocked flag",
+      "expected": ["MASWE-0020", "MASTG-TEST-0327"]
+    },
+    {
+      "id": "RQ-32",
+      "split": "dev",
+      "origin": "missed",
+      "item": "EA-23",
+      "query": "users can create an account but the app offers no way to delete it",
+      "expected": ["MASWE-0076"]
+    },
+    {
+      "id": "RQ-33",
+      "split": "dev",
+      "origin": "missed",
+      "item": "EA-07",
+      "query": "Cipher.getInstance(\"AES/ECB/PKCS5Padding\") used to encrypt notes",
+      "expected": ["MASWE-0007", "MASTG-TEST-0232"]
+    },
+    {
+      "id": "RQ-34",
+      "split": "dev",
+      "origin": "missed",
+      "item": "EA-13",
+      "query": "content provider concatenates a URI path segment into a raw SQL query",
+      "expected": ["MASWE-0050", "MASTG-TEST-0339"]
+    },
+    {
+      "id": "RQ-35",
+      "split": "dev",
+      "origin": "missed",
+      "item": "EA-06",
+      "query": "AES key built from a constant byte array, the same key on every install",
+      "expected": ["MASWE-0003", "MASTG-TEST-0212"]
+    },
+    {
+      "id": "RQ-36",
+      "split": "test",
+      "origin": "missed",
+      "item": "EA-08",
+      "query": "guessable token made with a non-cryptographic random number generator",
+      "expected": ["MASWE-0012", "MASTG-TEST-0204"]
+    },
+    {
+      "id": "RQ-37",
+      "split": "test",
+      "origin": "missed",
+      "item": "EA-19",
+      "query": "library version with a known CVE pinned in the Gradle version catalog",
+      "expected": ["MASWE-0044", "MASTG-TEST-0272"]
+    },
+    {
+      "id": "RQ-38",
+      "split": "test",
+      "origin": "missed",
+      "item": "EA-21",
+      "query": "analytics identifies the user by email address",
+      "expected": ["MASWE-0068"]
+    },
+    {
+      "id": "RQ-39",
+      "split": "dev",
+      "origin": "id",
+      "query": "MASWE-0063",
+      "expected": ["MASWE-0063"]
+    },
+    {
+      "id": "RQ-40",
+      "split": "dev",
+      "origin": "id",
+      "query": "what did MASTG-TEST-0039 check",
+      "expected": ["MASTG-TEST-0039"],
+      "why": "A deprecated v1 test: lookup finds it, plan 4 redirects."
+    },
+    {
+      "id": "RQ-41",
+      "split": "dev",
+      "origin": "id",
+      "query": "masvs-platform-2 webviews",
+      "expected": ["MASVS-PLATFORM-2"]
+    },
+    {
+      "id": "RQ-42",
+      "split": "dev",
+      "origin": "id",
+      "query": "compare MASTG-TEST-0226 with MASWE-0033",
+      "expected": ["MASTG-TEST-0226", "MASWE-0033"]
+    },
+    {
+      "id": "RQ-43",
+      "split": "test",
+      "origin": "id",
+      "query": "replacements for MASTG-TEST-0019",
+      "expected": ["MASTG-TEST-0019"]
+    },
+    {
+      "id": "RQ-44",
+      "split": "test",
+      "origin": "id",
+      "query": "mastg-demo-0001",
+      "expected": ["MASTG-DEMO-0001"]
+    },
+    {
+      "id": "RQ-45",
+      "split": "dev",
+      "origin": "none",
+      "query": "share Keychain items between iOS apps with an access group",
+      "expected": []
+    },
+    {
+      "id": "RQ-46",
+      "split": "dev",
+      "origin": "none",
+      "query": "how many screenshots a Google Play store listing needs",
+      "expected": []
+    },
+    {
+      "id": "RQ-47",
+      "split": "dev",
+      "origin": "none",
+      "query": "cancel Kotlin coroutines when a ViewModel is cleared",
+      "expected": []
+    },
+    {
+      "id": "RQ-48",
+      "split": "test",
+      "origin": "none",
+      "query": "App Store review guideline for in-app purchases",
+      "expected": []
+    },
+    {
+      "id": "RQ-49",
+      "split": "test",
+      "origin": "none",
+      "query": "configure the Gradle build cache for faster CI builds",
+      "expected": []
+    }
+  ]
+}

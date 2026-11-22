@@ -21,6 +21,7 @@
     "eval:run": "npm run -s build -w @ward/evals && node evals/dist/run-cli.js",
     "eval:score": "npm run -s build -w @ward/evals && node evals/dist/score-cli.js",
     "eval:summary": "npm run -s build -w @ward/evals && node evals/dist/summary-cli.js",
+    "eval:retrieval": "npm run -s build -w @ward/core -w @ward/evals && node evals/dist/retrieval-cli.js",
     "ingest": "npm run -s build -w @ward/core -w @ward/ingest && node packages/ingest/dist/cli.js"
   },
   "devDependencies": {

@@ -87,6 +87,11 @@ looking perfect.
 like "backup is on, is that intended?" when backup rules exist. Ward's
 scorer counts it as neither a false alarm nor a hit (ADR 0009).
 
+**Dev/test split.** Dividing an eval's queries into two fixed sets. You
+look at and tune on dev; test is only run to report, so its score shows
+how search does on questions it wasn't tuned for. Ward keeps each
+answer key item's queries on one side, so dev can't teach test's words.
+
 **Dimensions (of an embedding).** How many numbers are in one embedding,
 e.g. 384. More dimensions can capture more nuance but take more space.
 All embeddings in one index must have the same dimensions.
@@ -237,6 +242,11 @@ example 8-bit integers instead of 32-bit floats). The model gets about
 4× smaller and faster, and loses a little quality. Ward's embedding
 model is quantized to 34 MB.
 
+**Query set.** The fixed questions a retrieval eval asks, each with the
+records a good search must return. Ward's
+(`evals/questions/retrieval.json`) is seeded from real agent findings, so
+it asks in the words an agent actually uses.
+
 **RAG (retrieval-augmented generation).** Before the model answers, find
 the relevant source chunks and put them in its prompt, so it answers from
 those sources instead of from memory.
@@ -256,6 +266,15 @@ built from fields, never generated.
 **Refusal.** When a model's safety system declines a request. Security
 text can trigger this, so Ward's evals count an agent refusing a check
 separately from a missed issue.
+
+**Relevance labels (qrels).** For each query in a query set, the list of
+results that count as right. Short for "query relevance judgments".
+Ward's are record IDs, taken from the answer key, not from what the
+agent cited.
+
+**Retriever.** Anything that takes a query and returns a ranked list of
+results. Ward's first is exact ID lookup; BM25 and vector search come
+next. All are scored by the same eval, so they can be compared fairly.
 
 **Skill.** A set of written instructions Claude Code loads for a task.
 Ward's skill tells the agent how to run the check and how to write the
