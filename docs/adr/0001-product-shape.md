@@ -1,7 +1,7 @@
 # 1. Product shape: a local pre-publish check plugin
 
 Date: 2026-11-21
-Status: Accepted (offline LLM use narrowed by 0007)
+Status: Accepted (offline LLM use narrowed by 0007; selling point replaced by 0009)
 
 ## Context
 Ward started as a Q&A assistant over OWASP MASVS/MASTG (web chat + MCP).

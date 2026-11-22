@@ -3,6 +3,11 @@
 Terms as they come up in the project. Plain words, one short paragraph
 each, plus where it's used in Ward. Alphabetical.
 
+**Ablation.** Testing a system with one part removed or swapped, to see
+what that part adds. Ward runs retrieval with and without vectors, and the
+eval with only the plain-code analyzers, so each part has to earn its
+place.
+
 **Agent.** A model working in a loop with tools (read a file, search, run
 a command). It decides what to do next, does it, looks at the result and
 repeats until the task is done. In Ward, the user's Claude Code is the
@@ -25,9 +30,9 @@ can't beat it clearly, Ward isn't worth installing.
 
 **BM25.** The classic formula for keyword search. A chunk scores higher
 when it contains the query's words, especially rare words, and isn't
-padded with lots of other text. Ward pairs it with vector search, because
-exact IDs like "MASVS-NETWORK-1" are matched better by keywords than by
-meaning.
+padded with lots of other text. Ward starts with BM25 plus exact ID
+lookup, because IDs like "MASVS-NETWORK-1" are matched better by keywords
+than by meaning. Vector search joins only if it beats BM25 (ADR 0009).
 
 **Brute-force search.** Compare the query with every stored vector and
 keep the closest ones. It's exact and simple; it only gets slow with
@@ -60,6 +65,10 @@ cut-off has to be measured, not guessed.
 used only for cache file names. An agent that flags it raises a false
 alarm. Decoys and the clean twin keep an agent that flags everything from
 looking perfect.
+
+**Defensible finding.** A flag that's a fair question but not a defect,
+like "backup is on, is that intended?" when backup rules exist. Ward's
+scorer counts it as neither a false alarm nor a hit (ADR 0009).
 
 **Dimensions (of an embedding).** How many numbers are in one embedding,
 e.g. 384. More dimensions can capture more nuance but take more space.
@@ -114,6 +123,11 @@ prints the result, optionally as JSON with token use and an estimated
 cost. It runs on your Claude plan, no API key. Ward's eval runs use it
 (ADR 0007).
 
+**Held-out set.** Test cases kept apart from everything you build or
+tune on, so a good score can't come from knowing the answers. Ward's are
+real security fixes from open-source apps, frozen before any check is
+written.
+
 **Hook (Claude Code).** A script Claude Code runs on its own at a set
 moment, such as before a shell command or after a file edit. The agent
 can't skip it, and its output goes back to the agent. Ward's repo uses
@@ -130,6 +144,10 @@ pairs each reply with its request; a message without an `id` is a
 notification that gets no reply. MCP uses it. Over stdio, every line on
 stdout must be one of these messages, which is why Ward's server logs
 only to stderr.
+
+**Leakage.** When the answer to a test reaches the system under test, so
+the score measures lookup, not skill. MASTG demos can't be Ward's held-out
+cases: they're in Ward's own index.
 
 **LLM (large language model).** The model that reads text and writes
 text, such as Claude. Ward never calls one itself (ADR 0007): the user's

@@ -5,7 +5,9 @@ waiting on me
 
 Each plan teaches one part of AI engineering. The "Learn" line says which.
 Rewritten after the council of 2026-11-21
-(docs/council/2026-11-21-product-scope.md).
+(docs/council/2026-11-21-product-scope.md). Plans 3 to 6 revised after
+the baseline council of 2026-11-22
+(docs/council/2026-11-22-baseline-scope.md, ADR 0009).
 
 ## Done
 
@@ -13,6 +15,12 @@ Rewritten after the council of 2026-11-21
 - [x] Claude setup: CLAUDE.md, /step, /explain, /council, reviewer, guard hook
 - [x] Product council: Ward is a local pre-publish check plugin (ADR 0001)
 - [x] No paid APIs: LLM work runs in Claude Code on my plan (ADR 0007)
+- [x] Baseline council: claim precision and evidence, not completeness
+      (ADR 0009)
+
+## Any time
+- [ ] (me) Short post on rukavina.app: the baseline, "I measured before
+      building". Not blocking.
 
 ## Plan 1: foundations
 Learn: how an agent calls a tool (MCP), and a repo set up for AI work.
@@ -34,30 +42,44 @@ Learn: what an eval is, and why you measure before you build.
       plugin (small N, on my Claude plan)
 
 ## Plan 3: knowledge base (first RAG)
-Learn: chunking, embeddings, keyword and vector search, retrieval evals.
+Learn: chunking, keyword and vector search, embeddings, retrieval evals,
+and deciding by measurement.
 - [ ] Ingest MASVS and MASTG by ID (control → MASWE → test → demo);
       docs/sources.md
-- [ ] Chunk, embed locally, store as an index file
-- [ ] Keyword + vector search, built by hand
-- [ ] Retrieval eval: 40–60 queries with expected IDs (recall@5, MRR)
+- [ ] Chunk and store as an index file; exact ID lookup over the graph
+- [ ] BM25 keyword search, built by hand
+- [ ] Retrieval eval: 40–60 queries with expected IDs (recall@5, MRR),
+      seeded from the baseline runs' findings
+- [ ] Embeddings and vector search, built by hand, compared with BM25 on
+      the retrieval eval; shipped only if they win (ADR 0009)
 
 ## Plan 4: MCP server and analyzers
 Learn: tool use, MCP, how AI assistants call external tools.
+- [ ] Held-out eval set, frozen before any check is written: real
+      security-fix commits from open-source Android apps (absences,
+      dependency CVEs, config), decoys toward 30, a "defensible" label.
+      Run Claude Code alone on it at once, against a bar written first;
+      if it aces this too, rethink before building analyzers
 - [ ] Local MCP server (stdio): checklist, get check, search
 - [ ] Analyzers in plain code: merged manifest, network security config,
-      targetSdk, dependencies
+      targetSdk, dependencies against an offline OSV snapshot
 - [ ] Use Ward from Claude Code while building it (.mcp.json)
 
 ## Plan 5: the check
 Learn: agent workflows, skills, structured output.
-- [ ] Skill + report JSON schema; /ward:check
+- [ ] Skill + report JSON schema (a verdict with evidence for every
+      control in scope); /ward:check
+- [ ] Must-exist checks: account deletion, privacy policy link,
+      data-deletion URL
 - [ ] Read-only HTML report
 - [ ] Citation checker: cited IDs, file:line and quotes must exist
 - [ ] Package as a Claude Code plugin; run it on my own app
 
 ## Plan 6: proof
 Learn: end-to-end evals for agents, and AI security.
-- [ ] End-to-end eval, all four setups, at least 3 trials, spread reported
+- [ ] End-to-end eval: all four setups plus analyzers only, on the example
+      app and the held-out set, at least 3 trials, spread reported; false
+      passes next to false alarms, share of controls with a verdict
 - [ ] Prompt-injection suite: hostile comments and files in the checked app
 - [ ] Retrieval fixes driven by failures (reranking etc.), evals before
       and after

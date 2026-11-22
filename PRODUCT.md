@@ -35,24 +35,33 @@ and Ward remembers your decisions.
 
 ## Product purpose
 
-Make sure nothing is forgotten before publishing. A general coding agent
-checks what you ask it to. Ward brings the full checklist, cites the rule
-for every item, and says plainly what it couldn't verify.
+A pre-publish report you can trust and hand to an auditor. Claude Code
+alone already finds most textbook bugs (the plan 2 baseline: 21.7 of 23).
+What it lacks is evidence: it can't show which controls it never checked,
+its answers to exact questions vary between runs, it misses things that
+should exist but don't, and it raises false alarms. Ward gives every
+control in scope a verdict with evidence, gets exact facts from plain
+code, checks what must exist, and says plainly what it couldn't verify
+(ADR 0009).
 
-Success: on the eval apps, Claude Code + Ward catches publish blockers that
-Claude Code alone skips, with few false passes and no made-up citations.
-This is measured and published.
+Success: on the example app and a held-out set of real security fixes,
+Claude Code + Ward raises fewer false alarms than Claude Code alone
+without more false passes, gives an explicit verdict for more of the
+controls in scope, and makes up no citations. This is measured and
+published.
 
 ## Positioning
 
-- **Complete, not deeper.** Ward doesn't claim to know MASVS better than
-  OWASP's own tools. It covers everything you need before publishing
-  (security, privacy and GDPR, later store policy and licences) that a
-  general agent tends to skip.
-- **Measured, not claimed.** The public eval compares four setups: Claude
-  Code alone, + a plain checklist skill, + OWASP's plugin, and + Ward. The
-  headline numbers are missed issues, false-pass rate and made-up-citation
-  rate, published even when they're unflattering.
+- **Evidence, not more findings.** Ward doesn't claim to find more bugs
+  than your agent, or to know MASVS better than OWASP's own tools. It makes
+  the report trustworthy: a verdict with evidence for every control in
+  scope, exact facts from plain code, and must-exist checks. Modules widen
+  the scope (security, privacy and GDPR, later store policy and licences).
+- **Measured, not claimed.** The public eval compares Claude Code alone,
+  + a plain checklist skill, + OWASP's plugin, + Ward, and Ward's analyzers
+  alone, on the example app and a held-out set. The headline numbers are
+  false alarms, false passes, the share of controls with an explicit
+  verdict and made-up citations, published even when they're unflattering.
 - **Honest verdicts:**
   - FAIL (with file:line)
   - NO FINDING (lists the files inspected)
@@ -100,11 +109,15 @@ This is measured and published.
 Details and licences go in docs/sources.md, created with the first
 ingestion.
 
-## Example app
+## Eval apps
 
-A Kotlin app with planted issues, plus a clean twin of it, generated for
-the evals and kept in this repo. Its code has no hint comments, and the
-answer key lives outside the app folder.
+- **Example app:** a Kotlin app with planted issues, plus a clean twin of
+  it, generated for the evals and kept in this repo. Its code has no hint
+  comments, and the answer key lives outside the app folder.
+- **Held-out set:** real security-fix commits from open-source Android
+  apps (the commit before the fix is the flawed version, the fix is the
+  clean one). Frozen before Ward's checks are written, and never used to
+  tune them. Stored as repo URL, commit and answer key (ADR 0009).
 
 ## Out of scope (v1)
 

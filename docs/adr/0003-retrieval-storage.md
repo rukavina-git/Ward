@@ -1,7 +1,7 @@
 # 3. Retrieval storage
 
 Date: 2026-11-21
-Status: Accepted
+Status: Accepted (vector search made conditional by 0009)
 
 ## What is this
 Where Ward keeps its chunks and their embeddings, and how a search finds
