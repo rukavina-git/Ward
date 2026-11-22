@@ -1,6 +1,7 @@
 # Plan 3 progress
 
-- [x] 01 sources and ingest (hash and CI run recorded after push)
+- [x] 01 sources and ingest (4fe6225, CI green:
+  https://github.com/rukavina-git/Ward/actions/runs/44995159280)
 - [ ] 02 chunks, index file and ID lookup
 - [ ] 03 retrieval eval
 - [ ] 04 BM25 by hand
