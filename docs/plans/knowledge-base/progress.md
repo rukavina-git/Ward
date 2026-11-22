@@ -3,7 +3,7 @@
 - [x] 01 sources and ingest (4fe6225, CI green:
   https://github.com/rukavina-git/Ward/actions/runs/44995159280)
 - [x] 02 chunks, index file and ID lookup (5ce8970)
-- [x] 03 retrieval eval (HASH)
+- [x] 03 retrieval eval (0b7f82c)
 - [ ] 04 BM25 by hand
 - [ ] 05 embeddings and vector search by hand
 
