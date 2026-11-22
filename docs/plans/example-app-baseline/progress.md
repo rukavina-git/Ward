@@ -6,7 +6,7 @@
   https://github.com/rukavina-git/Ward/actions/runs/44957675627)
 - [x] 03 eval harness v0 (4d5d2f9, CI green:
   https://github.com/rukavina-git/Ward/actions/runs/44962340094)
-- [ ] 04 baseline
+- [x] 04 baseline (hash and CI run: next commit)
 
 ## Deviations
 - The roadmap had three steps. The app step was split into 01 (issue
@@ -76,6 +76,27 @@
     about $0.19 estimated. Missed EA-08, 09, 11, 19, 23. Twin: 4
     findings, 3 false alarms (EA-D7, EA-D8, analytics opt-out misread),
     1 real unplanted. Grades proposed by Claude, confirmed by Karlo.
+
+- Step 04:
+  - No `--safe-mode`: a probe showed it hides plugin skills. Every arm
+    instead gets `--setting-sources ""`, `--strict-mcp-config`, auto
+    memory off and `--restricted` (file tools confined to the copy plus
+    `--add-dir`; a probe confirmed a read outside was refused).
+  - Every arm, `alone` included, gets the Skill tool (the step file gave
+    it to plugin arms only), so arms differ only in the plugin. `alone`
+    never used a skill.
+  - The runner now also: copies the plugin beside the app copy, pins
+    OWASP's clone to tag and commit, fails runs on isolation breaches,
+    records skills invoked, and names reruns `-a2`. Not needed: no run
+    failed.
+  - Results: alone 21.7/23 (21–22), checklist 21.0 (18–23), owasp 21.3
+    (20–23). Twin false alarms 2.0 / 2.3 / 1.7 per run. OWASP's skill
+    was never invoked (0/6); the checklist's was always (6/6). ADR 0001
+    bar not triggered, only because of twin false alarms.
+  - 105 hand grades, proposed by Claude, confirmed by Karlo in one go.
+  - The attribution in SKILL.md is a footer, not a header.
+  - meta.json records commit 0c0d684, before the runner changes were
+    committed (noted in baseline.md).
 
 ## Gotchas
 Carried over from plan 1: see docs/plans/foundations/progress.md.
@@ -156,3 +177,31 @@ Carried over from plan 1: see docs/plans/foundations/progress.md.
       childEnv passes npm's INIT_CWD and npm_package_json (repo path),
       which matters once an arm has a shell; duplicate grade entries
       for one finding: last wins silently.
+- Step 04 (for plan 3 onward):
+  - Claude Code alone already finds ~94% of the planted issues. Ward's
+    room is false alarms, citations, privacy and Play, and harder or
+    held-out cases. Consider `/council` before plan 3 on what that means
+    for scope.
+  - A skill only counts if it triggers. OWASP's never did on "is it
+    ready to publish?". Ward's skill description needs its own trigger
+    test (plan 5).
+  - Runner's Node: this shell defaults to Node 24; prefix
+    `~/.nvm/versions/node/v26.13.1/bin` to PATH. `claude` is a native
+    binary, so the arm itself is unaffected.
+  - Open from step 04's review (not fixed):
+    - `copyPlugin` keeps symlinks: OWASP's plugin has 3 relative links
+      that become absolute links into the repo's cache. Use
+      `dereference: true`; `dirHash` skips links too. No run read them.
+    - The isolation check treats `~/...` as inside the copy (it
+      resolves against cwd). Treat `~` as outside.
+    - The revisit verdict is printed even from provisional scores, and
+      `aloneClean` doesn't skip failed runs.
+    - Glob patterns resolve against cwd, not their `path`.
+    - outDir is created before the plugin fetch; a fetch error leaves
+      an empty folder. `-aN` naming has no test.
+    - OWASP's `data/{masvs,asvs}` is CC BY-SA 4.0 per its notices;
+      docs/sources.md says CC BY 4.0 for the whole plugin.
+    - Twin "bearer token to own hosts" findings were graded `generic`;
+      the reviewer argues `false-alarm`. Same in every arm.
+  - Grading a run takes most of the time; a rule-based proposal
+    (finding pattern → label) would make plan 6 faster.

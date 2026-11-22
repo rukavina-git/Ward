@@ -1,0 +1,92 @@
+{
+  "grades": [
+    {
+      "finding": 4,
+      "title": "HelpActivity is exported, loads attacker-controlled URLs and exposes the session token to JavaScript",
+      "candidates": [
+        "EA-14",
+        "EA-D4",
+        "EA-D6",
+        "EA-15"
+      ],
+      "suggested": null,
+      "label": "EA-14+EA-15",
+      "proposed": "EA-14+EA-15",
+      "proposedWhy": "deep link loads any URL and the JS bridge hands out the session token"
+    },
+    {
+      "finding": 7,
+      "title": "Hardcoded helpdesk API token in the client",
+      "candidates": [
+        "EA-05",
+        "EA-D5"
+      ],
+      "suggested": null,
+      "label": "EA-05",
+      "proposed": "EA-05",
+      "proposedWhy": "helpdesk token; the Mixpanel token is mentioned in passing (decoy D5)"
+    },
+    {
+      "finding": 8,
+      "title": "Analytics runs regardless of consent and sends the user's email and merchant names",
+      "candidates": [
+        "EA-20",
+        "EA-21"
+      ],
+      "suggested": null,
+      "label": "EA-20+EA-21",
+      "proposed": "EA-20+EA-21",
+      "proposedWhy": "tracking before consent, email as the user ID, merchant names sent"
+    },
+    {
+      "finding": 11,
+      "title": "Backups written to shared public storage; legacy storage permissions",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": null,
+      "label": "EA-02",
+      "proposed": "EA-02",
+      "proposedWhy": "CSV of all expenses to public Documents"
+    },
+    {
+      "finding": 12,
+      "title": "allowBackup enabled with sensitive local data and no backup rules",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-02",
+      "label": "EA-04",
+      "proposed": "EA-04",
+      "proposedWhy": "allowBackup with no rules exposes saved credentials"
+    },
+    {
+      "finding": 13,
+      "title": "Background location permission declared without need; location use needs disclosure",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-22",
+      "label": "EA-22",
+      "proposed": "EA-22",
+      "proposedWhy": "background and fine location for a one-off city lookup"
+    },
+    {
+      "finding": 14,
+      "title": "targetSdk 34 is below the current Google Play requirement",
+      "candidates": [
+        "EA-18"
+      ],
+      "suggested": "EA-18",
+      "label": "EA-18",
+      "proposed": "EA-18",
+      "proposedWhy": "targetSdk 34 below the Play requirement"
+    }
+  ]
+}

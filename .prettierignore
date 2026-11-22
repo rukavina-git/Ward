@@ -9,3 +9,5 @@ coverage/
 .claude/settings.local.json
 # Eval results: agent output is kept exactly as returned.
 evals/results/
+# Third-party plugins fetched for eval arms.
+evals/.cache/

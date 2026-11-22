@@ -1,0 +1,44 @@
+{
+  "grades": [
+    {
+      "finding": 0,
+      "title": "Auto Backup is enabled and covers the receipts database, receipt photos and the plaintext CSV",
+      "candidates": [
+        "EA-D7"
+      ],
+      "suggested": "EA-D7",
+      "label": "EA-D7",
+      "proposed": "EA-D7",
+      "proposedWhy": "backing up the user own expenses is by design; the rules exclude the credentials"
+    },
+    {
+      "finding": 1,
+      "title": "Automatic backup writes all expenses as an unencrypted CSV in app storage",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": "false-alarm",
+      "proposed": "false-alarm",
+      "proposedWhy": "plaintext CSV in app-private storage is the EA-02 fix, not a leak"
+    },
+    {
+      "finding": 2,
+      "title": "Biometric lock is skipped after process death or recreation and is not re-applied on resume",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": "real-unplanted",
+      "proposed": "real-unplanted",
+      "proposedWhy": "true: rememberSaveable restores Expenses after process death and skips the lock; plus the known EA-09 twin gap"
+    },
+    {
+      "finding": 3,
+      "title": "Personal and financial data collection must be declared (Data safety form and privacy policy); consent and deletion need manual verification",
+      "candidates": [
+        "EA-D5"
+      ],
+      "suggested": "false-alarm",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "Data safety and consent-wording advice; the text covers usage of features, a judgement call"
+    }
+  ]
+}

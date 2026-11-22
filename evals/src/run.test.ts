@@ -1,6 +1,14 @@
 import { execFileSync } from "node:child_process";
-import { existsSync, readdirSync, rmSync } from "node:fs";
-import { homedir } from "node:os";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
+import { homedir, tmpdir } from "node:os";
 import { join, relative } from "node:path";
 import { afterAll, describe, expect, it } from "vitest";
 import { loadKey } from "./key.js";
@@ -9,7 +17,10 @@ import {
   buildArgs,
   childEnv,
   copyFixture,
+  copyPlugin,
+  dirHash,
   parseStream,
+  pluginSourceDir,
   redact,
   summarizeInit,
   trackedLineCounts,
@@ -35,17 +46,103 @@ describe("buildArgs", () => {
     expect(after(args, "--permission-mode")).toBe("dontAsk");
   });
 
-  it("gives read-only tools and no web access", () => {
-    expect(after(args, "--tools")).toBe("Read,Grep,Glob");
+  it("gives read-only tools plus skills, and no web access", () => {
+    expect(after(args, "--tools")).toBe("Read,Grep,Glob,Skill");
     expect(after(args, "--disallowedTools")).toBe("WebFetch,WebSearch");
   });
 
-  it("passes the model and schema, and isolates setup 'alone'", () => {
+  it("passes the model and schema, and isolates every arm the same way", () => {
     expect(after(args, "--model")).toBe("some-model");
     expect(after(args, "--json-schema")).toBe("{}");
+    expect(after(args, "--setting-sources")).toBe("");
     expect(args).toEqual(
-      expect.arrayContaining(["--safe-mode", "--strict-mcp-config"]),
+      expect.arrayContaining(["--restricted", "--strict-mcp-config"]),
     );
+    // --safe-mode hides plugin skills, so no arm uses it.
+    expect(args).not.toContain("--safe-mode");
+    expect(args).not.toContain("--plugin-dir");
+  });
+
+  it("differs between arms only in the plugin folder", () => {
+    for (const [name, setup] of Object.entries(setups)) {
+      const pluginDir = setup.plugin ? "/tmp/x/plugins/p" : undefined;
+      const armArgs = buildArgs(setup, {
+        model: "some-model",
+        schema: "{}",
+        pluginDir,
+      });
+      const extra = pluginDir
+        ? ["--plugin-dir", pluginDir, "--add-dir", pluginDir]
+        : [];
+      expect(armArgs, name).toEqual([...args, ...extra, ...setup.flags]);
+      expect(setup.flags, name).toEqual([]);
+    }
+  });
+
+  it("has the three baseline arms, each plugin pinned", () => {
+    expect(Object.keys(setups)).toEqual(["alone", "checklist", "owasp"]);
+    const owasp = setups.owasp?.plugin?.source;
+    expect(owasp).toMatchObject({ kind: "git", tag: "v0.2.11" });
+    if (owasp?.kind === "git") expect(owasp.commit).toMatch(/^[0-9a-f]{40}$/);
+  });
+});
+
+describe("plugins", () => {
+  const work = mkdtempSync(join(tmpdir(), "ward-plugin-test-"));
+  afterAll(() => {
+    rmSync(work, { recursive: true, force: true });
+  });
+
+  it("copies the checklist plugin beside the app copy, not inside it", () => {
+    const local = setups.checklist?.plugin?.source;
+    if (local?.kind !== "local") throw new Error("checklist is not local");
+    const { dir, commit } = pluginSourceDir(local, repoRoot, work);
+    expect(commit).toBeNull();
+    const parent = join(work, "run");
+    const dest = copyPlugin(dir, parent, "masvs-checklist");
+    expect(dest).toBe(join(parent, "plugins", "masvs-checklist"));
+    expect(relative(join(parent, "penny-jar"), dest).startsWith("..")).toBe(
+      true,
+    );
+    const skill = readFileSync(
+      join(dest, "skills/masvs-checklist/SKILL.md"),
+      "utf8",
+    );
+    expect(skill).toContain("MASVS-PRIVACY-4");
+    expect(skill).toContain("CC BY-SA 4.0");
+    expect(dirHash(dest)).toBe(dirHash(dir));
+  });
+
+  it("clones a git plugin at its tag and refuses a moved tag", () => {
+    const origin = join(work, "origin");
+    mkdirSync(join(origin, "plugins/p"), { recursive: true });
+    writeFileSync(join(origin, "plugins/p/x.md"), "x\n");
+    const g = (...a: string[]) =>
+      execFileSync("git", ["-C", origin, ...a], { encoding: "utf8" }).trim();
+    g("init", "-q");
+    g("add", ".");
+    g("-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "one");
+    g("tag", "v1");
+    const commit = g("rev-parse", "HEAD");
+    const source = {
+      kind: "git" as const,
+      url: `file://${origin}`,
+      tag: "v1",
+      commit,
+      subdir: "plugins/p",
+    };
+    const cache = join(work, "cache");
+    const got = pluginSourceDir(source, repoRoot, cache);
+    expect(got).toEqual({ dir: join(cache, "origin@v1", "plugins/p"), commit });
+    const copied = copyPlugin(
+      join(cache, "origin@v1"),
+      join(work, "run2"),
+      "p",
+    );
+    expect(existsSync(join(copied, ".git"))).toBe(false);
+    expect(() =>
+      pluginSourceDir({ ...source, commit: "0".repeat(40) }, repoRoot, cache),
+    ).toThrow(/not the pinned/);
   });
 });
 
@@ -141,9 +238,12 @@ describe("transcripts", () => {
       cwd: "/somewhere",
       session_id: "s",
       model: "m",
-      plugins: [{ name: "p", path: "/home/p" }],
+      plugins: [
+        { name: "p", path: "/home/p", source: "p@inline" },
+        { name: "q", path: "builtin" },
+      ],
     });
-    expect(init).toEqual({ model: "m", plugins: ["p"] });
+    expect(init).toEqual({ model: "m", plugins: ["p@inline", "q"] });
   });
 
   it("redacts the home folder and the temp copy", () => {

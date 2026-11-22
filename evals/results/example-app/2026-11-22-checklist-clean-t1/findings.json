@@ -1,0 +1,161 @@
+{
+  "findings": [
+    {
+      "title": "Auto Backup is enabled and covers the receipts database, receipt photos and the plaintext CSV",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-1"
+      ],
+      "maswe": [
+        "MASWE-0004"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 10
+        },
+        {
+          "file": "app/src/main/res/xml/backup_rules.xml",
+          "line": 3,
+          "endLine": 5
+        },
+        {
+          "file": "app/src/main/res/xml/data_extraction_rules.xml",
+          "line": 4,
+          "endLine": 11
+        }
+      ],
+      "explanation": "allowBackup=true. The rules only exclude three SharedPreferences files (credentials, session, unlock). receipts.db (merchant, amount, city and ciphertext notes), files/receipts/*.jpg and files/backup/penny-jar-backup.csv are still sent to cloud backup and device transfer. Exclude these paths or disable backup, and exclude the database and files domains explicitly."
+    },
+    {
+      "title": "Automatic backup writes all expenses as an unencrypted CSV in app storage",
+      "category": "security",
+      "severity": "low",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-1"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/backup/AutoBackupWorker.kt",
+          "line": 20,
+          "endLine": 23
+        }
+      ],
+      "explanation": "The daily worker writes merchants, amounts and places in plaintext to filesDir/backup. It is not protected by the biometric lock and it travels with Auto Backup. It is also a second copy of the data that does not need to exist. The user-chosen export already covers the 'backup' use case. Drop the on-device copy, or encrypt it and exclude it from backup."
+    },
+    {
+      "title": "Biometric lock is skipped after process death or recreation and is not re-applied on resume",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "NEEDS DYNAMIC",
+      "masvs": [
+        "MASVS-AUTH-2"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/MainActivity.kt",
+          "line": 57,
+          "endLine": 69
+        }
+      ],
+      "explanation": "The current screen is held in rememberSaveable. After process death or activity recreation, a saved Expenses screen is restored and the Starting -> Locked check never runs. Nothing re-locks the app when it returns from the background either. Data is also not cryptographically tied to the unlock. The token and note keys do not require user authentication, and the 'secret' decrypted in BiometricGate.openSecret is never used. The lock is a UI gate only. Re-evaluate the lock in onStart/onResume, don't save the unlocked state, and bind sensitive keys to the biometric if the lock is meant to protect data."
+    },
+    {
+      "title": "Personal and financial data collection must be declared (Data safety form and privacy policy); consent and deletion need manual verification",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-3",
+        "MASVS-PRIVACY-4"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+          "line": 13,
+          "endLine": 25
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+          "line": 48
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/location/PlaceTagger.kt",
+          "line": 27,
+          "endLine": 48
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/support/SupportClient.kt",
+          "line": 10
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/consent/ConsentScreen.kt",
+          "line": 29,
+          "endLine": 33
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/settings/SettingsScreen.kt",
+          "line": 107,
+          "endLine": 132
+        }
+      ],
+      "explanation": "The app collects email, name, expenses, receipt photos, approximate location (city) and a Mixpanel user ID with automatic events enabled (trackAutomaticEvents=true). Analytics is opted out by default and gated by a consent screen, which is good. The Data safety declaration has to list all of this, including the data shared with Mixpanel. The consent text should also mention the user identifier and automatic events. Google Play also requires a web-accessible account-deletion URL in the Play Console, in addition to the in-app delete. Check that the privacy policy at pennyjar.example/privacy is live and matches the app's actual behaviour."
+    }
+  ],
+  "inspected": [
+    "app/src/main/AndroidManifest.xml",
+    "app/build.gradle.kts",
+    "app/proguard-rules.pro",
+    "app/src/main/res/xml/network_security_config.xml",
+    "app/src/debug/res/xml/network_security_config.xml",
+    "app/src/main/res/xml/backup_rules.xml",
+    "app/src/main/res/xml/data_extraction_rules.xml",
+    "app/src/main/res/xml/file_paths.xml",
+    "sync/src/main/AndroidManifest.xml",
+    "sync/build.gradle.kts",
+    "gradle/libs.versions.toml",
+    "gradle.properties",
+    "app/src/main/java/app/pennyjar/MainActivity.kt",
+    "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+    "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+    "app/src/main/java/app/pennyjar/help/HelpBridge.kt",
+    "app/src/main/java/app/pennyjar/auth/CredentialStore.kt",
+    "app/src/main/java/app/pennyjar/auth/TokenStore.kt",
+    "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
+    "app/src/main/java/app/pennyjar/auth/AuthRepository.kt",
+    "app/src/main/java/app/pennyjar/crypto/NoteCipher.kt",
+    "app/src/main/java/app/pennyjar/crypto/NoteKeys.kt",
+    "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt",
+    "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+    "app/src/main/java/app/pennyjar/location/PlaceTagger.kt",
+    "app/src/main/java/app/pennyjar/consent/ConsentStore.kt",
+    "app/src/main/java/app/pennyjar/consent/ConsentScreen.kt",
+    "app/src/main/java/app/pennyjar/ui/ReceiptSharing.kt",
+    "app/src/main/java/app/pennyjar/ui/ThumbnailCache.kt",
+    "app/src/main/java/app/pennyjar/ui/AddExpenseScreen.kt",
+    "app/src/main/java/app/pennyjar/ui/ExpenseListScreen.kt",
+    "app/src/main/java/app/pennyjar/backup/AutoBackupWorker.kt",
+    "app/src/main/java/app/pennyjar/backup/ExpenseCsv.kt",
+    "app/src/main/java/app/pennyjar/support/SupportClient.kt",
+    "app/src/main/java/app/pennyjar/share/ShareLinks.kt",
+    "app/src/main/java/app/pennyjar/settings/SettingsScreen.kt",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptsProvider.kt",
+    "sync/src/main/java/app/pennyjar/sync/ApiClient.kt",
+    "sync/src/main/java/app/pennyjar/sync/AuthInterceptor.kt",
+    "sync/src/main/java/app/pennyjar/sync/Endpoints.kt",
+    "sync/src/main/java/app/pennyjar/sync/UploadClient.kt",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptsDatabase.kt",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptQueries.kt",
+    "sync/src/main/java/app/pennyjar/sync/SyncWorker.kt"
+  ]
+}

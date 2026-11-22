@@ -1,0 +1,36 @@
+{
+  "grades": [
+    {
+      "finding": 1,
+      "title": "Biometric lock is UI-only and does not protect data or the session",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": "real-unplanted",
+      "proposed": "real-unplanted",
+      "proposedWhy": "known twin gap: the sealed secret protects nothing, and no re-lock after background"
+    },
+    {
+      "finding": 3,
+      "title": "Bearer token attached to every request, including the image download and upload hosts",
+      "candidates": [
+        "EA-D10"
+      ],
+      "suggested": "false-alarm",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "token goes only to first-party hosts; OkHttp drops Authorization on cross-host redirects. Hardening advice"
+    },
+    {
+      "finding": 4,
+      "title": "Play Data safety and account-deletion disclosures need a human check",
+      "candidates": [
+        "EA-D7",
+        "EA-D5"
+      ],
+      "suggested": "false-alarm",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "review the Data safety form and policy: process advice"
+    }
+  ]
+}

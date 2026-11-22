@@ -1,0 +1,6 @@
+{
+  "name": "masvs-checklist",
+  "description": "A plain OWASP MASVS v2.1.0 checklist for reviewing mobile apps before release.",
+  "version": "0.1.0",
+  "license": "CC-BY-SA-4.0"
+}

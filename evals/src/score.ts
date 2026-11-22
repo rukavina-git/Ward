@@ -21,6 +21,12 @@ export interface GradeEntry {
   suggested: string | null;
   /** An item ID or a hand label. null until Karlo grades it. */
   label: string | null;
+  /**
+   * Claude's proposed label, with a one-line reason. The scorer ignores it:
+   * only `label`, set once Karlo confirms, counts.
+   */
+  proposed?: string | undefined;
+  proposedWhy?: string | undefined;
   note?: string | undefined;
 }
 

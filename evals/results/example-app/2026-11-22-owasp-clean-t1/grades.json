@@ -1,0 +1,54 @@
+{
+  "grades": [
+    {
+      "finding": 1,
+      "title": "Release build points at placeholder .example domains",
+      "candidates": [
+        "EA-D8",
+        "EA-D9"
+      ],
+      "suggested": "false-alarm",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "true but a fixture artefact: the .example domains are on purpose"
+    },
+    {
+      "finding": 2,
+      "title": "User data collection is not fully disclosed or consented to (location, receipts, notes, account data)",
+      "candidates": [
+        "EA-D10",
+        "EA-D5"
+      ],
+      "suggested": "false-alarm",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "consent wording and Data safety advice; amount bands and categories are feature usage, a judgement call"
+    },
+    {
+      "finding": 3,
+      "title": "Bearer token attached to every request by the shared OkHttp client, including arbitrary-URL downloads",
+      "candidates": [
+        "EA-D10",
+        "EA-D1"
+      ],
+      "suggested": "false-alarm",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "token goes only to first-party hosts; OkHttp drops Authorization on cross-host redirects. Hardening advice"
+    },
+    {
+      "finding": 4,
+      "title": "Exported HelpActivity takes an attacker-controlled page and can launch the browser on request",
+      "candidates": [
+        "EA-D4",
+        "EA-D6",
+        "EA-D9",
+        "EA-D8"
+      ],
+      "suggested": "false-alarm",
+      "label": "EA-D9",
+      "proposed": "EA-D9",
+      "proposedWhy": "forwarding non-help links to the browser is the decoy design; the bridge is called benign"
+    }
+  ]
+}

@@ -72,18 +72,38 @@ key: the runner drops `ANTHROPIC_*` variables.
 ```
 npm run eval:run -- --app planted --setup alone --model <id> --trial 1
 npm run eval:score -- evals/results/example-app/<run>
+npm run eval:summary
 ```
 
 The runner copies the app's committed files to a fresh temp folder named
-`penny-jar`, runs `claude -p` there with only Read, Grep and Glob (no
-web, no shell, no writes) and writes `meta.json` (date, versions, model,
-setup, hashes, tokens, estimated cost) and `findings.json` (the output
-as returned). Setups are listed in `src/setups.ts`; `alone` adds
-`--safe-mode`, so no CLAUDE.md, user plugins, MCP servers, hooks or
-memory. Output that is missing or invalid marks the run failed; it is
-never scored as "no findings". `transcript.jsonl` and `stderr.txt` stay
-local (gitignored). Add `--smoke` for a test run that the baseline
-doesn't count.
+`penny-jar`, runs `claude -p` there with only Read, Grep, Glob and Skill
+(no web, no shell, no writes) and writes `meta.json` (date, versions,
+model, setup, plugin, hashes, skills invoked, tokens, API-equivalent $)
+and `findings.json` (the output as returned). Output that is missing or
+invalid marks the run failed; it is never scored as "no findings".
+`transcript.jsonl` and `stderr.txt` stay local (gitignored). Add
+`--smoke` for a test run that the baseline doesn't count. A rerun of a
+failed trial gets `-a2`, `-a3`…; the failed one is kept.
+
+Setups (arms) are rows in `src/setups.ts`. All arms get the same tools,
+prompt, model and isolation, and differ only in their plugin:
+- `alone`: no plugin.
+- `checklist`: `prompts/eval-checklist-plugin`, a skill with the 24 MASVS
+  v2.1.0 control statements and nothing else.
+- `owasp`: `code-security-skills` from OWASP's Secure Agent Playbook,
+  tag v0.2.11 (CC BY 4.0), cloned into the gitignored `evals/.cache/`
+  and refused if the tag no longer points at the pinned commit.
+
+The plugin is copied into the temp folder beside `penny-jar`, never into
+it, and passed with `--plugin-dir` and `--add-dir`. Isolation, the same
+for every arm: `--setting-sources ""` (no user, project or local
+settings, so no user plugins or hooks), `--strict-mcp-config`, auto
+memory off, and `--restricted`, which keeps the file tools inside the
+copy and the plugin. Not `--safe-mode`: it hides plugin skills. The run
+fails if the init message shows an API key, an MCP server, other tools,
+or a plugin that is neither built in nor the arm's own, or if a file
+tool reads outside the copy and the plugin. Reads that `--restricted`
+refused are counted (`outsideBlocked`), not failed.
 
 ## Scoring
 
@@ -101,6 +121,8 @@ doesn't count.
   `false-alarm`, `real-unplanted` (a real issue nobody planted: a key
   candidate) or `generic` (hardening advice). A label also overrules an
   automatic match. Until all are labelled, the score is provisional.
+  Claude may write a `proposed` label and a one-line `proposedWhy`; the
+  scorer ignores both until Karlo confirms and `label` is set.
 - One finding counts for every item it matches, so a finding citing
   both places of a chain (EA-12 and EA-13) scores both.
 - `score.json`, planted app: issues found out of 23, misses (false
@@ -109,3 +131,16 @@ doesn't count.
   over correct plus false alarms; generic left out). Twin: false alarms
   and decoy hits. Both: bad citations (a file that doesn't exist, a line
   past its end, a path outside the app).
+
+## Summary
+
+`npm run eval:summary` reads every non-smoke run for the current key and
+writes `results/example-app/summary.json` and the tables in
+`baseline.md` (the note below them is hand-written and kept). Per arm
+and app: runs (and failed attempts), issues found, false-pass rate,
+bad-citation rate, precision, false alarms, decoy hits, how often the
+arm's own skill was used, minutes, tokens and API-equivalent $, each as
+mean (min–max) across trials. Also: which issues each arm missed, which
+no arm ever found, and ADR 0001's revisit bar, fixed in step 04 before
+any run: `alone` averages 21 or more of 23 with at most 1 false alarm in
+every twin run.

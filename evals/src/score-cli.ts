@@ -29,6 +29,8 @@ const gradesSchema = z.object({
       candidates: z.array(z.string()),
       suggested: z.string().nullable(),
       label: z.string().nullable(),
+      proposed: z.string().optional(),
+      proposedWhy: z.string().optional(),
       note: z.string().optional(),
     }),
   ),

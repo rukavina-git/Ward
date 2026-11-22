@@ -1,0 +1,68 @@
+{
+  "grades": [
+    {
+      "finding": 1,
+      "title": "Bearer token is attached to every request, including arbitrary URLs and other hosts",
+      "candidates": [
+        "EA-D10"
+      ],
+      "suggested": "false-alarm",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "token goes only to first-party hosts; OkHttp drops Authorization on cross-host redirects. Hardening advice"
+    },
+    {
+      "finding": 2,
+      "title": "Biometric lock is UI-only and never re-locks",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": "real-unplanted",
+      "proposed": "real-unplanted",
+      "proposedWhy": "known twin gap: the sealed secret protects nothing, and no re-lock after background"
+    },
+    {
+      "finding": 3,
+      "title": "Plaintext CSV of expenses written to app storage by auto-backup",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": "false-alarm",
+      "proposed": "false-alarm",
+      "proposedWhy": "plaintext CSV in app-private storage is the EA-02 fix, not a leak"
+    },
+    {
+      "finding": 4,
+      "title": "Exported browsable HelpActivity takes an external page parameter",
+      "candidates": [
+        "EA-D4",
+        "EA-D6",
+        "EA-D9",
+        "EA-D8"
+      ],
+      "suggested": "false-alarm",
+      "label": "EA-D9",
+      "proposed": "EA-D9",
+      "proposedWhy": "the exported deep link and browser hand-off are the decoy design; the bridge is called small"
+    },
+    {
+      "finding": 5,
+      "title": "Data collection (analytics, location, financial data, email) needs accurate Play Data Safety and consent flow",
+      "candidates": [
+        "EA-D5",
+        "EA-D10"
+      ],
+      "suggested": "false-alarm",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "review the Data safety form and policy: process advice"
+    },
+    {
+      "finding": 6,
+      "title": "Account deletion: Play also requires a web-accessible deletion path",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "says in-app deletion exists; asks to confirm the web deletion URL"
+    }
+  ]
+}

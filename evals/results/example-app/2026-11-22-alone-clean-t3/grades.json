@@ -1,0 +1,36 @@
+{
+  "grades": [
+    {
+      "finding": 1,
+      "title": "Biometric unlock is not bound to anything that protects data",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": "real-unplanted",
+      "proposed": "real-unplanted",
+      "proposedWhy": "known twin gap: the sealed secret protects nothing, and no re-lock after background"
+    },
+    {
+      "finding": 2,
+      "title": "Release build points at placeholder *.example hosts",
+      "candidates": [
+        "EA-D8",
+        "EA-D9"
+      ],
+      "suggested": "false-alarm",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "true but a fixture artefact: the .example domains are on purpose"
+    },
+    {
+      "finding": 3,
+      "title": "Data safety form and in-app disclosure need review for location, email, photos and financial data",
+      "candidates": [
+        "EA-D7"
+      ],
+      "suggested": "EA-D7",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "review the Data safety form and policy: process advice"
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "grades": [
+    {
+      "finding": 0,
+      "title": "Release build is debuggable",
+      "candidates": [
+        "EA-17"
+      ],
+      "suggested": "EA-17",
+      "label": "EA-17",
+      "proposed": "EA-17",
+      "proposedWhy": "isDebuggable = true in release"
+    },
+    {
+      "finding": 1,
+      "title": "Cleartext traffic permitted in release network security config",
+      "candidates": [
+        "EA-10",
+        "EA-04"
+      ],
+      "suggested": "EA-10",
+      "label": "EA-10",
+      "proposed": "EA-10",
+      "proposedWhy": "release network config allows cleartext"
+    },
+    {
+      "finding": 7,
+      "title": "Exported help activity loads attacker-controlled URL in WebView with JS bridge exposing session token",
+      "candidates": [
+        "EA-14",
+        "EA-D4",
+        "EA-D6",
+        "EA-15"
+      ],
+      "suggested": null,
+      "label": "EA-14+EA-15",
+      "proposed": "EA-14+EA-15",
+      "proposedWhy": "deep link loads any URL and the JS bridge hands out the session token"
+    },
+    {
+      "finding": 9,
+      "title": "Hardcoded secrets (helpdesk API token, Mixpanel token) in source",
+      "candidates": [
+        "EA-05",
+        "EA-D5"
+      ],
+      "suggested": null,
+      "label": "EA-05",
+      "proposed": "EA-05",
+      "proposedWhy": "helpdesk token; also calls the Mixpanel token (decoy D5) a secret in passing"
+    },
+    {
+      "finding": 11,
+      "title": "Analytics initialised and events sent regardless of user consent; PII sent",
+      "candidates": [
+        "EA-20",
+        "EA-21"
+      ],
+      "suggested": null,
+      "label": "EA-20+EA-21",
+      "proposed": "EA-20+EA-21",
+      "proposedWhy": "tracking before consent, email as the user ID, merchant names sent"
+    },
+    {
+      "finding": 12,
+      "title": "Backup CSV written to public Documents folder; allowBackup enabled",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": null,
+      "label": "EA-02+EA-04",
+      "proposed": "EA-02+EA-04",
+      "proposedWhy": "CSV to public Documents, and allowBackup with no rules copies credentials"
+    },
+    {
+      "finding": 13,
+      "title": "Background location permission requested without need; broad permissions",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-22",
+      "label": "EA-22",
+      "proposed": "EA-22",
+      "proposedWhy": "background and fine location for a one-off city lookup"
+    },
+    {
+      "finding": 14,
+      "title": "Target SDK below Google Play requirement",
+      "candidates": [
+        "EA-18"
+      ],
+      "suggested": "EA-18",
+      "label": "EA-18",
+      "proposed": "EA-18",
+      "proposedWhy": "targetSdk 34 below the Play requirement"
+    },
+    {
+      "finding": 17,
+      "title": "Cleanup of data on sign-out incomplete / no account deletion",
+      "candidates": [
+        "EA-23"
+      ],
+      "suggested": null,
+      "label": "EA-23",
+      "proposed": "EA-23",
+      "proposedWhy": "no in-app account deletion, at the settings screen"
+    }
+  ]
+}

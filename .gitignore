@@ -11,3 +11,6 @@ coverage/
 # Eval transcripts and stderr stay local until there is a trace viewer.
 evals/results/**/transcript.jsonl
 evals/results/**/stderr.txt
+
+# Third-party plugins for eval arms, fetched at a pinned tag; not vendored.
+evals/.cache/

@@ -15,6 +15,8 @@ export const findingsSchemaPath = join(
   "prompts/eval-findings.schema.json",
 );
 export const resultsRoot = join(repoRoot, "evals/results/example-app");
+/** Gitignored: third-party plugins for eval arms, cloned at pinned tags. */
+export const cacheRoot = join(repoRoot, "evals/.cache");
 
 // The leaf folder name the agent sees, the same for both apps.
 export const appFolderName = "penny-jar";

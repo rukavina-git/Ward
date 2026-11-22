@@ -1,0 +1,73 @@
+{
+  "run": "2026-11-22-owasp-clean-t1",
+  "setup": "owasp",
+  "trial": 1,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "clean",
+  "provisional": false,
+  "findings": 5,
+  "ungraded": 0,
+  "duplicates": 0,
+  "decoyHits": [
+    "EA-D7",
+    "EA-D9"
+  ],
+  "falseAlarms": 2,
+  "realUnplanted": 0,
+  "generic": 3,
+  "precision": null,
+  "citations": {
+    "locations": 21,
+    "bad": []
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "Auto Backup enabled and does not exclude the receipts database, receipt photos or the plaintext CSV backup",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D7"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 1,
+      "title": "Release build points at placeholder .example domains",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 2,
+      "title": "User data collection is not fully disclosed or consented to (location, receipts, notes, account data)",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 3,
+      "title": "Bearer token attached to every request by the shared OkHttp client, including arbitrary-URL downloads",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 4,
+      "title": "Exported HelpActivity takes an attacker-controlled page and can launch the browser on request",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D9"
+        ],
+        "how": "hand"
+      }
+    }
+  ]
+}

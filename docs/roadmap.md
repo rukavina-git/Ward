@@ -30,7 +30,7 @@ Learn: what an eval is, and why you measure before you build.
       answer key outside the app folder
 - [x] 2.3 Eval harness v0: findings format, task prompt, runner, scoring
       script (missed issues, false passes)
-- [ ] 2.4 Baseline: Claude Code alone, + plain checklist skill, + OWASP's
+- [x] 2.4 Baseline: Claude Code alone, + plain checklist skill, + OWASP's
       plugin (small N, on my Claude plan)
 
 ## Plan 3: knowledge base (first RAG)

@@ -1,0 +1,272 @@
+{
+  "run": "2026-11-22-checklist-planted-t1",
+  "setup": "checklist",
+  "trial": 1,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "planted",
+  "provisional": false,
+  "findings": 15,
+  "ungraded": 0,
+  "duplicates": 0,
+  "decoyHits": [],
+  "falseAlarms": 0,
+  "realUnplanted": 0,
+  "generic": 1,
+  "precision": 1,
+  "citations": {
+    "locations": 28,
+    "bad": []
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "Release build is debuggable",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-17"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 1,
+      "title": "Cleartext traffic permitted in release network security config",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-10"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 2,
+      "title": "Exported ContentProvider exposes receipts without permission, with SQL injection",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-12",
+          "EA-13"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 3,
+      "title": "Exported HelpActivity loads attacker-controlled URL in WebView with JS bridge exposing the session token",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-14",
+          "EA-15"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 4,
+      "title": "Hardcoded static AES key with ECB mode for note encryption",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-06",
+          "EA-07"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 5,
+      "title": "Plaintext password stored in SharedPreferences",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-01"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 6,
+      "title": "Hardcoded helpdesk API token and analytics token in the app",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-05"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 7,
+      "title": "HTTP body logging includes credentials and tokens",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-03"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 8,
+      "title": "Backup CSV of expenses written to public shared storage",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-02"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 9,
+      "title": "allowBackup enabled with no backup rules",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-04"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 10,
+      "title": "Analytics runs before consent, and sends email and merchant data",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-20",
+          "EA-21"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 11,
+      "title": "Background location permission requested without clear need",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-22"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 12,
+      "title": "WebView remote debugging enabled unconditionally",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-16"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 13,
+      "title": "targetSdk 34 is below Google Play's current requirement",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-18"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 14,
+      "title": "Receipt downloads and no certificate pinning for API",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    }
+  ],
+  "issues": {
+    "found": 18,
+    "total": 23,
+    "recall": 0.782608695652174,
+    "missed": [
+      "EA-08",
+      "EA-09",
+      "EA-11",
+      "EA-19",
+      "EA-23"
+    ],
+    "byDifficulty": {
+      "obvious": {
+        "found": 6,
+        "total": 9
+      },
+      "cross-file": {
+        "found": 6,
+        "total": 6
+      },
+      "config": {
+        "found": 5,
+        "total": 6
+      },
+      "merged-manifest": {
+        "found": 1,
+        "total": 1
+      },
+      "absence": {
+        "found": 0,
+        "total": 1
+      }
+    },
+    "byMasvsGroup": {
+      "STORAGE": {
+        "found": 5,
+        "total": 5
+      },
+      "CRYPTO": {
+        "found": 2,
+        "total": 3
+      },
+      "AUTH": {
+        "found": 0,
+        "total": 1
+      },
+      "NETWORK": {
+        "found": 1,
+        "total": 2
+      },
+      "PLATFORM": {
+        "found": 3,
+        "total": 3
+      },
+      "CODE": {
+        "found": 2,
+        "total": 3
+      },
+      "RESILIENCE": {
+        "found": 2,
+        "total": 2
+      },
+      "PRIVACY": {
+        "found": 3,
+        "total": 4
+      }
+    },
+    "byCategory": {
+      "security": {
+        "found": 13,
+        "total": 17
+      },
+      "play": {
+        "found": 2,
+        "total": 2
+      },
+      "privacy": {
+        "found": 3,
+        "total": 4
+      }
+    }
+  }
+}

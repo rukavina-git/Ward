@@ -300,6 +300,28 @@ describe("score, planted app", () => {
     ).toHaveLength(1);
   });
 
+  it("ignores a proposed label until Karlo confirms it", () => {
+    const proposed: Grades = {
+      grades: [
+        {
+          finding: 0,
+          title: "a finding",
+          candidates: ["EA-01"],
+          suggested: "EA-01",
+          label: null,
+          proposed: "false-alarm",
+          proposedWhy: "a made-up reason",
+        },
+      ],
+    };
+    const { score: s, grades } = run([finding({ maswe: [] })], {
+      grades: proposed,
+    });
+    expect(s).toMatchObject({ provisional: true, ungraded: 1, falseAlarms: 0 });
+    // The proposal is kept in the grades file.
+    expect(grades.grades[0]?.proposed).toBe("false-alarm");
+  });
+
   it("applies hand labels", () => {
     const grades = (label: string): Grades => ({
       grades: [

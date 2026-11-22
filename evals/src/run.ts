@@ -1,27 +1,53 @@
 import { execFileSync, spawn } from "node:child_process";
+import { createHash } from "node:crypto";
 import {
+  cpSync,
   createWriteStream,
+  existsSync,
   mkdirSync,
   mkdtempSync,
+  readdirSync,
   readFileSync,
   rmSync,
 } from "node:fs";
 import { homedir, tmpdir } from "node:os";
-import { join } from "node:path";
+import { basename, join, relative } from "node:path";
 import { finished } from "node:stream/promises";
 import { appFolderName } from "./paths.js";
-import type { Setup } from "./setups.js";
+import type { PluginSource, Setup } from "./setups.js";
 
-/** Built-in tools every arm gets: read and search, nothing that runs or writes. */
-export const TOOLS = ["Read", "Grep", "Glob"];
+/**
+ * Built-in tools every arm gets: read, search and skills, nothing that runs
+ * or writes. Every arm gets the same list, so arms differ only in the plugin.
+ */
+export const TOOLS = ["Read", "Grep", "Glob", "Skill"];
 /** Ward's repo, answer key included, is on GitHub: no web access. */
 export const BLOCKED_TOOLS = ["WebFetch", "WebSearch"];
+
+/**
+ * Isolation every arm shares. Not --safe-mode: it hides plugin skills, so
+ * the plugin arms couldn't run. Instead: no user, project or local settings
+ * (so no user plugins or hooks), no MCP servers, no auto memory, and
+ * --restricted, which confines the file tools to the copy (plus --add-dir).
+ */
+export const ISOLATION_FLAGS = [
+  "--setting-sources",
+  "",
+  "--strict-mcp-config",
+  "--settings",
+  JSON.stringify({ autoMemoryEnabled: false }),
+  "--restricted",
+];
 
 /** Arguments for `claude`. The prompt goes in on stdin. Never --bare (ADR 0007). */
 export function buildArgs(
   setup: Setup,
-  opts: { model: string; schema: string },
+  opts: { model: string; schema: string; pluginDir?: string | undefined },
 ): string[] {
+  const plugin =
+    opts.pluginDir === undefined
+      ? []
+      : ["--plugin-dir", opts.pluginDir, "--add-dir", opts.pluginDir];
   return [
     "-p",
     "--output-format",
@@ -40,8 +66,80 @@ export function buildArgs(
     "--permission-mode",
     "dontAsk",
     "--no-session-persistence",
+    ...ISOLATION_FLAGS,
+    ...plugin,
     ...setup.flags,
   ];
+}
+
+/**
+ * The folder to copy an arm's plugin from. A git plugin is cloned once into
+ * the gitignored cache at its tag, and refused if the tag no longer points
+ * at the pinned commit.
+ */
+export function pluginSourceDir(
+  source: PluginSource,
+  repoRoot: string,
+  cacheRoot: string,
+): { dir: string; commit: string | null } {
+  if (source.kind === "local")
+    return { dir: join(repoRoot, source.path), commit: null };
+  const leaf = `${basename(source.url).replace(/\.git$/, "")}@${source.tag}`;
+  const clone = join(cacheRoot, leaf);
+  if (!existsSync(clone)) {
+    mkdirSync(cacheRoot, { recursive: true });
+    execFileSync(
+      "git",
+      [
+        "-c",
+        "advice.detachedHead=false",
+        "clone",
+        "--quiet",
+        "--depth",
+        "1",
+        "--branch",
+        source.tag,
+        source.url,
+        clone,
+      ],
+      { stdio: ["ignore", "ignore", "inherit"] },
+    );
+  }
+  const commit = git(clone, ["rev-parse", "HEAD"]);
+  if (commit !== source.commit) {
+    throw new Error(
+      `${leaf} is at ${commit}, not the pinned ${source.commit}. Delete ${clone} and check the tag.`,
+    );
+  }
+  return { dir: join(clone, source.subdir), commit };
+}
+
+/**
+ * Copies a plugin into the temp folder beside the app copy, never inside it,
+ * so no repo path reaches the agent. Leaves out any .git folder.
+ */
+export function copyPlugin(src: string, parent: string, name: string): string {
+  const dest = join(parent, "plugins", name);
+  cpSync(src, dest, {
+    recursive: true,
+    filter: (path) => basename(path) !== ".git",
+  });
+  return dest;
+}
+
+/** One hash for a folder's files and their paths, so a result names the exact plugin. */
+export function dirHash(dir: string): string {
+  const hash = createHash("sha256");
+  const files = readdirSync(dir, { recursive: true, withFileTypes: true })
+    .filter((e) => e.isFile())
+    .map((e) => relative(dir, join(e.parentPath, e.name)))
+    .sort();
+  for (const file of files) {
+    hash.update(`${file}\0`);
+    hash.update(readFileSync(join(dir, file)));
+    hash.update("\0");
+  }
+  return hash.digest("hex");
 }
 
 /**
@@ -157,9 +255,12 @@ function pick(source: Json, keys: string[]): Json {
   return out;
 }
 
+/** Plugin names with where they came from ("x@builtin", "x@inline"), never paths. */
 function names(v: unknown): unknown {
   if (!Array.isArray(v)) return v;
-  return (v as unknown[]).map((x) => (isRecord(x) ? (x.name ?? x) : x));
+  return (v as unknown[]).map((x) =>
+    isRecord(x) ? (x.source ?? x.name ?? null) : x,
+  );
 }
 
 /** What loaded in the session: enough to show it was isolated, no paths. */

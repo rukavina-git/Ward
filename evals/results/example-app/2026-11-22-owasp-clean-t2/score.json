@@ -1,0 +1,61 @@
+{
+  "run": "2026-11-22-owasp-clean-t2",
+  "setup": "owasp",
+  "trial": 2,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "clean",
+  "provisional": false,
+  "findings": 4,
+  "ungraded": 0,
+  "duplicates": 0,
+  "decoyHits": [
+    "EA-D7"
+  ],
+  "falseAlarms": 1,
+  "realUnplanted": 1,
+  "generic": 2,
+  "precision": null,
+  "citations": {
+    "locations": 18,
+    "bad": []
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "Release build points at placeholder .example domains",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 1,
+      "title": "Auto Backup / device transfer include the receipts database, photos and plaintext CSV backup",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D7"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 2,
+      "title": "Biometric unlock is only a UI gate and does not protect the data",
+      "outcome": {
+        "kind": "real-unplanted",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 3,
+      "title": "Data Safety form and privacy disclosures need review (analytics, location, financial data, account deletion)",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    }
+  ]
+}

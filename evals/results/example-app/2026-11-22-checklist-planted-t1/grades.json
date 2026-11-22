@@ -1,0 +1,103 @@
+{
+  "grades": [
+    {
+      "finding": 0,
+      "title": "Release build is debuggable",
+      "candidates": [
+        "EA-17"
+      ],
+      "suggested": "EA-17",
+      "label": "EA-17",
+      "proposed": "EA-17",
+      "proposedWhy": "isDebuggable = true in release; right place, cites RESILIENCE-2 instead of -4"
+    },
+    {
+      "finding": 3,
+      "title": "Exported HelpActivity loads attacker-controlled URL in WebView with JS bridge exposing the session token",
+      "candidates": [
+        "EA-14",
+        "EA-D4",
+        "EA-D6",
+        "EA-15"
+      ],
+      "suggested": null,
+      "label": "EA-14+EA-15",
+      "proposed": "EA-14+EA-15",
+      "proposedWhy": "deep link loads any URL and the JS bridge hands out the session token; cites both places"
+    },
+    {
+      "finding": 6,
+      "title": "Hardcoded helpdesk API token and analytics token in the app",
+      "candidates": [
+        "EA-05",
+        "EA-D5"
+      ],
+      "suggested": null,
+      "label": "EA-05",
+      "proposed": "EA-05",
+      "proposedWhy": "helpdesk token with write access; also calls the Mixpanel token (decoy D5) a secret in passing"
+    },
+    {
+      "finding": 8,
+      "title": "Backup CSV of expenses written to public shared storage",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": null,
+      "label": "EA-02",
+      "proposed": "EA-02",
+      "proposedWhy": "CSV of all transactions written to public Documents"
+    },
+    {
+      "finding": 9,
+      "title": "allowBackup enabled with no backup rules",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-02",
+      "label": "EA-04",
+      "proposed": "EA-04",
+      "proposedWhy": "allowBackup with no rules, backups copy the credential store"
+    },
+    {
+      "finding": 10,
+      "title": "Analytics runs before consent, and sends email and merchant data",
+      "candidates": [
+        "EA-20",
+        "EA-21"
+      ],
+      "suggested": "EA-20",
+      "label": "EA-20+EA-21",
+      "proposed": "EA-20+EA-21",
+      "proposedWhy": "Mixpanel starts before consent, and email is the user ID with merchant data"
+    },
+    {
+      "finding": 11,
+      "title": "Background location permission requested without clear need",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-22",
+      "label": "EA-22",
+      "proposed": "EA-22",
+      "proposedWhy": "background and fine location for a one-off city lookup"
+    },
+    {
+      "finding": 14,
+      "title": "Receipt downloads and no certificate pinning for API",
+      "candidates": [
+        "EA-03"
+      ],
+      "suggested": "EA-03",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "pinning advice; the downloadTo claim does not hold (only caller builds the URL from the API base)"
+    }
+  ]
+}

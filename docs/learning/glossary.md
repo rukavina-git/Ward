@@ -18,6 +18,11 @@ they don't have to compare a query with every vector. It finds almost
 the closest ones, much faster, at huge scale. Ward doesn't need one yet;
 brute force is fast enough for its corpus.
 
+**Baseline.** The score to beat, measured before the thing you're
+building exists. Ward's baseline is what Claude Code finds in the example
+app on its own, with a plain checklist and with OWASP's plugin. If Ward
+can't beat it clearly, Ward isn't worth installing.
+
 **BM25.** The classic formula for keyword search. A chunk scores higher
 when it contains the query's words, especially rare words, and isn't
 padded with lots of other text. Ward pairs it with vector search, because
@@ -72,6 +77,11 @@ model sizes.
 **Eval.** A repeatable test of AI quality: fixed inputs, known right
 answers, a script that scores the output. Ward's evals measure missed
 issues, false passes and made-up citations.
+
+**Eval arm.** One setup in a comparison, run on the same tasks as the
+others. Arms should differ in one thing only, so a difference in scores
+has one cause. Ward's arms share the model, prompt, tools and app copy;
+only the plugin changes (none, a checklist, OWASP's, later Ward).
 
 **Eval harness.** The test rig around an AI system: it gives the system
 the same input every time, runs it, collects what it returns and scores
@@ -151,6 +161,11 @@ web API. Ward's embedding model (bge-small) is open weights.
 **Plugin (Claude Code).** A package that adds commands, skills and MCP
 servers to Claude Code in one install. Ward ships as a plugin.
 
+**Pre-registration.** Writing down the pass/fail rule before you see
+any data, so the data can't move the goalposts. Ward fixed ADR 0001's
+"Claude Code alone finds almost everything" as a number (21 of 23, at
+most 1 false alarm per twin run) before the first baseline run.
+
 **Precision.** Of everything the agent flagged, the share that was
 real. False alarms lower it. Flagging everything gives perfect recall and
 terrible precision, so Ward reports both.
@@ -182,6 +197,16 @@ separately from a missed issue.
 **Skill.** A set of written instructions Claude Code loads for a task.
 Ward's skill tells the agent how to run the check and how to write the
 report.
+
+**Skill triggering.** Whether an agent decides on its own to use a
+skill it was given. A skill only helps if its description makes the
+agent reach for it. The eval records which skills each run invoked,
+because Ward's own skill will face the same test.
+
+**Spread.** How much results vary between trials of the same arm,
+shown as the lowest and highest score next to the average. A model gives
+different answers each run, so one trial can be lucky; a gap between arms
+smaller than their spread isn't a real difference.
 
 **stdio transport.** One way an AI app talks to an MCP server: the app
 starts the server as a child process and they exchange messages over its

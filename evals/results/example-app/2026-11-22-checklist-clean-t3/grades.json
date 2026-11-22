@@ -1,0 +1,29 @@
+{
+  "grades": [
+    {
+      "finding": 1,
+      "title": "Exported deep-link WebView activity: host check can be bypassed and the page gets a JS bridge",
+      "candidates": [
+        "EA-D9",
+        "EA-D8",
+        "EA-D4",
+        "EA-D6"
+      ],
+      "suggested": "false-alarm",
+      "label": "EA-D9",
+      "proposed": "EA-D9",
+      "proposedWhy": "parser-differential bypass is speculation; the decoy loads only https pages on the help host"
+    },
+    {
+      "finding": 2,
+      "title": "Play Data safety and privacy disclosures need review (location, financial data, analytics, account deletion)",
+      "candidates": [
+        "EA-D7"
+      ],
+      "suggested": "EA-D7",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "review the Data safety form and policy: process advice"
+    }
+  ]
+}

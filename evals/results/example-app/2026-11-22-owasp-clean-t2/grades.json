@@ -1,0 +1,37 @@
+{
+  "grades": [
+    {
+      "finding": 0,
+      "title": "Release build points at placeholder .example domains",
+      "candidates": [
+        "EA-D8",
+        "EA-D9"
+      ],
+      "suggested": "false-alarm",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "true but a fixture artefact: the .example domains are on purpose"
+    },
+    {
+      "finding": 2,
+      "title": "Biometric unlock is only a UI gate and does not protect the data",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": "real-unplanted",
+      "proposed": "real-unplanted",
+      "proposedWhy": "known twin gap: the sealed secret protects nothing, and no re-lock after background"
+    },
+    {
+      "finding": 3,
+      "title": "Data Safety form and privacy disclosures need review (analytics, location, financial data, account deletion)",
+      "candidates": [
+        "EA-D5",
+        "EA-D10"
+      ],
+      "suggested": "false-alarm",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "review the Data safety form and policy: process advice"
+    }
+  ]
+}

@@ -1,0 +1,302 @@
+{
+  "run": "2026-11-22-checklist-planted-t3",
+  "setup": "checklist",
+  "trial": 3,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "planted",
+  "provisional": false,
+  "findings": 18,
+  "ungraded": 0,
+  "duplicates": 0,
+  "decoyHits": [],
+  "falseAlarms": 0,
+  "realUnplanted": 0,
+  "generic": 1,
+  "precision": 1,
+  "citations": {
+    "locations": 38,
+    "bad": []
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "Release build is debuggable",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-17"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 1,
+      "title": "Release network config permits cleartext traffic",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-10"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 2,
+      "title": "UploadClient disables TLS certificate and hostname validation",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-11"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 3,
+      "title": "Exported ContentProvider exposes the receipts DB with no permission, and has SQL injection",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-12",
+          "EA-13"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 4,
+      "title": "Help WebView exposes the session token to JavaScript and loads attacker-controlled URLs",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-14",
+          "EA-15"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 5,
+      "title": "WebView remote debugging enabled unconditionally",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-16"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 6,
+      "title": "Account password stored in plaintext SharedPreferences",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-01"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 7,
+      "title": "Notes encrypted with hardcoded key and AES/ECB",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-06",
+          "EA-07"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 8,
+      "title": "Hardcoded helpdesk API token in the app",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-05"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 9,
+      "title": "HTTP body logging includes credentials and tokens",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-03"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 10,
+      "title": "Analytics collected without consent and the user's email is sent to Mixpanel",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-20",
+          "EA-21"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 11,
+      "title": "Backup file written to public Documents with no protection; allowBackup enabled",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-02",
+          "EA-04"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 12,
+      "title": "Background location permission requested without clear need",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-22"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 13,
+      "title": "targetSdk 34 is below Google Play's current requirement",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-18"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 14,
+      "title": "Weak MD5 / non-secure Random for tokens and cache names",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-08"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 15,
+      "title": "Biometric unlock is not cryptographically bound and the setting is trivially bypassable",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-09"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 16,
+      "title": "Outdated Gson dependency",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-19"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 17,
+      "title": "Unsafe permission/redirect: no certificate pinning for own endpoints",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    }
+  ],
+  "issues": {
+    "found": 22,
+    "total": 23,
+    "recall": 0.9565217391304348,
+    "missed": [
+      "EA-23"
+    ],
+    "byDifficulty": {
+      "obvious": {
+        "found": 9,
+        "total": 9
+      },
+      "cross-file": {
+        "found": 6,
+        "total": 6
+      },
+      "config": {
+        "found": 6,
+        "total": 6
+      },
+      "merged-manifest": {
+        "found": 1,
+        "total": 1
+      },
+      "absence": {
+        "found": 0,
+        "total": 1
+      }
+    },
+    "byMasvsGroup": {
+      "STORAGE": {
+        "found": 5,
+        "total": 5
+      },
+      "CRYPTO": {
+        "found": 3,
+        "total": 3
+      },
+      "AUTH": {
+        "found": 1,
+        "total": 1
+      },
+      "NETWORK": {
+        "found": 2,
+        "total": 2
+      },
+      "PLATFORM": {
+        "found": 3,
+        "total": 3
+      },
+      "CODE": {
+        "found": 3,
+        "total": 3
+      },
+      "RESILIENCE": {
+        "found": 2,
+        "total": 2
+      },
+      "PRIVACY": {
+        "found": 3,
+        "total": 4
+      }
+    },
+    "byCategory": {
+      "security": {
+        "found": 17,
+        "total": 17
+      },
+      "play": {
+        "found": 2,
+        "total": 2
+      },
+      "privacy": {
+        "found": 3,
+        "total": 4
+      }
+    }
+  }
+}

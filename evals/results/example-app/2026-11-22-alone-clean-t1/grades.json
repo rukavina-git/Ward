@@ -1,0 +1,48 @@
+{
+  "grades": [
+    {
+      "finding": 1,
+      "title": "Bearer auth token is attached to every request, including downloads from a different host",
+      "candidates": [
+        "EA-D10",
+        "EA-D1"
+      ],
+      "suggested": "false-alarm",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "token goes only to first-party hosts; OkHttp drops Authorization on cross-host redirects. Hardening advice"
+    },
+    {
+      "finding": 2,
+      "title": "Release build points at placeholder .example domains, including the privacy policy URL",
+      "candidates": [
+        "EA-D8",
+        "EA-D9"
+      ],
+      "suggested": "false-alarm",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "true but a fixture artefact: the .example domains are on purpose"
+    },
+    {
+      "finding": 3,
+      "title": "Play Data safety / permissions declarations need review (location, analytics, account deletion)",
+      "candidates": [
+        "EA-D7"
+      ],
+      "suggested": "EA-D7",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "review the Data safety form: process advice"
+    },
+    {
+      "finding": 4,
+      "title": "Biometric lock is a UI-only gate and the sealed secret is never used",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": "real-unplanted",
+      "proposed": "real-unplanted",
+      "proposedWhy": "known twin gap (EA-09 fix seals a secret that protects nothing), plus no re-lock on background"
+    }
+  ]
+}
