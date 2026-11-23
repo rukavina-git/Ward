@@ -13,6 +13,11 @@ a command). It decides what to do next, does it, looks at the result and
 repeats until the task is done. In Ward, the user's Claude Code is the
 agent; Ward gives it tools and a checklist.
 
+**Analyzer.** Plain code (no model) that reads an app's files and
+returns exact facts with file:line, such as "this provider is exported
+with no permission". Same input, same answer, every run. Ward's agent
+gets these facts through MCP tools instead of guessing them.
+
 **Answer key (ground truth).** The list of right answers for a test,
 written before anything is measured. Ward's answer key lists every issue
 planted in the example app, where it is and how the clean twin fixes it.
@@ -253,6 +258,11 @@ the index. BM25 always returns something, even for nonsense, so these
 lists are the agent's honest clue: a hit that matched only "in" and "the"
 is probably unrelated. Ward's `search` tool returns both, with no cutoff.
 
+**Merged manifest.** The one AndroidManifest.xml that Gradle builds from
+the app's manifests, every library's manifest and build-type values
+(such as `isDebuggable`). It's what ships, so Ward prefers it. It exists
+only after a build, under `build/intermediates/`.
+
 **MRR (mean reciprocal rank).** A retrieval score: for each test query,
 take 1 divided by the position of the first right answer (1st → 1, 2nd →
 0.5, 3rd → 0.33), then average. Rewards putting the right chunk at the
@@ -442,3 +452,8 @@ code.
 **Vector database.** A database that stores embeddings and can quickly
 find the ones closest to a question's embedding. Ward doesn't need one
 (ADR 0003): its index is a file searched in memory.
+
+**XXE (XML external entity).** An attack hidden in an XML file: a
+DOCTYPE declares an "entity" that points at a local file or URL, and a
+careless parser pastes that file's content into the document. Ward's
+parser rejects any DOCTYPE and never expands entities.

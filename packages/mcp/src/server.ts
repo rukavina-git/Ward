@@ -1,9 +1,10 @@
 import { McpServer } from "@modelcontextprotocol/server";
 import { checklistTool } from "./checklist-tool.js";
 import { getCheckTool } from "./get-check-tool.js";
+import { manifestTool } from "./manifest-tool.js";
 import { searchTool } from "./search-tool.js";
 
-export const serverInfo = { name: "ward", version: "0.1.0" };
+export const serverInfo = { name: "ward", version: "0.2.0" };
 
 /**
  * Builds the Ward MCP server with its tools registered. No I/O here: the
@@ -22,5 +23,10 @@ export function createServer(): McpServer {
     getCheckTool.handler,
   );
   server.registerTool(searchTool.name, searchTool.config, searchTool.handler);
+  server.registerTool(
+    manifestTool.name,
+    manifestTool.config,
+    manifestTool.handler,
+  );
   return server;
 }

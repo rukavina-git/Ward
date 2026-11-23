@@ -69,7 +69,7 @@ Scope from the council of 2026-11-23
 - [x] Local MCP server (stdio): checklist, get check, search (top-k plus
       matched terms, no cutoff)
 - [ ] Analyzers in plain code: merged manifest, network security config,
-      targetSdk
+      targetSdk (manifest done: plan 4 step 04)
 - [ ] Dependency check, last and cuttable: fresh OSV data matched by
       Ward, data date on every verdict (ADR 0011)
 - [ ] Use Ward from Claude Code while building it (.mcp.json)

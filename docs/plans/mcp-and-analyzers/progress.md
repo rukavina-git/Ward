@@ -3,7 +3,7 @@
 - [x] 01 held-out set and bar, batch 1 (f4c8c92)
 - [x] 02 Claude alone on the held-out set (gate) (6db3168)
 - [x] 03 MCP server: knowledge tools (b88ad60)
-- [ ] 04 manifest analyzer
+- [x] 04 manifest analyzer (HASH)
 - [ ] 05 network security config and targetSdk analyzers
 - [ ] 06 dependency check (OSV, last, cuttable)
 - [ ] 07 use Ward from Claude Code
@@ -49,6 +49,17 @@
   (not a SearchHit field), so the eval's search path is untouched. Tool
   annotations (read-only) added. "Claude Code lists the three tools" is
   checked by the stdio test; the live `/mcp` reconnect is Karlo's.
+
+- Step 04: exported activities, services and receivers are MANUAL, not
+  FAIL (the launcher and the clean twin's deep link are decoys in the
+  answer key). Exported providers with no permission are FAIL, mapped to
+  MASTG-TEST-0355/0357 (not in the step file; the key uses 0355).
+  Dangerous permissions are MANUAL. Debuggable is MANUAL in source mode
+  (isDebuggable lives in Gradle). Hand-written test manifests are built in
+  temp folders, not committed test data. The tool lists only exported
+  components (others counted). Any DOCTYPE is rejected outright. Server
+  version 0.2.0. Dangerous-permission list read from the Android docs
+  2026-11-23 (partly from a summarised fetch).
 
 ## Gotchas
 Carried over: see docs/plans/knowledge-base/progress.md (no "nothing
@@ -112,3 +123,30 @@ Step 03:
   step 04's analyzers add their own tools to `server.ts` the same way.
 - Claude Code caps MCP output at about 25k tokens; keep each tool's
   result well under it (checklist is about 12k).
+
+Step 04 (reviewer, BLOCKER fixed: a launcher activity with a deep link
+was skipped; now only MAIN/LAUNCHER-only components are). Not fixed:
+- A redeclared component replaces its intent filters (Gradle merges
+  them); an overlay can hide an exported activity.
+- Application attributes: last file wins across modules and flavors
+  (phone + wear, `staging` overriding `prod`): a NO FINDING can hide one
+  exposed module. Facts per module, or MANUAL when they disagree.
+- Hitting the walk cap only adds a limit; NO FINDING should drop to
+  MANUAL as with parse errors.
+- `build/intermediates` and `merged_manifests` aren't lstat'ed before
+  readdir: a symlinked build folder is followed out of the root.
+- `detail` strings carry app names and paths with no length cap.
+- Merged-mode debuggable relies on AGP writing android:debuggable into
+  merged_manifests: true for the fixture's real AGP build (line 35), not
+  checked on other AGP versions.
+- NITs: any android:permission counts as protection (protectionLevel
+  normal doesn't protect); `^test` drops flavors like testnet; readdir
+  errors are silent; nameless components collapse into one.
+
+Step 04:
+- Fixture build/ is gitignored: CI tests source mode only; merged mode is
+  tested with hand-written build folders.
+- Step 05 should read targetSdk from Gradle: in source mode targetSdk is
+  usually unknown, so cleartext and implied-exported stay MANUAL.
+- The `cleartext` verdict defers to step 05 whenever a network security
+  config is set.
