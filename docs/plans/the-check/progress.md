@@ -2,7 +2,7 @@
 
 - [x] 01 hardening: MASWE on verdicts, output cap, false NO FINDING → MANUAL (1d4b9a7)
 - [x] 02 report schema and report_skeleton (5099456)
-- [x] 03 citation checker (HASH)
+- [x] 03 citation checker (248d32a)
 - [ ] 04 skill and /ward:check
 - [ ] 05 Ward on the held-out set
 - [ ] 06 must-exist checks
