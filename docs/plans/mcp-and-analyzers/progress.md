@@ -6,7 +6,7 @@
 - [x] 04 manifest analyzer (969a879)
 - [x] 05 network security config and targetSdk analyzers (bdefc24)
 - [x] 06 dependency check (OSV, last, cuttable) (92f2418)
-- [x] 07 use Ward from Claude Code (HASH)
+- [x] 07 use Ward from Claude Code (8e67165)
 
 ## Deviations
 - Step 01: pilot of 10 (batch 1) instead of 30, as the step file's item 3
