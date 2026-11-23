@@ -5,7 +5,7 @@
 - [x] 02 chunks, index file and ID lookup (5ce8970)
 - [x] 03 retrieval eval (0b7f82c)
 - [x] 04 BM25 by hand (d45ded6)
-- [x] 05 extend the retrieval eval (~150 queries) (HASH)
+- [x] 05 extend the retrieval eval (~150 queries) (d682549)
 - [ ] 06 embeddings and vector search by hand
 
 ## Deviations
