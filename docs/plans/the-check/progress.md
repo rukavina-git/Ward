@@ -6,7 +6,7 @@
 - [x] 04 skill and /ward:check (461db14)
 - [x] 05 Ward on the held-out set (6d4c6d9)
 - [x] 06 must-exist checks (d71b86c)
-- [ ] 07 package as a plugin (done, HASH), run on my own app (me, open)
+- [ ] 07 package as a plugin (done, 4a82896), run on my own app (me, open)
 
 ## Deviations
 - Step 01: step file written this run. MASWE is added in the MCP layer
