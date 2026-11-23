@@ -85,7 +85,7 @@ Scope from the council of 2026-11-23
 - [x] Citation checker: cited IDs, file:line and quotes must exist
 - [x] Skill and /ward:check, with a terminal summary
 - [x] Ward on the held-out set (one arm, 10 cases)
-- [ ] Must-exist checks: account deletion, privacy policy link,
+- [x] Must-exist checks: account deletion, privacy policy link,
       data-deletion URL
 - [ ] Package as a Claude Code plugin; run it on my own app
 

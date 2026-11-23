@@ -16,3 +16,4 @@ export * from "./build-config.js";
 export * from "./maven-version.js";
 export * from "./osv.js";
 export * from "./dependencies.js";
+export * from "./must-exist.js";

@@ -2,6 +2,7 @@ import {
   analyzeBuildConfig,
   analyzeDependencies,
   analyzeManifest,
+  analyzeMustExist,
   analyzeNetwork,
   ProjectRootError,
 } from "@ward/analyzers";
@@ -36,6 +37,7 @@ const ANALYZERS: [
   ["network", analyzeNetwork],
   ["build_config", analyzeBuildConfig],
   ["dependencies", analyzeDependencies],
+  ["must_exist", (root) => analyzeMustExist(root)],
 ];
 
 export const reportSkeletonTool = {
@@ -43,7 +45,7 @@ export const reportSkeletonTool = {
   config: {
     title: "Ward report skeleton",
     description:
-      "Start a Ward check here. Returns the report to fill: every MASVS control in scope with its MASTG tests (and MASWE weaknesses that have no test) nested under it, IDs and titles from the pinned OWASP index. Runs Ward's analyzers (manifest, network, build_config, dependencies) and prefills their verdicts with evidence; placeholder tests and weaknesses without a test are MANUAL, dynamic-only tests NEEDS DYNAMIC. Checks with verdict null are yours to fill by reading the code. Control verdicts, counts and the coverage gaps are computed in code: worst check wins.",
+      "Start a Ward check here. Returns the report to fill: every MASVS control in scope with its MASTG tests (and MASWE weaknesses that have no test) nested under it, IDs and titles from the pinned OWASP index. Runs Ward's analyzers (manifest, network, build_config, dependencies, must_exist) and prefills their verdicts with evidence; placeholder tests and weaknesses without a test are MANUAL, dynamic-only tests NEEDS DYNAMIC. Checks with verdict null are yours to fill by reading the code. Control verdicts, counts and the coverage gaps are computed in code: worst check wins.",
     inputSchema: reportSkeletonInput,
     // Reads the app only, but the dependencies analyzer downloads OSV data.
     annotations: {

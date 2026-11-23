@@ -5,6 +5,7 @@ import { checklistTool } from "./checklist-tool.js";
 import { dependenciesTool } from "./dependencies-tool.js";
 import { getCheckTool } from "./get-check-tool.js";
 import { manifestTool } from "./manifest-tool.js";
+import { mustExistTool } from "./must-exist-tool.js";
 import { networkTool } from "./network-tool.js";
 import { reportSkeletonTool } from "./report-skeleton-tool.js";
 import { searchTool } from "./search-tool.js";
@@ -49,6 +50,11 @@ export function createServer(): McpServer {
     dependenciesTool.name,
     dependenciesTool.config,
     dependenciesTool.handler,
+  );
+  server.registerTool(
+    mustExistTool.name,
+    mustExistTool.config,
+    mustExistTool.handler,
   );
   server.registerTool(
     reportSkeletonTool.name,

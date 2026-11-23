@@ -87,6 +87,19 @@ describe("report_skeleton", () => {
     ).toContain("app/src/main/AndroidManifest.xml");
   });
 
+  it("prefills the must-exist checks (EA-23: no account deletion)", async () => {
+    const bad = report(await reportSkeletonTool.handler({ projectRoot: app }));
+    expect(verdictOf(bad, "MASWE-0076")).toEqual(new Set(["FAIL"]));
+    expect(verdictOf(bad, "MASWE-0072")).toEqual(new Set(["MANUAL"]));
+    expect(verdictOf(bad, "MASWE-0073")).toEqual(new Set(["MANUAL"]));
+    const row = checks(bad).find((c) => c.id === "MASWE-0076");
+    expect(row).toMatchObject({ by: "analyzer", analyzer: "must_exist" });
+    expect(row?.evidence[0]?.quote).toBeTruthy();
+
+    const ok = report(await reportSkeletonTool.handler({ projectRoot: clean }));
+    expect(verdictOf(ok, "MASWE-0076")).toEqual(new Set(["NO FINDING"]));
+  });
+
   it("gives the clean twin no FAIL and never NO FINDING over a MANUAL", async () => {
     const r = report(await reportSkeletonTool.handler({ projectRoot: clean }));
     expect(checks(r).filter((c) => c.verdict === "FAIL")).toEqual([]);

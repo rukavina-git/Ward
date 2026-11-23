@@ -19,6 +19,7 @@ import { getCheckTool } from "./get-check-tool.js";
 import { searchTool } from "./search-tool.js";
 import { dependenciesTool } from "./dependencies-tool.js";
 import { manifestTool } from "./manifest-tool.js";
+import { mustExistTool } from "./must-exist-tool.js";
 import { networkTool } from "./network-tool.js";
 
 type Json = Record<string, unknown>;
@@ -211,6 +212,7 @@ const analyzerTools = [
   networkTool,
   buildConfigTool,
   dependenciesTool,
+  mustExistTool,
 ];
 
 describe("every analyzer verdict", () => {

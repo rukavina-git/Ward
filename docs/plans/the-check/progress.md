@@ -5,7 +5,7 @@
 - [x] 03 citation checker (248d32a)
 - [x] 04 skill and /ward:check (461db14)
 - [x] 05 Ward on the held-out set (6d4c6d9)
-- [ ] 06 must-exist checks
+- [x] 06 must-exist checks (HASH)
 - [ ] 07 package as a plugin, run on my own app
 
 ## Deviations
@@ -49,6 +49,14 @@
   The saved transcripts were re-checked with the new `eval:recheck`,
   with no reruns. Labels are proposed, not yet set by Karlo. The smoke
   run on the example app was scored but isn't counted.
+- Step 06: step file written this run. A sixth analyzer, `must_exist`
+  (line scan, no LLM), on MASVS-PRIVACY weakness rows: account deletion
+  MASWE-0076, privacy policy MASWE-0072, Play Console deletion URL
+  MASWE-0073. A found privacy link gives MANUAL, not NO FINDING (Ward
+  doesn't read the policy). A missing one is FAIL anchored at the app
+  manifest's `<application` line, since an absence has no line of its
+  own. `SKIP_DIRS` is now exported from find.ts. Server 0.9.0. No eval
+  run (no prompt change).
 
 ## Gotchas
 Carried over: see docs/plans/mcp-and-analyzers/progress.md.
@@ -166,3 +174,24 @@ Step 04:
   held-out cases are about 10× that.
 - Clean twin: one FAIL (plaintext CSV backup). Decide in step 05
   whether it's a false alarm.
+
+Step 06 (reviewer: no BLOCKER; not fixed):
+- SHOULD: weak deletion signals give a false NO FINDING: a Room
+  `@Delete fun deleteUser`, `accountManager.removeAccount(...)`,
+  "Remove account from device". Drop bare `deleteUser`/`remove…account`
+  or give MANUAL when only weak signals match.
+- SHOULD: weak sign-up signals give a false FAIL: push routes like
+  `"devices/register"`, `"/push/register"`, "Sign up for news". Narrow
+  the `register` route match or give MANUAL for it alone.
+- SHOULD: multi-line `/* */` and `<!-- -->` comments are stripped on
+  their first line only; commented-out delete code can give NO FINDING.
+  Track comment state across lines; add tests for all three.
+- NITs: limits don't say Dart/JS/HTML assets aren't scanned (Flutter
+  and React Native apps get a privacy FAIL); `shipped()` skips any set
+  containing "test" (a "latest" flavor) and counts non-release flavors.
+
+Step 06:
+- Signals are English text and code names only.
+- The example app now gets MASWE-0076 FAIL from code (EA-23); the clean
+  twin NO FINDING. The held-out results predate this analyzer; the next
+  held-out run (new skill version) will include it.

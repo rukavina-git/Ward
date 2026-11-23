@@ -48,6 +48,7 @@ describe("ward MCP server over stdio", () => {
       "dependencies",
       "get_check",
       "manifest",
+      "must_exist",
       "network",
       "report_skeleton",
       "search",
@@ -75,6 +76,7 @@ describe("ward MCP server over stdio", () => {
     ["network", { projectRoot: exampleApp }],
     ["build_config", { projectRoot: exampleApp, variant: "release" }],
     ["dependencies", { projectRoot: exampleApp }],
+    ["must_exist", { projectRoot: exampleApp }],
     ["report_skeleton", { projectRoot: exampleApp, group: "MASVS-NETWORK" }],
   ])("calls %s and gets structured JSON back", async (name, args) => {
     const result = await client.callTool({ name, arguments: args });
@@ -96,6 +98,7 @@ describe("ward MCP server over stdio", () => {
     ["manifest", { projectRoot: "/no/such/ward/project" }],
     ["network", { projectRoot: "relative/path" }],
     ["build_config", { projectRoot: "/no/such/ward/project" }],
+    ["must_exist", { projectRoot: "/no/such/ward/project" }],
     ["report_skeleton", { projectRoot: "/no/such/ward/project" }],
     ["report_skeleton", { projectRoot: exampleApp, group: "MASVS-ALL" }],
     ["check_report", { projectRoot: exampleApp }],

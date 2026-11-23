@@ -15,7 +15,7 @@ export const LIMITS = {
 } as const;
 
 /** Folders that never hold an app's own manifests. */
-const SKIP_DIRS = new Set([
+export const SKIP_DIRS = new Set([
   ".git",
   ".gradle",
   ".idea",

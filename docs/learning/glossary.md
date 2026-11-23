@@ -290,6 +290,12 @@ the app's manifests, every library's manifest and build-type values
 (such as `isDebuggable`). It's what ships, so Ward prefers it. It exists
 only after a build, under `build/intermediates/`.
 
+**Must-exist check.** A check for something the app has to contain,
+such as an in-app way to delete the account or a privacy policy link.
+It's hard for an agent: there is no bad line to spot, only something
+missing. Ward's `must_exist` analyzer searches the code for fixed
+signals and gives FAIL when a required one is absent.
+
 **Network security config (NSC).** An XML file an Android app points to
 from its manifest. It says, per domain, whether cleartext HTTP is
 allowed, which certificate authorities to trust (system, user-installed)
