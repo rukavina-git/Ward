@@ -8,12 +8,12 @@
     ],
     "proposed": "found",
     "proposedWhy": "FAIL MASTG-TEST-0227 at ArticleWebView.java:134",
-    "label": null
+    "label": "found"
   },
   "decoysFlagged": {
     "candidates": [],
     "proposed": 0,
-    "label": null
+    "label": 0
   },
   "findings": [
     {
@@ -67,7 +67,7 @@
       "indexTitle": "The app only uses software components without known vulnerabilities.",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 0,
@@ -76,7 +76,7 @@
       "indexTitle": "Dependencies with Known Vulnerabilities",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 1,
@@ -85,7 +85,7 @@
       "indexTitle": "The app only uses software components without known vulnerabilities.",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 1,
@@ -94,7 +94,7 @@
       "indexTitle": "Dependencies with Known Vulnerabilities",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 2,
@@ -103,7 +103,7 @@
       "indexTitle": "The app uses WebViews securely.",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 2,
@@ -112,7 +112,7 @@
       "indexTitle": "The app implements anti-dynamic analysis techniques.",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 2,
@@ -121,7 +121,7 @@
       "indexTitle": "Debug Mechanisms Not Disabled",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 3,
@@ -130,7 +130,7 @@
       "indexTitle": "The app uses WebViews securely.",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 3,
@@ -139,7 +139,7 @@
       "indexTitle": "The app prevents leakage of sensitive data.",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 3,
@@ -148,7 +148,7 @@
       "indexTitle": "Sensitive Native Functionality Exposed in WebViews",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     }
   ]
 }

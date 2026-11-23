@@ -6,12 +6,12 @@
     "candidates": [],
     "proposed": "missed",
     "proposedWhy": "no finding about the case problem",
-    "label": null
+    "label": "missed"
   },
   "decoysFlagged": {
     "candidates": [],
     "proposed": 0,
-    "label": null
+    "label": 0
   },
   "findings": [
     {
@@ -125,7 +125,7 @@
       "indexTitle": "The app securely stores sensitive data.",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 0,
@@ -134,7 +134,7 @@
       "indexTitle": "The app prevents leakage of sensitive data.",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 0,
@@ -143,7 +143,7 @@
       "indexTitle": "Sensitive Data Stored Unencrypted Outside of Private Storage",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 1,
@@ -152,7 +152,7 @@
       "indexTitle": "The app prevents leakage of sensitive data.",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 1,
@@ -161,7 +161,7 @@
       "indexTitle": "Sensitive Data Not Excluded From Backup",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 2,
@@ -170,7 +170,7 @@
       "indexTitle": "The app prevents leakage of sensitive data.",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 2,
@@ -179,7 +179,7 @@
       "indexTitle": "Sensitive Data Not Excluded From Backup",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 3,
@@ -188,7 +188,7 @@
       "indexTitle": "The app prevents leakage of sensitive data.",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 3,
@@ -197,7 +197,7 @@
       "indexTitle": "Lack of Authentication or Authorization on App Components",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 4,
@@ -206,7 +206,7 @@
       "indexTitle": "The app prevents leakage of sensitive data.",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 4,
@@ -215,7 +215,7 @@
       "indexTitle": "Lack of Authentication or Authorization on App Components",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 5,
@@ -224,7 +224,7 @@
       "indexTitle": "The app prevents leakage of sensitive data.",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 5,
@@ -233,7 +233,7 @@
       "indexTitle": "Lack of Authentication or Authorization on App Components",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 6,
@@ -242,7 +242,7 @@
       "indexTitle": "The app prevents leakage of sensitive data.",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 6,
@@ -251,7 +251,7 @@
       "indexTitle": "Lack of Authentication or Authorization on App Components",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 7,
@@ -260,7 +260,7 @@
       "indexTitle": "The app prevents leakage of sensitive data.",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     },
     {
       "finding": 7,
@@ -269,7 +269,7 @@
       "indexTitle": "Lack of Authentication or Authorization on App Components",
       "proposed": "right",
       "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
-      "label": null
+      "label": "right"
     }
   ]
 }

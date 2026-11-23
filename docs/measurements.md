@@ -43,8 +43,9 @@ plan, not billed (ADR 0007).
   server, Write limited to `.ward/`), Sonnet 5.5, one trial per case,
   HO-01…HO-10 at their parent commits, the same isolation as the gate.
   The report was converted to findings in code and scored by the gate's
-  scorer. Pre-registered in `evals/held-out-ward-check.md`. Labels are
-  proposed by Claude and not yet confirmed.
+  scorer. Pre-registered in `evals/held-out-ward-check.md`. Labels were
+  proposed by Claude and confirmed by Karlo on 2026-11-24 (lenient
+  reading for HO-01, 02, 09).
 - **Numbers:** found 5 of 10 (HO-01, 02, 04, 09, 10). That is 2 of 10
   counting only FAILs; `alone` found 3. Harder kinds missed: 2 (HO-03,
   08); `alone` missed 4. Decoys flagged: 0 (2 place matches inside

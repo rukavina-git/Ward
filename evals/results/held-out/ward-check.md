@@ -3,7 +3,7 @@
 <!-- gate:start (written by npm run eval:score-heldout) -->
 Runs: 10 of 10 cases. Model: claude-sonnet-5-5. Key v1.
 
-PROVISIONAL: some labels are still proposals. Set every `label` in grades.json, then rerun.
+All labels set.
 
 | Metric | Result | Bar |
 | --- | --- | --- |
@@ -36,7 +36,8 @@ Total API-equivalent $6.16 (plan, not billed).
 
 `/ward:check`, skill v1, one run per case, read against
 `evals/held-out-ward-check.md` (committed before the runs). Labels
-proposed by Claude; Karlo to confirm.
+proposed by Claude, confirmed by Karlo on 2026-11-24 (lenient reading
+for HO-01, 02, 09; all citation proposals accepted).
 
 - **Found 5 of 10** (`alone`: 3). Only 2 are clear: FAILs on the exact
   line for HO-04 (jackson-core, via the `dependencies` analyzer) and

@@ -164,9 +164,8 @@ successful `write_report` is required. A guarded JSON parse and the
 pre-registration wording were also fixed. Not fixed: NIT, a `.ward/`
 nested deep in the tree passes the Write check, but `findReport` then
 fails the run.)
-- Karlo must set `label` in the 10 `ward-check` grades.json files
-  (HO-01, 02, 09 are lenient "found"), then rerun
-  `npm run eval:score-heldout`.
+- Labels set 2026-11-24: Karlo accepted all proposals (HO-01, 02, 09
+  lenient "found"). Score unchanged, no longer provisional.
 - The agent still never calls `get_check` or `search`, and it misses
   every code and absence case. That is the gap step 06 onward (and
   Plan 6) should aim at. It is not tuned on these cases.
