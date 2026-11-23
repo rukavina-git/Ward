@@ -10,3 +10,6 @@ export {
   type XmlElement,
   type XmlAttribute,
 } from "./xml.js";
+export * from "./gradle.js";
+export * from "./network.js";
+export * from "./build-config.js";

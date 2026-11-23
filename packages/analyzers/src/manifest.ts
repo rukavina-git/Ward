@@ -8,6 +8,7 @@
  * it reads the source manifests and says the result is unmerged.
  */
 import { findManifests, readCapped, type ManifestFile } from "./find.js";
+import { readGradle, type GradleFacts } from "./gradle.js";
 import {
   DANGEROUS_PERMISSIONS,
   DANGEROUS_PERMISSIONS_DATE,
@@ -90,7 +91,6 @@ export interface ManifestFacts {
 export type CheckId =
   | "debuggable"
   | "backup"
-  | "cleartext"
   | "exported-activities"
   | "exported-services"
   | "exported-receivers"
@@ -120,6 +120,8 @@ export interface ManifestReport {
   }[];
   parseErrors: (Location & { message: string })[];
   facts: ManifestFacts;
+  /** Build-file facts for the app modules (SDK levels, build type). */
+  gradle: GradleFacts;
   verdicts: CheckVerdict[];
   dangerousPermissionsListDate: string;
 }
@@ -127,7 +129,6 @@ export interface ManifestReport {
 export const MASTG: Record<CheckId, string[]> = {
   debuggable: ["MASTG-TEST-0226"],
   backup: ["MASTG-TEST-0262", "MASTG-TEST-0216"],
-  cleartext: ["MASTG-TEST-0235"],
   "exported-activities": ["MASTG-TEST-0364"],
   "exported-services": ["MASTG-TEST-0365"],
   "exported-receivers": ["MASTG-TEST-0366"],
@@ -185,7 +186,7 @@ export async function analyzeManifest(
     mode = "source";
     files = pickSources(found.manifests, variant, appModules);
     limits.push(
-      `No merged manifest for variant "${variant}" (no build output). Source manifests only: library dependencies' manifests are not merged, build-type values (isDebuggable, placeholders) are not applied, and tools: merge rules are not run.`,
+      `No merged manifest for variant "${variant}" (no build output). Source manifests only: library dependencies' manifests are not merged, placeholders are not applied, and tools: merge rules are not run. isDebuggable and SDK levels come from the build files.`,
     );
   }
 
@@ -216,6 +217,17 @@ export async function analyzeManifest(
     });
     collect(root, m.file, facts);
   }
+  const gradleModules =
+    appModules.size > 0
+      ? [...appModules]
+      : [...new Set(found.manifests.map((m) => m.module))];
+  const gradle = await readGradle(found.root, gradleModules.sort(), variant);
+  useGradleSdk(facts, gradle, limits);
+  if (gradle.conventionPlugins.length > 0) {
+    limits.push(
+      `Convention plugins in ${gradle.conventionPlugins.join(", ")} may set SDK levels or build types; Ward doesn't read them.`,
+    );
+  }
   resolveExported(facts);
 
   return {
@@ -226,9 +238,11 @@ export async function analyzeManifest(
     filesRead,
     parseErrors,
     facts,
+    gradle,
     verdicts: judge(facts, {
       mode,
       variant,
+      gradle,
       read: filesRead.length,
       errors: parseErrors.length,
     }),
@@ -432,7 +446,45 @@ function sdkNumber(v: string | undefined): number | undefined {
   return Number(v);
 }
 
+/**
+ * Fills minSdk and targetSdk from the app module's build file when no
+ * manifest read sets them (the usual case without a build).
+ */
+function useGradleSdk(
+  facts: ManifestFacts,
+  gradle: GradleFacts,
+  limits: string[],
+): void {
+  for (const key of ["minSdk", "targetSdk"] as const) {
+    if (facts[key] !== undefined) continue;
+    const found = gradle.modules
+      .map((m) => m[key])
+      .filter((f) => f !== undefined);
+    const values = new Set(found.map((f) => f.value));
+    const first = found[0];
+    if (first?.value === undefined) {
+      if (first) {
+        limits.push(
+          `${key} in ${first.file}:${String(first.line)} is not a number Ward can resolve (${first.basis}).`,
+        );
+      }
+      continue;
+    }
+    if (values.size > 1) {
+      limits.push(
+        `App modules set different ${key} values; Ward uses ${first.file}'s.`,
+      );
+    }
+    facts[key] = {
+      file: first.file,
+      line: first.line,
+      value: String(first.value),
+    };
+  }
+}
+
 interface JudgeContext {
+  gradle: GradleFacts;
   mode: "merged" | "source";
   variant: string;
   read: number;
@@ -485,12 +537,7 @@ function judge(facts: ManifestFacts, ctx: JudgeContext): CheckVerdict[] {
       ev(dbg, "android:debuggable"),
     );
   } else if (ctx.mode === "source") {
-    v(
-      "debuggable",
-      "MANUAL",
-      `${dbg ? "The source manifest sets android:debuggable to false" : "No source manifest sets android:debuggable"}, but Gradle's buildTypes can (isDebuggable), and Ward read no merged manifest. Build the variant or check buildTypes.`,
-      ev(dbg, 'android:debuggable="false"'),
-    );
+    judgeSourceDebuggable(ctx, dbg, v);
   } else {
     v(
       "debuggable",
@@ -542,63 +589,6 @@ function judge(facts: ManifestFacts, ctx: JudgeContext): CheckVerdict[] {
         line: f.line,
         detail: `rules file ${f.value}`,
       })),
-    );
-  }
-
-  // Cleartext.
-  const clear = app.usesCleartextTraffic;
-  const nsc = app.networkSecurityConfig;
-  const target = sdkNumber(facts.targetSdk?.value);
-  if (nsc) {
-    v(
-      "cleartext",
-      "MANUAL",
-      "A network security config is set; from Android 7 it overrides android:usesCleartextTraffic. Ward's network security config analyzer reads it.",
-      [
-        ...ev(nsc, `networkSecurityConfig ${nsc.value}`),
-        ...ev(clear, `usesCleartextTraffic=${clear?.value ?? ""}`),
-      ],
-    );
-  } else if (clear?.value === "true") {
-    v(
-      "cleartext",
-      "FAIL",
-      "android:usesCleartextTraffic is true and no network security config limits it.",
-      ev(clear, 'android:usesCleartextTraffic="true"'),
-    );
-  } else if (clear?.value === "false") {
-    v(
-      "cleartext",
-      "NO FINDING",
-      "android:usesCleartextTraffic is false and no network security config is set.",
-      ev(clear, 'android:usesCleartextTraffic="false"'),
-    );
-  } else if (clear) {
-    v(
-      "cleartext",
-      "MANUAL",
-      "android:usesCleartextTraffic is a value Ward doesn't resolve.",
-      ev(clear, "android:usesCleartextTraffic"),
-    );
-  } else if (target === undefined) {
-    v(
-      "cleartext",
-      "MANUAL",
-      "No usesCleartextTraffic and no network security config; the default depends on targetSdk (cleartext blocked from 28), which is not in the manifests read.",
-    );
-  } else if (target < 28) {
-    v(
-      "cleartext",
-      "FAIL",
-      `targetSdk is ${String(target)}: cleartext traffic is allowed by default below 28.`,
-      ev(facts.targetSdk, "targetSdkVersion"),
-    );
-  } else {
-    v(
-      "cleartext",
-      "NO FINDING",
-      `targetSdk is ${String(target)}: cleartext traffic is blocked by default, and nothing enables it.`,
-      ev(facts.targetSdk, "targetSdkVersion"),
     );
   }
 
@@ -722,4 +712,73 @@ function componentDetail(c: ComponentFact): string {
   if (schemes.length > 0)
     parts.push(`deep link schemes: ${schemes.join(", ")}`);
   return parts.join("; ");
+}
+
+/**
+ * Debuggable without a merged manifest: the build type decides. Only the
+ * `debug` build type is debuggable by default.
+ */
+function judgeSourceDebuggable(
+  ctx: JudgeContext,
+  dbg: AttrFact | undefined,
+  v: (
+    check: CheckId,
+    verdict: Verdict,
+    reason: string,
+    evidence?: CheckVerdict["evidence"],
+  ) => void,
+): void {
+  const types = ctx.gradle.modules.map((m) => m.buildType);
+  const on = types.find((t) => t.debuggable?.value === true);
+  if (on?.debuggable) {
+    v(
+      "debuggable",
+      "FAIL",
+      `The ${on.name} build type sets isDebuggable to true.`,
+      [
+        {
+          file: on.debuggable.file,
+          line: on.debuggable.line,
+          detail: "isDebuggable = true",
+        },
+      ],
+    );
+    return;
+  }
+  const copied = types.find((t) => t.initWith);
+  const unsure =
+    ctx.gradle.modules.length === 0
+      ? "Ward found no build file for the app module."
+      : copied?.initWith
+        ? `The ${copied.name} build type copies another with initWith (${copied.initWith.file}:${String(copied.initWith.line)}); Ward doesn't follow it.`
+        : ctx.gradle.conventionPlugins.length > 0
+          ? `Convention plugins (${ctx.gradle.conventionPlugins.join(", ")}) may set isDebuggable; Ward doesn't read them.`
+          : undefined;
+  if (unsure) {
+    v(
+      "debuggable",
+      "MANUAL",
+      `${unsure} Build the variant and rerun, or check by hand.`,
+    );
+    return;
+  }
+  const evidence = types
+    .filter((t) => t.debuggable)
+    .map((t) => ({
+      file: t.debuggable?.file ?? t.file,
+      line: t.debuggable?.line ?? 0,
+      detail: "isDebuggable = false",
+    }));
+  if (dbg)
+    evidence.push({
+      file: dbg.file,
+      line: dbg.line,
+      detail: 'android:debuggable="false"',
+    });
+  v(
+    "debuggable",
+    "NO FINDING",
+    `Neither the manifests nor the ${types[0]?.name ?? "variant's"} build type make the app debuggable (only the debug build type is by default). Read: ${ctx.gradle.modules.map((m) => m.buildFile).join(", ")}.`,
+    evidence,
+  );
 }

@@ -23,6 +23,8 @@ export interface XmlElement {
   line: number;
   attributes: XmlAttribute[];
   children: XmlElement[];
+  /** Direct text content (capped at 4 KB). */
+  text: string;
 }
 
 export class XmlError extends Error {
@@ -79,11 +81,16 @@ export function parseXml(text: string): XmlElement {
         line: attrLines.get(a.name) ?? startLine,
       })),
       children: [],
+      text: "",
     };
     const parent = stack.at(-1);
     if (parent) parent.children.push(el);
     else root ??= el;
     stack.push(el);
+  });
+  parser.on("text", (t) => {
+    const top = stack.at(-1);
+    if (top && top.text.length < 4096) top.text = (top.text + t).slice(0, 4096);
   });
   parser.on("closetag", () => {
     stack.pop();

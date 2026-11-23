@@ -2,11 +2,14 @@ import { cpSync, mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { MASTG } from "@ward/analyzers";
+import { MASTG, NETWORK_MASTG } from "@ward/analyzers";
 import type { CallToolResult } from "@modelcontextprotocol/server";
 import { afterAll, describe, expect, it } from "vitest";
 import { knowledgeBase } from "./knowledge.js";
-import { APP_NOTICE, manifestInput, manifestTool } from "./manifest-tool.js";
+import { APP_NOTICE, projectInput as manifestInput } from "./app-tool.js";
+import { buildConfigTool } from "./build-config-tool.js";
+import { manifestTool } from "./manifest-tool.js";
+import { networkTool } from "./network-tool.js";
 
 type Json = Record<string, unknown>;
 const data = (r: CallToolResult): Json => {
@@ -51,7 +54,11 @@ describe("manifest tool", () => {
 
   it("maps every check to active Android MASTG tests in the pinned index", () => {
     const kb = knowledgeBase();
-    for (const ids of Object.values(MASTG)) {
+    expect(kb.get("MASWE-0042")?.record.status).toBe("active");
+    for (const ids of [
+      ...Object.values(MASTG),
+      ...Object.values(NETWORK_MASTG),
+    ]) {
       for (const id of ids) {
         const r = kb.get(id)?.record;
         expect(r, id).toBeDefined();
@@ -80,5 +87,20 @@ describe("manifest tool", () => {
     });
     expect(r.isError).toBe(true);
     expect(data(r).error).toMatch(/does not exist/);
+  });
+
+  it("network and build_config return their verdicts on the same input", async () => {
+    const net = data(await networkTool.handler({ projectRoot: root }));
+    expect(net).toMatchObject({
+      analyzer: "network",
+      mastgPin: { version: "v2.0.0" },
+    });
+    const nv = net.verdicts as { check: string; verdict: string }[];
+    expect(nv.find((v) => v.check === "cleartext")?.verdict).toBe("FAIL");
+    const build = data(await buildConfigTool.handler({ projectRoot: root }));
+    expect(build).toMatchObject({
+      analyzer: "build_config",
+      verdicts: [{ check: "target-sdk", verdict: "FAIL" }],
+    });
   });
 });

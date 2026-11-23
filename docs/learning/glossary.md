@@ -18,6 +18,11 @@ returns exact facts with file:line, such as "this provider is exported
 with no permission". Same input, same answer, every run. Ward's agent
 gets these facts through MCP tools instead of guessing them.
 
+**Build type.** A Gradle setting group such as `debug` or `release` that
+changes how the app is built, e.g. `isDebuggable` or minification. A
+build variant is a build type plus product flavors (`prodRelease`).
+Only the `debug` build type is debuggable by default.
+
 **Answer key (ground truth).** The list of right answers for a test,
 written before anything is measured. Ward's answer key lists every issue
 planted in the example app, where it is and how the clean twin fixes it.
@@ -262,6 +267,12 @@ is probably unrelated. Ward's `search` tool returns both, with no cutoff.
 the app's manifests, every library's manifest and build-type values
 (such as `isDebuggable`). It's what ships, so Ward prefers it. It exists
 only after a build, under `build/intermediates/`.
+
+**Network security config (NSC).** An XML file an Android app points to
+from its manifest. It says, per domain, whether cleartext HTTP is
+allowed, which certificate authorities to trust (system, user-installed)
+and which certificates to pin. Debug-only settings go in
+`debug-overrides`.
 
 **MRR (mean reciprocal rank).** A retrieval score: for each test query,
 take 1 divided by the position of the first right answer (1st → 1, 2nd →

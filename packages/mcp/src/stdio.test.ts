@@ -29,9 +29,11 @@ describe("ward MCP server over stdio", () => {
   it("lists the knowledge tools and the manifest analyzer, read-only", async () => {
     const { tools } = await client.listTools();
     expect(tools.map((t) => t.name).sort()).toEqual([
+      "build_config",
       "checklist",
       "get_check",
       "manifest",
+      "network",
       "search",
     ]);
     for (const tool of tools) {
@@ -50,6 +52,8 @@ describe("ward MCP server over stdio", () => {
     ["get_check", { id: "MASVS-NETWORK-1" }],
     ["search", { query: "cleartext traffic", k: 2 }],
     ["manifest", { projectRoot: exampleApp }],
+    ["network", { projectRoot: exampleApp }],
+    ["build_config", { projectRoot: exampleApp, variant: "release" }],
   ])("calls %s and gets structured JSON back", async (name, args) => {
     const result = await client.callTool({ name, arguments: args });
     expect(result.isError ?? false).toBe(false);
@@ -68,6 +72,8 @@ describe("ward MCP server over stdio", () => {
     ["manifest", { projectRoot: "fixtures/example-app" }],
     ["manifest", { projectRoot: exampleApp, variant: "release; rm -rf /" }],
     ["manifest", { projectRoot: "/no/such/ward/project" }],
+    ["network", { projectRoot: "relative/path" }],
+    ["build_config", { projectRoot: "/no/such/ward/project" }],
   ])(
     "returns a tool error, not a crash, for bad %s input",
     async (name, args) => {

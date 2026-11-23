@@ -155,9 +155,21 @@ describe("example app (source manifests)", () => {
     );
   });
 
-  it("debuggable is MANUAL without a merged manifest (isDebuggable lives in Gradle)", async () => {
+  it("EA-17: debuggable comes from the release build type without a merged manifest", async () => {
     const r = await analyzeManifest(root);
-    expect(verdict(r, "debuggable").verdict).toBe("MANUAL");
+    expect(verdict(r, "debuggable")).toMatchObject({
+      verdict: "FAIL",
+      evidence: [
+        {
+          file: "app/build.gradle.kts",
+          line: lineOf(root, "app/build.gradle.kts", "isDebuggable = true"),
+        },
+      ],
+    });
+    expect(r.facts.targetSdk).toMatchObject({
+      file: "app/build.gradle.kts",
+      value: "34",
+    });
     expect(r.facts.application.requestLegacyExternalStorage?.value).toBe(
       "true",
     );
@@ -332,28 +344,6 @@ describe("manifest rules", () => {
       verdict: "FAIL",
       evidence: [{ file: "app/src/main/AndroidManifest.xml", line: 5 }],
     });
-  });
-
-  it("cleartext: the flag, then targetSdk defaults", async () => {
-    const flag = await analyzeManifest(
-      one(
-        "",
-        "",
-        'android:allowBackup="false" android:usesCleartextTraffic="true"',
-      ),
-    );
-    expect(verdict(flag, "cleartext").verdict).toBe("FAIL");
-    const old = await analyzeManifest(
-      one('<uses-sdk android:targetSdkVersion="27" />', ""),
-    );
-    expect(verdict(old, "cleartext").verdict).toBe("FAIL");
-    const modern = await analyzeManifest(
-      one('<uses-sdk android:targetSdkVersion="28" />', ""),
-    );
-    expect(verdict(modern, "cleartext").verdict).toBe("NO FINDING");
-    expect(
-      verdict(await analyzeManifest(one("", "")), "cleartext").verdict,
-    ).toBe("MANUAL");
   });
 
   it("skips test source sets", async () => {

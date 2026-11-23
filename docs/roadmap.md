@@ -68,8 +68,8 @@ Scope from the council of 2026-11-23
       of 10, Sonnet only; result: Ward has room, docs/measurements.md)
 - [x] Local MCP server (stdio): checklist, get check, search (top-k plus
       matched terms, no cutoff)
-- [ ] Analyzers in plain code: merged manifest, network security config,
-      targetSdk (manifest done: plan 4 step 04)
+- [x] Analyzers in plain code: merged manifest, network security config,
+      targetSdk (plan 4 steps 04 and 05)
 - [ ] Dependency check, last and cuttable: fresh OSV data matched by
       Ward, data date on every verdict (ADR 0011)
 - [ ] Use Ward from Claude Code while building it (.mcp.json)

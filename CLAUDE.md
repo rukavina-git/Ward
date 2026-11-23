@@ -9,9 +9,10 @@ runtime. Static website. Portfolio project for rukavina.app
 ## Repo
 npm workspace, TypeScript, Node 26 (ADR 0002, tooling ADR 0008).
 - packages/core   index, lookup, BM25 search, checklist (data/index.json)
-- packages/analyzers  plain-code analyzers (manifest), no MCP code
+- packages/analyzers  plain-code analyzers (manifest, network, build
+                  config), no MCP code
 - packages/mcp    stdio MCP server: checklist, get_check, search,
-                  manifest.
+                  manifest, network, build_config.
                   Logs to stderr only: stdout is the protocol.
 - .mcp.json       starts packages/mcp/dist as server `ward`
 - plugin/         the Claude Code plugin (manifest only so far)

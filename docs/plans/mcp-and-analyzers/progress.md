@@ -4,7 +4,7 @@
 - [x] 02 Claude alone on the held-out set (gate) (6db3168)
 - [x] 03 MCP server: knowledge tools (b88ad60)
 - [x] 04 manifest analyzer (969a879)
-- [ ] 05 network security config and targetSdk analyzers
+- [x] 05 network security config and targetSdk analyzers (HASH)
 - [ ] 06 dependency check (OSV, last, cuttable)
 - [ ] 07 use Ward from Claude Code
 
@@ -60,6 +60,14 @@
   components (others counted). Any DOCTYPE is rejected outright. Server
   version 0.2.0. Dangerous-permission list read from the Android docs
   2026-11-23 (partly from a summarised fetch).
+
+- Step 05: also reads the release build type's isDebuggable from Gradle
+  (EA-17 now FAIL in source mode, was MANUAL). The manifest tool lost its
+  cleartext verdict; `network` owns it. Shared tool code moved to
+  packages/mcp/src/app-tool.ts; the notice now covers all analyzers.
+  manifest-tool.test.ts renamed analyzer-tools.test.ts. Server 0.3.0.
+  Play's rule (API 36 since 2026-08-31) checked on the live page
+  2026-11-23. targetSdk verdict cites MASWE-0042 (no MASTG test exists).
 
 ## Gotchas
 Carried over: see docs/plans/knowledge-base/progress.md (no "nothing
@@ -150,3 +158,26 @@ Step 04:
   usually unknown, so cleartext and implied-exported stay MANUAL.
 - The `cleartext` verdict defers to step 05 whenever a network security
   config is set.
+
+Step 05 (reviewer: no BLOCKER; SHOULDs not fixed, all false-NO-FINDING
+risks, fix early in plan 5 or before the eval):
+- isDebuggable read only as a literal true/false inside `release {}`;
+  a non-literal value, `getByName("release").isDebuggable = true`, or
+  `all {}` / `configureEach {}` gives NO FINDING. Should be MANUAL.
+- findXml ranks any non-debug source set (a flavor, `staging`) above
+  main: another flavor's strict NSC can give NO FINDING. Downgrade when
+  candidates from different sets disagree.
+- user-ca says NO FINDING for user CAs in debug-overrides without
+  checking the release build isn't debuggable (EA-17 style).
+- NITs: `repeated` SDK keys unused (a flavor's lower targetSdk is
+  missed); stripComments ignores strings (`"META-INF/*"` can blank
+  code); a manifest's <uses-sdk> wins over Gradle (AGP does the
+  opposite); pinning NO FINDING even if every pin-set is expired or
+  empty; expired + malformed dates drops the expired evidence; a
+  placeholder usesCleartextTraffic skips the minSdk<24 check.
+
+Step 05:
+- Each analyzer re-runs analyzeManifest unless given `{ manifest }`; the
+  tools call them separately (three walks per full check). Fine for now.
+- Step 07's agent needs `projectRoot` as an absolute path; the held-out
+  export folder works.
