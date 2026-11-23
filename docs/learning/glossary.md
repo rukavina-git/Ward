@@ -131,10 +131,19 @@ findings. Only the setup changes between arms.
 security check it's the worst kind of error, so Ward never says "PASS",
 only "NO FINDING", with the files it inspected.
 
+**Fix commit / parent commit.** On GitHub, the commit where a developer
+fixed a security problem, and the commit just before it. The parent still
+has the problem, so it's a real "broken app"; the fix is its clean twin.
+Ward's held-out set stores both hashes, never the code.
+
 **Fixture.** Fixed test input kept in the repo so every run starts from
 the same thing. Ward's fixtures are the two Penny Jar apps in
 `fixtures/`. Their answer key lives in `evals/`, so an agent given a
 fixture never sees the answers.
+
+**Freezing (an eval set).** Fixing a test set's contents and committing
+its hash before anything is run or built against it, so the git history
+proves the answers weren't changed to fit a result.
 
 **Front matter.** A block of YAML fields at the top of a markdown file,
 between `---` lines: ID, title, status, links. MASWE and MASTG files
@@ -390,6 +399,10 @@ the code. So the description works like a small prompt: it decides
 whether the model picks the tool. Claude Code first shows the model only
 MCP tool names and loads a full schema when needed, so the name matters
 too.
+
+**Training cutoff.** The date a model's training data ends. A fix made
+after it can't be in what the model learned, so it tests reasoning, not
+memory. Sonnet 5.5 and Opus 5.5: June 2026.
 
 **Trial.** One run of one setup on one input. Models are random, so the
 same setup can find 15 issues once and 18 the next time. Ward runs at

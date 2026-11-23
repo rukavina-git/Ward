@@ -9,6 +9,8 @@ export const repoRoot = resolve(
 );
 
 export const keyPath = join(repoRoot, "evals/answer-keys/example-app.json");
+export const heldOutKeyPath = join(repoRoot, "evals/answer-keys/held-out.json");
+export const heldOutBarPath = join(repoRoot, "evals/held-out-bar.md");
 export const taskPromptPath = join(repoRoot, "prompts/eval-task.md");
 export const findingsSchemaPath = join(
   repoRoot,

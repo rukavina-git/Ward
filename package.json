@@ -26,7 +26,8 @@
     "ingest": "npm run -s build -w @ward/core -w @ward/ingest && node packages/ingest/dist/cli.js",
     "embed": "npm run -s build -w @ward/core -w @ward/ingest && node packages/ingest/dist/embed-cli.js",
     "eval:tune-hybrid": "npm run -s build -w @ward/core -w @ward/ingest -w @ward/evals && node evals/dist/tune-hybrid-cli.js",
-    "eval:compare": "npm run -s build -w @ward/evals && node evals/dist/compare-cli.js"
+    "eval:compare": "npm run -s build -w @ward/evals && node evals/dist/compare-cli.js",
+    "heldout:check": "npm run -s build -w @ward/core -w @ward/evals && node evals/dist/held-out-check-cli.js"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

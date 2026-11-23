@@ -1,0 +1,343 @@
+{
+  "name": "held-out",
+  "keyVersion": 1,
+  "created": "2026-11-23",
+  "frozen": "2026-11-23",
+  "batch": 1,
+  "sources": [
+    {
+      "name": "OWASP MASVS",
+      "version": "v2.1.0",
+      "url": "https://github.com/OWASP/masvs/releases/tag/v2.1.0",
+      "licence": "CC-BY-SA-4.0"
+    },
+    {
+      "name": "OWASP MASWE",
+      "version": "v1.0.0",
+      "url": "https://github.com/OWASP/maswe/releases/tag/v1.0.0",
+      "licence": "CC-BY-SA-4.0"
+    },
+    {
+      "name": "OWASP MASTG",
+      "version": "v2.0.0",
+      "url": "https://github.com/OWASP/mastg/releases/tag/v2.0.0",
+      "licence": "CC-BY-SA-4.0"
+    }
+  ],
+  "models": [
+    {
+      "id": "claude-sonnet-5-5",
+      "trainingCutoff": "2026-06",
+      "checked": "https://platform.claude.com/docs/en/about-claude/models/overview"
+    },
+    {
+      "id": "claude-opus-5-5",
+      "trainingCutoff": "2026-06",
+      "checked": "https://platform.claude.com/docs/en/about-claude/models/overview"
+    }
+  ],
+  "notes": [
+    "Batch 1 (pilot), labelled by the agent (Claude Opus 5.5 in Claude Code) on 2026-11-23, before any Ward check, analyzer or MCP tool existed. Karlo reviews the bar and spot-checks cases before step 02.",
+    "Candidates came from repository security advisories of Android apps and from GitHub commit and PR search (keywords: security, CVE, GHSA, vulnerability, exported, cleartext, traversal, allowBackup, setWebContentsDebuggingEnabled), committed after 2026-06-30. Each case links where it was found.",
+    "Every fix is newer than both models' training cutoff (June 2026), so neither model can have seen it.",
+    "The flawed version is the parent commit; the fix commit is that case's clean twin. Line numbers refer to the parent commit. No code from the repos is stored: only URLs, hashes, paths, lines, short anchors and our own words.",
+    "Rejected while labelling: thunderbird-android 016baf0421 ('OkHttp patch for CVE-2026-11943'): that CVE is an unrelated web app and OSV lists no advisory for OkHttp 5.5.0. frostwire 256db2b14e (netty-all 4.2.19 bump): its own message says the fixed advisories are unconfirmed, and OSV lists none for 4.2.19.",
+    "Batch 2 candidates (not labelled): signalapp/Signal-Android b60f53f4df (zip-slip via dot-only chat names), duckduckgo/Android 6eff8db71b (JS bridge origin taken from a pending navigation), element-hq/element-x-android GHSA-r4f9-46vw-v7g3 (crash via malformed OIDC intent).",
+    "HO-07 has no exact MASWE weakness (credentials sent to a look-alike host); MASWE-0050 is the closest. Scoring accepts the MASVS control.",
+    "Dependency checks: HO-04's advisories were confirmed with an OSV query for com.fasterxml.jackson.core:jackson-core 2.20.1 on 2026-11-23."
+  ],
+  "cases": [
+    {
+      "id": "HO-01",
+      "repo": "https://github.com/home-assistant/android",
+      "parent": "eaa2122730ace117bbe7181361b2a86f12be9aac",
+      "fix": "30a56b9b311f299e1556ccc610baa0fa9083996f",
+      "fixDate": "2026-10-08",
+      "found": "GitHub commit search, 'exported' after 2026-06-30: https://github.com/home-assistant/android/commit/30a56b9b311f299e1556ccc610baa0fa9083996f",
+      "title": "Widget authentication activity exported to other apps",
+      "kind": "config",
+      "severity": "medium",
+      "masvs": ["MASVS-PLATFORM-1"],
+      "maswe": ["MASWE-0018"],
+      "mastg": ["MASTG-TEST-0364"],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "lines": [282, 286],
+          "anchor": ".widgets.common.WidgetAuthenticationActivity"
+        },
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "lines": [198, 202],
+          "anchor": ".widgets.common.WidgetAuthenticationActivity"
+        }
+      ],
+      "fixSummary": "Set the activity to exported=false in both manifests; only the app's own widgets start it.",
+      "decoys": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "lines": [287, 293],
+          "anchor": ".widgets.camera.CameraWidgetConfigureActivity",
+          "why": "CameraWidgetConfigureActivity is exported with an APPWIDGET_CONFIGURE filter, which the launcher needs to configure a widget."
+        }
+      ],
+      "afterCutoff": { "claude-sonnet-5-5": true, "claude-opus-5-5": true }
+    },
+    {
+      "id": "HO-02",
+      "repo": "https://github.com/tasks/tasks",
+      "parent": "88fd53cd79ce038054a6dca5535e003ae4b74e9c",
+      "fix": "79b084e644999a9fd920cec245391d4a73430efd",
+      "fixDate": "2026-10-15",
+      "found": "GitHub commit search, 'exported' after 2026-06-30: https://github.com/tasks/tasks/commit/79b084e644999a9fd920cec245391d4a73430efd",
+      "title": "Certificate trust dialog exported from a library module",
+      "kind": "config",
+      "difficulty": "merged-manifest",
+      "severity": "medium",
+      "masvs": ["MASVS-PLATFORM-1"],
+      "maswe": ["MASWE-0018"],
+      "mastg": ["MASTG-TEST-0364"],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "cert4android/src/androidMain/AndroidManifest.xml",
+          "lines": [8, 13],
+          "anchor": ".TrustCertificateActivity"
+        }
+      ],
+      "fixSummary": "Set TrustCertificateActivity to exported=false in the cert4android module's manifest, which is merged into the app.",
+      "decoys": [],
+      "afterCutoff": { "claude-sonnet-5-5": true, "claude-opus-5-5": true }
+    },
+    {
+      "id": "HO-03",
+      "repo": "https://github.com/ProtonVPN/android-app",
+      "parent": "1c1f78653c30ad6c7e98e1119313e3ee4b908b70",
+      "fix": "55970e0b8e90907d2e2d515a97111d1f883f5ce9",
+      "fixDate": "2026-07-16",
+      "found": "GitHub commit search, 'exported' after 2026-06-30: https://github.com/ProtonVPN/android-app/commit/55970e0b8e90907d2e2d515a97111d1f883f5ce9",
+      "title": "Exported main activity runs widget connect actions sent by any app",
+      "kind": "absence",
+      "severity": "medium",
+      "masvs": ["MASVS-PLATFORM-1"],
+      "maswe": ["MASWE-0032", "MASWE-0018"],
+      "mastg": ["MASTG-TEST-0364"],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/src/main/java/com/protonvpn/android/redesign/app/ui/MainActivity.kt",
+          "lines": [322, 330],
+          "anchor": "intent.data?.scheme == GLANCE_ACTION_SCHEME"
+        }
+      ],
+      "fixSummary": "Widget actions now go to a non-exported activity alias, and MainActivity only handles them when the intent targets that alias.",
+      "decoys": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "lines": [86, 95],
+          "anchor": ".tv.main.TvMainActivity",
+          "why": "TvMainActivity is exported for the TV launcher (LEANBACK_LAUNCHER), which an entry activity must be."
+        }
+      ],
+      "afterCutoff": { "claude-sonnet-5-5": true, "claude-opus-5-5": true }
+    },
+    {
+      "id": "HO-04",
+      "repo": "https://github.com/nextcloud/talk-android",
+      "parent": "487f5b6c7b36377f0b4b8c8fad142dd982e574af",
+      "fix": "baf4f189901f8e0b4c3e03ea15e8fbff4772fb6c",
+      "fixDate": "2026-10-27",
+      "found": "GitHub commit search, 'security OR CVE OR GHSA' after 2026-06-30: https://github.com/nextcloud/talk-android/commit/baf4f189901f8e0b4c3e03ea15e8fbff4772fb6c",
+      "title": "jackson-core 2.20.1 with known advisories",
+      "kind": "dependency",
+      "severity": "medium",
+      "masvs": ["MASVS-CODE-3"],
+      "maswe": ["MASWE-0044"],
+      "mastg": ["MASTG-TEST-0272"],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/build.gradle.kts",
+          "lines": [254, 254],
+          "anchor": "com.fasterxml.jackson.core:jackson-core:2.20.1"
+        }
+      ],
+      "fixSummary": "Raised jackson-core to 2.22.4, past four GitHub advisories (e.g. GHSA-72hv-8253-57qq).",
+      "decoys": [],
+      "afterCutoff": { "claude-sonnet-5-5": true, "claude-opus-5-5": true }
+    },
+    {
+      "id": "HO-05",
+      "repo": "https://github.com/tasks/tasks",
+      "parent": "59633967495f801bbcb8133cfefd08ac9c022dd1",
+      "fix": "ed52e581df53eb1b12f5718823adfbed2fad1516",
+      "fixDate": "2026-09-27",
+      "found": "GitHub commit search, 'traversal' after 2026-06-30: https://github.com/tasks/tasks/commit/ed52e581df53eb1b12f5718823adfbed2fad1516",
+      "title": "Path traversal in the CalDAV task cache",
+      "kind": "code",
+      "severity": "medium",
+      "masvs": ["MASVS-CODE-4"],
+      "maswe": ["MASWE-0050"],
+      "mastg": [],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "kmp/src/commonMain/kotlin/org/tasks/caldav/FileStorage.kt",
+          "lines": [16, 21],
+          "anchor": "segments.fold(root)"
+        },
+        {
+          "file": "kmp/src/commonMain/kotlin/org/tasks/caldav/VtodoCache.kt",
+          "lines": [35, 44],
+          "anchor": "directory / `object`"
+        }
+      ],
+      "fixSummary": "Cache paths are built from server-supplied names; the fix normalises the path and rejects any that leave the cache root.",
+      "decoys": [],
+      "afterCutoff": { "claude-sonnet-5-5": true, "claude-opus-5-5": true }
+    },
+    {
+      "id": "HO-06",
+      "repo": "https://github.com/beemdevelopment/Aegis",
+      "parent": "a9d45b3ade1eda43ea796c7d7546e0147275ba7c",
+      "fix": "f4e599e19c3db8110957ab07783117696a08f94f",
+      "fixDate": "2026-08-25",
+      "found": "Repository security advisory GHSA-fw8c-jmjv-q6xf, fix PR https://github.com/beemdevelopment/Aegis/pull/1830",
+      "title": "Icon pack import can write outside its directory (zip path traversal)",
+      "kind": "code",
+      "severity": "high",
+      "masvs": ["MASVS-CODE-4"],
+      "maswe": ["MASWE-0050"],
+      "mastg": [],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/src/main/java/com/beemdevelopment/aegis/icons/IconPackManager.java",
+          "lines": [96, 98],
+          "anchor": "new File(packDir, icon.getRelativeFilename())"
+        }
+      ],
+      "fixSummary": "Checks that each extracted icon's canonical path stays inside the icon pack directory, so a crafted pack can't overwrite the vault.",
+      "decoys": [],
+      "afterCutoff": { "claude-sonnet-5-5": true, "claude-opus-5-5": true }
+    },
+    {
+      "id": "HO-07",
+      "repo": "https://github.com/nextcloud/talk-android",
+      "parent": "7adca75dc797156f0c3aa48b5db0e33108c0a16e",
+      "fix": "848ecda09e19318f65d933b290bb049ce5769148",
+      "fixDate": "2026-10-01",
+      "found": "GitHub commit search, 'security' after 2026-06-30: https://github.com/nextcloud/talk-android/commit/848ecda09e19318f65d933b290bb049ce5769148",
+      "title": "Account credentials sent to look-alike hosts (URL prefix check)",
+      "kind": "code",
+      "severity": "high",
+      "masvs": ["MASVS-AUTH-1", "MASVS-CODE-4"],
+      "maswe": ["MASWE-0050"],
+      "mastg": [],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/extensions/ImageViewExtensions.kt",
+          "lines": [233, 233]
+        },
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/extensions/ImageViewExtensions.kt",
+          "lines": [259, 259]
+        },
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/ui/chat/LinkMessage.kt",
+          "lines": [156, 156],
+          "anchor": "it.startsWith(baseUrl)"
+        },
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/utils/RemoteWipeInterceptor.kt",
+          "lines": [102, 102],
+          "anchor": "requestUrl.startsWith(it)"
+        }
+      ],
+      "fixSummary": "Compares scheme, host, port and path instead of a string prefix, so https://cloud.example.com.attacker.test no longer gets the account's credentials.",
+      "decoys": [],
+      "afterCutoff": { "claude-sonnet-5-5": true, "claude-opus-5-5": true }
+    },
+    {
+      "id": "HO-08",
+      "repo": "https://github.com/signalapp/Signal-Android",
+      "parent": "5a2c40c14b21da7e1f24ad8c7e36a22b2cb58d0c",
+      "fix": "5dd9386e129a04338e189014c18aeaacc78400b8",
+      "fixDate": "2026-08-04",
+      "found": "GitHub commit search, 'export' after 2026-06-30: https://github.com/signalapp/Signal-Android/commit/5dd9386e129a04338e189014c18aeaacc78400b8",
+      "title": "Backup and plaintext export folders lack .nomedia, so media scanners index them",
+      "kind": "absence",
+      "severity": "medium",
+      "masvs": ["MASVS-STORAGE-2"],
+      "maswe": ["MASWE-0002"],
+      "mastg": ["MASTG-TEST-0200"],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/jobs/LocalPlaintextArchiveJob.kt",
+          "lines": [100, 106],
+          "anchor": "createDirectory"
+        },
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/backup/v2/local/ArchiveFileSystem.kt",
+          "lines": [218, 220]
+        }
+      ],
+      "fixSummary": "Writes a .nomedia file into the backup and plaintext export directories so Android's MediaProvider doesn't expose their media to other apps.",
+      "decoys": [],
+      "afterCutoff": { "claude-sonnet-5-5": true, "claude-opus-5-5": true }
+    },
+    {
+      "id": "HO-09",
+      "repo": "https://github.com/JMAN730/opendroid",
+      "parent": "113cce920d810bc9362b022d9dbbae9463e89f48",
+      "fix": "b83315ca59ead3de38e2661aaa3faf6f5dc9227e",
+      "fixDate": "2026-11-02",
+      "found": "GitHub commit search, 'allowBackup' after 2026-06-30: https://github.com/JMAN730/opendroid/commit/b83315ca59ead3de38e2661aaa3faf6f5dc9227e",
+      "title": "Backup enabled; app files (documents, photos, models) not excluded",
+      "kind": "config",
+      "severity": "medium",
+      "masvs": ["MASVS-STORAGE-2"],
+      "maswe": ["MASWE-0006"],
+      "mastg": ["MASTG-TEST-0262"],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "lines": [65, 65],
+          "anchor": "android:allowBackup=\"true\""
+        }
+      ],
+      "fixSummary": "Sets allowBackup=false and also excludes the file and external domains from device transfer.",
+      "decoys": [],
+      "afterCutoff": { "claude-sonnet-5-5": true, "claude-opus-5-5": true }
+    },
+    {
+      "id": "HO-10",
+      "repo": "https://github.com/itkach/aard2-android",
+      "parent": "4df3a091c2ae64e81a9bd6989f627f2d1d402bc1",
+      "fix": "25c5d23ca6eb69ed07e70eb34364ddc12e9e86f7",
+      "fixDate": "2026-10-01",
+      "found": "GitHub commit search, 'setWebContentsDebuggingEnabled' after 2026-06-30: https://github.com/itkach/aard2-android/commit/25c5d23ca6eb69ed07e70eb34364ddc12e9e86f7",
+      "title": "WebView contents debugging enabled in release builds",
+      "kind": "config",
+      "severity": "medium",
+      "masvs": ["MASVS-PLATFORM-2", "MASVS-RESILIENCE-4"],
+      "maswe": ["MASWE-0063"],
+      "mastg": ["MASTG-TEST-0227"],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "src/itkach/aard2/ArticleWebView.java",
+          "lines": [133, 136],
+          "anchor": "setWebContentsDebuggingEnabled(true)"
+        }
+      ],
+      "fixSummary": "Removes the unconditional call; WebView already enables debugging for debuggable builds only.",
+      "decoys": [],
+      "afterCutoff": { "claude-sonnet-5-5": true, "claude-opus-5-5": true }
+    }
+  ]
+}
