@@ -14,6 +14,14 @@ export interface Setup {
   plugin?: { name: string; source: PluginSource };
   /** An MCP server this arm adds: the only one, and all its tools allowed. */
   mcp?: McpServer;
+  /** Built-in tools added to the common ones (run.ts TOOLS). */
+  extraTools?: string[];
+  /**
+   * The task. Default: the shared eval prompt with the findings schema.
+   * `command`: a slash command whose report Ward's code writes in the
+   * copy; the runner converts that report to findings.
+   */
+  task?: { kind: "command"; prompt: string };
 }
 
 /** A stdio MCP server built in this repo. */
@@ -62,6 +70,30 @@ export const setups: Record<string, Setup> = {
         "dependencies",
       ],
     },
+  },
+  "ward-check": {
+    description:
+      "Claude Code + Ward's plugin (skill /ward:check) and MCP server, plus Write for .ward/ only. Prompt /ward:check; Ward's report is turned into findings in code.",
+    flags: [],
+    extraTools: ["Write"],
+    plugin: { name: "ward", source: { kind: "local", path: "plugin" } },
+    mcp: {
+      name: "ward",
+      entry: "packages/mcp/dist/index.js",
+      tools: [
+        "checklist",
+        "get_check",
+        "search",
+        "manifest",
+        "network",
+        "build_config",
+        "dependencies",
+        "report_skeleton",
+        "check_report",
+        "write_report",
+      ],
+    },
+    task: { kind: "command", prompt: "/ward:check\n" },
   },
   owasp: {
     description:

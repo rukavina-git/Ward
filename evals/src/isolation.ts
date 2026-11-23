@@ -1,4 +1,4 @@
-import { isAbsolute, relative, resolve } from "node:path";
+import { basename, dirname, isAbsolute, relative, resolve } from "node:path";
 
 type Json = Record<string, unknown>;
 
@@ -80,11 +80,12 @@ function globBase(pattern: string): string {
   return (i === -1 ? parts : parts.slice(0, i)).join("/") || ".";
 }
 
-/** The paths a Read, Grep or Glob call touches, as written by the agent. */
+/** The paths a Read, Grep, Glob or Write call touches, as written by the agent. */
 function touchedPaths(call: ToolCall): string[] {
   const s = (v: unknown) => (typeof v === "string" && v !== "" ? [v] : []);
   switch (call.name) {
     case "Read":
+    case "Write":
       return s(call.input.file_path);
     case "Grep":
       return s(call.input.path);
@@ -188,6 +189,15 @@ export function checkIsolation(
     }
     for (const p of touchedPaths(call)) {
       const abs = resolve(expect.cwd, p);
+      // The only file an arm may write is Ward's form, <project>/.ward/fills.json.
+      // Never the report: Ward's code writes that one.
+      if (
+        call.name === "Write" &&
+        (basename(abs) !== "fills.json" || basename(dirname(abs)) !== ".ward")
+      ) {
+        failures.push(`Write other than .ward/fills.json: ${p}`);
+        continue;
+      }
       if (expect.roots.some((r) => inside(abs, r))) continue;
       if (call.isError === true) outsideBlocked++;
       else failures.push(`${call.name} outside the copy: ${p}`);

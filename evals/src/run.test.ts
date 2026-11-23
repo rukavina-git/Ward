@@ -68,7 +68,7 @@ describe("buildArgs", () => {
 
   it("differs between arms only in the plugin folder or MCP server", () => {
     for (const [name, setup] of Object.entries(setups)) {
-      if (setup.mcp !== undefined) continue;
+      if (setup.mcp !== undefined || setup.task !== undefined) continue;
       const pluginDir = setup.plugin ? "/tmp/x/plugins/p" : undefined;
       const armArgs = buildArgs(setup, {
         model: "some-model",
@@ -114,11 +114,45 @@ describe("buildArgs", () => {
     ).toThrow();
   });
 
+  it("gives ward-check the plugin, the server, Write and a command, no schema", () => {
+    const wc = setups["ward-check"];
+    if (wc?.mcp === undefined || wc.task === undefined)
+      throw new Error("setup 'ward-check' is missing");
+    const config = mcpConfig(wc.mcp, "/repo");
+    const wcArgs = buildArgs(wc, {
+      model: "some-model",
+      pluginDir: "/tmp/x/plugins/ward",
+      mcpConfig: config,
+    });
+    expect(after(wcArgs, "--tools")).toBe("Read,Grep,Glob,Skill,Write");
+    expect(after(wcArgs, "--allowedTools")?.split(",")).toEqual([
+      "Read",
+      "Grep",
+      "Glob",
+      "Skill",
+      "Write",
+      ...wc.mcp.tools.map((t) => `mcp__ward__${t}`),
+    ]);
+    expect(wcArgs).not.toContain("--json-schema");
+    expect(after(wcArgs, "--plugin-dir")).toBe("/tmp/x/plugins/ward");
+    expect(wcArgs).toEqual(
+      expect.arrayContaining(["--restricted", "--strict-mcp-config"]),
+    );
+    expect(wc.task.prompt.trim()).toBe("/ward:check");
+    expect(wc.plugin?.source).toEqual({ kind: "local", path: "plugin" });
+    // A command task gets no schema; every other arm must have one.
+    expect(() =>
+      buildArgs(wc, { model: "m", schema: "{}", mcpConfig: config }),
+    ).toThrow();
+    expect(() => buildArgs(alone, { model: "m" })).toThrow();
+  });
+
   it("has the baseline arms plus ward, each plugin pinned", () => {
     expect(Object.keys(setups)).toEqual([
       "alone",
       "checklist",
       "ward",
+      "ward-check",
       "owasp",
     ]);
     const owasp = setups.owasp?.plugin?.source;

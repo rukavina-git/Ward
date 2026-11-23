@@ -54,12 +54,18 @@ export function mcpConfig(
   });
 }
 
+/** The built-in tools an arm gets: the common ones plus its extras. */
+export function armTools(setup: Setup): string[] {
+  return [...TOOLS, ...(setup.extraTools ?? [])];
+}
+
 /** Arguments for `claude`. The prompt goes in on stdin. Never --bare (ADR 0007). */
 export function buildArgs(
   setup: Setup,
   opts: {
     model: string;
-    schema: string;
+    /** The findings schema; left out for a command task (no structured output). */
+    schema?: string | undefined;
     pluginDir?: string | undefined;
     /** From mcpConfig(); required when the arm has an MCP server. */
     mcpConfig?: string | undefined;
@@ -75,21 +81,25 @@ export function buildArgs(
     );
   const mcp =
     opts.mcpConfig === undefined ? [] : ["--mcp-config", opts.mcpConfig];
+  if ((setup.task === undefined) !== (opts.schema !== undefined))
+    throw new Error("schema must be given exactly when the arm has no task");
+  const tools = armTools(setup);
   const allowed = [
-    ...TOOLS,
+    ...tools,
     ...(setup.mcp === undefined ? [] : mcpToolNames(setup.mcp)),
   ];
+  const schema =
+    opts.schema === undefined ? [] : ["--json-schema", opts.schema];
   return [
     "-p",
     "--output-format",
     "stream-json",
     "--verbose",
-    "--json-schema",
-    opts.schema,
+    ...schema,
     "--model",
     opts.model,
     "--tools",
-    TOOLS.join(","),
+    tools.join(","),
     "--allowedTools",
     allowed.join(","),
     "--disallowedTools",

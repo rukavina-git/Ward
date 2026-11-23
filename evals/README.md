@@ -94,6 +94,14 @@ prompt, model and isolation, and differ only in their plugin:
   tag v0.2.11 (CC BY 4.0), cloned into the gitignored `evals/.cache/`
   and refused if the tag no longer points at the pinned commit.
 
+- `ward`: Ward's MCP server, no skill (held-out only).
+- `ward-check`: the repo's `plugin/` (skill `/ward:check`) and Ward's
+  MCP server, plus Write limited to `.ward/`. Prompt `/ward:check`, no
+  schema: the runner copies `.ward/report.json` and `fills.json` out and
+  turns the report into `findings.json` in code
+  (`src/report-findings.ts`). What it is compared with:
+  `held-out-ward-check.md`.
+
 The plugin is copied into the temp folder beside `penny-jar`, never into
 it, and passed with `--plugin-dir` and `--add-dir`. Isolation, the same
 for every arm: `--setting-sources ""` (no user, project or local

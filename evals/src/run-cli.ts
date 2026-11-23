@@ -1,10 +1,11 @@
 // npm run eval:run -- --app planted|clean --setup <arm> --model <id> --trial <n> [--smoke]
-// npm run eval:run -- --heldout HO-NN --setup alone|ward --model <id> --trial <n> [--smoke]
+// npm run eval:run -- --heldout HO-NN --setup alone|ward|ward-check --model <id> --trial <n> [--smoke]
 //   Held-out: the case's parent commit, exported from the clone that
 //   `npm run heldout:check` made. Files only: the history holds the fix.
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import {
+  copyFileSync,
   existsSync,
   mkdirSync,
   readFileSync,
@@ -18,6 +19,12 @@ import { readSchemaText, validateFindings } from "./findings.js";
 import { checkIsolation, mcpCalls, toolCalls } from "./isolation.js";
 import { fileSha256, loadHeldOut, repoSlug } from "./held-out.js";
 import { loadKey, type AppKind } from "./key.js";
+import { reportSchema } from "@ward/report";
+import {
+  findReport,
+  projectPrefix,
+  reportToFindings,
+} from "./report-findings.js";
 import {
   cacheRoot,
   heldOutBarPath,
@@ -41,12 +48,12 @@ import {
   mcpConfig,
   fixtureState,
   parseStream,
+  armTools,
   pluginSourceDir,
   redact,
   runClaude,
   summarizeInit,
   summarizeResult,
-  TOOLS,
 } from "./run.js";
 import { mcpToolNames, setups } from "./setups.js";
 
@@ -100,8 +107,8 @@ let target: {
   copy: () => { dir: string; parent: string };
 };
 if (heldOutId !== undefined) {
-  if (setupName !== "alone" && setupName !== "ward")
-    fail("held-out runs use --setup alone or ward");
+  if (!["alone", "ward", "ward-check"].includes(setupName))
+    fail("held-out runs use --setup alone, ward or ward-check");
   const key = loadHeldOut(heldOutKeyPath);
   const c =
     key.cases.find((x) => x.id === heldOutId) ??
@@ -162,7 +169,7 @@ for (let attempt = 2; existsSync(join(target.resultsRoot, name)); attempt++) {
 const outDir = join(target.resultsRoot, name);
 mkdirSync(outDir, { recursive: true });
 
-const prompt = readFileSync(taskPromptPath, "utf8");
+const prompt = setup.task?.prompt ?? readFileSync(taskPromptPath, "utf8");
 const schemaText = readSchemaText();
 const sha256 = (s: string) => createHash("sha256").update(s).digest("hex");
 const schemaArg = JSON.stringify(JSON.parse(schemaText));
@@ -188,7 +195,7 @@ try {
       : copyPlugin(pluginSource.dir, copy.parent, setup.plugin.name);
   const args = buildArgs(setup, {
     model,
-    schema: schemaArg,
+    schema: setup.task === undefined ? schemaArg : undefined,
     pluginDir,
     mcpConfig: mcpArg,
   });
@@ -212,8 +219,8 @@ try {
       ? null
       : checkIsolation(stream.init, calls, {
           tools: [
-            ...TOOLS,
-            "StructuredOutput",
+            ...armTools(setup),
+            ...(setup.task === undefined ? ["StructuredOutput"] : []),
             ...(setup.mcp === undefined ? [] : mcpToolNames(setup.mcp)),
           ],
           plugin: setup.plugin?.name,
@@ -232,10 +239,51 @@ try {
     failures.push(`result is an error: ${String(stream.result.subtype)}`);
   if (isolation !== null)
     failures.push(...isolation.failures.map((f) => `isolation: ${f}`));
-  const output = stream.result?.structured_output;
+  // A command arm's output is the report Ward's code wrote in the copy.
+  let reportInfo: Record<string, unknown> | null = null;
+  let output: unknown = stream.result?.structured_output;
+  if (setup.task !== undefined) {
+    output = undefined;
+    const reportPath = findReport(copy.dir);
+    // Only a report Ward's write_report wrote counts.
+    if (
+      !(wardCalls ?? []).some(
+        (c) => c.tool === "write_report" && c.isError === false,
+      )
+    )
+      failures.push("no successful write_report call");
+    if (reportPath === null) {
+      failures.push("no single .ward/report.json in the copy");
+    } else {
+      copyFileSync(reportPath, join(outDir, "report.json"));
+      const fillsPath = join(dirname(reportPath), "fills.json");
+      if (existsSync(fillsPath))
+        copyFileSync(fillsPath, join(outDir, "fills.json"));
+      let raw: unknown = null;
+      try {
+        raw = JSON.parse(readFileSync(reportPath, "utf8"));
+      } catch {
+        // Left null: the schema check below fails it.
+      }
+      const parsed = reportSchema.safeParse(raw);
+      if (!parsed.success) {
+        failures.push("report.json doesn't match Ward's report schema");
+      } else {
+        const prefix = projectPrefix(copy.dir, reportPath);
+        const converted = reportToFindings(parsed.data, prefix);
+        output = converted.findings;
+        reportInfo = {
+          projectPrefix: prefix,
+          counts: parsed.data.counts,
+          pending: parsed.data.gaps.pending.length,
+          skippedNoEvidence: converted.skippedNoEvidence,
+        };
+      }
+    }
+  }
   let findingsCount: number | null = null;
   if (output === undefined) {
-    failures.push("no structured output");
+    if (setup.task === undefined) failures.push("no structured output");
   } else {
     // Stored exactly as returned. It's data: validated here, never executed.
     writeFileSync(
@@ -284,6 +332,7 @@ try {
     flags: args.map((a) =>
       a === schemaArg ? "<prompts/eval-findings.schema.json>" : a,
     ),
+    report: reportInfo,
     status: failures.length === 0 ? "ok" : "failed",
     failures,
     exitCode: run.exitCode,

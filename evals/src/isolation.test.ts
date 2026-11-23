@@ -219,6 +219,27 @@ describe("checkIsolation", () => {
       "mcp__ward__manifest outside the copy: /Users/someone/ward",
     ]);
   });
+
+  it("lets Write reach only .ward/fills.json inside the copy", () => {
+    const withWrite = { ...expectChecklist, tools: [...tools, "Write"] };
+    const report = checkIsolation(
+      goodInit,
+      [
+        call("Write", { file_path: "/tmp/x/penny-jar/.ward/fills.json" }),
+        call("Write", { file_path: "sub/.ward/fills.json" }),
+        call("Write", { file_path: "/tmp/x/penny-jar/app/build.gradle.kts" }),
+        call("Write", { file_path: "/tmp/x/penny-jar/.ward/report.json" }),
+        call("Write", { file_path: "/tmp/elsewhere/.ward/fills.json" }),
+      ],
+      withWrite,
+    );
+    expect(report.failures).toEqual([
+      "tools are Glob,Grep,Read,Skill,StructuredOutput, not Glob,Grep,Read,Skill,StructuredOutput,Write",
+      "Write other than .ward/fills.json: /tmp/x/penny-jar/app/build.gradle.kts",
+      "Write other than .ward/fills.json: /tmp/x/penny-jar/.ward/report.json",
+      "Write outside the copy: /tmp/elsewhere/.ward/fills.json",
+    ]);
+  });
 });
 
 describe("mcpCalls", () => {
