@@ -1,7 +1,7 @@
 # Plan 4 progress
 
 - [x] 01 held-out set and bar, batch 1 (f4c8c92)
-- [x] 02 Claude alone on the held-out set (gate) (HASH)
+- [x] 02 Claude alone on the held-out set (gate) (6db3168)
 - [ ] 03 MCP server: knowledge tools
 - [ ] 04 manifest analyzer
 - [ ] 05 network security config and targetSdk analyzers
