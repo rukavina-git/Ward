@@ -7,7 +7,7 @@ import { manifestTool } from "./manifest-tool.js";
 import { networkTool } from "./network-tool.js";
 import { searchTool } from "./search-tool.js";
 
-export const serverInfo = { name: "ward", version: "0.4.0" };
+export const serverInfo = { name: "ward", version: "0.5.0" };
 
 /**
  * Builds the Ward MCP server with its tools registered. No I/O here: the

@@ -78,7 +78,7 @@ Scope from the council of 2026-11-23
 Learn: agent workflows, skills, structured output.
 Scope from the council of 2026-11-23
 (docs/council/2026-11-23-plan5-scope.md, ADR 0012).
-- [ ] Hardening: MASWE IDs on every verdict, tool output cap, false
+- [x] Hardening: MASWE IDs on every verdict, tool output cap, false
       NO FINDING risks give MANUAL
 - [ ] Report JSON schema (per control, tests nested, strict rollup) and
       a `report_skeleton` tool

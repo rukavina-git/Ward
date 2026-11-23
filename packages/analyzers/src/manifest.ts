@@ -746,19 +746,31 @@ function judgeSourceDebuggable(
     return;
   }
   const copied = types.find((t) => t.initWith);
+  const odd = types.find((t) => t.debuggableUnresolved);
   const unsure =
     ctx.gradle.modules.length === 0
       ? "Ward found no build file for the app module."
-      : copied?.initWith
-        ? `The ${copied.name} build type copies another with initWith (${copied.initWith.file}:${String(copied.initWith.line)}); Ward doesn't follow it.`
-        : ctx.gradle.conventionPlugins.length > 0
-          ? `Convention plugins (${ctx.gradle.conventionPlugins.join(", ")}) may set isDebuggable; Ward doesn't read them.`
-          : undefined;
+      : odd?.debuggableUnresolved
+        ? `isDebuggable for the ${odd.name} build type is set in a way Ward can't read (${odd.debuggableUnresolved.file}:${String(odd.debuggableUnresolved.line)}: not a literal, or set from outside the build type's block).`
+        : copied?.initWith
+          ? `The ${copied.name} build type copies another with initWith (${copied.initWith.file}:${String(copied.initWith.line)}); Ward doesn't follow it.`
+          : ctx.gradle.conventionPlugins.length > 0
+            ? `Convention plugins (${ctx.gradle.conventionPlugins.join(", ")}) may set isDebuggable; Ward doesn't read them.`
+            : undefined;
   if (unsure) {
     v(
       "debuggable",
       "MANUAL",
       `${unsure} Build the variant and rerun, or check by hand.`,
+      odd?.debuggableUnresolved
+        ? [
+            {
+              file: odd.debuggableUnresolved.file,
+              line: odd.debuggableUnresolved.line,
+              detail: `isDebuggable: ${odd.debuggableUnresolved.raw}`,
+            },
+          ]
+        : [],
     );
     return;
   }

@@ -9,6 +9,21 @@ and results that look bad for Ward.
 "$" is the API-equivalent Claude Code reports. Runs are on Karlo's Pro
 plan, not billed (ADR 0007).
 
+## 2026-11-23 MCP tool output sizes (plan 5, step 01)
+
+- **Question:** does every Ward tool answer fit Claude Code's MCP output
+  limit (about 25k tokens) with room to spare?
+- **Setup:** each tool on the example app and its clean twin (no build/,
+  OSV offline with an empty cache); tokens estimated as JSON chars / 4.
+- **Numbers:** manifest 2,602 / 2,170; network 617 / 624; build_config
+  453 / 425; dependencies 1,231 / 1,231 (example / clean); checklist
+  12,119. The cap test allows 20,000. Plan 4's HO-04 `dependencies`
+  answer was about 11k tokens before trimming (not re-measured: held-out
+  repos aren't used for tuning).
+- **What it means:** every tool is well under the cap on the fixtures;
+  checklist is the largest. Real apps with many modules will be bigger.
+- **Raw data:** `packages/mcp/src/analyzer-tools.test.ts` (output cap).
+
 ## 2026-11-23 First run with Ward's MCP tools, HO-04 (plan 4, step 07)
 
 - **Question:** given Ward's MCP tools, does Claude Code use them, and

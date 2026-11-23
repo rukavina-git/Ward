@@ -151,8 +151,44 @@ export async function analyzeNetwork(
     sdk(m.facts.minSdk),
     today,
     m.filesRead.length,
+    m.verdicts.find((x) => x.check === "debuggable")?.verdict,
   );
+  const conflict = await differingCopies(root, report.nscCandidates);
+  if (conflict.length > 1) {
+    report.limits.push(
+      `The network security config exists in more than one source set with different content (${conflict.join(", ")}); Ward read ${report.nscFile ?? "the first"}, but the build may use another.`,
+    );
+    for (const x of report.verdicts) {
+      if (x.verdict === "NO FINDING") {
+        x.verdict = "MANUAL";
+        x.reason = `The network security config differs between source sets (${conflict.join(", ")}), and Ward can't tell which one the variant uses. ${x.reason}`;
+      }
+    }
+  }
   return report;
+}
+
+/**
+ * App-module copies of the NSC (default `xml` folder) from different
+ * source sets whose text differs. Empty when they agree.
+ */
+async function differingCopies(
+  root: string,
+  candidates: string[],
+): Promise<string[]> {
+  const bySet = new Map<string, string>();
+  for (const file of candidates) {
+    const m = /(?:^|\/)src\/([^/]+)\/res\/xml\/[^/]+$/.exec(file);
+    if (m?.[1] && !bySet.has(m[1])) bySet.set(m[1], file);
+  }
+  if (bySet.size < 2) return [];
+  const texts = new Set<string>();
+  for (const file of bySet.values()) {
+    texts.add(
+      await readCapped(path.join(root, file)).catch(() => `unreadable ${file}`),
+    );
+  }
+  return texts.size > 1 ? [...bySet.values()] : [];
 }
 
 function sdk(f: AttrFact | undefined): number | undefined {
@@ -296,6 +332,7 @@ function judge(
   minSdk: number | undefined,
   today: string,
   manifestsRead: number,
+  debuggable: Verdict | undefined,
 ): NetworkVerdict[] {
   const out: NetworkVerdict[] = [];
   const v = (
@@ -492,6 +529,12 @@ function judge(
       r.manifest.targetSdk
         ? [at(r.manifest.targetSdk, `targetSdk ${String(target)}`)]
         : [],
+    );
+  } else if (debugOnly && debuggable !== "NO FINDING") {
+    v(
+      "user-ca",
+      "MANUAL",
+      `User-installed CAs are trusted in debug-overrides, which apply when the build is debuggable, and Ward's debuggable check says ${debuggable ?? "nothing"} for this variant. Confirm the release build isn't debuggable.`,
     );
   } else {
     v(

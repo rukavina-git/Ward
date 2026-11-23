@@ -194,6 +194,20 @@ describe("network security config rules", () => {
     expect(verdict(debugOnly, "user-ca").reason).toMatch(/debug-overrides/);
   });
 
+  it("user CAs in debug-overrides are MANUAL when the release build may be debuggable", async () => {
+    const r = await analyzeNetwork(
+      nscProject(
+        '<debug-overrides><trust-anchors><certificates src="user" /></trust-anchors></debug-overrides>',
+        "36",
+        {
+          "app/build.gradle.kts": `${gradle("36")}android { buildTypes { release { isDebuggable = isCi } } }\n`,
+        },
+      ),
+    );
+    expect(verdict(r, "user-ca").verdict).toBe("MANUAL");
+    expect(verdict(r, "user-ca").reason).toMatch(/says MANUAL/);
+  });
+
   it("targetSdk below 24 trusts user CAs without an NSC", async () => {
     const r = await analyzeNetwork(
       project({
@@ -266,6 +280,31 @@ describe("network security config rules", () => {
     );
     expect(r.nscFile).toBe("app/src/main/res/xml/nsc.xml");
     expect(verdict(r, "cleartext").verdict).toBe("NO FINDING");
+  });
+
+  it("differing NSC copies in a flavor and main turn NO FINDING into MANUAL", async () => {
+    const strict = '<base-config cleartextTrafficPermitted="false" />';
+    const doc = (body: string) =>
+      `<?xml version="1.0" encoding="utf-8"?>\n<network-security-config>\n${body}\n</network-security-config>\n`;
+    // Ward reads the flavor's strict copy; main's permissive one may win.
+    const r = await analyzeNetwork(
+      nscProject('<base-config cleartextTrafficPermitted="true" />', "36", {
+        "app/src/staging/res/xml/nsc.xml": doc(strict),
+      }),
+    );
+    expect(r.nscFile).toBe("app/src/staging/res/xml/nsc.xml");
+    expect(verdict(r, "cleartext").verdict).toBe("MANUAL");
+    expect(verdict(r, "cleartext").reason).toMatch(
+      /differs between source sets/,
+    );
+    expect(r.limits.join(" ")).toContain("app/src/main/res/xml/nsc.xml");
+    // The same copy in both sets is fine.
+    const same = await analyzeNetwork(
+      nscProject(strict, "36", {
+        "app/src/staging/res/xml/nsc.xml": doc(strict),
+      }),
+    );
+    expect(verdict(same, "cleartext").verdict).toBe("NO FINDING");
   });
 });
 

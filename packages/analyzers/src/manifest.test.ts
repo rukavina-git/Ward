@@ -346,6 +346,19 @@ describe("manifest rules", () => {
     });
   });
 
+  it("isDebuggable Ward can't read is MANUAL, not NO FINDING", async () => {
+    const r = await analyzeManifest(
+      project({
+        "app/build.gradle.kts": `${APP_GRADLE}android {\n  buildTypes {\n    all { isDebuggable = true }\n  }\n}\n`,
+        "app/src/main/AndroidManifest.xml": manifest(""),
+      }),
+    );
+    expect(verdict(r, "debuggable")).toMatchObject({
+      verdict: "MANUAL",
+      evidence: [{ file: "app/build.gradle.kts", line: 4 }],
+    });
+  });
+
   it("skips test source sets", async () => {
     const root = project({
       "app/build.gradle.kts": APP_GRADLE,

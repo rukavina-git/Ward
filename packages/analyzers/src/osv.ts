@@ -20,6 +20,8 @@ export const OSV_LIMITS = {
   maxTotalBytes: 512 * 1024 * 1024,
   timeoutMs: 120_000,
   maxAgeMs: 24 * 60 * 60 * 1000,
+  /** OSV has about 7,000 Maven advisories; far fewer means broken data. */
+  minAdvisories: 1000,
 } as const;
 
 /** Licence of each advisory source in OSV's Maven data (see docs/sources.md). */
@@ -73,6 +75,8 @@ export interface OsvOptions {
   offline?: boolean;
   fetch?: Fetcher;
   now?: () => Date;
+  /** Fewer advisories than this counts as no data (tests lower it). */
+  minAdvisories?: number;
 }
 
 /** `WARD_CACHE_DIR`, else `$XDG_CACHE_HOME/ward`, else `~/.cache/ward`. */
@@ -110,11 +114,36 @@ async function writeCache(dir: string, index: OsvIndex): Promise<void> {
   await rename(tmp, cacheFile(dir));
 }
 
+/** Writes the cache; a failure keeps the data and is reported. */
+async function tryWriteCache(
+  dir: string,
+  index: OsvIndex,
+): Promise<string | undefined> {
+  try {
+    await writeCache(dir, index);
+    return undefined;
+  } catch (e) {
+    return `cache write failed (${e instanceof Error ? e.message.slice(0, 200) : "unknown error"}); the data is used but will be downloaded again`;
+  }
+}
+
 /**
  * The OSV Maven index: the cache if under 24 h old, else a fresh
  * download (conditional on Last-Modified), else the old cache, else none.
  */
 export async function loadOsv(options: OsvOptions = {}): Promise<OsvData> {
+  const data = await loadOsvData(options);
+  const min = options.minAdvisories ?? OSV_LIMITS.minAdvisories;
+  if (data.index && data.index.advisoryCount < min) {
+    return {
+      status: "unavailable",
+      problem: `the OSV data has only ${String(data.index.advisoryCount)} advisories (expected at least ${String(min)}); treated as broken`,
+    };
+  }
+  return data;
+}
+
+async function loadOsvData(options: OsvOptions): Promise<OsvData> {
   const dir = options.cacheDir ?? defaultCacheDir();
   const now = (options.now ?? (() => new Date()))();
   const cached = await readCache(dir);
@@ -141,8 +170,8 @@ export async function loadOsv(options: OsvOptions = {}): Promise<OsvData> {
     });
     if (res.status === 304 && cached) {
       const index = { ...cached, downloadedAt: now.toISOString() };
-      await writeCache(dir, index);
-      return { status: "not-modified", index };
+      const problem = await tryWriteCache(dir, index);
+      return { status: "not-modified", index, ...(problem && { problem }) };
     }
     if (!res.ok) throw new Error(`HTTP ${String(res.status)}`);
     const length = Number(res.headers.get("content-length") ?? "0");
@@ -156,8 +185,8 @@ export async function loadOsv(options: OsvOptions = {}): Promise<OsvData> {
       downloadedAt: now.toISOString(),
       ...(lastModified ? { lastModified } : {}),
     });
-    await writeCache(dir, index);
-    return { status: "downloaded", index };
+    const problem = await tryWriteCache(dir, index);
+    return { status: "downloaded", index, ...(problem && { problem }) };
   } catch (e) {
     const problem = `download failed: ${e instanceof Error ? e.message.slice(0, 200) : "unknown error"}`;
     return cached

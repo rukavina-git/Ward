@@ -178,6 +178,7 @@ describe("loadOsv", () => {
     const cacheDir = temp();
     const f = fakeFetch();
     const first = await loadOsv({
+      minAdvisories: 1,
       cacheDir,
       fetch: f,
       now: at("2026-11-23T08:00:00Z"),
@@ -186,6 +187,7 @@ describe("loadOsv", () => {
     expect(f.calls[0]?.url).toBe(OSV_URL);
     expect(first.index?.lastModified).toBe("Fri, 20 Nov 2026 16:33:30 GMT");
     const second = await loadOsv({
+      minAdvisories: 1,
       cacheDir,
       fetch: f,
       now: at("2026-11-24T07:00:00Z"),
@@ -197,12 +199,14 @@ describe("loadOsv", () => {
   it("asks with If-Modified-Since and keeps the data on 304", async () => {
     const cacheDir = temp();
     await loadOsv({
+      minAdvisories: 1,
       cacheDir,
       fetch: fakeFetch(),
       now: at("2026-11-20T00:00:00Z"),
     });
     const f = fakeFetch(Buffer.alloc(0), 304);
     const out = await loadOsv({
+      minAdvisories: 1,
       cacheDir,
       fetch: f,
       now: at("2026-11-23T00:00:00Z"),
@@ -217,11 +221,13 @@ describe("loadOsv", () => {
   it("falls back to a stale cache, or to nothing", async () => {
     const cacheDir = temp();
     await loadOsv({
+      minAdvisories: 1,
       cacheDir,
       fetch: fakeFetch(),
       now: at("2026-11-01T00:00:00Z"),
     });
     const stale = await loadOsv({
+      minAdvisories: 1,
       cacheDir,
       fetch: failingFetch,
       now: at("2026-11-23T00:00:00Z"),
@@ -230,22 +236,55 @@ describe("loadOsv", () => {
       status: "stale-cache",
       problem: "download failed: offline",
     });
-    const none = await loadOsv({ cacheDir: temp(), fetch: failingFetch });
+    const none = await loadOsv({
+      minAdvisories: 1,
+      cacheDir: temp(),
+      fetch: failingFetch,
+    });
     expect(none).toMatchObject({ status: "unavailable" });
     expect(none.index).toBeUndefined();
-    const offline = await loadOsv({ cacheDir: temp(), offline: true });
+    const offline = await loadOsv({
+      minAdvisories: 1,
+      cacheDir: temp(),
+      offline: true,
+    });
     expect(offline.status).toBe("unavailable");
+  });
+
+  it("treats an index with almost no advisories as unavailable", async () => {
+    const out = await loadOsv({ cacheDir: temp(), fetch: fakeFetch() });
+    expect(out.status).toBe("unavailable");
+    expect(out.index).toBeUndefined();
+    expect(out.problem).toMatch(/only 1 advisories/);
+  });
+
+  it("keeps the downloaded data when the cache can't be written", async () => {
+    const blocker = path.join(temp(), "a-file");
+    writeFileSync(blocker, "x");
+    const out = await loadOsv({
+      minAdvisories: 1,
+      cacheDir: path.join(blocker, "cache"),
+      fetch: fakeFetch(),
+    });
+    expect(out.status).toBe("downloaded");
+    expect(out.index?.advisoryCount).toBe(1);
+    expect(out.problem).toMatch(/cache write failed/);
   });
 
   it("refuses a bad download without writing a cache", async () => {
     const cacheDir = temp();
     const out = await loadOsv({
+      minAdvisories: 1,
       cacheDir,
       fetch: fakeFetch(Buffer.from("<html>error</html>")),
     });
     expect(out.status).toBe("unavailable");
     expect(existsSync(path.join(cacheDir, "osv-maven.json"))).toBe(false);
-    const http = await loadOsv({ cacheDir, fetch: fakeFetch(FAKE_ZIP, 500) });
+    const http = await loadOsv({
+      minAdvisories: 1,
+      cacheDir,
+      fetch: fakeFetch(FAKE_ZIP, 500),
+    });
     expect(http.problem).toBe("download failed: HTTP 500");
   });
 });
@@ -367,12 +406,41 @@ dependencies {
       settingsModules(`include(":app", ":core:data")\ninclude ':wear'`),
     ).toEqual(["app", "core/data", "wear"]);
   });
+
+  it("reads multi-line settings includes", () => {
+    expect(
+      settingsModules(
+        `include(\n    ":app",\n    ":core:data",\n)\ninclude ':wear'`,
+      ),
+    ).toEqual(["app", "core/data", "wear"]);
+  });
+
+  it("lists add(...) and quoted-configuration forms as unrecognised release declarations", () => {
+    const facts = readDependencies(
+      "app",
+      "app/build.gradle.kts",
+      `dependencies {
+    add("implementation", "com.example:a:1.0")
+    "implementation"("com.example:b:1.0")
+    "testImplementation"("com.example:c:1.0")
+}`,
+      undefined,
+      "release",
+    );
+    expect(facts.map((f) => [f.line, f.scope, f.via])).toEqual([
+      [2, "release", "unrecognised"],
+      [3, "release", "unrecognised"],
+      [4, "test", "unrecognised"],
+    ]);
+    expect(facts.every((f) => f.version === undefined)).toBe(true);
+  });
 });
 
 describe("analyzeDependencies", () => {
   const cached = async () => {
     const cacheDir = temp();
     await loadOsv({
+      minAdvisories: 1,
       cacheDir,
       fetch: fakeFetch(),
       now: at("2026-11-23T08:00:00Z"),
@@ -382,6 +450,7 @@ describe("analyzeDependencies", () => {
 
   it("EA-19: Gson 2.8.5 FAIL at the catalog line", async () => {
     const r = await analyzeDependencies(copyFixture("example-app"), "release", {
+      minAdvisories: 1,
       cacheDir: await cached(),
       now: at("2026-11-23T09:00:00Z"),
     });
@@ -420,7 +489,11 @@ describe("analyzeDependencies", () => {
     const r = await analyzeDependencies(
       copyFixture("example-app-clean"),
       "release",
-      { cacheDir: await cached(), now: at("2026-11-23T09:00:00Z") },
+      {
+        minAdvisories: 1,
+        cacheDir: await cached(),
+        now: at("2026-11-23T09:00:00Z"),
+      },
     );
     expect(r.verdicts.some((v) => v.verdict === "FAIL")).toBe(false);
   });
@@ -437,6 +510,7 @@ describe("analyzeDependencies", () => {
 }`,
     );
     const r = await analyzeDependencies(root, "release", {
+      minAdvisories: 1,
       cacheDir: await cached(),
       now: at("2026-11-23T09:00:00Z"),
     });
@@ -448,6 +522,7 @@ describe("analyzeDependencies", () => {
   it("no data: MANUAL, never NO FINDING; old data is a limit", async () => {
     const root = copyFixture("example-app-clean");
     const none = await analyzeDependencies(root, "release", {
+      minAdvisories: 1,
       cacheDir: temp(),
       fetch: failingFetch,
     });
@@ -457,6 +532,7 @@ describe("analyzeDependencies", () => {
       dataDate: null,
     });
     const old = await analyzeDependencies(root, "release", {
+      minAdvisories: 1,
       cacheDir: await cached(),
       fetch: failingFetch,
       now: at("2026-11-30T08:00:00Z"),

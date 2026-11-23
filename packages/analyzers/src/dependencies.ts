@@ -280,7 +280,8 @@ export function scopeOf(
 export function settingsModules(text: string): string[] {
   const out: string[] = [];
   const clean = stripComments(text);
-  for (const m of clean.matchAll(/\binclude\b\s*\(?([^\n)]*)/g)) {
+  // `include(":a",\n ":b")` spans lines; `include ':a', ':b'` doesn't.
+  for (const m of clean.matchAll(/\binclude\b\s*(\([^)]*\)|[^\n]*)/g)) {
     for (const q of (m[1] ?? "").matchAll(/["']([^"']+)["']/g)) {
       const mod = (q[1] ?? "")
         .replace(/^:/, "")
@@ -311,6 +312,25 @@ export function readDependencies(
     if (!b) continue;
     const body = text.slice(b.start, b.end);
     const bodyStart = body.indexOf("{") + 1;
+    for (const d of body
+      .slice(bodyStart)
+      .matchAll(
+        /^[ \t]*(?:add\s*\(\s*["']([A-Za-z][A-Za-z0-9_]*)["']|["']([A-Za-z][A-Za-z0-9_]*)["']\s*\()([^\n]*)/gm,
+      )) {
+      // `add("implementation", …)` and kts `"implementation"(…)`: Ward
+      // doesn't read these forms, so they count against NO FINDING.
+      const configuration = d[1] ?? d[2] ?? "";
+      if (!CONFIG_RE.test(configuration)) continue;
+      out.push({
+        module,
+        configuration,
+        scope: scopeOf(configuration, buildType),
+        file,
+        line: lineOf(b.start + bodyStart + d.index),
+        via: "unrecognised",
+        unresolved: `Ward can't read this declaration form: ${d[0].trim().slice(0, 120)}`,
+      });
+    }
     for (const d of body
       .slice(bodyStart)
       .matchAll(/^[ \t]*([A-Za-z][A-Za-z0-9_]*)\b\s*(?:\(\s*|\s+)([^\n]*)/gm)) {

@@ -57,7 +57,32 @@ export async function runAnalyzer(
     }
     throw e;
   }
-  return result({ notice: APP_NOTICE, ...report, mastgPin: mastgPin() });
+  return result({
+    notice: APP_NOTICE,
+    ...withMaswe(report),
+    mastgPin: mastgPin(),
+  });
+}
+
+/**
+ * Adds `maswe` to every verdict: what the analyzer set plus the
+ * weaknesses the pinned index links to its MASTG tests. IDs come from
+ * the index, never from the model.
+ */
+export function withMaswe(report: object): object {
+  const verdicts = (report as { verdicts?: unknown }).verdicts;
+  if (!Array.isArray(verdicts)) return report;
+  const kb = knowledgeBase();
+  return {
+    ...report,
+    verdicts: verdicts.map((v: { mastg?: string[]; maswe?: string[] }) => {
+      const ids = new Set(v.maswe ?? []);
+      for (const t of v.mastg ?? []) {
+        for (const w of kb.get(t)?.record.links.weaknesses ?? []) ids.add(w);
+      }
+      return { ...v, maswe: [...ids].sort() };
+    }),
+  };
 }
 
 function result(out: Record<string, unknown>, isError = false): CallToolResult {

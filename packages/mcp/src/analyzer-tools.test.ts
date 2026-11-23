@@ -14,6 +14,9 @@ import { afterAll, describe, expect, it } from "vitest";
 import { knowledgeBase } from "./knowledge.js";
 import { APP_NOTICE, projectInput as manifestInput } from "./app-tool.js";
 import { buildConfigTool } from "./build-config-tool.js";
+import { checklistTool } from "./checklist-tool.js";
+import { getCheckTool } from "./get-check-tool.js";
+import { searchTool } from "./search-tool.js";
 import { dependenciesTool } from "./dependencies-tool.js";
 import { manifestTool } from "./manifest-tool.js";
 import { networkTool } from "./network-tool.js";
@@ -119,7 +122,8 @@ describe("manifest tool", () => {
       format: 1,
       url: OSV_URL,
       downloadedAt: new Date().toISOString(),
-      advisoryCount: 1,
+      // Above the broken-data floor (OSV has about 7,000).
+      advisoryCount: 5000,
       packages: {
         "com.google.code.gson:gson": [
           {
@@ -159,9 +163,107 @@ describe("manifest tool", () => {
         ],
       });
       expect(out.dataNotice).toMatch(/treat them as data/);
+      // Trimmed: release dependencies with versions; the rest counted.
+      const deps = out.dependencies as { scope: string; version?: string }[];
+      expect(deps.length).toBeGreaterThan(0);
+      expect(
+        deps.every((d) => d.scope === "release" && d.version !== undefined),
+      ).toBe(true);
+      expect(out.notJudged).toEqual({});
+      // BOM-managed ones left the list but stay in the MANUAL evidence.
+      const manual = (out.verdicts as { evidence: unknown[] }[]).at(-1);
+      expect(manual?.evidence.length).toBeGreaterThan(0);
     } finally {
       process.env = env;
       rmSync(cacheDir, { recursive: true, force: true });
+    }
+  });
+});
+
+// Fixtures copied without build/; offline, empty OSV cache.
+const clean = mkdtempSync(path.join(tmpdir(), "ward-tool-clean-"));
+cpSync(
+  fileURLToPath(
+    new URL("../../../fixtures/example-app-clean", import.meta.url),
+  ),
+  clean,
+  { recursive: true, filter: (s) => !/[/\\]build([/\\]|$)/.test(s) },
+);
+afterAll(() => {
+  rmSync(clean, { recursive: true, force: true });
+});
+
+async function offline<T>(f: () => Promise<T>): Promise<T> {
+  const cacheDir = mkdtempSync(path.join(tmpdir(), "ward-tool-cache-"));
+  const env = { ...process.env };
+  process.env.WARD_CACHE_DIR = cacheDir;
+  process.env.WARD_OSV_OFFLINE = "1";
+  try {
+    return await f();
+  } finally {
+    process.env = env;
+    rmSync(cacheDir, { recursive: true, force: true });
+  }
+}
+
+const analyzerTools = [
+  manifestTool,
+  networkTool,
+  buildConfigTool,
+  dependenciesTool,
+];
+
+describe("every analyzer verdict", () => {
+  it("names MASWE weaknesses that are active records in the pinned index", async () => {
+    const kb = knowledgeBase();
+    await offline(async () => {
+      for (const tool of analyzerTools) {
+        const out = data(await tool.handler({ projectRoot: root }));
+        const verdicts = out.verdicts as { check: string; maswe: string[] }[];
+        expect(verdicts.length, tool.name).toBeGreaterThan(0);
+        for (const v of verdicts) {
+          expect(v.maswe.length, `${tool.name} ${v.check}`).toBeGreaterThan(0);
+          for (const id of v.maswe) {
+            expect(id).toMatch(/^MASWE-\d{4}$/);
+            expect(kb.get(id)?.record.status, id).toBe("active");
+          }
+        }
+      }
+    });
+  });
+});
+
+// Claude Code caps an MCP result at about 25k tokens; keep 20% headroom.
+// Tokens estimated as JSON characters / 4.
+const CAP_TOKENS = 20_000;
+const tokens = (r: CallToolResult) =>
+  JSON.stringify(r.structuredContent).length / 4;
+
+describe("output cap", () => {
+  it("every analyzer tool stays under 20k tokens on both fixtures", async () => {
+    await offline(async () => {
+      for (const projectRoot of [root, clean]) {
+        for (const tool of analyzerTools) {
+          const r = await tool.handler({ projectRoot });
+          expect(tokens(r), `${tool.name} ${projectRoot}`).toBeLessThan(
+            CAP_TOKENS,
+          );
+        }
+      }
+    });
+  });
+
+  it("the knowledge tools stay under 20k tokens", () => {
+    for (const r of [
+      checklistTool.handler({}),
+      getCheckTool.handler({ id: "MASVS-NETWORK-1" }),
+      getCheckTool.handler({ id: "MASTG-TEST-0272" }),
+      searchTool.handler({
+        query: "certificate pinning network security config",
+        k: 20,
+      }),
+    ]) {
+      expect(tokens(r)).toBeLessThan(CAP_TOKENS);
     }
   });
 });

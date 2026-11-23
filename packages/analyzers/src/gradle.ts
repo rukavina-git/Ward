@@ -25,6 +25,11 @@ export interface BuildTypeFact {
   /** Line of the build type block, or undefined when there is none. */
   line?: number;
   debuggable?: { file: string; line: number; value: boolean };
+  /**
+   * isDebuggable set in a way Ward can't read for this build type: not a
+   * literal, or from outside its block (`all {}`, `getByName(...)`).
+   */
+  debuggableUnresolved?: { file: string; line: number; raw: string };
   /** `initWith(...)` copies another build type: Ward doesn't follow it. */
   initWith?: { file: string; line: number };
 }
@@ -182,6 +187,7 @@ function readModule(
   }
 
   const types = block(text, /\bbuildTypes\s*\{/);
+  let bodyAt: { start: number; end: number } | undefined;
   if (types) {
     const name = buildType.replace(/[^A-Za-z0-9_]/g, "");
     const bt = block(
@@ -191,6 +197,7 @@ function readModule(
       types.end,
     );
     if (bt) {
+      bodyAt = bt;
       build.buildType.line = lineOf(bt.start);
       const body = text.slice(bt.start, bt.end);
       const dbg =
@@ -213,7 +220,68 @@ function readModule(
       }
     }
   }
+  const unresolved = unresolvedDebuggable(text, buildType, bodyAt);
+  if (unresolved) {
+    build.buildType.debuggableUnresolved = {
+      file,
+      line: lineOf(unresolved.index),
+      raw: unresolved.raw,
+    };
+  }
   return build;
+}
+
+const DEBUGGABLE_RE =
+  /\b(?:isDebuggable|debuggable)\b\s*(?:=\s*|\(\s*|[ \t]+)([^\n;)}]*)/g;
+
+/**
+ * The first isDebuggable Ward can't read for `buildType`: inside its
+ * block with a non-literal value, or outside it but applying to it
+ * (`all {}`, `configureEach {}`, `getByName("release").isDebuggable`,
+ * `release.isDebuggable`). A literal false never counts.
+ */
+function unresolvedDebuggable(
+  text: string,
+  buildType: string,
+  body: { start: number; end: number } | undefined,
+): { index: number; raw: string } | undefined {
+  const name = buildType.replace(/[^A-Za-z0-9_]/g, "");
+  for (const m of text.matchAll(DEBUGGABLE_RE)) {
+    const raw = (m[1] ?? "").trim().slice(0, 120);
+    if (raw === "false") continue;
+    const inside = body && m.index >= body.start && m.index < body.end;
+    if (inside) {
+      if (raw === "true") continue;
+      return { index: m.index, raw };
+    }
+    const lineStart = text.lastIndexOf("\n", m.index) + 1;
+    const prefix = text.slice(lineStart, m.index);
+    const named = new RegExp(
+      `(?:\\(\\s*["']${name}["']\\s*\\)|\\b${name})\\s*\\.\\s*$`,
+    );
+    if (named.test(prefix))
+      return { index: m.index, raw: `${prefix.trim()}${raw}` };
+    if (
+      /\b(all|configureEach|forEach|each|withType)\b/.test(
+        opener(text, m.index),
+      )
+    ) {
+      return { index: m.index, raw };
+    }
+  }
+  return undefined;
+}
+
+/** The text before the innermost `{` that encloses `offset`, on its line. */
+function opener(text: string, offset: number): string {
+  let depth = 0;
+  for (let i = offset - 1; i >= 0; i--) {
+    if (text[i] === "}") depth++;
+    else if (text[i] === "{" && depth-- === 0) {
+      return text.slice(text.lastIndexOf("\n", i - 1) + 1, i);
+    }
+  }
+  return "";
 }
 
 function resolveSdk(

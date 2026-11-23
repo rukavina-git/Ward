@@ -130,6 +130,34 @@ describe("gradle", () => {
     });
   });
 
+  it("records isDebuggable Ward can't read for the build type", async () => {
+    const cases: [string, number | undefined][] = [
+      ["buildTypes {\n  release { isDebuggable = flag }\n}", 2],
+      [
+        'buildTypes {\n  release { }\n  getByName("release").isDebuggable = true\n}',
+        3,
+      ],
+      [
+        "buildTypes {\n  release { }\n}\nandroid.buildTypes.release.isDebuggable = true",
+        4,
+      ],
+      ["buildTypes {\n  all {\n    isDebuggable = true\n  }\n}", 3],
+      ["buildTypes {\n  configureEach { isDebuggable = x }\n}", 2],
+      // Not this build type's, or a literal: read normally.
+      [
+        "buildTypes {\n  debug { isDebuggable = true }\n  release { isDebuggable = false }\n}",
+        undefined,
+      ],
+      ["buildTypes {\n  all { isDebuggable = false }\n}", undefined],
+    ];
+    for (const [types, line] of cases) {
+      const { m } = await one(`android {\n${types}\n}`);
+      expect(m.buildType.debuggableUnresolved?.line, types).toBe(
+        line === undefined ? undefined : line + 1,
+      );
+    }
+  });
+
   it("reports convention plugin folders", async () => {
     const { g } = await one("android {}\n", {
       "build-logic/settings.gradle.kts": "",
