@@ -43,6 +43,7 @@ describe("ward MCP server over stdio", () => {
     const { tools } = await client.listTools();
     expect(tools.map((t) => t.name).sort()).toEqual([
       "build_config",
+      "check_report",
       "checklist",
       "dependencies",
       "get_check",
@@ -93,6 +94,8 @@ describe("ward MCP server over stdio", () => {
     ["build_config", { projectRoot: "/no/such/ward/project" }],
     ["report_skeleton", { projectRoot: "/no/such/ward/project" }],
     ["report_skeleton", { projectRoot: exampleApp, group: "MASVS-ALL" }],
+    ["check_report", { projectRoot: exampleApp }],
+    ["check_report", { projectRoot: exampleApp, reportPath: "../x.json" }],
   ])(
     "returns a tool error, not a crash, for bad %s input",
     async (name, args) => {

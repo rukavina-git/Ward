@@ -76,6 +76,12 @@ built from data instead of generated: source URL at the pinned tag (with
 a heading anchor), version and licence. A model can't make up a link it
 only copies.
 
+**Citation checker.** Plain code that checks what a model cited after it
+answers: every ID is in the pinned index, every file:line exists, every
+quote is really in the file. The model can still be wrong about a
+verdict, but it can't invent evidence that gets shown. Ward's is the
+`check_report` tool (plan 5 step 03).
+
 **Clean twin.** A copy of the test app with every planted issue fixed
 and nothing else changed. Anything an agent flags in it is a false
 alarm (or a real issue nobody planted). It measures precision the way

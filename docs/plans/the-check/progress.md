@@ -2,7 +2,7 @@
 
 - [x] 01 hardening: MASWE on verdicts, output cap, false NO FINDING → MANUAL (1d4b9a7)
 - [x] 02 report schema and report_skeleton (5099456)
-- [ ] 03 citation checker
+- [x] 03 citation checker (HASH)
 - [ ] 04 skill and /ward:check
 - [ ] 05 Ward on the held-out set
 - [ ] 06 must-exist checks
@@ -23,6 +23,12 @@
   nothing in the profile go to `gaps.outOfScope`, not MANUAL. The agent
   may raise an `owasp` prefill to FAIL, never lower one. Server 0.6.0
   (version in `packages/mcp/src/version.ts`).
+- Step 03: step file written this run. Checker in `packages/report`
+  (`checkReport`, with file I/O, so report is no longer pure; skeleton
+  and rollup still are). Also checks titles, the MASTG pin stamp,
+  `filesInspected` and "FAIL with no good evidence". Issue list is
+  capped in the tool (100), not the function. Not wired into the eval
+  scorer yet (step 05). Server 0.7.0.
 
 ## Gotchas
 Carried over: see docs/plans/mcp-and-analyzers/progress.md.
@@ -74,3 +80,24 @@ Step 02:
 - Step 03's checker should validate a filled report with `reportSchema`
   and recompute with `finalize` (it keeps `gaps.outOfScope`).
 - Quotes go in `evidence[].quote`; analyzer evidence has no quote yet.
+
+Step 03 (reviewer: 2 BLOCKERs fixed: unknown IDs in `detail` now drop
+that evidence; an unknown/misplaced/retitled check or control drops all
+its evidence. Not fixed:)
+- SHOULD: `lstat`/`readFile` in the checker's file reader aren't in a
+  try/catch; an unreadable file (EACCES, deleted mid-run) throws the
+  whole check instead of one issue.
+- SHOULD: `checkReport` returns an uncapped issue list; step 05 calls
+  it directly, so cap there.
+- NITs: names like `..foo/x` are rejected (fails closed); duplicate
+  check rows share drop keys (fails closed); evidence without a quote
+  passes on file+line alone; "byte for byte" is after UTF-8 decoding.
+
+Step 03:
+- Step 04 writes `dropBadEvidence(report, issues)` and must still show
+  `ok: false` issues (e.g. `fail-without-evidence`): a FAIL keeps its
+  verdict when its evidence is dropped.
+- The tool reads the report from a file (`.ward/report.json` default),
+  so the skill writes first, then calls `check_report`.
+- The checker doesn't compare agent verdicts with the analyzers' (never
+  lower a prefill); step 04 needs that or a re-run of the skeleton.

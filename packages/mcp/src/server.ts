@@ -1,5 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/server";
 import { buildConfigTool } from "./build-config-tool.js";
+import { checkReportTool } from "./check-report-tool.js";
 import { checklistTool } from "./checklist-tool.js";
 import { dependenciesTool } from "./dependencies-tool.js";
 import { getCheckTool } from "./get-check-tool.js";
@@ -52,6 +53,11 @@ export function createServer(): McpServer {
     reportSkeletonTool.name,
     reportSkeletonTool.config,
     reportSkeletonTool.handler,
+  );
+  server.registerTool(
+    checkReportTool.name,
+    checkReportTool.config,
+    checkReportTool.handler,
   );
   return server;
 }
