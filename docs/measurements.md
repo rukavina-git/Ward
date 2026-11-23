@@ -9,6 +9,25 @@ and results that look bad for Ward.
 "$" is the API-equivalent Claude Code reports. Runs are on Karlo's Pro
 plan, not billed (ADR 0007).
 
+## 2026-11-23 OSV Maven data for the dependency check (plan 4, step 06)
+
+- **Question:** is downloading OSV's Maven data at check time small and
+  fast enough (ADR 0011)?
+- **Setup:** `Maven/all.zip` as published 2026-11-20 16:33 GMT; one
+  live `analyzeDependencies` run on the example app, then the clean twin.
+- **Numbers:** zip 10.6 MB (26 MB unpacked, 7,265 advisories: 7,263
+  GHSA, 2 MAL; 122 withdrawn). Ward keeps 7,143 with Maven entries; the
+  cache is 4.0 MB. First run (download, unzip, index, match) 2.0 s; next
+  run from cache 14 ms. Ranges: 13,587 ECOSYSTEM, 121 SEMVER; events
+  include 1,868 `last_affected`; 67 entries list versions only.
+- **Result:** EA-19 (Gson 2.8.5) FAIL via GHSA-4jrv-ppp4-jm57 /
+  CVE-2022-25647 at `gradle/libs.versions.toml:11`; clean twin (2.15.0)
+  no FAIL. Both MANUAL for the rest: 2 Compose libraries get their
+  version from a BOM.
+- **What it means:** a daily download is cheap; BOM-managed versions
+  are the common gap, not data size.
+- **Raw data:** none kept (live data changes daily).
+
 ## 2026-11-23 Retrieval unchanged by the MCP search tool (plan 4, step 03)
 
 - **Question:** does adding matched/unmatched terms and the MCP tools

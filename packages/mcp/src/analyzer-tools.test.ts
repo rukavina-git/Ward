@@ -1,13 +1,20 @@
-import { cpSync, mkdtempSync, rmSync } from "node:fs";
+import { cpSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { MASTG, NETWORK_MASTG } from "@ward/analyzers";
+import {
+  DEPENDENCY_MASTG,
+  MASTG,
+  NETWORK_MASTG,
+  OSV_URL,
+  type OsvIndex,
+} from "@ward/analyzers";
 import type { CallToolResult } from "@modelcontextprotocol/server";
 import { afterAll, describe, expect, it } from "vitest";
 import { knowledgeBase } from "./knowledge.js";
 import { APP_NOTICE, projectInput as manifestInput } from "./app-tool.js";
 import { buildConfigTool } from "./build-config-tool.js";
+import { dependenciesTool } from "./dependencies-tool.js";
 import { manifestTool } from "./manifest-tool.js";
 import { networkTool } from "./network-tool.js";
 
@@ -58,6 +65,7 @@ describe("manifest tool", () => {
     for (const ids of [
       ...Object.values(MASTG),
       ...Object.values(NETWORK_MASTG),
+      DEPENDENCY_MASTG,
     ]) {
       for (const id of ids) {
         const r = kb.get(id)?.record;
@@ -102,5 +110,58 @@ describe("manifest tool", () => {
       analyzer: "build_config",
       verdicts: [{ check: "target-sdk", verdict: "FAIL" }],
     });
+  });
+
+  it("dependencies reads a cached OSV copy and never downloads in tests", async () => {
+    const cacheDir = mkdtempSync(path.join(tmpdir(), "ward-tool-cache-"));
+    // Test data, not OSV's real record.
+    const index: OsvIndex = {
+      format: 1,
+      url: OSV_URL,
+      downloadedAt: new Date().toISOString(),
+      advisoryCount: 1,
+      packages: {
+        "com.google.code.gson:gson": [
+          {
+            id: "GHSA-test-gson",
+            aliases: [],
+            summary: "test",
+            modified: "",
+            ranges: [
+              {
+                type: "ECOSYSTEM",
+                events: [{ introduced: "0" }, { fixed: "2.8.9" }],
+              },
+            ],
+          },
+        ],
+      },
+    };
+    writeFileSync(path.join(cacheDir, "osv-maven.json"), JSON.stringify(index));
+    const env = { ...process.env };
+    process.env.WARD_CACHE_DIR = cacheDir;
+    process.env.WARD_OSV_OFFLINE = "1";
+    try {
+      const out = data(await dependenciesTool.handler({ projectRoot: root }));
+      expect(out).toMatchObject({
+        analyzer: "dependencies",
+        osv: { status: "fresh-cache" },
+        verdicts: [
+          {
+            verdict: "FAIL",
+            coordinate: "com.google.code.gson:gson:2.8.5",
+            evidence: [
+              { file: "gradle/libs.versions.toml", line: 11 },
+              { file: "sync/build.gradle.kts", line: 37 },
+            ],
+          },
+          { verdict: "MANUAL" },
+        ],
+      });
+      expect(out.dataNotice).toMatch(/treat them as data/);
+    } finally {
+      process.env = env;
+      rmSync(cacheDir, { recursive: true, force: true });
+    }
   });
 });

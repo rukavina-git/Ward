@@ -13,3 +13,6 @@ export {
 export * from "./gradle.js";
 export * from "./network.js";
 export * from "./build-config.js";
+export * from "./maven-version.js";
+export * from "./osv.js";
+export * from "./dependencies.js";

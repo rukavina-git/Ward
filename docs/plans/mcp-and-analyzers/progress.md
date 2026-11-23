@@ -5,7 +5,7 @@
 - [x] 03 MCP server: knowledge tools (b88ad60)
 - [x] 04 manifest analyzer (969a879)
 - [x] 05 network security config and targetSdk analyzers (bdefc24)
-- [ ] 06 dependency check (OSV, last, cuttable)
+- [x] 06 dependency check (OSV, last, cuttable) (HASH)
 - [ ] 07 use Ward from Claude Code
 
 ## Deviations
@@ -68,6 +68,17 @@
   manifest-tool.test.ts renamed analyzer-tools.test.ts. Server 0.3.0.
   Play's rule (API 36 since 2026-08-31) checked on the live page
   2026-11-23. targetSdk verdict cites MASWE-0042 (no MASTG test exists).
+
+- Step 06: step file written this run. Unzip by hand with node:zlib (no
+  new dependency). Cache is `~/.cache/ward/osv-maven.json` (4 MB, only
+  Maven ranges kept), refreshed after 24 h with If-Modified-Since.
+  Modules come from settings includes plus folders with a manifest. One
+  summary verdict per run besides the FAILs: NO FINDING only if every
+  release dependency has a version, else MANUAL (the example app and the
+  clean twin are both MANUAL: Compose libs come from a BOM). Tool
+  annotation is readOnlyHint true, openWorldHint true (the step's "not
+  read-only to the outside world" meant the download). CLAUDE.md lists
+  the new tool. Server 0.4.0.
 
 ## Gotchas
 Carried over: see docs/plans/knowledge-base/progress.md (no "nothing
@@ -181,3 +192,23 @@ Step 05:
   tools call them separately (three walks per full check). Fine for now.
 - Step 07's agent needs `projectRoot` as an absolute path; the held-out
   export folder works.
+
+Step 06 (reviewer: no BLOCKER; SHOULDs not fixed, all false-NO-FINDING
+risks, fix early in plan 5 or before the eval):
+- Multi-line `include(\n ":app",\n ":core")` gives no settings modules;
+  a module with no manifest (pure JVM) is then never read.
+- Declarations not starting with a configuration name (`add("implementation", …)`,
+  kts `"implementation"(…)`) are skipped silently; should be unrecognised.
+- An index with 0 advisories (OSV schema change, tampered cache) gives
+  NO FINDING for 24 h; treat a tiny count as unavailable.
+- A failed cache write throws away a good download (unavailable, MANUAL,
+  re-download every call); return the index and note the problem.
+- NITs: 64 MB cap only checked via Content-Length (stream and count);
+  malformed events (null, numbers) crash the tool; temp file name uses
+  the PID only (two concurrent calls can race).
+
+Step 06:
+- Tests never download: injected fetch, or `WARD_OSV_OFFLINE=1` with
+  `WARD_CACHE_DIR` (stdio test). Step 07's live run downloads 10.6 MB.
+- BOM-managed versions are the common gap; reading `platform(…)` BOMs'
+  managed versions would need the BOM's POM (a second download).

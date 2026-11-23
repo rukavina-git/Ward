@@ -1,3 +1,6 @@
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
@@ -10,6 +13,10 @@ const exampleApp = fileURLToPath(
   new URL("../../../fixtures/example-app", import.meta.url),
 );
 
+// An empty cache and offline mode: the dependencies tool never downloads
+// in tests, and answers MANUAL (no data).
+const cacheDir = mkdtempSync(path.join(tmpdir(), "ward-stdio-cache-"));
+
 describe("ward MCP server over stdio", () => {
   const client = new Client({ name: "ward-test", version: "0.0.0" });
 
@@ -17,6 +24,11 @@ describe("ward MCP server over stdio", () => {
     const transport = new StdioClientTransport({
       command: process.execPath,
       args: [serverPath],
+      env: {
+        ...(process.env as Record<string, string>),
+        WARD_CACHE_DIR: cacheDir,
+        WARD_OSV_OFFLINE: "1",
+      },
       stderr: "ignore",
     });
     await client.connect(transport);
@@ -24,13 +36,15 @@ describe("ward MCP server over stdio", () => {
 
   afterAll(async () => {
     await client.close();
+    rmSync(cacheDir, { recursive: true, force: true });
   });
 
-  it("lists the knowledge tools and the manifest analyzer, read-only", async () => {
+  it("lists the knowledge and analyzer tools, read-only", async () => {
     const { tools } = await client.listTools();
     expect(tools.map((t) => t.name).sort()).toEqual([
       "build_config",
       "checklist",
+      "dependencies",
       "get_check",
       "manifest",
       "network",
@@ -54,6 +68,7 @@ describe("ward MCP server over stdio", () => {
     ["manifest", { projectRoot: exampleApp }],
     ["network", { projectRoot: exampleApp }],
     ["build_config", { projectRoot: exampleApp, variant: "release" }],
+    ["dependencies", { projectRoot: exampleApp }],
   ])("calls %s and gets structured JSON back", async (name, args) => {
     const result = await client.callTool({ name, arguments: args });
     expect(result.isError ?? false).toBe(false);

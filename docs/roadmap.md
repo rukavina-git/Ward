@@ -70,7 +70,7 @@ Scope from the council of 2026-11-23
       matched terms, no cutoff)
 - [x] Analyzers in plain code: merged manifest, network security config,
       targetSdk (plan 4 steps 04 and 05)
-- [ ] Dependency check, last and cuttable: fresh OSV data matched by
+- [x] Dependency check, last and cuttable: fresh OSV data matched by
       Ward, data date on every verdict (ADR 0011)
 - [ ] Use Ward from Claude Code while building it (.mcp.json)
 

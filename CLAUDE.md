@@ -12,7 +12,7 @@ npm workspace, TypeScript, Node 26 (ADR 0002, tooling ADR 0008).
 - packages/analyzers  plain-code analyzers (manifest, network, build
                   config), no MCP code
 - packages/mcp    stdio MCP server: checklist, get_check, search,
-                  manifest, network, build_config.
+                  manifest, network, build_config, dependencies.
                   Logs to stderr only: stdout is the protocol.
 - .mcp.json       starts packages/mcp/dist as server `ward`
 - plugin/         the Claude Code plugin (manifest only so far)

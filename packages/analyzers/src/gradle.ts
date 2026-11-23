@@ -239,7 +239,7 @@ function resolveSdk(
 }
 
 /** The `{…}` block after the first match of `opener` in [from, to). */
-function block(
+export function block(
   text: string,
   opener: RegExp,
   from = 0,
@@ -259,7 +259,7 @@ function block(
   return undefined;
 }
 
-function lineFinder(text: string): (offset: number) => number {
+export function lineFinder(text: string): (offset: number) => number {
   const starts = [0];
   for (let i = text.indexOf("\n"); i !== -1; i = text.indexOf("\n", i + 1)) {
     starts.push(i + 1);

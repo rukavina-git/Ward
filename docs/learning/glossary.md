@@ -95,6 +95,11 @@ means closer in meaning. The scale depends on the model: with bge models
 even unrelated texts score fairly high, so Ward's "nothing relevant"
 cut-off has to be measured, not guessed.
 
+**CVE.** A public ID for one known vulnerability, like CVE-2022-25647
+(a Gson bug). Advisory databases list which versions of which library
+each CVE affects. Ward's dependency check names the CVE next to the
+advisory ID so you can look it up.
+
 **Decoy.** Code in a test app that looks risky but is fine, like MD5
 used only for cache file names. An agent that flags it raises a false
 alarm. Decoys and the clean twin keep an agent that flags everything from
@@ -288,6 +293,13 @@ download it and run it on your own computer, free and offline, instead
 of calling the vendor's servers. Like an open-source library vs. a paid
 web API. Ward's embedding model (bge-small) is open weights.
 
+**OSV (Open Source Vulnerabilities).** A free database of known
+vulnerabilities in open-source packages, run by Google at osv.dev. It
+gathers advisories from sources like the GitHub Advisory Database and
+publishes them per ecosystem (Maven covers Android libraries). Ward
+downloads the Maven part once a day and matches versions itself
+(ADR 0011).
+
 **Paired comparison.** Comparing two systems query by query on the same
 queries, instead of comparing two averages. A hard query hurts both, so
 it cancels out, and a real difference shows with fewer queries. Ward
@@ -441,6 +453,11 @@ annotations add hints such as "read-only".
 after it can't be in what the model learned, so it tests reasoning, not
 memory. Sonnet 5.5 and Opus 5.5: June 2026.
 
+**Transitive dependency.** A library your app gets because another
+library needs it, not because you declared it. Gson pulled in by a
+networking library is transitive. Seeing them takes Gradle's resolver;
+Ward reads only what the build files declare, so it lists that as a limit.
+
 **Tree export (git archive).** Writing out the files of one commit
 without the `.git` folder, so there is no history. Held-out runs use it:
 the history holds the fix, and the agent must not see the answer.
@@ -463,6 +480,11 @@ code.
 **Vector database.** A database that stores embeddings and can quickly
 find the ones closest to a question's embedding. Ward doesn't need one
 (ADR 0003): its index is a file searched in memory.
+
+**Version range.** How an advisory says which versions are affected:
+"introduced in 0, fixed in 2.8.9" means everything before 2.8.9. Checking
+a version against it needs the ecosystem's version order (in Maven,
+1.0-rc1 comes before 1.0, and 1.10 after 1.9), which Ward codes by hand.
 
 **XXE (XML external entity).** An attack hidden in an XML file: a
 DOCTYPE declares an "entity" that points at a local file or URL, and a
