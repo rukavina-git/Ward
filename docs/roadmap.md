@@ -57,14 +57,20 @@ and deciding by measurement.
 
 ## Plan 4: MCP server and analyzers
 Learn: tool use, MCP, how AI assistants call external tools.
-- [ ] Held-out eval set, frozen before any check is written: real
-      security-fix commits from open-source Android apps (absences,
-      dependency CVEs, config), decoys toward 30, a "defensible" label.
-      Run Claude Code alone on it at once, against a bar written first;
-      if it aces this too, rethink before building analyzers
-- [ ] Local MCP server (stdio): checklist, get check, search
+Scope from the council of 2026-11-23
+(docs/council/2026-11-23-plan4-scope.md, ADR 0011).
+- [ ] Held-out eval set, frozen before any check is written: about 30
+      real security-fix commits from open-source Android apps (absences,
+      dependency CVEs, config), decoys, a "defensible" label, and a bar
+      written first
+- [ ] Claude Code alone on it (Sonnet 5.5 and Opus 5.5); if it aces
+      this too, rethink before building analyzers
+- [ ] Local MCP server (stdio): checklist, get check, search (top-k plus
+      matched terms, no cutoff)
 - [ ] Analyzers in plain code: merged manifest, network security config,
-      targetSdk, dependencies against an offline OSV snapshot
+      targetSdk
+- [ ] Dependency check, last and cuttable: fresh OSV data matched by
+      Ward, data date on every verdict (ADR 0011)
 - [ ] Use Ward from Claude Code while building it (.mcp.json)
 
 ## Plan 5: the check
