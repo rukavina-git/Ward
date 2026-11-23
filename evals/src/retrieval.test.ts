@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import {
   KnowledgeBase,
   loadIndex,
+  TUNED_HYBRID,
   TUNED_SEARCH,
   type KnowledgeIndex,
 } from "@ward/core";
@@ -20,7 +21,7 @@ import {
   retrievers,
   type RetrievalQuery,
 } from "./retrieval.js";
-import { bm25Grid, pickBest } from "./tune.js";
+import { bm25Grid, hybridGrid, pickBest } from "./tune.js";
 
 function q(expected: string[], patch: Partial<RetrievalQuery> = {}) {
   return {
@@ -224,7 +225,21 @@ describe("query set", () => {
 
 describe("bm25 retrievers", () => {
   it("are registered next to ids", () => {
-    expect(Object.keys(retrievers)).toEqual(["ids", "bm25", "bm25-tuned"]);
+    expect(Object.keys(retrievers)).toEqual([
+      "ids",
+      "bm25",
+      "bm25-tuned",
+      "vectors",
+      "hybrid",
+      "hybrid-tuned",
+    ]);
+  });
+
+  it("hybrid grid starts at textbook RRF and holds the tuned settings", () => {
+    const grid = hybridGrid();
+    expect(grid).toHaveLength(18);
+    expect(grid[0]).toEqual({ queryInstruction: true, k: 60, vectorWeight: 1 });
+    expect(grid).toContainEqual({ ...TUNED_HYBRID });
   });
 
   it("tuned settings are in the grid, and the grid starts at the defaults", () => {
@@ -255,10 +270,10 @@ describe("bm25 retrievers", () => {
     expect(picked.map((r) => r.name)).toEqual(["c", "d", "b", "a"]);
   });
 
-  it("keep id queries on top over the real index", () => {
+  it("keep id queries on top over the real index", async () => {
     const kb = new KnowledgeBase(loadIndex());
     for (const name of ["bm25", "bm25-tuned"]) {
-      const retrieve = retrievers[name]?.(kb);
+      const retrieve = await retrievers[name]?.(kb, []);
       expect(retrieve?.("is MASWE-0006 relevant to logs?")[0]).toBe(
         "MASWE-0006#0",
       );

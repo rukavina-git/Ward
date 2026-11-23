@@ -1,11 +1,17 @@
 import { readFileSync } from "node:fs";
 import {
   idPattern,
+  TUNED_HYBRID,
   TUNED_SEARCH,
   type KnowledgeBase,
   type SearchOptions,
 } from "@ward/core";
 import { z } from "zod";
+import {
+  hybridRetriever,
+  loadVectorContext,
+  vectorRetriever,
+} from "./vectors.js";
 
 /** How deep the scores look: recall@5, and MRR over the top 10. */
 export const RECALL_K = 5;
@@ -173,11 +179,33 @@ export function searchRetriever(
     kb.search(query, { limit: SEARCH_DEPTH, ...options }).map((h) => h.chunk);
 }
 
-/** Retrievers the CLI can run, by name. Steps 04–05 add theirs here. */
-export const retrievers: Record<string, (kb: KnowledgeBase) => Retriever> = {
+/**
+ * Builds a retriever for a run. Gets every query text up front, so vector
+ * retrievers can embed them once (async) and then rank synchronously.
+ */
+export type RetrieverFactory = (
+  kb: KnowledgeBase,
+  queries: readonly string[],
+) => Retriever | Promise<Retriever>;
+
+/** Retrievers the CLI can run, by name. Each step adds its own here. */
+export const retrievers: Record<string, RetrieverFactory> = {
   ids: idsRetriever,
   /** Textbook BM25 (k1 1.2, b 0.75, no stopwords or stemming): before tuning. */
   bm25: (kb) => searchRetriever(kb),
   /** The settings tuned on dev, from core's TUNED_SEARCH: after. */
   "bm25-tuned": (kb) => searchRetriever(kb, TUNED_SEARCH),
+  /** Named IDs, then cosine, with bge's query instruction (model card default). */
+  vectors: async (kb, queries) =>
+    vectorRetriever(kb, await loadVectorContext(kb, queries), true),
+  /** Tuned BM25 and vectors fused by RRF, textbook k 60, equal weights. */
+  hybrid: async (kb, queries) =>
+    hybridRetriever(kb, await loadVectorContext(kb, queries), {
+      queryInstruction: true,
+      k: 60,
+      vectorWeight: 1,
+    }),
+  /** The hybrid settings tuned on dev, from core's TUNED_HYBRID. */
+  "hybrid-tuned": async (kb, queries) =>
+    hybridRetriever(kb, await loadVectorContext(kb, queries), TUNED_HYBRID),
 };

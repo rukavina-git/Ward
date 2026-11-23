@@ -1,6 +1,6 @@
 {
   "name": "retrieval",
-  "version": 2,
+  "version": 3,
   "created": "2026-11-22",
   "index": {
     "OWASP MASVS": "8e133d09f4140518ed04cc254b18be9ff4990ffc",
@@ -16,6 +16,7 @@
     "Split by item: an answer key item's queries are all in dev or all in test, so tuning on dev can't learn a test item's words. Exceptions: none.",
     "A hit is any expected record, whatever its kind. Chunk IDs count as their record.",
     "Version 2 (plan 3 step 05, 2026-11-23): RQ-01 to RQ-49 are unchanged from v1. RQ-50 onward were written by Claude, none by Karlo, before any vector search code existed.",
+    "Version 3 (plan 3 step 06, 2026-11-23): only RQ-110 changed (expected IDs added after checking their text; step 05 reviewer note). Done before any vector code existed.",
     "v2 finding: more baseline titles word for word, at most 4 new per answer key item, kept on the item's v1 side. A finding matched to several items is filed under the first; its expected IDs are all of them.",
     "v2 missed: rewritten by Claude from the planted text of items the baseline missed or only reported bundled.",
     "coverage: one query each for 39 of the 54 active weaknesses that no v1 query expects (skipped: MASWE-0046, 0047, 0048, 0052, 0055, 0056, 0058, 0060, 0062, 0067, 0070, 0071, 0072, 0074, 0077, to stay near the planned size), phrased as a developer would describe the code. Expected: the weakness and its active Android tests (plus any other weakness the text also fits; see why). Written knowing the corpus, so may flatter search; scored apart. Split by weakness."
@@ -966,7 +967,13 @@
       "split": "dev",
       "origin": "coverage",
       "query": "tapjacking: confirm button does not set filterTouchesWhenObscured",
-      "expected": ["MASWE-0039"]
+      "expected": [
+        "MASWE-0039",
+        "MASTG-TEST-0340",
+        "MASTG-DEMO-0103",
+        "MASTG-DEMO-0105"
+      ],
+      "why": "v3: MASTG-TEST-0340 tests overlay protections (the index links it to MASWE-0036, but its text is tapjacking); DEMO-0103 shows filterTouchesWhenObscured, DEMO-0105 the activity-level fix. DEMO-0104 is the attacker app, left out."
     },
     {
       "id": "RQ-111",

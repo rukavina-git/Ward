@@ -34,6 +34,13 @@ padded with lots of other text. Ward starts with BM25 plus exact ID
 lookup, because IDs like "MASVS-NETWORK-1" are matched better by keywords
 than by meaning. Vector search joins only if it beats BM25 (ADR 0009).
 
+**Bootstrap (confidence interval).** A way to see how much a score
+could move by chance, using only the data you have. Draw the test queries
+again at random, with repeats allowed, thousands of times, and compute
+the score each time; the middle 95% of those results is the interval.
+Ward uses a paired bootstrap on the MRR difference between two
+retrievers: a win counts only if the whole interval sits above 0.
+
 **Brute-force search.** Compare the query with every stored vector and
 keep the closest ones. It's exact and simple; it only gets slow with
 millions of vectors. Ward has about 2,500, so it takes about a
@@ -201,6 +208,10 @@ Ward's graph is control → weakness (MASWE) → test → demo, stored both
 ways, so a control can list its tests and a cited test can name its
 control.
 
+**L2 normalisation.** Scaling a vector so its length is 1, keeping its
+direction. Then the cosine similarity of two vectors is just their dot
+product. Ward normalises every embedding once, when it's made.
+
 **Leakage.** When the answer to a test reaches the system under test, so
 the score measures lookup, not skill. MASTG demos can't be Ward's held-out
 cases: they're in Ward's own index.
@@ -248,6 +259,12 @@ sources and fails if the cloned commit differs.
 **Plugin (Claude Code).** A package that adds commands, skills and MCP
 servers to Claude Code in one install. Ward ships as a plugin.
 
+**Pooling (CLS).** An embedding model gives one vector per word piece;
+pooling turns them into one vector for the whole text. CLS pooling takes
+the vector of the special [CLS] piece at the start, which the model was
+trained to fill with a summary. bge models use CLS pooling; others
+average all pieces (mean pooling).
+
 **Pre-registration.** Writing down the pass/fail rule before you see
 any data, so the data can't move the goalposts. Ward fixed ADR 0001's
 "Claude Code alone finds almost everything" as a number (21 of 23, at
@@ -266,6 +283,12 @@ example 8-bit integers instead of 32-bit floats). The model gets about
 4× smaller and faster, and loses a little quality. Ward's embedding
 model is quantized to 34 MB.
 
+**Query instruction (asymmetric retrieval).** Questions are short and
+passages are long, so some embedding models want queries prefixed with a
+fixed sentence ("Represent this sentence for searching relevant
+passages: ") and passages left as they are. In Ward's eval the prefix
+helped bge-small (dev MRR 0.525 → 0.600).
+
 **Query set.** The fixed questions a retrieval eval asks, each with the
 records a good search must return. Ward's
 (`evals/questions/retrieval.json`) is seeded from real agent findings, so
@@ -281,6 +304,12 @@ lower it. Ward's "missed issues" number is the other side of recall.
 **Recall@k.** A retrieval score: the share of test queries where a right
 chunk appears in the top k results. Recall@5 = "did the right answer make
 the top 5?".
+
+**Reciprocal rank fusion (RRF).** Merging several ranked lists by
+position only: each list gives an item 1 / (k + rank), and the sums give
+the new order. Scores from different methods (BM25, cosine) never need
+to be on one scale. A small k rewards top ranks more. Ward's hybrid
+search fused BM25 and vectors this way.
 
 **Record.** One unit of source data with a stable ID: a control, a
 weakness, a test or a demo. It keeps its text, its links and where it
@@ -371,6 +400,11 @@ finding can line up with the answer key. True positive: a real issue,
 flagged. False positive (false alarm): flagged, but not a real issue.
 False negative (miss): a real issue nobody flagged. For a check before
 publishing, a miss is a false pass.
+
+**Truncation (token limit).** A model reads at most a fixed number of
+word pieces (512 for bge-small); anything after that is cut and never
+seen. In Ward, 123 of 2,132 chunks were longer than that, mostly demo
+code.
 
 **Vector database.** A database that stores embeddings and can quickly
 find the ones closest to a question's embedding. Ward doesn't need one

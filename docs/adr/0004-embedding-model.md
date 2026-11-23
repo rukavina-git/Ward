@@ -1,7 +1,7 @@
 # 4. Embedding model
 
 Date: 2026-11-21
-Status: Accepted (Voyage option narrowed by 0007; shipping made conditional by 0009)
+Status: Accepted (Voyage option narrowed by 0007; shipping made conditional by 0009; library replaced and vectors not shipped, 0010)
 
 ## What is this
 The model that turns text into an embedding. Ward uses it twice: once at

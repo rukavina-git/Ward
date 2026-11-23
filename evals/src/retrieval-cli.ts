@@ -41,7 +41,10 @@ for (const source of index.sources) {
   }
 }
 
-const retrieve = make(new KnowledgeBase(index));
+const retrieve = await make(
+  new KnowledgeBase(index),
+  set.queries.map((q) => q.query),
+);
 const results = set.queries.map((q) => runQuery(q, retrieve));
 const splits: Split[] = ["dev", "test"];
 const scores = Object.fromEntries(

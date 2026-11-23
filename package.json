@@ -21,9 +21,12 @@
     "eval:run": "npm run -s build -w @ward/evals && node evals/dist/run-cli.js",
     "eval:score": "npm run -s build -w @ward/evals && node evals/dist/score-cli.js",
     "eval:summary": "npm run -s build -w @ward/evals && node evals/dist/summary-cli.js",
-    "eval:retrieval": "npm run -s build -w @ward/core -w @ward/evals && node evals/dist/retrieval-cli.js",
+    "eval:retrieval": "npm run -s build -w @ward/core -w @ward/ingest -w @ward/evals && node evals/dist/retrieval-cli.js",
     "eval:tune-bm25": "npm run -s build -w @ward/core -w @ward/evals && node evals/dist/tune-bm25-cli.js",
-    "ingest": "npm run -s build -w @ward/core -w @ward/ingest && node packages/ingest/dist/cli.js"
+    "ingest": "npm run -s build -w @ward/core -w @ward/ingest && node packages/ingest/dist/cli.js",
+    "embed": "npm run -s build -w @ward/core -w @ward/ingest && node packages/ingest/dist/embed-cli.js",
+    "eval:tune-hybrid": "npm run -s build -w @ward/core -w @ward/ingest -w @ward/evals && node evals/dist/tune-hybrid-cli.js",
+    "eval:compare": "npm run -s build -w @ward/evals && node evals/dist/compare-cli.js"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

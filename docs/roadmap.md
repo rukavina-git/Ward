@@ -51,8 +51,9 @@ and deciding by measurement.
       seeded from the baseline runs' findings
 - [x] BM25 keyword search, built by hand
 - [x] Extend the retrieval eval to about 150 queries
-- [ ] Embeddings and vector search, built by hand, compared with BM25 on
-      the retrieval eval; shipped only if they win (ADR 0009)
+- [x] Embeddings and vector search, built by hand, compared with BM25 on
+      the retrieval eval; shipped only if they win (ADR 0009). They
+      didn't: BM25 ships alone (ADR 0010)
 
 ## Plan 4: MCP server and analyzers
 Learn: tool use, MCP, how AI assistants call external tools.

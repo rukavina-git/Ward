@@ -8,7 +8,7 @@ export const repoRoot = resolve(
   "../../..",
 );
 
-const packageRoot = join(repoRoot, "packages/ingest");
+export const packageRoot = join(repoRoot, "packages/ingest");
 
 /** Gitignored: the OWASP repos, cloned at their pinned tags. */
 export const cacheRoot = join(packageRoot, ".cache");

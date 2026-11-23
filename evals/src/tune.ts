@@ -34,3 +34,20 @@ export function pickBest<T extends { dev: Scores }>(rows: readonly T[]): T[] {
     )
     .map(({ r }) => r);
 }
+
+/**
+ * The step 06 hybrid grid. Starts with the textbook RRF setting (k 60,
+ * equal weights, model card's query instruction on).
+ */
+export function hybridGrid(): {
+  queryInstruction: boolean;
+  k: number;
+  vectorWeight: number;
+}[] {
+  const out = [];
+  for (const queryInstruction of [true, false])
+    for (const k of [60, 30, 10])
+      for (const vectorWeight of [1, 0.5, 2])
+        out.push({ queryInstruction, k, vectorWeight });
+  return out;
+}

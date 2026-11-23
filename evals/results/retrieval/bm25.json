@@ -2,7 +2,7 @@
   "retriever": "bm25",
   "querySet": {
     "name": "retrieval",
-    "version": 2
+    "version": 3
   },
   "indexSha256": "5fa9c454817c6aaae12e9897e54ba73190f318a33da319f09f07069ed7044699",
   "scores": {
@@ -10,7 +10,7 @@
       "all": {
         "queries": 80,
         "recallAt5": 0.875,
-        "mrr": 0.657
+        "mrr": 0.667
       },
       "byOrigin": {
         "finding": {
@@ -26,7 +26,7 @@
         "coverage": {
           "queries": 23,
           "recallAt5": 0.957,
-          "mrr": 0.824
+          "mrr": 0.856
         },
         "id": {
           "queries": 6,
@@ -1597,7 +1597,7 @@
       "id": "RQ-110",
       "split": "dev",
       "origin": "coverage",
-      "rank": 4,
+      "rank": 1,
       "top": [
         "MASTG-DEMO-0103",
         "MASTG-TEST-0340",

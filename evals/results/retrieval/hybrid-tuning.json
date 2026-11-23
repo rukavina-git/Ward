@@ -1,0 +1,692 @@
+{
+  "split": "dev",
+  "querySet": {
+    "name": "retrieval",
+    "version": 3
+  },
+  "best": {
+    "queryInstruction": true,
+    "k": 10,
+    "vectorWeight": 0.5
+  },
+  "grid": [
+    {
+      "options": {
+        "queryInstruction": true,
+        "k": 10,
+        "vectorWeight": 0.5
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.963,
+        "mrr": 0.803
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": false,
+        "k": 10,
+        "vectorWeight": 0.5
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.963,
+        "mrr": 0.793
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": true,
+        "k": 30,
+        "vectorWeight": 0.5
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.963,
+        "mrr": 0.791
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": true,
+        "k": 60,
+        "vectorWeight": 0.5
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.975,
+        "mrr": 0.788
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": false,
+        "k": 30,
+        "vectorWeight": 0.5
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.95,
+        "mrr": 0.775
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": true,
+        "k": 10,
+        "vectorWeight": 1
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.963,
+        "mrr": 0.77
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": false,
+        "k": 10,
+        "vectorWeight": 1
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.925,
+        "mrr": 0.762
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": true,
+        "k": 30,
+        "vectorWeight": 1
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.963,
+        "mrr": 0.76
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": true,
+        "k": 60,
+        "vectorWeight": 1
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.95,
+        "mrr": 0.759
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": false,
+        "k": 60,
+        "vectorWeight": 0.5
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.938,
+        "mrr": 0.756
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": false,
+        "k": 30,
+        "vectorWeight": 1
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.938,
+        "mrr": 0.753
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": false,
+        "k": 60,
+        "vectorWeight": 1
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.913,
+        "mrr": 0.749
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": true,
+        "k": 60,
+        "vectorWeight": 2
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.913,
+        "mrr": 0.733
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": true,
+        "k": 30,
+        "vectorWeight": 2
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.913,
+        "mrr": 0.726
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": true,
+        "k": 10,
+        "vectorWeight": 2
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.9,
+        "mrr": 0.713
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": false,
+        "k": 60,
+        "vectorWeight": 2
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.863,
+        "mrr": 0.706
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": false,
+        "k": 30,
+        "vectorWeight": 2
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.85,
+        "mrr": 0.697
+      }
+    },
+    {
+      "options": {
+        "queryInstruction": false,
+        "k": 10,
+        "vectorWeight": 2
+      },
+      "dev": {
+        "queries": 80,
+        "recallAt5": 0.85,
+        "mrr": 0.652
+      }
+    }
+  ],
+  "topCosines": [
+    {
+      "id": "RQ-01",
+      "origin": "finding",
+      "top": 0.7795397332519274
+    },
+    {
+      "id": "RQ-02",
+      "origin": "finding",
+      "top": 0.8212933994693894
+    },
+    {
+      "id": "RQ-03",
+      "origin": "finding",
+      "top": 0.7155464127655683
+    },
+    {
+      "id": "RQ-04",
+      "origin": "finding",
+      "top": 0.8195806034375348
+    },
+    {
+      "id": "RQ-05",
+      "origin": "finding",
+      "top": 0.7255226679298336
+    },
+    {
+      "id": "RQ-06",
+      "origin": "finding",
+      "top": 0.7227465209187814
+    },
+    {
+      "id": "RQ-07",
+      "origin": "finding",
+      "top": 0.7323296616397923
+    },
+    {
+      "id": "RQ-08",
+      "origin": "finding",
+      "top": 0.7792281188868223
+    },
+    {
+      "id": "RQ-09",
+      "origin": "finding",
+      "top": 0.7613269219563141
+    },
+    {
+      "id": "RQ-10",
+      "origin": "finding",
+      "top": 0.768898838905637
+    },
+    {
+      "id": "RQ-11",
+      "origin": "finding",
+      "top": 0.673364480861591
+    },
+    {
+      "id": "RQ-12",
+      "origin": "finding",
+      "top": 0.819897284668097
+    },
+    {
+      "id": "RQ-13",
+      "origin": "finding",
+      "top": 0.8045819106558914
+    },
+    {
+      "id": "RQ-14",
+      "origin": "finding",
+      "top": 0.7464268000370561
+    },
+    {
+      "id": "RQ-15",
+      "origin": "finding",
+      "top": 0.737882679018692
+    },
+    {
+      "id": "RQ-16",
+      "origin": "finding",
+      "top": 0.6697095742952319
+    },
+    {
+      "id": "RQ-17",
+      "origin": "finding",
+      "top": 0.816209325260943
+    },
+    {
+      "id": "RQ-18",
+      "origin": "finding",
+      "top": 0.7057280673343234
+    },
+    {
+      "id": "RQ-31",
+      "origin": "missed",
+      "top": 0.8546532273235256
+    },
+    {
+      "id": "RQ-32",
+      "origin": "missed",
+      "top": 0.7091111239174953
+    },
+    {
+      "id": "RQ-33",
+      "origin": "missed",
+      "top": 0.790915546431719
+    },
+    {
+      "id": "RQ-34",
+      "origin": "missed",
+      "top": 0.8217675551013031
+    },
+    {
+      "id": "RQ-35",
+      "origin": "missed",
+      "top": 0.746351648639568
+    },
+    {
+      "id": "RQ-39",
+      "origin": "id",
+      "top": 0.6095469471327504
+    },
+    {
+      "id": "RQ-40",
+      "origin": "id",
+      "top": 0.7604837173064801
+    },
+    {
+      "id": "RQ-41",
+      "origin": "id",
+      "top": 0.752067318722921
+    },
+    {
+      "id": "RQ-42",
+      "origin": "id",
+      "top": 0.7140941754198321
+    },
+    {
+      "id": "RQ-45",
+      "origin": "none",
+      "top": 0.6854671778812602
+    },
+    {
+      "id": "RQ-46",
+      "origin": "none",
+      "top": 0.668239047729965
+    },
+    {
+      "id": "RQ-47",
+      "origin": "none",
+      "top": 0.7155929779383738
+    },
+    {
+      "id": "RQ-50",
+      "origin": "finding",
+      "top": 0.7920856863230736
+    },
+    {
+      "id": "RQ-51",
+      "origin": "finding",
+      "top": 0.778573239563899
+    },
+    {
+      "id": "RQ-52",
+      "origin": "finding",
+      "top": 0.7214357078615856
+    },
+    {
+      "id": "RQ-53",
+      "origin": "finding",
+      "top": 0.6714326874099301
+    },
+    {
+      "id": "RQ-54",
+      "origin": "finding",
+      "top": 0.7726812616206397
+    },
+    {
+      "id": "RQ-55",
+      "origin": "finding",
+      "top": 0.8169253638148032
+    },
+    {
+      "id": "RQ-56",
+      "origin": "finding",
+      "top": 0.7199213663934011
+    },
+    {
+      "id": "RQ-57",
+      "origin": "finding",
+      "top": 0.6781652712073417
+    },
+    {
+      "id": "RQ-58",
+      "origin": "finding",
+      "top": 0.7326823481315725
+    },
+    {
+      "id": "RQ-59",
+      "origin": "finding",
+      "top": 0.7571216497263655
+    },
+    {
+      "id": "RQ-60",
+      "origin": "finding",
+      "top": 0.7759022953388401
+    },
+    {
+      "id": "RQ-61",
+      "origin": "finding",
+      "top": 0.7646910123964294
+    },
+    {
+      "id": "RQ-62",
+      "origin": "finding",
+      "top": 0.7901150615092088
+    },
+    {
+      "id": "RQ-63",
+      "origin": "finding",
+      "top": 0.7664920662174654
+    },
+    {
+      "id": "RQ-64",
+      "origin": "finding",
+      "top": 0.646613633941812
+    },
+    {
+      "id": "RQ-65",
+      "origin": "finding",
+      "top": 0.7149452645311039
+    },
+    {
+      "id": "RQ-66",
+      "origin": "finding",
+      "top": 0.7810909896972843
+    },
+    {
+      "id": "RQ-67",
+      "origin": "finding",
+      "top": 0.7980335204369583
+    },
+    {
+      "id": "RQ-68",
+      "origin": "finding",
+      "top": 0.7564498961425099
+    },
+    {
+      "id": "RQ-69",
+      "origin": "finding",
+      "top": 0.7682713764475254
+    },
+    {
+      "id": "RQ-70",
+      "origin": "finding",
+      "top": 0.7505018419706646
+    },
+    {
+      "id": "RQ-85",
+      "origin": "missed",
+      "top": 0.6380966212126907
+    },
+    {
+      "id": "RQ-86",
+      "origin": "missed",
+      "top": 0.7046276988412508
+    },
+    {
+      "id": "RQ-87",
+      "origin": "missed",
+      "top": 0.8174359761887761
+    },
+    {
+      "id": "RQ-88",
+      "origin": "missed",
+      "top": 0.7290637218607877
+    },
+    {
+      "id": "RQ-89",
+      "origin": "missed",
+      "top": 0.6722765297773924
+    },
+    {
+      "id": "RQ-90",
+      "origin": "missed",
+      "top": 0.7882868294377952
+    },
+    {
+      "id": "RQ-91",
+      "origin": "missed",
+      "top": 0.7688159330964865
+    },
+    {
+      "id": "RQ-97",
+      "origin": "coverage",
+      "top": 0.7194133286390144
+    },
+    {
+      "id": "RQ-98",
+      "origin": "coverage",
+      "top": 0.7327049723816956
+    },
+    {
+      "id": "RQ-99",
+      "origin": "coverage",
+      "top": 0.8434310258343098
+    },
+    {
+      "id": "RQ-100",
+      "origin": "coverage",
+      "top": 0.7474327564601331
+    },
+    {
+      "id": "RQ-101",
+      "origin": "coverage",
+      "top": 0.7981363238593235
+    },
+    {
+      "id": "RQ-102",
+      "origin": "coverage",
+      "top": 0.7884985323085608
+    },
+    {
+      "id": "RQ-103",
+      "origin": "coverage",
+      "top": 0.7506868699342055
+    },
+    {
+      "id": "RQ-104",
+      "origin": "coverage",
+      "top": 0.6573594073206879
+    },
+    {
+      "id": "RQ-105",
+      "origin": "coverage",
+      "top": 0.7522844816918471
+    },
+    {
+      "id": "RQ-106",
+      "origin": "coverage",
+      "top": 0.749618862897276
+    },
+    {
+      "id": "RQ-107",
+      "origin": "coverage",
+      "top": 0.8421022072264038
+    },
+    {
+      "id": "RQ-108",
+      "origin": "coverage",
+      "top": 0.6104834603775953
+    },
+    {
+      "id": "RQ-109",
+      "origin": "coverage",
+      "top": 0.6949019529258573
+    },
+    {
+      "id": "RQ-110",
+      "origin": "coverage",
+      "top": 0.7728443219837067
+    },
+    {
+      "id": "RQ-111",
+      "origin": "coverage",
+      "top": 0.8374235015361909
+    },
+    {
+      "id": "RQ-112",
+      "origin": "coverage",
+      "top": 0.8050981735588651
+    },
+    {
+      "id": "RQ-113",
+      "origin": "coverage",
+      "top": 0.7595034340399789
+    },
+    {
+      "id": "RQ-114",
+      "origin": "coverage",
+      "top": 0.7508230442280174
+    },
+    {
+      "id": "RQ-115",
+      "origin": "coverage",
+      "top": 0.7455928545212224
+    },
+    {
+      "id": "RQ-116",
+      "origin": "coverage",
+      "top": 0.7505876326245389
+    },
+    {
+      "id": "RQ-117",
+      "origin": "coverage",
+      "top": 0.789691647137183
+    },
+    {
+      "id": "RQ-118",
+      "origin": "coverage",
+      "top": 0.6478596620063333
+    },
+    {
+      "id": "RQ-119",
+      "origin": "coverage",
+      "top": 0.6880492649339275
+    },
+    {
+      "id": "RQ-136",
+      "origin": "id",
+      "top": 0.7095078946814838
+    },
+    {
+      "id": "RQ-137",
+      "origin": "id",
+      "top": 0.778167308495818
+    },
+    {
+      "id": "RQ-140",
+      "origin": "none",
+      "top": 0.6766894530271443
+    },
+    {
+      "id": "RQ-141",
+      "origin": "none",
+      "top": 0.6589083607472687
+    },
+    {
+      "id": "RQ-142",
+      "origin": "none",
+      "top": 0.6708409650724272
+    },
+    {
+      "id": "RQ-143",
+      "origin": "none",
+      "top": 0.7618779727318201
+    },
+    {
+      "id": "RQ-144",
+      "origin": "none",
+      "top": 0.6313814392664617
+    },
+    {
+      "id": "RQ-145",
+      "origin": "none",
+      "top": 0.6011156674218651
+    },
+    {
+      "id": "RQ-146",
+      "origin": "none",
+      "top": 0.5908643576058662
+    },
+    {
+      "id": "RQ-147",
+      "origin": "none",
+      "top": 0.635722862575294
+    },
+    {
+      "id": "RQ-148",
+      "origin": "none",
+      "top": 0.6371804636117535
+    }
+  ]
+}

@@ -5,6 +5,7 @@ export * from "./load.js";
 export * from "./tokenize.js";
 export * from "./bm25.js";
 export * from "./search.js";
+export * from "./vectors.js";
 
 /**
  * Placeholder so lint, typecheck, test and build have real code to run on.

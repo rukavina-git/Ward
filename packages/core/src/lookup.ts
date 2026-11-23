@@ -92,6 +92,22 @@ export class KnowledgeBase {
    */
   search(query: string, options: SearchOptions = {}): SearchHit[] {
     const limit = options.limit ?? 20;
+    const hits = this.named(query);
+    const seen = new Set(hits.map((h) => h.chunk));
+    for (const hit of this.searcher(options).search(query, options)) {
+      if (hits.length >= limit) break;
+      if (seen.has(hit.chunk)) continue;
+      seen.add(hit.chunk);
+      hits.push(hit);
+    }
+    return hits.slice(0, limit);
+  }
+
+  /**
+   * Records named by ID in the query, in the order named: each one's first
+   * chunk. Unknown IDs are dropped, never guessed.
+   */
+  named(query: string): SearchHit[] {
     const hits: SearchHit[] = [];
     const seen = new Set<string>();
     for (const match of query.matchAll(idPattern)) {
@@ -106,13 +122,7 @@ export class KnowledgeBase {
         score: null,
       });
     }
-    for (const hit of this.searcher(options).search(query, options)) {
-      if (hits.length >= limit) break;
-      if (seen.has(hit.chunk)) continue;
-      seen.add(hit.chunk);
-      hits.push(hit);
-    }
-    return hits.slice(0, limit);
+    return hits;
   }
 
   private searcher(options: SearchOptions): ChunkSearch {
