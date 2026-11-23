@@ -1,10 +1,11 @@
 ---
 name: step
-description: Run the next unchecked step of the active plan in docs/plans/. Explain new concepts, plan, wait for approval, implement, test, review once, record progress.
+description: Run the next unchecked step of the active plan in docs/plans/. Explain new concepts, plan, implement, test, review once, record progress.
 disable-model-invocation: true
 ---
 
-Run exactly one step of the active plan. Keep every message short; I read on my phone.
+Run the next step of the active plan. If the step after it is small and
+closely related, do both in one run (one review, one commit each). Keep every message short; I read on my phone.
 
 1. Read `docs/plans/ACTIVE` (the plan folder name), then that folder's
    `00-overview.md` and `progress.md`. Pick the first unchecked step
@@ -13,14 +14,16 @@ Run exactly one step of the active plan. Keep every message short; I read on my 
    list any deferred steps, and stop.
 2. If the step is marked "(me)", list what I need to do, in order, with
    links, and stop. If it has no step file yet, write one in the style
-   of the others, show it, and stop for approval.
+   of the others and go on; don't stop for approval.
 3. Learn first. If the step uses an AI concept not yet in
    `docs/learning/glossary.md`, explain it in the big picture: plain
    words, max ~8 lines, no code, and how Ward will use it.
 4. Read the code the step names. Then give a plan of at most 5 lines:
    what changes, which files, which tests, and any paid API calls with
    an estimated cost. If the code contradicts the step file, say so.
-   Wait for my "go". Don't edit anything before it.
+   Then go on without waiting. Stop and ask only for a real decision:
+   scope or product changes, cutting a step, anything that costs money
+   or plan usage (eval runs), or code that contradicts the step file.
 5. Implement. Stay inside the step's scope and the overview's
    invariants. Say explicitly if you change a prompt in prompts/, the
    database schema, or the model. Check SDK usage and model ids against
