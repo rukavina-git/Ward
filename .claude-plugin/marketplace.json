@@ -1,11 +1,15 @@
 {
   "name": "ward",
-  "owner": { "name": "Ivan Karlo Rukavina" },
+  "owner": {
+    "name": "Ivan Karlo Rukavina"
+  },
   "plugins": [
     {
       "name": "ward",
       "source": "./plugin",
-      "description": "Pre-publish check for Android apps. Work in progress: no skill or MCP server yet."
+      "description": "Pre-publish check for Android apps: OWASP MASVS checklist, static analyzers and a cited report via /ward:check. No LLM calls of its own.",
+      "version": "0.9.0"
     }
-  ]
+  ],
+  "description": "Ward: a pre-publish check for Android apps, run by your own coding agent."
 }

@@ -51,6 +51,11 @@ the score each time; the middle 95% of those results is the interval.
 Ward uses a paired bootstrap on the MRR difference between two
 retrievers: a win counts only if the whole interval sits above 0.
 
+**Bundle (JavaScript).** One file made from a program and all the
+packages it imports, so it runs without `npm install`. Ward's plugin
+ships its MCP server as a bundle (esbuild), because a marketplace
+install copies `plugin/` only.
+
 **Brute-force search.** Compare the query with every stored vector and
 keep the closest ones. It's exact and simple; it only gets slow with
 millions of vectors. Ward has about 2,500, so it takes about a

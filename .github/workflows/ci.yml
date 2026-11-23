@@ -30,6 +30,9 @@ jobs:
       # Build first: packages import each other's dist/ types, and the
       # stdio test spawns the built MCP server.
       - run: npm run build
+      # The plugin ships a bundled server: the committed copy must match.
+      - run: npm run plugin:build
+      - run: test -z "$(git status --porcelain plugin/)"
       - run: npm run lint
       - run: npm run format:check
       - run: npm run typecheck

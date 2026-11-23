@@ -8,6 +8,20 @@ security first, then privacy and GDPR. Every finding cites the rule it comes fro
 
 > Status: early development.
 
+## Install
+
+In Claude Code (needs Node 26 on your PATH):
+
+```
+/plugin install ward --marketplace rukavina-git/Ward
+```
+
+On older Claude Code: `/plugin marketplace add rukavina-git/Ward`, then
+`/plugin install ward@ward`. Restart Claude Code, open your Android project and run
+`/ward:check`. Ward writes `.ward/report.json` and prints a one-screen summary. The only
+network call is the OSV advisory download (osv-vulnerabilities.storage.googleapis.com),
+cached for 24 hours.
+
 ## What it will do
 
 - **Check what's easy to forget.** Security (OWASP MASVS/MASTG), then privacy and GDPR. Later: Play policy and licences.

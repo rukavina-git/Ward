@@ -7,6 +7,7 @@ export default defineConfig(
   globalIgnores([
     "**/dist/",
     "**/coverage/",
+    "plugin/server/",
     "evals/.cache/",
     "packages/ingest/.cache/",
     "packages/ingest/out/",

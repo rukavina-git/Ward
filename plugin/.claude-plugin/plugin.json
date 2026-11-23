@@ -1,8 +1,13 @@
 {
   "name": "ward",
-  "version": "0.0.0",
-  "description": "Pre-publish check for Android apps. Work in progress: no skill or MCP server yet.",
-  "author": { "name": "Ivan Karlo Rukavina" },
-  "license": "MIT",
-  "repository": "https://github.com/rukavina-git/Ward"
+  "version": "0.9.0",
+  "description": "Pre-publish check for Android apps: OWASP MASVS checklist, static analyzers and a cited report via /ward:check. No LLM calls of its own.",
+  "author": {
+    "name": "Ivan Karlo Rukavina"
+  },
+  "license": "MIT AND CC-BY-SA-4.0",
+  "repository": "https://github.com/rukavina-git/Ward",
+  "network": {
+    "hosts": ["osv-vulnerabilities.storage.googleapis.com"]
+  }
 }

@@ -6,7 +6,7 @@
 - [x] 04 skill and /ward:check (461db14)
 - [x] 05 Ward on the held-out set (6d4c6d9)
 - [x] 06 must-exist checks (d71b86c)
-- [ ] 07 package as a plugin, run on my own app
+- [ ] 07 package as a plugin (done, HASH), run on my own app (me, open)
 
 ## Deviations
 - Step 01: step file written this run. MASWE is added in the MCP layer
@@ -57,6 +57,16 @@
   manifest's `<application` line, since an absence has no line of its
   own. `SKIP_DIRS` is now exported from find.ts. Server 0.9.0. No eval
   run (no prompt change).
+- Step 07: step file written this run. The server ships as an esbuild
+  bundle, `plugin/server/index.mjs` (~1 MB), with the index copied to
+  `plugin/data/`; both committed, built by `npm run plugin:build`. CI
+  rebuilds and fails on any change under `plugin/`. The MCP SDK vendors
+  ajv and others in its own dist; their licence texts were fetched once
+  from npm into `scripts/vendored-licences.json` (reviewer finding).
+  `plugin.json` declares `network.hosts` (OSV) and licence
+  "MIT AND CC-BY-SA-4.0". README has the install line the validator
+  suggests (`/plugin install ward --marketplace …`) plus the older
+  two-command form. Code part done; Karlo's run on his app is open.
 
 ## Gotchas
 Carried over: see docs/plans/mcp-and-analyzers/progress.md.
@@ -195,3 +205,22 @@ Step 06:
 - The example app now gets MASWE-0076 FAIL from code (EA-23); the clean
   twin NO FINDING. The held-out results predate this analyzer; the next
   held-out run (new skill version) will include it.
+
+Step 07 (reviewer: no BLOCKER; licence SHOULD fixed, plus two NITs:
+`absWorkingDir`, CI catches untracked files. Not fixed:)
+- SHOULD: the eval arm `ward-check` passes `--plugin-dir plugin`, and
+  plugin/ now has its own `.mcp.json`. Unchecked whether
+  `--strict-mcp-config` blocks plugin servers; if not, the next held-out
+  run gets a second server (`mcp__plugin_ward_ward__*`, not allowed).
+  Check with one tiny `claude -p` before the next eval run, or point
+  the arm at the plugin's bundle instead of dist.
+- SHOULD: the bundle test spawns plugin/server inside the repo, so
+  Node could still resolve repo node_modules; copy plugin/ to a temp
+  dir to test like a real install.
+- NIT: `network.hosts` and the one-step install line come from
+  `claude plugin validate` output, not docs.
+
+Step 07:
+- After any server change, run `npm run plugin:build` and commit
+  `plugin/`, or CI fails.
+- Tool names in an installed plugin are likely `mcp__plugin_ward_ward__*` (not checked).
