@@ -6,7 +6,7 @@
 - [x] 04 skill and /ward:check (461db14)
 - [x] 05 Ward on the held-out set (6d4c6d9)
 - [x] 06 must-exist checks (d71b86c)
-- [ ] 07 package as a plugin (done, 4a82896), run on my own app (me, open)
+- [x] 07 package as a plugin, run on my own app (4a82896)
 
 ## Deviations
 - Step 01: step file written this run. MASWE is added in the MCP layer
@@ -66,7 +66,10 @@
   `plugin.json` declares `network.hosts` (OSV) and licence
   "MIT AND CC-BY-SA-4.0". README has the install line the validator
   suggests (`/plugin install ward --marketplace …`) plus the older
-  two-command form. Code part done; Karlo's run on his app is open.
+  two-command form. Karlo ran it on GymBuddy (docs/measurements.md): 4 FAILs, 1 false
+  alarm. Installed from the local path: GitHub's `main` has only the
+  first commit, so `marketplace add rukavina-git/Ward` fails until the
+  develop → main PR.
 
 ## Gotchas
 Carried over: see docs/plans/mcp-and-analyzers/progress.md.
@@ -223,4 +226,10 @@ Step 07 (reviewer: no BLOCKER; licence SHOULD fixed, plus two NITs:
 Step 07:
 - After any server change, run `npm run plugin:build` and commit
   `plugin/`, or CI fails.
+- For Plan 6, from the GymBuddy run: group FAILs by finding, not by
+  control (one finding showed twice); the skill answered 36 checks from
+  titles only, so tie "no such code" to evidence; the email-field
+  keyboard FAIL is the agent misreading MASTG-TEST-0258; a user's own
+  hooks can hide folders from the agent, so list those as gaps (it did).
+- Install from GitHub needs the develop → main PR first.
 - Tool names in an installed plugin are likely `mcp__plugin_ward_ward__*` (not checked).

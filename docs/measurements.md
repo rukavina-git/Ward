@@ -9,6 +9,32 @@ and results that look bad for Ward.
 "$" is the API-equivalent Claude Code reports. Runs are on Karlo's Pro
 plan, not billed (ADR 0007).
 
+## 2026-11-23 Installed plugin on Karlo's own app (plan 5, step 07)
+
+- **Question:** does the installed plugin work on a real app Ward has
+  never seen, and are its FAILs right?
+- **Setup:** plugin 0.9.0 from the local marketplace, `/ward:check`,
+  full scope, variant release, on GymBuddy (Karlo's Kotlin/Compose app).
+  One run, Karlo's usual Claude Code session and model. Labels by Karlo.
+- **Numbers:** 4 min 50 s. Controls: FAIL 5, MANUAL 17, NEEDS DYNAMIC 2.
+  Checks: FAIL 7, MANUAL 93, NEEDS DYNAMIC 49, NO FINDING 48, N/A 45.
+  Citation check: all confirmed. The 7 FAIL rows are 4 findings, each
+  under two controls. Labels: security provider not updated
+  (MASTG-TEST-0295) real, low priority; user ID to Crashlytics
+  (MASTG-TEST-0318) intended, a Data safety disclosure; keyboard cache on
+  the email field (MASTG-TEST-0258) false alarm; no overlay protection on
+  login (MASTG-TEST-0340) intended. So 1 false alarm of 4; no misses
+  known. Analyzers (manifest, network, build config, dependencies,
+  must-exist) gave no FAIL. The agent read test text (`get_check`) for 20
+  of 56 checks it filled; the other 36 from titles only.
+- **What it means:** the plugin installs and runs end to end on a real
+  app with no noise from the analyzers. The one false alarm is the agent
+  applying a password-field test to an email field. Gaps: Karlo's own
+  guard hook blocked the agent from `app/src/prod` and a properties
+  file, so the agent didn't read them.
+- **Raw data:** kept in the app's repo (`.ward/report.json`, not
+  committed here).
+
 ## 2026-11-23 /ward:check on the held-out set, skill v1 (plan 5, step 05)
 
 - **Question:** does Ward's report find what Claude alone missed on 10

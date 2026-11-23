@@ -87,7 +87,7 @@ Scope from the council of 2026-11-23
 - [x] Ward on the held-out set (one arm, 10 cases)
 - [x] Must-exist checks: account deletion, privacy policy link,
       data-deletion URL
-- [ ] Package as a Claude Code plugin; run it on my own app
+- [x] Package as a Claude Code plugin; run it on my own app
 
 ## Plan 6: proof
 Learn: end-to-end evals for agents, and AI security.
