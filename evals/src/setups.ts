@@ -12,6 +12,22 @@ export interface Setup {
   flags: string[];
   /** The plugin this arm adds. `name` is the one in its plugin.json. */
   plugin?: { name: string; source: PluginSource };
+  /** An MCP server this arm adds: the only one, and all its tools allowed. */
+  mcp?: McpServer;
+}
+
+/** A stdio MCP server built in this repo. */
+export interface McpServer {
+  /** The server's name in the MCP config: tools are `mcp__<name>__<tool>`. */
+  name: string;
+  /** The entry file, relative to the repo root. Run with node. */
+  entry: string;
+  tools: string[];
+}
+
+/** The full names Claude Code gives an MCP server's tools. */
+export function mcpToolNames(mcp: McpServer): string[] {
+  return mcp.tools.map((t) => `mcp__${mcp.name}__${t}`);
 }
 
 export const setups: Record<string, Setup> = {
@@ -27,6 +43,24 @@ export const setups: Record<string, Setup> = {
     plugin: {
       name: "masvs-checklist",
       source: { kind: "local", path: "prompts/eval-checklist-plugin" },
+    },
+  },
+  ward: {
+    description:
+      "Claude Code + Ward's MCP server (knowledge tools and analyzers), no skill: the agent finds it through the tools' descriptions.",
+    flags: [],
+    mcp: {
+      name: "ward",
+      entry: "packages/mcp/dist/index.js",
+      tools: [
+        "checklist",
+        "get_check",
+        "search",
+        "manifest",
+        "network",
+        "build_config",
+        "dependencies",
+      ],
     },
   },
   owasp: {

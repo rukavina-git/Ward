@@ -1,5 +1,5 @@
 // npm run eval:run -- --app planted|clean --setup <arm> --model <id> --trial <n> [--smoke]
-// npm run eval:run -- --heldout HO-NN --setup alone --model <id> --trial <n> [--smoke]
+// npm run eval:run -- --heldout HO-NN --setup alone|ward --model <id> --trial <n> [--smoke]
 //   Held-out: the case's parent commit, exported from the clone that
 //   `npm run heldout:check` made. Files only: the history holds the fix.
 import { execFileSync } from "node:child_process";
@@ -12,10 +12,10 @@ import {
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { parseArgs } from "node:util";
 import { readSchemaText, validateFindings } from "./findings.js";
-import { checkIsolation, toolCalls } from "./isolation.js";
+import { checkIsolation, mcpCalls, toolCalls } from "./isolation.js";
 import { fileSha256, loadHeldOut, repoSlug } from "./held-out.js";
 import { loadKey, type AppKind } from "./key.js";
 import {
@@ -38,6 +38,7 @@ import {
   copyPlugin,
   exportTree,
   dirHash,
+  mcpConfig,
   fixtureState,
   parseStream,
   pluginSourceDir,
@@ -47,7 +48,7 @@ import {
   summarizeResult,
   TOOLS,
 } from "./run.js";
-import { setups } from "./setups.js";
+import { mcpToolNames, setups } from "./setups.js";
 
 const { values } = parseArgs({
   options: {
@@ -99,7 +100,8 @@ let target: {
   copy: () => { dir: string; parent: string };
 };
 if (heldOutId !== undefined) {
-  if (setupName !== "alone") fail("held-out runs use --setup alone only");
+  if (setupName !== "alone" && setupName !== "ward")
+    fail("held-out runs use --setup alone or ward");
   const key = loadHeldOut(heldOutKeyPath);
   const c =
     key.cases.find((x) => x.id === heldOutId) ??
@@ -170,6 +172,13 @@ const pluginSource =
     ? null
     : pluginSourceDir(setup.plugin.source, repoRoot, cacheRoot);
 
+const mcpEntry =
+  setup.mcp === undefined ? null : join(repoRoot, setup.mcp.entry);
+if (mcpEntry !== null && !existsSync(mcpEntry))
+  fail(`${mcpEntry} is missing. Run npm run build first.`);
+const mcpArg =
+  setup.mcp === undefined ? undefined : mcpConfig(setup.mcp, repoRoot);
+
 const copy = target.copy();
 console.error(`Running ${name} (${model}). This takes a few minutes.`);
 try {
@@ -177,7 +186,12 @@ try {
     setup.plugin === undefined || pluginSource === null
       ? undefined
       : copyPlugin(pluginSource.dir, copy.parent, setup.plugin.name);
-  const args = buildArgs(setup, { model, schema: schemaArg, pluginDir });
+  const args = buildArgs(setup, {
+    model,
+    schema: schemaArg,
+    pluginDir,
+    mcpConfig: mcpArg,
+  });
   const run = await runClaude({
     args,
     cwd: copy.dir,
@@ -189,13 +203,21 @@ try {
   });
   const transcript = readFileSync(join(outDir, "transcript.jsonl"), "utf8");
   const stream = parseStream(transcript);
+  const calls = toolCalls(transcript);
+  const wardCalls =
+    setup.mcp === undefined ? null : mcpCalls(calls, setup.mcp.name);
   const roots = [copy.dir, ...(pluginDir === undefined ? [] : [pluginDir])];
   const isolation =
     stream.init === null
       ? null
-      : checkIsolation(stream.init, toolCalls(transcript), {
-          tools: [...TOOLS, "StructuredOutput"],
+      : checkIsolation(stream.init, calls, {
+          tools: [
+            ...TOOLS,
+            "StructuredOutput",
+            ...(setup.mcp === undefined ? [] : mcpToolNames(setup.mcp)),
+          ],
           plugin: setup.plugin?.name,
+          mcpServer: setup.mcp?.name,
           cwd: copy.dir,
           roots: [...roots, ...roots.map((r) => realpathSync(r))],
         });
@@ -240,6 +262,14 @@ try {
             commit: pluginSource?.commit ?? null,
             sha256: dirHash(pluginDir),
           },
+    mcp:
+      setup.mcp === undefined || mcpEntry === null
+        ? null
+        : {
+            name: setup.mcp.name,
+            entry: setup.mcp.entry,
+            distSha256: dirHash(dirname(mcpEntry)),
+          },
     ...target.meta(),
     trial,
     modelRequested: model,
@@ -248,6 +278,8 @@ try {
     key: target.key,
     repoCommit,
     promptSha256: sha256(prompt),
+    // The transcript stays local and unedited; this hash shows it.
+    transcriptSha256: sha256(transcript),
     schemaSha256: sha256(schemaText),
     flags: args.map((a) =>
       a === schemaArg ? "<prompts/eval-findings.schema.json>" : a,
@@ -259,13 +291,25 @@ try {
     wallMs: run.durationMs,
     findings: findingsCount,
     skillsInvoked: isolation?.skillsInvoked ?? null,
+    wardCalls,
+    searchQueries:
+      wardCalls === null
+        ? null
+        : wardCalls
+            .filter((c) => c.tool === "search")
+            .map((c) => c.input.query ?? null),
     outsideBlocked: isolation?.outsideBlocked ?? null,
     init: stream.init === null ? null : summarizeInit(stream.init),
     result: stream.result === null ? null : summarizeResult(stream.result),
   };
   writeFileSync(
     join(outDir, "meta.json"),
-    redact(`${JSON.stringify(meta, null, 2)}\n`, copy.parent),
+    // The agent may use the real path (/private/var/… on macOS): redact
+    // that one first, or "/private" stays in front of "<tmp>".
+    redact(
+      redact(`${JSON.stringify(meta, null, 2)}\n`, realpathSync(copy.parent)),
+      copy.parent,
+    ),
   );
 
   const cost = stream.result?.total_cost_usd;

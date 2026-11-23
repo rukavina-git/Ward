@@ -14,7 +14,7 @@ import { homedir, tmpdir } from "node:os";
 import { basename, join, relative } from "node:path";
 import { finished } from "node:stream/promises";
 import { appFolderName } from "./paths.js";
-import type { PluginSource, Setup } from "./setups.js";
+import { mcpToolNames, type PluginSource, type Setup } from "./setups.js";
 
 /**
  * Built-in tools every arm gets: read, search and skills, nothing that runs
@@ -39,15 +39,46 @@ export const ISOLATION_FLAGS = [
   "--restricted",
 ];
 
+/**
+ * The --mcp-config JSON for an arm's MCP server: node on the built entry
+ * file, by absolute path. With --strict-mcp-config it is the only server.
+ */
+export function mcpConfig(
+  mcp: NonNullable<Setup["mcp"]>,
+  repoRoot: string,
+): string {
+  return JSON.stringify({
+    mcpServers: {
+      [mcp.name]: { command: "node", args: [join(repoRoot, mcp.entry)] },
+    },
+  });
+}
+
 /** Arguments for `claude`. The prompt goes in on stdin. Never --bare (ADR 0007). */
 export function buildArgs(
   setup: Setup,
-  opts: { model: string; schema: string; pluginDir?: string | undefined },
+  opts: {
+    model: string;
+    schema: string;
+    pluginDir?: string | undefined;
+    /** From mcpConfig(); required when the arm has an MCP server. */
+    mcpConfig?: string | undefined;
+  },
 ): string[] {
   const plugin =
     opts.pluginDir === undefined
       ? []
       : ["--plugin-dir", opts.pluginDir, "--add-dir", opts.pluginDir];
+  if ((setup.mcp === undefined) !== (opts.mcpConfig === undefined))
+    throw new Error(
+      "mcpConfig must be given exactly when the arm has an MCP server",
+    );
+  const mcp =
+    opts.mcpConfig === undefined ? [] : ["--mcp-config", opts.mcpConfig];
+  const allowed = [
+    ...TOOLS,
+    ...(setup.mcp === undefined ? [] : mcpToolNames(setup.mcp)),
+  ];
   return [
     "-p",
     "--output-format",
@@ -60,7 +91,7 @@ export function buildArgs(
     "--tools",
     TOOLS.join(","),
     "--allowedTools",
-    TOOLS.join(","),
+    allowed.join(","),
     "--disallowedTools",
     BLOCKED_TOOLS.join(","),
     "--permission-mode",
@@ -68,6 +99,7 @@ export function buildArgs(
     "--no-session-persistence",
     ...ISOLATION_FLAGS,
     ...plugin,
+    ...mcp,
     ...setup.flags,
   ];
 }

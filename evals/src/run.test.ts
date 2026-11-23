@@ -21,6 +21,7 @@ import {
   copyPlugin,
   dirHash,
   exportTree,
+  mcpConfig,
   parseStream,
   pluginSourceDir,
   redact,
@@ -65,8 +66,9 @@ describe("buildArgs", () => {
     expect(args).not.toContain("--plugin-dir");
   });
 
-  it("differs between arms only in the plugin folder", () => {
+  it("differs between arms only in the plugin folder or MCP server", () => {
     for (const [name, setup] of Object.entries(setups)) {
+      if (setup.mcp !== undefined) continue;
       const pluginDir = setup.plugin ? "/tmp/x/plugins/p" : undefined;
       const armArgs = buildArgs(setup, {
         model: "some-model",
@@ -81,8 +83,44 @@ describe("buildArgs", () => {
     }
   });
 
-  it("has the three baseline arms, each plugin pinned", () => {
-    expect(Object.keys(setups)).toEqual(["alone", "checklist", "owasp"]);
+  it("gives the ward arm its MCP server, alone, with its tools allowed", () => {
+    const ward = setups.ward;
+    if (ward?.mcp === undefined) throw new Error("setup 'ward' is missing");
+    const config = mcpConfig(ward.mcp, "/repo");
+    expect(JSON.parse(config)).toEqual({
+      mcpServers: {
+        ward: { command: "node", args: ["/repo/packages/mcp/dist/index.js"] },
+      },
+    });
+    const wardArgs = buildArgs(ward, {
+      model: "some-model",
+      schema: "{}",
+      mcpConfig: config,
+    });
+    expect(after(wardArgs, "--mcp-config")).toBe(config);
+    expect(wardArgs).toContain("--strict-mcp-config");
+    expect(after(wardArgs, "--tools")).toBe("Read,Grep,Glob,Skill");
+    expect(after(wardArgs, "--allowedTools")?.split(",")).toEqual([
+      "Read",
+      "Grep",
+      "Glob",
+      "Skill",
+      ...ward.mcp.tools.map((t) => `mcp__ward__${t}`),
+    ]);
+    expect(ward.mcp.tools).toHaveLength(7);
+    expect(() => buildArgs(ward, { model: "m", schema: "{}" })).toThrow();
+    expect(() =>
+      buildArgs(alone, { model: "m", schema: "{}", mcpConfig: config }),
+    ).toThrow();
+  });
+
+  it("has the baseline arms plus ward, each plugin pinned", () => {
+    expect(Object.keys(setups)).toEqual([
+      "alone",
+      "checklist",
+      "ward",
+      "owasp",
+    ]);
     const owasp = setups.owasp?.plugin?.source;
     expect(owasp).toMatchObject({ kind: "git", tag: "v0.2.11" });
     if (owasp?.kind === "git") expect(owasp.commit).toMatch(/^[0-9a-f]{40}$/);

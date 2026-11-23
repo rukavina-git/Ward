@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   checkIsolation,
+  mcpCalls,
   toolCalls,
   type IsolationExpect,
   type ToolCall,
@@ -160,6 +161,81 @@ describe("checkIsolation", () => {
     );
     expect(report.failures).toEqual([
       "called Bash, which the arm doesn't have",
+    ]);
+  });
+
+  const wardTools = [...tools, "mcp__ward__search", "mcp__ward__manifest"];
+  const wardInit = {
+    ...goodInit,
+    plugins: [goodInit.plugins[1]],
+    mcp_servers: [{ name: "ward", status: "connected" }],
+    tools: wardTools,
+  };
+  const expectWard: IsolationExpect = {
+    ...expectChecklist,
+    tools: wardTools,
+    plugin: undefined,
+    mcpServer: "ward",
+  };
+
+  it("passes the ward arm with its server connected and projectRoot in the copy", () => {
+    const report = checkIsolation(
+      wardInit,
+      [
+        call("mcp__ward__search", { query: "backup" }),
+        call("mcp__ward__manifest", { projectRoot: "/tmp/x/penny-jar" }),
+      ],
+      expectWard,
+    );
+    expect(report.failures).toEqual([]);
+  });
+
+  it("fails a second server, a missing one, a failed one", () => {
+    for (const servers of [
+      [
+        { name: "ward", status: "connected" },
+        { name: "other", status: "connected" },
+      ],
+      [],
+      [{ name: "ward", status: "failed" }],
+    ]) {
+      const report = checkIsolation(
+        { ...wardInit, mcp_servers: servers },
+        [],
+        expectWard,
+      );
+      expect(report.failures).toHaveLength(1);
+      expect(report.failures[0]).toMatch(/MCP servers are/);
+    }
+  });
+
+  it("fails a Ward analyzer pointed outside the copy", () => {
+    const report = checkIsolation(
+      wardInit,
+      [call("mcp__ward__manifest", { projectRoot: "/Users/someone/ward" })],
+      expectWard,
+    );
+    expect(report.failures).toEqual([
+      "mcp__ward__manifest outside the copy: /Users/someone/ward",
+    ]);
+  });
+});
+
+describe("mcpCalls", () => {
+  it("lists one server's calls in order, without the prefix", () => {
+    expect(
+      mcpCalls(
+        [
+          call("Read", { file_path: "a" }),
+          call("mcp__ward__search", { query: "webview" }),
+          call("mcp__other__x", {}),
+          call("mcp__ward__manifest", { projectRoot: "/tmp/x" }, true),
+        ],
+        "ward",
+      ),
+    ).toEqual([
+      { tool: "search", input: { query: "webview" }, isError: false },
+      { tool: "manifest", input: { projectRoot: "/tmp/x" }, isError: true },
     ]);
   });
 });

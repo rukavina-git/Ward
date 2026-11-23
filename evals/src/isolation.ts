@@ -54,6 +54,25 @@ export function toolCalls(text: string): ToolCall[] {
   return [...calls.values()];
 }
 
+/** One call to an arm's MCP server, as logged in meta.json. */
+export interface McpCall {
+  tool: string;
+  input: Json;
+  isError: boolean | null;
+}
+
+/** The calls to one MCP server, in order, with the server prefix dropped. */
+export function mcpCalls(calls: ToolCall[], server: string): McpCall[] {
+  const prefix = `mcp__${server}__`;
+  return calls
+    .filter((c) => c.name.startsWith(prefix))
+    .map((c) => ({
+      tool: c.name.slice(prefix.length),
+      input: c.input,
+      isError: c.isError,
+    }));
+}
+
 /** The folder part of a glob pattern: everything before the first wildcard. */
 function globBase(pattern: string): string {
   const parts = pattern.split("/");
@@ -74,7 +93,8 @@ function touchedPaths(call: ToolCall): string[] {
       return [...s(call.input.path), ...pattern];
     }
     default:
-      return [];
+      // An MCP analyzer reads the folder it is given, like a Read.
+      return call.name.startsWith("mcp__") ? s(call.input.projectRoot) : [];
   }
 }
 
@@ -88,6 +108,8 @@ export interface IsolationExpect {
   tools: string[];
   /** The arm's plugin name, if it has one. */
   plugin: string | undefined;
+  /** The arm's MCP server name, if it has one: the only server allowed. */
+  mcpServer?: string | undefined;
   /** The agent's working folder: relative paths resolve against it. */
   cwd: string;
   /** Folders the agent may read: the copy and the plugin, each also as its real path. */
@@ -116,9 +138,23 @@ export function checkIsolation(
   if (init.apiKeySource !== "none")
     failures.push(`apiKeySource is ${String(init.apiKeySource)}, not none`);
 
-  const mcp = init.mcp_servers;
-  if (!Array.isArray(mcp) || mcp.length > 0)
-    failures.push("MCP servers loaded");
+  const mcp = Array.isArray(init.mcp_servers)
+    ? (init.mcp_servers as unknown[])
+    : null;
+  if (expect.mcpServer === undefined) {
+    if (mcp === null || mcp.length > 0) failures.push("MCP servers loaded");
+  } else {
+    const ok =
+      mcp !== null &&
+      mcp.length === 1 &&
+      isRecord(mcp[0]) &&
+      mcp[0].name === expect.mcpServer &&
+      mcp[0].status === "connected";
+    if (!ok)
+      failures.push(
+        `MCP servers are ${JSON.stringify(mcp)}, not ${expect.mcpServer} connected`,
+      );
+  }
 
   const tools = Array.isArray(init.tools) ? (init.tools as unknown[]) : [];
   const want = [...expect.tools].sort();

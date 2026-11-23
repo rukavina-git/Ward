@@ -1,0 +1,181 @@
+{
+  "findings": [
+    {
+      "title": "Cleartext HTTP allowed for all domains",
+      "category": "security",
+      "severity": "high",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0050"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 10
+        }
+      ],
+      "explanation": "The base-config sets cleartextTrafficPermitted=\"true\" for every domain. Messages and credentials can be sent over plain HTTP and read or changed on the network. Set it to false. If you must support HTTP servers, allow them only through narrow domain-config entries."
+    },
+    {
+      "title": "User-installed CAs trusted in release builds",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0052"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 14
+        }
+      ],
+      "explanation": "The base-config trusts user-installed CAs. Anyone who can install a certificate on the device can intercept the app's TLS traffic. Combined with the cleartext setting and no pin-set, a network attacker has an easy path to the traffic. Limit user CAs to a debug-overrides block, or make this an opt-in setting for managed devices."
+    },
+    {
+      "title": "Auto-backup enabled with an empty backup rules file",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-1"
+      ],
+      "maswe": [
+        "MASWE-0004"
+      ],
+      "locations": [
+        {
+          "file": "app/src/gplay/AndroidManifest.xml",
+          "line": 14,
+          "endLine": 15
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 88,
+          "endLine": 89
+        },
+        {
+          "file": "app/src/main/res/xml/backup_config.xml",
+          "line": 8,
+          "endLine": 10
+        }
+      ],
+      "explanation": "allowBackup is true, and backup_config.xml has only a comment and no exclude rules. The comment says the GCM registration ID prefs should be excluded, but nothing is. Account data, tokens, the chat database and push registration can end up in cloud backups or adb backups. The app also needs dataExtractionRules for Android 12+, and none is set. Add excludes and data-extraction rules, or set allowBackup to false."
+    },
+    {
+      "title": "Vulnerable jackson-core version (4 advisories, 3 high)",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle.kts",
+          "line": 254
+        }
+      ],
+      "explanation": "jackson-core 2.20.1 is affected by GHSA-72hv-8253-57qq, GHSA-7hhh-6rmp-j9qf, GHSA-p6pp-m3f8-5c89 and GHSA-r7wm-3cxj-wff9. These are DoS and ReDoS issues in the parser. Upgrade to 2.21.7 or later."
+    },
+    {
+      "title": "No certificate pinning configured",
+      "category": "security",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-NETWORK-2"
+      ],
+      "maswe": [
+        "MASWE-0047"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 10
+        }
+      ],
+      "explanation": "There is no pin-set in the network security config. The app talks to user-chosen self-hosted servers, so pinning may be deliberately left out. Decide whether that is acceptable. If pinning is done in code, confirm it."
+    },
+    {
+      "title": "Sensitive permissions and Play declarations need review",
+      "category": "play",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 43
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 45,
+          "endLine": 46
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 47,
+          "endLine": 48
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 66,
+          "endLine": 68
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 76,
+          "endLine": 77
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 94
+        }
+      ],
+      "explanation": "Several permissions need a Play Console declaration or justification. These are USE_FULL_SCREEN_INTENT, the camera and microphone foreground service types, READ_CONTACTS and WRITE_CONTACTS, READ_MEDIA_IMAGES, VIDEO and AUDIO (Play's photo and video permission policy), and FINE and COARSE location. Check each one is needed and disclosed in the Data safety form and privacy policy. Prefer the photo picker over broad media access, and request only coarse location if that is enough. requestLegacyExternalStorage is ignored on targetSdk 30 and above and can be removed."
+    },
+    {
+      "title": "Exported entry points accept content:// and file:// VIEW intents and a custom scheme",
+      "category": "security",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 109,
+          "endLine": 138
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 167,
+          "endLine": 190
+        }
+      ],
+      "explanation": "MainActivity handles VIEW intents for content:, file: and the browsable nextcloudtalk:// scheme. ConversationsListActivity handles SEND and SEND_MULTIPLE. Any app or web page can send data to these. Check that the intent data is validated, that file URIs cannot reach private app files, and that a deep link cannot trigger actions without user confirmation."
+    }
+  ],
+  "inspected": [
+    "app/build.gradle.kts",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/gplay/AndroidManifest.xml",
+    "app/src/main/res/xml/network_security_config.xml",
+    "app/src/main/res/xml/backup_config.xml"
+  ]
+}

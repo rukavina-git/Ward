@@ -6,7 +6,7 @@
 - [x] 04 manifest analyzer (969a879)
 - [x] 05 network security config and targetSdk analyzers (bdefc24)
 - [x] 06 dependency check (OSV, last, cuttable) (92f2418)
-- [ ] 07 use Ward from Claude Code
+- [x] 07 use Ward from Claude Code (HASH)
 
 ## Deviations
 - Step 01: pilot of 10 (batch 1) instead of 30, as the step file's item 3
@@ -79,6 +79,16 @@
   annotation is readOnlyHint true, openWorldHint true (the step's "not
   read-only to the outside world" meant the download). CLAUDE.md lists
   the new tool. Server 0.4.0.
+- Step 07: step file written this run. Ward is wired as an eval arm
+  (`--mcp-config` with `--strict-mcp-config`), not through the repo's
+  .mcp.json (the runner ignores project settings on purpose). Case HO-04
+  picked by Karlo. The transcript stays local (gitignored: it holds the
+  app's GPL code); its sha256 is in meta.json instead of committing it.
+  The non-gate arm's table reuses the gate's bar, whose outcome line
+  means nothing for one run (said in ward.md). Labels proposed by
+  Claude; Karlo to confirm. meta.json of the run fixed by hand:
+  `/private<tmp>` → `<tmp>` (redaction bug, now fixed in the runner).
+  `eval:run` now builds core, analyzers and mcp too.
 
 ## Gotchas
 Carried over: see docs/plans/knowledge-base/progress.md (no "nothing
@@ -212,3 +222,24 @@ Step 06:
   `WARD_CACHE_DIR` (stdio test). Step 07's live run downloads 10.6 MB.
 - BOM-managed versions are the common gap; reading `platform(…)` BOMs'
   managed versions would need the BOM's POM (a second download).
+
+Step 07:
+- Result: HO-04 found (alone missed it), via the `dependencies` tool.
+  The agent never called search, get_check or checklist.
+- Analyzer verdicts carry MASTG test IDs but no MASWE IDs; the agent
+  filled in MASWE itself and got 4 of 5 wrong. Add MASWE (via the
+  index's test → weakness links) to every verdict (plan 5).
+- The `dependencies` result was 45 KB (about 11k tokens); trim it
+  (unresolved and non-release lists) before it hits the 25k cap.
+- The agent passes the real temp path (`/private/var/…` on macOS) as
+  projectRoot; isolation compares both forms.
+
+Step 07 (reviewer: no BLOCKER; not fixed):
+- SHOULD: meta.json `mcp` hashes only packages/mcp/dist; record the
+  server version and hash core's index.json and the analyzers too.
+- SHOULD: searchQueries is built inline in run-cli, untested; move it
+  next to `mcpCalls` with a test.
+- NITs: a Ward call that errors with projectRoot outside the copy counts
+  as outsideBlocked (Ward has no --restricted guard: fail it instead);
+  no test that the ward arm keeps the shared isolation flags; ward.md's
+  outcome line says "of 10" (skip the bar for non-gate arms).

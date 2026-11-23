@@ -72,7 +72,7 @@ Scope from the council of 2026-11-23
       targetSdk (plan 4 steps 04 and 05)
 - [x] Dependency check, last and cuttable: fresh OSV data matched by
       Ward, data date on every verdict (ADR 0011)
-- [ ] Use Ward from Claude Code while building it (.mcp.json)
+- [x] Use Ward from Claude Code while building it (.mcp.json)
 
 ## Plan 5: the check
 Learn: agent workflows, skills, structured output.

@@ -9,6 +9,27 @@ and results that look bad for Ward.
 "$" is the API-equivalent Claude Code reports. Runs are on Karlo's Pro
 plan, not billed (ADR 0007).
 
+## 2026-11-23 First run with Ward's MCP tools, HO-04 (plan 4, step 07)
+
+- **Question:** given Ward's MCP tools, does Claude Code use them, and
+  does it then find a held-out fix that Claude alone missed?
+- **Setup:** arm `ward` (Ward's MCP server only, no skill, same task
+  prompt), Sonnet 5.5, one trial, HO-04's parent commit (nextcloud
+  talk-android). Compared with the gate's `alone` run of HO-04.
+- **Numbers:** found HO-04 (alone: missed). 7 findings; 4 Ward calls
+  (manifest, build_config, network, dependencies), 0 searches. MASWE IDs:
+  1 of 5 right (MASWE-0044, given by Ward's tool); MASVS 7 of 7 right.
+  28 s, 13 turns, 5 files read, $0.23 (alone: 36 s, 14 turns, 7 files,
+  $0.17). The dependencies result alone was 45 KB (about 11k tokens).
+- **What it means:** with no instructions, the agent called Ward's
+  analyzers on its own and the dependency check turned a miss into a
+  hit. IDs are right only where Ward's output names them: analyzer
+  verdicts should carry MASWE IDs. One case, one trial: an anecdote,
+  not a score.
+- **Raw data:** `evals/results/held-out/2026-11-23-ward-HO-04-t1/`,
+  `evals/results/held-out/ward.md` (transcript local, sha256 in
+  meta.json).
+
 ## 2026-11-23 OSV Maven data for the dependency check (plan 4, step 06)
 
 - **Question:** is downloading OSV's Maven data at check time small and

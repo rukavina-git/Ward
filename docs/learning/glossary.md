@@ -449,6 +449,12 @@ too. Ward's schemas also cap inputs (a query is at most 500 characters):
 the server rejects a bad call before any Ward code runs. Tool
 annotations add hints such as "read-only".
 
+**Transcript (trace).** The full record of one agent run, message by
+message: what the model said, each tool call with its input, and each
+result. It shows how an answer came about, not just the answer. Ward's
+eval runs keep it as `transcript.jsonl` (local, unedited; its hash goes
+in meta.json) and pull the Ward calls and search queries out of it.
+
 **Training cutoff.** The date a model's training data ends. A fix made
 after it can't be in what the model learned, so it tests reasoning, not
 memory. Sonnet 5.5 and Opus 5.5: June 2026.

@@ -1,0 +1,276 @@
+{
+  "name": "2026-11-23-ward-HO-04-t1",
+  "date": "2026-11-23T09:56:36.840Z",
+  "smoke": false,
+  "setup": "ward",
+  "setupDescription": "Claude Code + Ward's MCP server (knowledge tools and analyzers), no skill: the agent finds it through the tools' descriptions.",
+  "plugin": null,
+  "mcp": {
+    "name": "ward",
+    "entry": "packages/mcp/dist/index.js",
+    "distSha256": "0d19788b629f3e23e4fb534a159d12deb328142e03d3161f63e1c9cc1a26dd6f"
+  },
+  "case": "HO-04",
+  "repo": "https://github.com/nextcloud/talk-android",
+  "commit": "487f5b6c7b36377f0b4b8c8fad142dd982e574af",
+  "commitRole": "parent",
+  "barSha256": "82b98999930da9d8c811ef5d9b71df8b006409539b19a55b7ecf2a7f05594314",
+  "keySha256": "a422b14efae8755765f1121c0cb1220a4b46cc90fb1256903ff6613e4f04ee86",
+  "symlinksRemoved": 0,
+  "trial": 1,
+  "modelRequested": "claude-sonnet-5-5",
+  "modelReported": "claude-sonnet-5-5",
+  "claudeCodeVersion": "2.1.330 (Claude Code)",
+  "key": {
+    "name": "held-out",
+    "keyVersion": 1
+  },
+  "repoCommit": "59895e39a0a194156af132e1e95bbf7ad8954d14",
+  "promptSha256": "0c0f4a311636ca5fa89b3247e9a626a4ed4f613dc52a0bb9ee7e0e95226b5b05",
+  "transcriptSha256": "f900defb3e98a24e452b6b7bef60666887d7277040898ac66d8d657fc573ba1b",
+  "schemaSha256": "bb61ae0b7ad3ac279b563942f1cbefaf22786da19ff2cc8cd280d6d4a24c7d69",
+  "flags": [
+    "-p",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--json-schema",
+    "<prompts/eval-findings.schema.json>",
+    "--model",
+    "claude-sonnet-5-5",
+    "--tools",
+    "Read,Grep,Glob,Skill",
+    "--allowedTools",
+    "Read,Grep,Glob,Skill,mcp__ward__checklist,mcp__ward__get_check,mcp__ward__search,mcp__ward__manifest,mcp__ward__network,mcp__ward__build_config,mcp__ward__dependencies",
+    "--disallowedTools",
+    "WebFetch,WebSearch",
+    "--permission-mode",
+    "dontAsk",
+    "--no-session-persistence",
+    "--setting-sources",
+    "",
+    "--strict-mcp-config",
+    "--settings",
+    "{\"autoMemoryEnabled\":false}",
+    "--restricted",
+    "--mcp-config",
+    "{\"mcpServers\":{\"ward\":{\"command\":\"node\",\"args\":[\"~/Dev/ward/packages/mcp/dist/index.js\"]}}}"
+  ],
+  "status": "ok",
+  "failures": [],
+  "exitCode": 0,
+  "timedOut": false,
+  "wallMs": 27825,
+  "findings": 7,
+  "skillsInvoked": [],
+  "wardCalls": [
+    {
+      "tool": "manifest",
+      "input": {
+        "projectRoot": "<tmp>/app"
+      },
+      "isError": false
+    },
+    {
+      "tool": "build_config",
+      "input": {
+        "projectRoot": "<tmp>/app"
+      },
+      "isError": false
+    },
+    {
+      "tool": "network",
+      "input": {
+        "projectRoot": "<tmp>/app"
+      },
+      "isError": false
+    },
+    {
+      "tool": "dependencies",
+      "input": {
+        "projectRoot": "<tmp>/app"
+      },
+      "isError": false
+    }
+  ],
+  "searchQueries": [],
+  "outsideBlocked": 0,
+  "init": {
+    "model": "claude-sonnet-5-5",
+    "claude_code_version": "2.1.330",
+    "permissionMode": "dontAsk",
+    "apiKeySource": "none",
+    "tools": [
+      "Glob",
+      "Grep",
+      "Read",
+      "Skill",
+      "StructuredOutput",
+      "mcp__ward__build_config",
+      "mcp__ward__checklist",
+      "mcp__ward__dependencies",
+      "mcp__ward__get_check",
+      "mcp__ward__manifest",
+      "mcp__ward__network",
+      "mcp__ward__search"
+    ],
+    "mcp_servers": [
+      {
+        "name": "ward",
+        "status": "connected",
+        "source": "dynamic"
+      }
+    ],
+    "slash_commands": [
+      "design",
+      "design-sync",
+      "dataviz",
+      "update-config",
+      "verify",
+      "debug",
+      "code-review",
+      "simplify",
+      "batch",
+      "fewer-permission-prompts",
+      "doctor",
+      "loop",
+      "schedule",
+      "claude-api",
+      "run",
+      "run-skill-generator",
+      "plugin-authoring",
+      "advisor",
+      "agents",
+      "auto-mode-setup",
+      "autocompact",
+      "clear",
+      "color",
+      "compact",
+      "config",
+      "output-style",
+      "context",
+      "effort",
+      "fast",
+      "focus",
+      "heapdump",
+      "init",
+      "mcp",
+      "import",
+      "model",
+      "__remote-workflow",
+      "workflow-launch-exec",
+      "reload-plugins",
+      "reload-skills",
+      "rename",
+      "ultrareview",
+      "security-review",
+      "usage-credits",
+      "extra-usage",
+      "usage",
+      "insights",
+      "recap",
+      "skill-doctor",
+      "goal",
+      "design-consent",
+      "design-revoke",
+      "list-agents",
+      "team-onboarding"
+    ],
+    "skills": [
+      "design",
+      "design-sync",
+      "dataviz",
+      "update-config",
+      "verify",
+      "debug",
+      "code-review",
+      "simplify",
+      "batch",
+      "fewer-permission-prompts",
+      "doctor",
+      "loop",
+      "schedule",
+      "claude-api",
+      "run",
+      "run-skill-generator",
+      "plugin-authoring"
+    ],
+    "agents": [
+      "claude",
+      "Explore",
+      "general-purpose",
+      "Plan",
+      "statusline-setup",
+      "web-fetch"
+    ],
+    "output_style": "default",
+    "plugins": [
+      "cc-plugin-agents-md@builtin",
+      "cc-plugin-telemetry@builtin",
+      "cc-plugin-privacy@builtin",
+      "cc-plugin-plugin-authoring@builtin",
+      "cc-plugin-easel@builtin"
+    ]
+  },
+  "result": {
+    "subtype": "success",
+    "is_error": false,
+    "num_turns": 13,
+    "duration_ms": 27006,
+    "duration_api_ms": 24954,
+    "total_cost_usd": 0.23353780000000002,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 47110,
+      "cache_read_input_tokens": 96718,
+      "output_tokens": 3541,
+      "output_tokens_details": {
+        "thinking_tokens": 247
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47110,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "global",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 2323,
+          "cache_read_input_tokens": 44749,
+          "cache_creation_input_tokens": 2361,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2361
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard",
+      "fallback_credit": null
+    },
+    "modelUsage": {
+      "claude-sonnet-5-5": {
+        "inputTokens": 8,
+        "outputTokens": 3541,
+        "cacheReadInputTokens": 96718,
+        "cacheCreationInputTokens": 47110,
+        "webSearchRequests": 0,
+        "costUSD": 0.23353780000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 247,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 47110,
+        "canonicalModel": "claude-sonnet-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "permission_denials": 0
+  }
+}
