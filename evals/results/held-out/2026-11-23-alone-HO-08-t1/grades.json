@@ -1,0 +1,151 @@
+{
+  "run": "2026-11-23-alone-HO-08-t1",
+  "case": "HO-08",
+  "kind": "absence",
+  "found": {
+    "candidates": [],
+    "proposed": "missed",
+    "label": "missed"
+  },
+  "decoysFlagged": {
+    "candidates": [],
+    "proposed": 0,
+    "label": 0
+  },
+  "findings": [
+    {
+      "finding": 0,
+      "title": "Auto Backup enabled with no backup rules; custom agent leaves full-backup file copying at its default",
+      "where": [
+        "app/src/main/AndroidManifest.xml:77-80",
+        "app/src/main/java/org/thoughtcrime/securesms/absbackup/SignalBackupAgent.kt:18"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 1,
+      "title": "Hardcoded Google Maps and Giphy API keys in build script",
+      "where": [
+        "app/build.gradle.kts:261",
+        "app/build.gradle.kts:298"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 2,
+      "title": "Sensitive and restricted permissions need Play Console declarations and justification",
+      "where": [
+        "app/src/main/AndroidManifest.xml:24-25",
+        "app/src/main/AndroidManifest.xml:41",
+        "app/src/main/AndroidManifest.xml:57-58",
+        "app/src/main/AndroidManifest.xml:63",
+        "app/src/main/AndroidManifest.xml:64",
+        "app/src/main/AndroidManifest.xml:67",
+        "app/src/main/AndroidManifest.xml:1417"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 3,
+      "title": "Custom permission name mismatch: declared with ${applicationId}, requested with a hardcoded package",
+      "where": [
+        "app/src/main/AndroidManifest.xml:22-23"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 4,
+      "title": "Exported PanicResponderListener has no sender restriction",
+      "where": [
+        "app/src/main/AndroidManifest.xml:1576-1582",
+        "app/src/main/java/org/thoughtcrime/securesms/service/PanicResponderListener.kt:15-25"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 5,
+      "title": "Release build does not shrink resources",
+      "where": [
+        "app/build.gradle.kts:374-378"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    }
+  ],
+  "citations": [
+    {
+      "finding": 0,
+      "id": "MASVS-STORAGE-2",
+      "exists": true,
+      "indexTitle": "The app prevents leakage of sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app prevents leakage of sensitive data.",
+      "label": "right"
+    },
+    {
+      "finding": 0,
+      "id": "MASWE-0004",
+      "exists": true,
+      "indexTitle": "Sensitive Data Hardcoded in the App Package",
+      "proposed": "wrong",
+      "proposedWhy": "v1.0.0 0004 is hardcoded data; backup is MASWE-0006",
+      "label": "wrong"
+    },
+    {
+      "finding": 1,
+      "id": "MASVS-STORAGE-1",
+      "exists": true,
+      "indexTitle": "The app securely stores sensitive data.",
+      "proposed": "wrong",
+      "proposedWhy": "API keys in build script are not stored data; MASVS-STORAGE-2 or none",
+      "label": "wrong"
+    },
+    {
+      "finding": 2,
+      "id": "MASVS-PRIVACY-1",
+      "exists": true,
+      "indexTitle": "The app minimizes access to sensitive data and resources.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app minimizes access to sensitive data and resources.",
+      "label": "right"
+    },
+    {
+      "finding": 3,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "right",
+      "proposedWhy": "permission protecting IPC",
+      "label": "right"
+    },
+    {
+      "finding": 4,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app uses IPC mechanisms securely.",
+      "label": "right"
+    },
+    {
+      "finding": 5,
+      "id": "MASVS-CODE-4",
+      "exists": true,
+      "indexTitle": "The app validates and sanitizes all untrusted inputs.",
+      "proposed": "wrong",
+      "proposedWhy": "CODE-4 is input validation, not shrinking",
+      "label": "wrong"
+    }
+  ]
+}

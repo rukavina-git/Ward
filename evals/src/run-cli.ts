@@ -1,4 +1,8 @@
 // npm run eval:run -- --app planted|clean --setup <arm> --model <id> --trial <n> [--smoke]
+// npm run eval:run -- --heldout HO-NN --setup alone --model <id> --trial <n> [--smoke]
+//   Held-out: the case's parent commit, exported from the clone that
+//   `npm run heldout:check` made. Files only: the history holds the fix.
+import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import {
   existsSync,
@@ -12,9 +16,15 @@ import { join } from "node:path";
 import { parseArgs } from "node:util";
 import { readSchemaText, validateFindings } from "./findings.js";
 import { checkIsolation, toolCalls } from "./isolation.js";
+import { fileSha256, loadHeldOut, repoSlug } from "./held-out.js";
 import { loadKey, type AppKind } from "./key.js";
 import {
   cacheRoot,
+  heldOutBarPath,
+  heldOutCacheRoot,
+  heldOutFolderName,
+  heldOutKeyPath,
+  heldOutResultsRoot,
   keyPath,
   repoRoot,
   resultsRoot,
@@ -26,6 +36,7 @@ import {
   claudeVersion,
   copyFixture,
   copyPlugin,
+  exportTree,
   dirHash,
   fixtureState,
   parseStream,
@@ -41,11 +52,12 @@ import { setups } from "./setups.js";
 const { values } = parseArgs({
   options: {
     app: { type: "string" },
+    heldout: { type: "string" },
     setup: { type: "string" },
     model: { type: "string" },
     trial: { type: "string" },
     smoke: { type: "boolean", default: false },
-    "timeout-min": { type: "string", default: "30" },
+    "timeout-min": { type: "string" },
   },
 });
 
@@ -55,7 +67,10 @@ function fail(message: string): never {
 }
 
 const app = values.app;
-if (app !== "planted" && app !== "clean")
+const heldOutId = values.heldout;
+if ((app === undefined) === (heldOutId === undefined))
+  fail("give either --app planted|clean or --heldout HO-NN");
+if (app !== undefined && app !== "planted" && app !== "clean")
   fail("--app must be planted or clean");
 const setupName = values.setup ?? "";
 const setup = setups[setupName];
@@ -66,23 +81,75 @@ const model =
 const trial = Number(values.trial);
 if (!Number.isInteger(trial) || trial < 1)
   fail("--trial must be a whole number from 1");
-const timeoutMin = Number(values["timeout-min"]);
+// Real repos are far bigger than the example app.
+const timeoutMin = Number(
+  values["timeout-min"] ?? (heldOutId === undefined ? "30" : "60"),
+);
 if (!(timeoutMin > 0)) fail("--timeout-min must be a positive number");
 
-const key = loadKey(keyPath);
-const fixture = key.apps[app satisfies AppKind];
-const state = fixtureState(repoRoot, fixture);
-if (state.dirty)
-  fail(
-    `${fixture} has uncommitted changes. The run copies the committed files.`,
-  );
+const repoCommit = execFileSync("git", ["-C", repoRoot, "rev-parse", "HEAD"], {
+  encoding: "utf8",
+}).trim();
+let target: {
+  label: string;
+  resultsRoot: string;
+  key: { name: string; keyVersion: number };
+  /** Read after the copy, so it can report what the export did. */
+  meta: () => Record<string, unknown>;
+  copy: () => { dir: string; parent: string };
+};
+if (heldOutId !== undefined) {
+  if (setupName !== "alone") fail("held-out runs use --setup alone only");
+  const key = loadHeldOut(heldOutKeyPath);
+  const c =
+    key.cases.find((x) => x.id === heldOutId) ??
+    fail(`no case ${heldOutId} in the held-out key`);
+  const gitDir = join(heldOutCacheRoot, repoSlug(c.repo).replace("/", "__"));
+  if (!existsSync(gitDir))
+    fail(`no clone at ${gitDir}. Run npm run heldout:check first.`);
+  let symlinksRemoved = 0;
+  target = {
+    label: c.id,
+    resultsRoot: heldOutResultsRoot,
+    key: { name: key.name, keyVersion: key.keyVersion },
+    meta: () => ({
+      case: c.id,
+      repo: c.repo,
+      commit: c.parent,
+      commitRole: "parent",
+      barSha256: fileSha256(heldOutBarPath),
+      keySha256: fileSha256(heldOutKeyPath),
+      symlinksRemoved,
+    }),
+    copy: () => {
+      const out = exportTree(gitDir, c.parent, heldOutFolderName);
+      symlinksRemoved = out.symlinksRemoved;
+      return out;
+    },
+  };
+} else {
+  const key = loadKey(keyPath);
+  const fixture = key.apps[app as AppKind];
+  const fixtureInfo = fixtureState(repoRoot, fixture);
+  if (fixtureInfo.dirty)
+    fail(
+      `${fixture} has uncommitted changes. The run copies the committed files.`,
+    );
+  target = {
+    label: app as string,
+    resultsRoot,
+    key: { name: key.name, keyVersion: key.keyVersion },
+    meta: () => ({ app, fixture, fixtureTree: fixtureInfo.fixtureTree }),
+    copy: () => copyFixture(repoRoot, fixture),
+  };
+}
 
 const date = new Date().toLocaleDateString("sv-SE");
-const base = `${date}-${setupName}-${app}-t${String(trial)}${values.smoke ? "-smoke" : ""}`;
+const base = `${date}-${setupName}-${target.label}-t${String(trial)}${values.smoke ? "-smoke" : ""}`;
 // A rerun after a failed attempt gets "-a2", "-a3"…; the failed one is kept.
 let name = base;
-for (let attempt = 2; existsSync(join(resultsRoot, name)); attempt++) {
-  const metaPath = join(resultsRoot, name, "meta.json");
+for (let attempt = 2; existsSync(join(target.resultsRoot, name)); attempt++) {
+  const metaPath = join(target.resultsRoot, name, "meta.json");
   const status: unknown = existsSync(metaPath)
     ? (JSON.parse(readFileSync(metaPath, "utf8")) as { status?: unknown })
         .status
@@ -90,7 +157,7 @@ for (let attempt = 2; existsSync(join(resultsRoot, name)); attempt++) {
   if (status !== "failed") fail(`${name} already exists and didn't fail`);
   name = `${base}-a${String(attempt)}`;
 }
-const outDir = join(resultsRoot, name);
+const outDir = join(target.resultsRoot, name);
 mkdirSync(outDir, { recursive: true });
 
 const prompt = readFileSync(taskPromptPath, "utf8");
@@ -103,7 +170,7 @@ const pluginSource =
     ? null
     : pluginSourceDir(setup.plugin.source, repoRoot, cacheRoot);
 
-const copy = copyFixture(repoRoot, fixture);
+const copy = target.copy();
 console.error(`Running ${name} (${model}). This takes a few minutes.`);
 try {
   const pluginDir =
@@ -173,15 +240,13 @@ try {
             commit: pluginSource?.commit ?? null,
             sha256: dirHash(pluginDir),
           },
-    app,
+    ...target.meta(),
     trial,
     modelRequested: model,
     modelReported: stream.init?.model ?? null,
     claudeCodeVersion: version,
-    key: { name: key.name, keyVersion: key.keyVersion },
-    repoCommit: state.repoCommit,
-    fixture,
-    fixtureTree: state.fixtureTree,
+    key: target.key,
+    repoCommit,
     promptSha256: sha256(prompt),
     schemaSha256: sha256(schemaText),
     flags: args.map((a) =>

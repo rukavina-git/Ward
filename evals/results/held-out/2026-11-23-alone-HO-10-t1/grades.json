@@ -1,0 +1,272 @@
+{
+  "run": "2026-11-23-alone-HO-10-t1",
+  "case": "HO-10",
+  "kind": "config",
+  "found": {
+    "candidates": [
+      1,
+      2
+    ],
+    "proposed": "found",
+    "label": "found"
+  },
+  "decoysFlagged": {
+    "candidates": [],
+    "proposed": 0,
+    "label": 0
+  },
+  "findings": [
+    {
+      "finding": 0,
+      "title": "Cleartext HTTP traffic permitted app-wide",
+      "where": [
+        "AndroidManifest.xml:18"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 1,
+      "title": "WebView remote debugging enabled unconditionally in release builds",
+      "where": [
+        "src/itkach/aard2/ArticleWebView.java:133-136"
+      ],
+      "role": "case",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 2,
+      "title": "JavaScript bridge exposed to a WebView that can load remote content",
+      "where": [
+        "src/itkach/aard2/ArticleWebView.java:144",
+        "src/itkach/aard2/ArticleWebView.java:152",
+        "src/itkach/aard2/ArticleWebView.java:250-252",
+        "src/itkach/aard2/ArticleWebView.java:286-292"
+      ],
+      "role": "case",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 3,
+      "title": "Auto backup enabled with no backup rules",
+      "where": [
+        "AndroidManifest.xml:20"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 4,
+      "title": "Exported lookup activity accepts arbitrary external intents and is BROWSABLE",
+      "where": [
+        "AndroidManifest.xml:56-84"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 5,
+      "title": "Local content server on loopback reachable by other apps",
+      "where": [
+        "src/itkach/aard2/Application.java:50",
+        "src/itkach/aard2/Application.java:117"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 6,
+      "title": "Release build has no code shrinking or obfuscation, and lint errors do not fail the build",
+      "where": [
+        "build.gradle:55-61",
+        "build.gradle:28-30"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 7,
+      "title": "Verbose URL logging in release code",
+      "where": [
+        "src/itkach/aard2/ArticleWebView.java:162",
+        "src/itkach/aard2/ArticleWebView.java:260",
+        "src/itkach/aard2/ArticleWebView.java:304"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 8,
+      "title": "Play Console declarations needed: Data safety and privacy policy",
+      "where": [
+        "AndroidManifest.xml:14-15"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    }
+  ],
+  "citations": [
+    {
+      "finding": 0,
+      "id": "MASVS-NETWORK-1",
+      "exists": true,
+      "indexTitle": "The app secures all network traffic according to the current best practices.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app secures all network traffic according to the current best practices.",
+      "label": "right"
+    },
+    {
+      "finding": 0,
+      "id": "MASWE-0050",
+      "exists": true,
+      "indexTitle": "Unsafe Handling of Untrusted Data",
+      "proposed": "wrong",
+      "proposedWhy": "0050 is untrusted-data handling; cleartext is MASWE-0026",
+      "label": "wrong"
+    },
+    {
+      "finding": 1,
+      "id": "MASVS-RESILIENCE-4",
+      "exists": true,
+      "indexTitle": "The app implements anti-dynamic analysis techniques.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app implements anti-dynamic analysis techniques.",
+      "label": "right"
+    },
+    {
+      "finding": 1,
+      "id": "MASVS-PLATFORM-2",
+      "exists": true,
+      "indexTitle": "The app uses WebViews securely.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app uses WebViews securely.",
+      "label": "right"
+    },
+    {
+      "finding": 1,
+      "id": "MASWE-0067",
+      "exists": true,
+      "indexTitle": "Lack of Anonymization or Pseudonymisation Measures",
+      "proposed": "wrong",
+      "proposedWhy": "0067 is anonymization; WebView debugging is MASWE-0063",
+      "label": "wrong"
+    },
+    {
+      "finding": 2,
+      "id": "MASVS-PLATFORM-2",
+      "exists": true,
+      "indexTitle": "The app uses WebViews securely.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app uses WebViews securely.",
+      "label": "right"
+    },
+    {
+      "finding": 2,
+      "id": "MASWE-0068",
+      "exists": true,
+      "indexTitle": "Incorrect Use of Identifiers for User Tracking",
+      "proposed": "wrong",
+      "proposedWhy": "0068 is tracking identifiers; JS bridge is MASWE-0033",
+      "label": "wrong"
+    },
+    {
+      "finding": 3,
+      "id": "MASVS-STORAGE-2",
+      "exists": true,
+      "indexTitle": "The app prevents leakage of sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app prevents leakage of sensitive data.",
+      "label": "right"
+    },
+    {
+      "finding": 3,
+      "id": "MASWE-0004",
+      "exists": true,
+      "indexTitle": "Sensitive Data Hardcoded in the App Package",
+      "proposed": "wrong",
+      "proposedWhy": "v1.0.0 0004 is hardcoded data; backup is MASWE-0006",
+      "label": "wrong"
+    },
+    {
+      "finding": 4,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app uses IPC mechanisms securely.",
+      "label": "right"
+    },
+    {
+      "finding": 4,
+      "id": "MASWE-0064",
+      "exists": true,
+      "indexTitle": "Debugger Detection Not Implemented",
+      "proposed": "wrong",
+      "proposedWhy": "0064 is debugger detection; not exported activities",
+      "label": "wrong"
+    },
+    {
+      "finding": 5,
+      "id": "MASVS-NETWORK-1",
+      "exists": true,
+      "indexTitle": "The app secures all network traffic according to the current best practices.",
+      "proposed": "wrong",
+      "proposedWhy": "loopback server reachable by apps is IPC (PLATFORM-1), not traffic encryption",
+      "label": "wrong"
+    },
+    {
+      "finding": 5,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app uses IPC mechanisms securely.",
+      "label": "right"
+    },
+    {
+      "finding": 5,
+      "id": "MASWE-0050",
+      "exists": true,
+      "indexTitle": "Unsafe Handling of Untrusted Data",
+      "proposed": "wrong",
+      "proposedWhy": "0050 is untrusted-data handling; cleartext is MASWE-0026",
+      "label": "wrong"
+    },
+    {
+      "finding": 6,
+      "id": "MASVS-RESILIENCE-3",
+      "exists": true,
+      "indexTitle": "The app implements anti-static analysis mechanisms.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app implements anti-static analysis mechanisms.",
+      "label": "right"
+    },
+    {
+      "finding": 7,
+      "id": "MASVS-STORAGE-2",
+      "exists": true,
+      "indexTitle": "The app prevents leakage of sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app prevents leakage of sensitive data.",
+      "label": "right"
+    },
+    {
+      "finding": 7,
+      "id": "MASWE-0001",
+      "exists": true,
+      "indexTitle": "Sensitive Data Stored Unencrypted in Private Storage",
+      "proposed": "wrong",
+      "proposedWhy": "v1.0.0 0001 is unencrypted private storage; logging is MASWE-0005",
+      "label": "wrong"
+    }
+  ]
+}

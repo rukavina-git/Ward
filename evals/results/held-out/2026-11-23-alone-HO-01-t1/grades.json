@@ -1,0 +1,148 @@
+{
+  "run": "2026-11-23-alone-HO-01-t1",
+  "case": "HO-01",
+  "kind": "config",
+  "found": {
+    "candidates": [
+      4
+    ],
+    "proposed": "found",
+    "proposedWhy": "generic exported-components finding lists line 282, the widget auth activity",
+    "label": "found"
+  },
+  "decoysFlagged": {
+    "candidates": [
+      4
+    ],
+    "proposed": 0,
+    "proposedWhy": "the finding cites the case lines 282-286, not the decoy at 287-293; it is within 10 lines only by overlap",
+    "label": 0
+  },
+  "findings": [
+    {
+      "finding": 0,
+      "title": "Cleartext HTTP allowed globally and user-installed CAs trusted",
+      "where": [
+        "app/src/main/res/xml/network_security_config.xml:5-10"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 1,
+      "title": "Cloud backup and device transfer include all databases and shared preferences",
+      "where": [
+        "app/src/main/AndroidManifest.xml:93",
+        "app/src/main/res/xml/backup_rules.xml:3-5",
+        "app/src/main/res/xml/backup_rules_android12.xml:4-11"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 2,
+      "title": "QUERY_ALL_PACKAGES permission needs Play policy justification",
+      "where": [
+        "app/src/main/AndroidManifest.xml:33-34"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 3,
+      "title": "Sensitive background location, health, call, and usage permissions need Play declarations and a privacy policy",
+      "where": [
+        "app/src/main/AndroidManifest.xml:23",
+        "app/src/main/AndroidManifest.xml:25",
+        "app/src/main/AndroidManifest.xml:47",
+        "app/src/main/AndroidManifest.xml:53-78",
+        "app/src/main/AndroidManifest.xml:41",
+        "app/src/main/AndroidManifest.xml:46"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 4,
+      "title": "Exported components without permission protection (broadcast receivers and activities)",
+      "where": [
+        "app/src/main/AndroidManifest.xml:163-191",
+        "app/src/main/AndroidManifest.xml:257-273",
+        "app/src/main/AndroidManifest.xml:282-286",
+        "app/src/main/AndroidManifest.xml:533-540"
+      ],
+      "role": "case",
+      "proposed": null,
+      "label": null
+    }
+  ],
+  "citations": [
+    {
+      "finding": 0,
+      "id": "MASVS-NETWORK-1",
+      "exists": true,
+      "indexTitle": "The app secures all network traffic according to the current best practices.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app secures all network traffic according to the current best practices.",
+      "label": "right"
+    },
+    {
+      "finding": 0,
+      "id": "MASWE-0050",
+      "exists": true,
+      "indexTitle": "Unsafe Handling of Untrusted Data",
+      "proposed": "wrong",
+      "proposedWhy": "0050 is untrusted-data handling; cleartext is MASWE-0026",
+      "label": "wrong"
+    },
+    {
+      "finding": 1,
+      "id": "MASVS-STORAGE-1",
+      "exists": true,
+      "indexTitle": "The app securely stores sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app securely stores sensitive data.",
+      "label": "right"
+    },
+    {
+      "finding": 1,
+      "id": "MASWE-0004",
+      "exists": true,
+      "indexTitle": "Sensitive Data Hardcoded in the App Package",
+      "proposed": "wrong",
+      "proposedWhy": "v1.0.0 0004 is hardcoded data; backup is MASWE-0006",
+      "label": "wrong"
+    },
+    {
+      "finding": 2,
+      "id": "MASVS-PRIVACY-1",
+      "exists": true,
+      "indexTitle": "The app minimizes access to sensitive data and resources.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app minimizes access to sensitive data and resources.",
+      "label": "right"
+    },
+    {
+      "finding": 3,
+      "id": "MASVS-PRIVACY-1",
+      "exists": true,
+      "indexTitle": "The app minimizes access to sensitive data and resources.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app minimizes access to sensitive data and resources.",
+      "label": "right"
+    },
+    {
+      "finding": 4,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app uses IPC mechanisms securely.",
+      "label": "right"
+    }
+  ]
+}

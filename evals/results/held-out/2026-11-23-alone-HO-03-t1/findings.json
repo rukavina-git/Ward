@@ -1,0 +1,99 @@
+{
+  "findings": [
+    {
+      "title": "Release build is signed with the debug signing config",
+      "category": "play",
+      "severity": "high",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/build.gradle",
+          "line": 338
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 145,
+          "endLine": 153
+        }
+      ],
+      "explanation": "The release build type uses `signingConfig signingConfigs.debug`. That config is only created when DEBUG_KEYSTORE_FILE is set, and it uses the public password 'android'. A bundle signed with a debug key can't be released to production. Even with Play App Signing, the upload key should be a protected release key. If the debug config is missing, the release build is unsigned. Add a dedicated release signing config that reads its secrets from the environment or a keystore that isn't in the repo."
+    },
+    {
+      "title": "QUERY_ALL_PACKAGES permission needs a Play declaration",
+      "category": "play",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 27
+        }
+      ],
+      "explanation": "QUERY_ALL_PACKAGES is a restricted permission on Google Play, and the lint check is suppressed. It is probably used for the split-tunnelling app picker. Before release, complete the Play Console permission declaration and justify the use. Where possible, use targeted `<queries>` entries instead. Also check that the data safety form discloses the installed-apps access."
+    },
+    {
+      "title": "Fallback hard-coded salt and key for the legacy preferences cipher",
+      "category": "security",
+      "severity": "low",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CRYPTO-2",
+        "MASVS-STORAGE-1"
+      ],
+      "maswe": [
+        "MASWE-0014"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle",
+          "line": 130,
+          "endLine": 131
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 179,
+          "endLine": 180
+        },
+        {
+          "file": "app/src/main/java/com/protonvpn/android/utils/ProtonPreferencesMigration.kt",
+          "line": 36
+        }
+      ],
+      "explanation": "If the DEPRECATED_PREF_SALT and DEPRECATED_PREF_KEY environment variables aren't set, the build falls back to the literal strings 'Salt' and 'Key'. It then embeds them in BuildConfig, and the legacy migration uses them to decrypt preferences. A release built without those variables would use trivially guessable key material. It would also fail to migrate users' existing data. Make the release build fail when these variables are missing."
+    },
+    {
+      "title": "Test credentials and CI metadata are compiled into BuildConfig in all builds",
+      "category": "security",
+      "severity": "low",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-4",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/build.gradle",
+          "line": 181,
+          "endLine": 190
+        }
+      ],
+      "explanation": "The defaultConfig, which every variant inherits, adds BuildConfig fields for the test account password, a special-character password, CI branch and commit message, and test asset override SHA and keys. In release builds these values ship in the APK. They are mostly test or placeholder values. Still, the CI commit message and any real SPECIAL_CHAR_PASSWORD or test key can leak. Also, `StringEscapeUtils.escapeJava(null)` can break the build when the CI variables are unset. Limit these fields to debug and test variants."
+    }
+  ],
+  "inspected": [
+    "app/build.gradle",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/google/AndroidManifest.xml",
+    "app/src/main/res/xml/network_security_config.xml",
+    "app/src/main/java/com/protonvpn/android/utils/ProtonPreferencesMigration.kt"
+  ]
+}

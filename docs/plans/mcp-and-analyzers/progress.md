@@ -1,7 +1,7 @@
 # Plan 4 progress
 
 - [x] 01 held-out set and bar, batch 1 (f4c8c92)
-- [ ] 02 Claude alone on the held-out set (gate)
+- [x] 02 Claude alone on the held-out set (gate) (HASH)
 - [ ] 03 MCP server: knowledge tools
 - [ ] 04 manifest analyzer
 - [ ] 05 network security config and targetSdk analyzers
@@ -24,6 +24,24 @@
 - Step 01: the bar's sha256 pin is checked by a test; `heldout:check`
   (network) clones blobless into evals/.cache/held-out and reads with
   `git show` only.
+- Step 02: minimal gate instead of 60 runs (Karlo, to save plan usage):
+  Sonnet 5.5 only, one trial, parent commits only, 10 runs. Bar changed
+  before any run (b0b83e2): re-flags on fix, disagreement and
+  verdicts-per-control dropped; "harder kinds" named honestly; room wins.
+- Step 02: result: **Ward has room**. Found 3 of 10 (HO-01 via a generic
+  finding), 4 of 7 harder kinds missed, 25 of 83 citations wrong (18 of
+  19 MASWE). Decision (Karlo): continue. Details: gate.md and
+  docs/measurements.md (new: the log of every measurement).
+- Step 02: labels proposed by Claude, accepted by Karlo in bulk; no
+  separate spot-check of cases. The 53 other findings are listed in
+  grades.json but not graded (the bar says graded by hand); they don't
+  affect the outcome. MASTG IDs aren't checked: the findings schema has
+  no MASTG field.
+- Step 02: Git LFS isn't installed, so the export disables LFS filters
+  (LFS files stay as pointer text). Two runs (HO-03, HO-08) first failed
+  at export before Claude started; their empty folders were removed and
+  the runs redone.
+- Step 02: roadmap "Held-out eval set" ticked with 10 of the planned 30.
 
 ## Gotchas
 Carried over: see docs/plans/knowledge-base/progress.md (no "nothing
@@ -52,3 +70,21 @@ Step 01:
   runs a fixture folder). Big repos (Signal) may not fit one run; record
   files inspected.
 - Batch 2 candidates are listed in the key's notes.
+
+Step 02 (reviewer, not fixed):
+- run-cli creates the result folder before the export, outside the try:
+  a failed export leaves a folder with no meta.json, and the rerun then
+  refuses ("already exists"). Delete the empty folder by hand.
+- No tests for `tally`'s provisional flag or for a decoy label
+  overriding its proposal.
+- `git archive` honours a repo's export-ignore/export-subst attributes
+  (root ones checked for all 10 parents: none).
+- A case with no ok run is neither found nor missed, but the bar counts
+  "of 10".
+
+Step 02:
+- Runs are cheap: 21 to 51 s, about 1.6 points of the 5-hour window
+  each. Claude alone reads only 4 to 11 files, even in Signal.
+- Claude's MASWE IDs look consistent but are wrong for v1.0.0; any
+  citation check must compare against the pinned index, not trust IDs.
+- Step 03 onward: Ward must never be tuned on HO-01…HO-10.

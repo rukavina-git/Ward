@@ -59,12 +59,13 @@ and deciding by measurement.
 Learn: tool use, MCP, how AI assistants call external tools.
 Scope from the council of 2026-11-23
 (docs/council/2026-11-23-plan4-scope.md, ADR 0011).
-- [ ] Held-out eval set, frozen before any check is written: about 30
+- [x] Held-out eval set, frozen before any check is written: about 30
       real security-fix commits from open-source Android apps (absences,
       dependency CVEs, config), decoys, a "defensible" label, and a bar
       written first
-- [ ] Claude Code alone on it (Sonnet 5.5 and Opus 5.5); if it aces
-      this too, rethink before building analyzers
+- [x] Claude Code alone on it (Sonnet 5.5 and Opus 5.5); if it aces
+      this too, rethink before building analyzers (minimal gate: batch 1
+      of 10, Sonnet only; result: Ward has room, docs/measurements.md)
 - [ ] Local MCP server (stdio): checklist, get check, search (top-k plus
       matched terms, no cutoff)
 - [ ] Analyzers in plain code: merged manifest, network security config,

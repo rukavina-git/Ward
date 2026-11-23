@@ -17,11 +17,16 @@ export const findingsSchemaPath = join(
   "prompts/eval-findings.schema.json",
 );
 export const resultsRoot = join(repoRoot, "evals/results/example-app");
+export const heldOutResultsRoot = join(repoRoot, "evals/results/held-out");
 /** Gitignored: third-party plugins for eval arms, cloned at pinned tags. */
 export const cacheRoot = join(repoRoot, "evals/.cache");
 
 // The leaf folder name the agent sees, the same for both apps.
 export const appFolderName = "penny-jar";
+/** The folder name for held-out cases: real repos, so nothing to hide. */
+export const heldOutFolderName = "app";
+/** Blobless clones made by `npm run heldout:check`. */
+export const heldOutCacheRoot = join(cacheRoot, "held-out");
 
 export const retrievalQueriesPath = join(
   repoRoot,

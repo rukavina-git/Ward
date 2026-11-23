@@ -1,0 +1,125 @@
+{
+  "run": "2026-11-23-alone-HO-03-t1",
+  "case": "HO-03",
+  "kind": "absence",
+  "found": {
+    "candidates": [],
+    "proposed": "missed",
+    "label": "missed"
+  },
+  "decoysFlagged": {
+    "candidates": [],
+    "proposed": 0,
+    "label": 0
+  },
+  "findings": [
+    {
+      "finding": 0,
+      "title": "Release build is signed with the debug signing config",
+      "where": [
+        "app/build.gradle:338",
+        "app/build.gradle:145-153"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 1,
+      "title": "QUERY_ALL_PACKAGES permission needs a Play declaration",
+      "where": [
+        "app/src/main/AndroidManifest.xml:27"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 2,
+      "title": "Fallback hard-coded salt and key for the legacy preferences cipher",
+      "where": [
+        "app/build.gradle:130-131",
+        "app/build.gradle:179-180",
+        "app/src/main/java/com/protonvpn/android/utils/ProtonPreferencesMigration.kt:36"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 3,
+      "title": "Test credentials and CI metadata are compiled into BuildConfig in all builds",
+      "where": [
+        "app/build.gradle:181-190"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    }
+  ],
+  "citations": [
+    {
+      "finding": 0,
+      "id": "MASVS-CODE-1",
+      "exists": true,
+      "indexTitle": "The app requires an up-to-date platform version.",
+      "proposed": "wrong",
+      "proposedWhy": "CODE-1 is platform version, not signing",
+      "label": "wrong"
+    },
+    {
+      "finding": 1,
+      "id": "MASVS-PRIVACY-1",
+      "exists": true,
+      "indexTitle": "The app minimizes access to sensitive data and resources.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app minimizes access to sensitive data and resources.",
+      "label": "right"
+    },
+    {
+      "finding": 2,
+      "id": "MASVS-CRYPTO-2",
+      "exists": true,
+      "indexTitle": "The app performs key management according to industry best practices.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app performs key management according to industry best practices.",
+      "label": "right"
+    },
+    {
+      "finding": 2,
+      "id": "MASVS-STORAGE-1",
+      "exists": true,
+      "indexTitle": "The app securely stores sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app securely stores sensitive data.",
+      "label": "right"
+    },
+    {
+      "finding": 2,
+      "id": "MASWE-0014",
+      "exists": true,
+      "indexTitle": "Improper Cryptographic Key Derivation",
+      "proposed": "right",
+      "proposedWhy": "matches: Improper Cryptographic Key Derivation",
+      "label": "right"
+    },
+    {
+      "finding": 3,
+      "id": "MASVS-CODE-4",
+      "exists": true,
+      "indexTitle": "The app validates and sanitizes all untrusted inputs.",
+      "proposed": "wrong",
+      "proposedWhy": "CODE-4 is input validation, not build secrets",
+      "label": "wrong"
+    },
+    {
+      "finding": 3,
+      "id": "MASVS-STORAGE-2",
+      "exists": true,
+      "indexTitle": "The app prevents leakage of sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app prevents leakage of sensitive data.",
+      "label": "right"
+    }
+  ]
+}

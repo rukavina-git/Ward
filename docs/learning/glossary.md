@@ -150,6 +150,11 @@ between `---` lines: ID, title, status, links. MASWE and MASTG files
 carry their IDs and mappings there. Ward's ingest reads it as data and
 keeps the rest of the file as the body.
 
+**Gate (go/no-go).** A cheap test placed before expensive work, with
+its pass/fail rule written first. Ward's gate (plan 4, step 02) ran
+Claude alone on 10 real fixes before any analyzer was built: if Claude
+had aced it, Ward would have stopped.
+
 **Hallucinated citation.** A reference the model made up: a file or line
 that doesn't exist, or an ID that isn't in the standard. Ward's scorer
 counts citations to missing files and lines past the end; checking IDs
@@ -403,6 +408,10 @@ too.
 **Training cutoff.** The date a model's training data ends. A fix made
 after it can't be in what the model learned, so it tests reasoning, not
 memory. Sonnet 5.5 and Opus 5.5: June 2026.
+
+**Tree export (git archive).** Writing out the files of one commit
+without the `.git` folder, so there is no history. Held-out runs use it:
+the history holds the fix, and the agent must not see the answer.
 
 **Trial.** One run of one setup on one input. Models are random, so the
 same setup can find 15 issues once and 18 the next time. Ward runs at

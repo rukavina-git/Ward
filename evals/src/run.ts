@@ -184,6 +184,50 @@ export function fixtureState(repoRoot: string, fixture: string): FixtureState {
 }
 
 /**
+ * Exports one git tree (`<commit>` or `<commit>:<folder>`) into a fresh temp
+ * folder outside the repo: files only, no .git, so no history. Symlinks are
+ * removed: an untrusted repo could point one outside the copy.
+ */
+export function exportTree(
+  gitDir: string,
+  treeish: string,
+  folderName: string,
+): { dir: string; parent: string; symlinksRemoved: number } {
+  const parent = mkdtempSync(join(tmpdir(), "tmp-"));
+  const dir = join(parent, folderName);
+  mkdirSync(dir);
+  const tar = join(parent, "src.tar");
+  // Git LFS files stay as their small pointer text (repos like Signal use
+  // LFS for binaries): no LFS install needed, nothing extra downloaded.
+  const noLfs = [
+    "-c",
+    "filter.lfs.process=",
+    "-c",
+    "filter.lfs.smudge=",
+    "-c",
+    "filter.lfs.required=false",
+  ];
+  execFileSync(
+    "git",
+    [...noLfs, "-C", gitDir, "archive", "--format=tar", "-o", tar, treeish],
+    { stdio: ["ignore", "ignore", "inherit"] },
+  );
+  execFileSync("tar", ["-xf", tar, "-C", dir]);
+  rmSync(tar);
+  let symlinksRemoved = 0;
+  for (const entry of readdirSync(dir, {
+    recursive: true,
+    withFileTypes: true,
+  })) {
+    if (entry.isSymbolicLink()) {
+      rmSync(join(entry.parentPath, entry.name));
+      symlinksRemoved++;
+    }
+  }
+  return { dir, parent, symlinksRemoved };
+}
+
+/**
  * Copies the fixture's committed, tracked files into a fresh temp folder
  * outside the repo: no .git, no build output, no answer key, no docs.
  */
@@ -191,13 +235,11 @@ export function copyFixture(
   repoRoot: string,
   fixture: string,
 ): { dir: string; parent: string } {
-  const parent = mkdtempSync(join(tmpdir(), "tmp-"));
-  const dir = join(parent, appFolderName);
-  mkdirSync(dir);
-  const tar = join(parent, "src.tar");
-  git(repoRoot, ["archive", "--format=tar", "-o", tar, `HEAD:${fixture}`]);
-  execFileSync("tar", ["-xf", tar, "-C", dir]);
-  rmSync(tar);
+  const { dir, parent } = exportTree(
+    repoRoot,
+    `HEAD:${fixture}`,
+    appFolderName,
+  );
   return { dir, parent };
 }
 

@@ -1,0 +1,40 @@
+{
+  "run": "2026-11-23-alone-HO-06-t1",
+  "case": "HO-06",
+  "kind": "code",
+  "found": {
+    "candidates": [],
+    "proposed": "missed",
+    "label": "missed"
+  },
+  "decoysFlagged": {
+    "candidates": [],
+    "proposed": 0,
+    "label": 0
+  },
+  "findings": [
+    {
+      "finding": 0,
+      "title": "Android backup / device transfer may include a vault that is not password-encrypted",
+      "where": [
+        "app/src/main/AndroidManifest.xml:23",
+        "app/src/main/res/xml/backup_rules.xml:3-10",
+        "app/src/main/java/com/beemdevelopment/aegis/AegisBackupAgent.java:48-56"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    }
+  ],
+  "citations": [
+    {
+      "finding": 0,
+      "id": "MASVS-STORAGE-1",
+      "exists": true,
+      "indexTitle": "The app securely stores sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app securely stores sensitive data.",
+      "label": "right"
+    }
+  ]
+}

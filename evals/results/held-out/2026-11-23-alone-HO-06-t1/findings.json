@@ -1,0 +1,40 @@
+{
+  "findings": [
+    {
+      "title": "Android backup / device transfer may include a vault that is not password-encrypted",
+      "category": "privacy",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 23
+        },
+        {
+          "file": "app/src/main/res/xml/backup_rules.xml",
+          "line": 3,
+          "endLine": 10
+        },
+        {
+          "file": "app/src/main/java/com/beemdevelopment/aegis/AegisBackupAgent.java",
+          "line": 48,
+          "endLine": 56
+        }
+      ],
+      "explanation": "allowBackup is true. The backup agent always includes the vault in device-to-device transfers, even when the user has turned Android backups off. Cloud backups run only if the user enables them. If the user never set a vault password, the exported vault holds the OTP secrets in plaintext, and they would reach Google Drive or another device. Decide whether to block backup and transfer for unencrypted vaults, or to state the behavior clearly in the Data safety form and privacy policy."
+    }
+  ],
+  "inspected": [
+    "app/build.gradle",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/res/xml/backup_rules.xml",
+    "app/src/main/res/xml/backup_rules_old.xml",
+    "app/src/main/res/xml/file_paths.xml",
+    "app/src/main/java/com/beemdevelopment/aegis/AegisBackupAgent.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/MainActivity.java"
+  ]
+}

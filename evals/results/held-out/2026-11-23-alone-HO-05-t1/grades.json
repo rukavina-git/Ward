@@ -1,0 +1,119 @@
+{
+  "run": "2026-11-23-alone-HO-05-t1",
+  "case": "HO-05",
+  "kind": "code",
+  "found": {
+    "candidates": [],
+    "proposed": "missed",
+    "label": "missed"
+  },
+  "decoysFlagged": {
+    "candidates": [],
+    "proposed": 0,
+    "label": 0
+  },
+  "findings": [
+    {
+      "finding": 0,
+      "title": "Auto-backup enabled with no data extraction rules; task data goes to cloud backup and device transfer",
+      "where": [
+        "app/src/main/AndroidManifest.xml:163-166"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 1,
+      "title": "Background location permission needs a Play declaration and review",
+      "where": [
+        "app/src/main/AndroidManifest.xml:20"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 2,
+      "title": "Exported content providers and the exported Wear service expose task data to other apps",
+      "where": [
+        "app/src/main/AndroidManifest.xml:381-443",
+        "app/src/main/AndroidManifest.xml:421-426",
+        "app/src/googleplay/AndroidManifest.xml:29-40"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 3,
+      "title": "Exported Tasker FireReceiver and AppFunction service accept external input",
+      "where": [
+        "app/src/main/AndroidManifest.xml:654-662",
+        "app/src/main/AndroidManifest.xml:1066-1080",
+        "app/src/main/AndroidManifest.xml:519-543"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 4,
+      "title": "Release signing and third-party keys depend on external Gradle properties, with silent fallbacks",
+      "where": [
+        "app/build.gradle.kts:59-70",
+        "app/build.gradle.kts:96-101"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    }
+  ],
+  "citations": [
+    {
+      "finding": 0,
+      "id": "MASVS-STORAGE-2",
+      "exists": true,
+      "indexTitle": "The app prevents leakage of sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app prevents leakage of sensitive data.",
+      "label": "right"
+    },
+    {
+      "finding": 1,
+      "id": "MASVS-PRIVACY-1",
+      "exists": true,
+      "indexTitle": "The app minimizes access to sensitive data and resources.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app minimizes access to sensitive data and resources.",
+      "label": "right"
+    },
+    {
+      "finding": 2,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app uses IPC mechanisms securely.",
+      "label": "right"
+    },
+    {
+      "finding": 3,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app uses IPC mechanisms securely.",
+      "label": "right"
+    },
+    {
+      "finding": 4,
+      "id": "MASVS-CODE-1",
+      "exists": true,
+      "indexTitle": "The app requires an up-to-date platform version.",
+      "proposed": "wrong",
+      "proposedWhy": "CODE-1 is platform version, not signing",
+      "label": "wrong"
+    }
+  ]
+}

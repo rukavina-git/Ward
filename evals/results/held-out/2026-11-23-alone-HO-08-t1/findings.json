@@ -1,0 +1,157 @@
+{
+  "findings": [
+    {
+      "title": "Auto Backup enabled with no backup rules; custom agent leaves full-backup file copying at its default",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "NEEDS DYNAMIC",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0004"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 77,
+          "endLine": 80
+        },
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/absbackup/SignalBackupAgent.kt",
+          "line": 18
+        }
+      ],
+      "explanation": "The manifest sets allowBackup=true with fullBackupOnly=false. It declares no android:fullBackupContent or android:dataExtractionRules. SignalBackupAgent extends BackupAgent and only overrides the key/value onBackup. It does not override onFullBackup or exclude files, so the default full-backup behaviour may copy app files and shared preferences to cloud backup or device transfer. Add backup and data-extraction rules that exclude everything except the intended data (the SVR tokens), then confirm with `adb shell bmgr` / `dumpsys backup` that nothing else is included."
+    },
+    {
+      "title": "Hardcoded Google Maps and Giphy API keys in build script",
+      "category": "security",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/build.gradle.kts",
+          "line": 261
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 298
+        }
+      ],
+      "explanation": "A Maps API key (default manifest placeholder) and a Giphy key are committed in source and end up in the APK. Confirm that the Maps key is restricted in Google Cloud to your package name and signing-certificate SHA-1 and to the Maps SDK. Check that the Giphy key is one you intend to ship. Pass release keys via gradle properties or CI secrets, as `getMapsKey()` already does for debug builds. The Stripe publishable key at line 309 is designed to be public."
+    },
+    {
+      "title": "Sensitive and restricted permissions need Play Console declarations and justification",
+      "category": "play",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 24,
+          "endLine": 25
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 41
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 57,
+          "endLine": 58
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 63
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 64
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 67
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 1417
+        }
+      ],
+      "explanation": "The app requests several permissions that Google Play reviews or restricts: USE_FULL_SCREEN_INTENT, SCHEDULE_EXACT_ALARM, REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, READ_PHONE_STATE and READ_PHONE_NUMBERS, fine and coarse location, and the mediaProjection, phoneCall, camera, microphone and remoteMessaging foreground service types. Each needs a matching Play Console declaration (foreground service types, exact alarm and full-screen intent use, battery optimization exemption) and a Data safety entry. Remove any permission you don't use, especially the legacy ones such as READ_PROFILE, GET_ACCOUNTS, USE_CREDENTIALS and BLUETOOTH."
+    },
+    {
+      "title": "Custom permission name mismatch: declared with ${applicationId}, requested with a hardcoded package",
+      "category": "security",
+      "severity": "low",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 22,
+          "endLine": 23
+        }
+      ],
+      "explanation": "The signature permission is declared as `${applicationId}.ACCESS_SECRETS`, but the uses-permission entry requests the literal `org.thoughtcrime.securesms.ACCESS_SECRETS`. If the applicationId differs (suffixes, a fork, or a rename for your own listing), the app requests a permission it does not define. That is a stale reference, and another app could claim the hardcoded name. Use `${applicationId}` in both places or remove the unused permission."
+    },
+    {
+      "title": "Exported PanicResponderListener has no sender restriction",
+      "category": "security",
+      "severity": "low",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 1576,
+          "endLine": 1582
+        },
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/service/PanicResponderListener.kt",
+          "line": 15,
+          "endLine": 25
+        }
+      ],
+      "explanation": "The receiver is exported with no permission or sender check. Any installed app can send the PanicKit TRIGGER action and force the app to lock, which clears the cached key. Impact is limited to a forced lock, but consider requiring a trusted-sender check, as PanicKit recommends, or making the feature opt-in."
+    },
+    {
+      "title": "Release build does not shrink resources",
+      "category": "play",
+      "severity": "low",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-4"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/build.gradle.kts",
+          "line": 374,
+          "endLine": 378
+        }
+      ],
+      "explanation": "The release build type enables minification but not isShrinkResources, which is set only on the `mocked` type. Unused resources ship in the bundle, which increases size and exposes unused strings and assets. Enable resource shrinking for release and test the result."
+    }
+  ],
+  "inspected": [
+    "app/src/main/AndroidManifest.xml",
+    "app/build.gradle.kts",
+    "app/src/main/java/org/thoughtcrime/securesms/absbackup/SignalBackupAgent.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/service/PanicResponderListener.kt"
+  ]
+}

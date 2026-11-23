@@ -1,0 +1,189 @@
+{
+  "run": "2026-11-23-alone-HO-04-t1",
+  "case": "HO-04",
+  "kind": "dependency",
+  "found": {
+    "candidates": [],
+    "proposed": "missed",
+    "label": "missed"
+  },
+  "decoysFlagged": {
+    "candidates": [],
+    "proposed": 0,
+    "label": 0
+  },
+  "findings": [
+    {
+      "finding": 0,
+      "title": "Cleartext HTTP allowed globally and user-installed CAs trusted",
+      "where": [
+        "app/src/main/res/xml/network_security_config.xml:10-15",
+        "app/src/main/AndroidManifest.xml:93"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 1,
+      "title": "Backups enabled with an empty backup rule set and no Android 12+ data extraction rules",
+      "where": [
+        "app/src/main/AndroidManifest.xml:88-89",
+        "app/src/main/res/xml/backup_config.xml:8-10",
+        "app/src/gplay/AndroidManifest.xml:14-15"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 2,
+      "title": "Media session service exported with no permission",
+      "where": [
+        "app/src/main/AndroidManifest.xml:348-356"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 3,
+      "title": "Exported SyncService and a content/file VIEW intent filter on the main activity",
+      "where": [
+        "app/src/main/AndroidManifest.xml:331-344",
+        "app/src/main/AndroidManifest.xml:119-126",
+        "app/src/main/AndroidManifest.xml:133-138"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 4,
+      "title": "Sensitive permissions and policy declarations need Play Console review",
+      "where": [
+        "app/src/main/AndroidManifest.xml:43",
+        "app/src/main/AndroidManifest.xml:47-49",
+        "app/src/main/AndroidManifest.xml:66-68",
+        "app/src/main/AndroidManifest.xml:76-77",
+        "app/src/main/AndroidManifest.xml:44-50"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 5,
+      "title": "Full HTTP bodies written to logs when debug log level is selected",
+      "where": [
+        "app/src/main/java/com/nextcloud/talk/api/LoggingHttpInterceptor.kt:26-43"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 6,
+      "title": "Build is a pre-release alpha with no explicit release signing or shrinking config; target SDK lags compile SDK",
+      "where": [
+        "app/build.gradle.kts:59-65",
+        "app/build.gradle.kts:115-121"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    }
+  ],
+  "citations": [
+    {
+      "finding": 0,
+      "id": "MASVS-NETWORK-1",
+      "exists": true,
+      "indexTitle": "The app secures all network traffic according to the current best practices.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app secures all network traffic according to the current best practices.",
+      "label": "right"
+    },
+    {
+      "finding": 0,
+      "id": "MASWE-0050",
+      "exists": true,
+      "indexTitle": "Unsafe Handling of Untrusted Data",
+      "proposed": "wrong",
+      "proposedWhy": "0050 is untrusted-data handling; cleartext is MASWE-0026",
+      "label": "wrong"
+    },
+    {
+      "finding": 1,
+      "id": "MASVS-STORAGE-1",
+      "exists": true,
+      "indexTitle": "The app securely stores sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app securely stores sensitive data.",
+      "label": "right"
+    },
+    {
+      "finding": 1,
+      "id": "MASWE-0004",
+      "exists": true,
+      "indexTitle": "Sensitive Data Hardcoded in the App Package",
+      "proposed": "wrong",
+      "proposedWhy": "v1.0.0 0004 is hardcoded data; backup is MASWE-0006",
+      "label": "wrong"
+    },
+    {
+      "finding": 2,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app uses IPC mechanisms securely.",
+      "label": "right"
+    },
+    {
+      "finding": 3,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app uses IPC mechanisms securely.",
+      "label": "right"
+    },
+    {
+      "finding": 4,
+      "id": "MASVS-PRIVACY-1",
+      "exists": true,
+      "indexTitle": "The app minimizes access to sensitive data and resources.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app minimizes access to sensitive data and resources.",
+      "label": "right"
+    },
+    {
+      "finding": 5,
+      "id": "MASVS-STORAGE-2",
+      "exists": true,
+      "indexTitle": "The app prevents leakage of sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app prevents leakage of sensitive data.",
+      "label": "right"
+    },
+    {
+      "finding": 5,
+      "id": "MASWE-0001",
+      "exists": true,
+      "indexTitle": "Sensitive Data Stored Unencrypted in Private Storage",
+      "proposed": "wrong",
+      "proposedWhy": "v1.0.0 0001 is unencrypted private storage; logging is MASWE-0005",
+      "label": "wrong"
+    },
+    {
+      "finding": 6,
+      "id": "MASVS-RESILIENCE-3",
+      "exists": true,
+      "indexTitle": "The app implements anti-static analysis mechanisms.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app implements anti-static analysis mechanisms.",
+      "label": "right"
+    }
+  ]
+}

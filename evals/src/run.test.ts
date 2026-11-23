@@ -6,6 +6,7 @@ import {
   readdirSync,
   readFileSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from "node:fs";
 import { homedir, tmpdir } from "node:os";
@@ -19,6 +20,7 @@ import {
   copyFixture,
   copyPlugin,
   dirHash,
+  exportTree,
   parseStream,
   pluginSourceDir,
   redact,
@@ -257,5 +259,42 @@ describe("clean", () => {
   it("replaces control characters and cuts long text", () => {
     expect(clean("a\u001b[2Jb\nc")).toBe("a [2Jb c");
     expect(clean("abcdef", 4)).toBe("abc…");
+  });
+});
+
+describe("exportTree", () => {
+  // A tiny repo: the "parent" commit, then a "fix" that adds a file.
+  const repo = mkdtempSync(join(tmpdir(), "ward-export-"));
+  const g = (...args: string[]) =>
+    execFileSync("git", ["-C", repo, ...args], { encoding: "utf8" }).trim();
+  g("init", "-q");
+  g("config", "user.email", "test@example.invalid");
+  g("config", "user.name", "test");
+  mkdirSync(join(repo, "src"));
+  writeFileSync(join(repo, "src/A.kt"), "flawed\n");
+  symlinkSync("/etc/hosts", join(repo, "src/link"));
+  g("add", "-A");
+  g("commit", "-qm", "parent");
+  const parent = g("rev-parse", "HEAD");
+  writeFileSync(join(repo, "src/A.kt"), "fixed\n");
+  writeFileSync(join(repo, "FIX.md"), "the fix\n");
+  g("add", "-A");
+  g("commit", "-qm", "fix");
+  const out = exportTree(repo, parent, "app");
+  afterAll(() => {
+    rmSync(out.parent, { recursive: true, force: true });
+    rmSync(repo, { recursive: true, force: true });
+  });
+
+  it("exports only the commit's files, with no git history", () => {
+    expect(out.dir.endsWith("/app")).toBe(true);
+    expect(existsSync(join(out.dir, ".git"))).toBe(false);
+    expect(readFileSync(join(out.dir, "src/A.kt"), "utf8")).toBe("flawed\n");
+    expect(existsSync(join(out.dir, "FIX.md"))).toBe(false);
+  });
+
+  it("removes symlinks, which could point outside the copy", () => {
+    expect(out.symlinksRemoved).toBe(1);
+    expect(readdirSync(join(out.dir, "src"))).toEqual(["A.kt"]);
   });
 });
