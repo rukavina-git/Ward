@@ -236,6 +236,11 @@ download it and run it on your own computer, free and offline, instead
 of calling the vendor's servers. Like an open-source library vs. a paid
 web API. Ward's embedding model (bge-small) is open weights.
 
+**Paired comparison.** Comparing two systems query by query on the same
+queries, instead of comparing two averages. A hard query hurts both, so
+it cancels out, and a real difference shows with fewer queries. Ward
+compares BM25 and vectors this way on the retrieval eval.
+
 **Pinning.** Fixing a dependency or source to one exact version (a tag
 and its commit), so every run sees the same input. Ward pins the OWASP
 sources and fails if the cloned commit differs.
@@ -308,6 +313,11 @@ because Ward's own skill will face the same test.
 shown as the lowest and highest score next to the average. A model gives
 different answers each run, so one trial can be lucky; a gap between arms
 smaller than their spread isn't a real difference.
+
+**Standard error.** The noise in an average: how far the average would
+move if you swapped in a different set of similar queries. It shrinks
+with the square root of the count, so 4× the queries halves it. For MRR
+it's roughly 0.35 / √n: ±0.09 at 17 queries, ±0.045 at 60.
 
 **stdio transport.** One way an AI app talks to an MCP server: the app
 starts the server as a child process and they exchange messages over its

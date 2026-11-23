@@ -50,7 +50,7 @@ and deciding by measurement.
 - [x] Retrieval eval: 40–60 queries with expected IDs (recall@5, MRR),
       seeded from the baseline runs' findings
 - [x] BM25 keyword search, built by hand
-- [ ] Extend the retrieval eval to about 150 queries
+- [x] Extend the retrieval eval to about 150 queries
 - [ ] Embeddings and vector search, built by hand, compared with BM25 on
       the retrieval eval; shipped only if they win (ADR 0009)
 

@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import {
   KnowledgeBase,
   loadIndex,
@@ -108,6 +109,7 @@ describe("ids retriever", () => {
 
   it("drops unknown IDs and plain text", () => {
     expect(retrieve("MASWE-9999 and MASTG-TEST-0001")).toEqual([]);
+    expect(retrieve("MASTG-TSET-0039 typo")).toEqual([]);
     expect(retrieve("password in SharedPreferences")).toEqual([]);
   });
 });
@@ -119,9 +121,9 @@ describe("query set", () => {
   const key = loadKey(keyPath);
   const items = new Set(key.items.map((i) => i.id));
 
-  it("has 40–60 queries with unique IDs and texts", () => {
-    expect(set.queries.length).toBeGreaterThanOrEqual(40);
-    expect(set.queries.length).toBeLessThanOrEqual(60);
+  it("has 140–170 queries with unique IDs and texts", () => {
+    expect(set.queries.length).toBeGreaterThanOrEqual(140);
+    expect(set.queries.length).toBeLessThanOrEqual(170);
     const ids = set.queries.map((x) => x.id);
     const texts = set.queries.map((x) => x.query.toLowerCase());
     expect(new Set(ids).size).toBe(ids.length);
@@ -153,7 +155,7 @@ describe("query set", () => {
 
   it("has every origin in both splits and none queries empty", () => {
     for (const split of ["dev", "test"]) {
-      for (const origin of ["finding", "missed", "id", "none"]) {
+      for (const origin of ["finding", "missed", "coverage", "id", "none"]) {
         const n = set.queries.filter(
           (x) => x.split === split && x.origin === origin,
         ).length;
@@ -162,6 +164,50 @@ describe("query set", () => {
     }
     for (const x of set.queries) {
       expect(x.expected.length === 0, x.id).toBe(x.origin === "none");
+    }
+  });
+
+  it("has at least 15 none and 25 coverage queries", () => {
+    const count = (origin: string) =>
+      set.queries.filter((x) => x.origin === origin).length;
+    expect(count("none")).toBeGreaterThanOrEqual(15);
+    expect(count("coverage")).toBeGreaterThanOrEqual(25);
+  });
+
+  it("expects an item's own MASWE and MASTG IDs for finding and missed", () => {
+    // The key's schema drops mastg, so read the raw file.
+    const raw = JSON.parse(readFileSync(keyPath, "utf8")) as {
+      items: { id: string; maswe: string[]; mastg?: string[] }[];
+    };
+    const byId = new Map(raw.items.map((i) => [i.id, i]));
+    for (const x of set.queries) {
+      if (x.item === undefined) continue;
+      const own = byId.get(x.item);
+      const ids = [...(own?.maswe ?? []), ...(own?.mastg ?? [])];
+      for (const id of ids) expect(x.expected, `${x.id}: ${id}`).toContain(id);
+    }
+  });
+
+  it("aims coverage queries at a weakness no v1 query expects", () => {
+    const v1 = new Set(
+      set.queries
+        .filter((x) => Number(x.id.slice(3)) < 50)
+        .flatMap((x) => x.expected),
+    );
+    for (const x of set.queries.filter((y) => y.origin === "coverage")) {
+      const weakness = x.expected[0] ?? "";
+      expect(weakness, x.id).toMatch(/^MASWE-\d{4}$/);
+      expect(v1.has(weakness), x.id).toBe(false);
+    }
+  });
+
+  it("keeps each coverage weakness in one split", () => {
+    const splitOf = new Map<string, string>();
+    for (const x of set.queries.filter((y) => y.origin === "coverage")) {
+      const w = x.expected[0] ?? "";
+      const seen = splitOf.get(w);
+      if (seen !== undefined) expect(x.split, `${x.id} ${w}`).toBe(seen);
+      splitOf.set(w, x.split);
     }
   });
 

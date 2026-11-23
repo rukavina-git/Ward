@@ -26,14 +26,15 @@ export interface SearchHit {
 }
 
 /**
- * Settings picked on the retrieval eval's dev split (plan 3 step 04,
- * `npm run eval:tune-bm25`): dev MRR 0.568 → 0.785. The gain is stemming
- * and halving demo code scores; k1 adds a little. Test was scored once,
- * with these.
+ * Settings picked on the retrieval eval's dev split (`npm run
+ * eval:tune-bm25`). Step 04, query set v1: dev MRR 0.568 → 0.785. The gain
+ * is stemming and halving demo code scores; k1 adds a little. Step 05, v2:
+ * b 0.75 → 0.5, dev MRR 0.799 → 0.803 (within noise). Test was scored
+ * once, with these.
  */
 export const TUNED_SEARCH: Required<Omit<SearchOptions, "limit">> = {
   k1: 0.9,
-  b: 0.75,
+  b: 0.5,
   stopwords: false,
   stem: true,
   titleWeight: 1,

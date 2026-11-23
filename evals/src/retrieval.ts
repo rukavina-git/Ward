@@ -11,7 +11,7 @@ import { z } from "zod";
 export const RECALL_K = 5;
 export const MRR_DEPTH = 10;
 
-const origins = ["finding", "missed", "id", "none"] as const;
+const origins = ["finding", "missed", "coverage", "id", "none"] as const;
 export type Origin = (typeof origins)[number];
 export type Split = "dev" | "test";
 
