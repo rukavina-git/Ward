@@ -34,7 +34,11 @@ Ablation.
   First score: ID lookup only.
 - 04 BM25 by hand. Tokenizer that keeps IDs whole, BM25 scoring, search
   in packages/core. Tune on dev, report test, before and after.
-- 05 Embeddings and vector search by hand. bge-small-en-v1.5 via
+- 05 Extend the retrieval eval to about 150 queries (added 2026-11-23,
+  Karlo asked for a bigger sample): more findings, missed and none
+  queries, and coverage queries for weaknesses outside the answer key.
+  Re-score ids and BM25 on it.
+- 06 Embeddings and vector search by hand. bge-small-en-v1.5 via
   Transformers.js (licences checked first), brute-force cosine, hybrid
   merge. Compare BM25, vectors and hybrid on test. Ship vectors only if
   they win; record the decision either way.
