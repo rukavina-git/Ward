@@ -1,7 +1,7 @@
 # Plan 5 progress
 
 - [x] 01 hardening: MASWE on verdicts, output cap, false NO FINDING → MANUAL (1d4b9a7)
-- [x] 02 report schema and report_skeleton (HASH)
+- [x] 02 report schema and report_skeleton (5099456)
 - [ ] 03 citation checker
 - [ ] 04 skill and /ward:check
 - [ ] 05 Ward on the held-out set
