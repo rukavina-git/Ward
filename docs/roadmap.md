@@ -76,12 +76,17 @@ Scope from the council of 2026-11-23
 
 ## Plan 5: the check
 Learn: agent workflows, skills, structured output.
-- [ ] Skill + report JSON schema (a verdict with evidence for every
-      control in scope); /ward:check
+Scope from the council of 2026-11-23
+(docs/council/2026-11-23-plan5-scope.md, ADR 0012).
+- [ ] Hardening: MASWE IDs on every verdict, tool output cap, false
+      NO FINDING risks give MANUAL
+- [ ] Report JSON schema (per control, tests nested, strict rollup) and
+      a `report_skeleton` tool
+- [ ] Citation checker: cited IDs, file:line and quotes must exist
+- [ ] Skill and /ward:check, with a terminal summary
+- [ ] Ward on the held-out set (one arm, 10 cases)
 - [ ] Must-exist checks: account deletion, privacy policy link,
       data-deletion URL
-- [ ] Read-only HTML report
-- [ ] Citation checker: cited IDs, file:line and quotes must exist
 - [ ] Package as a Claude Code plugin; run it on my own app
 
 ## Plan 6: proof
@@ -102,6 +107,7 @@ Learn: adding a knowledge domain, and where model judgement is needed.
 
 ## Plan 8: triage UI
 Learn: local tools that are safe by design.
+- [ ] Read-only HTML report (moved from plan 5, ADR 0012)
 - [ ] /ward:review: local report UI (localhost only, random token), bulk
       fix / accept / skip
 - [ ] .ward/decisions.json; reruns show new or changed items; /ward:fix
