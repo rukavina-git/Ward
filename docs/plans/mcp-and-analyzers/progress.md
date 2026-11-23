@@ -3,7 +3,7 @@
 - [x] 01 held-out set and bar, batch 1 (f4c8c92)
 - [x] 02 Claude alone on the held-out set (gate) (6db3168)
 - [x] 03 MCP server: knowledge tools (b88ad60)
-- [x] 04 manifest analyzer (HASH)
+- [x] 04 manifest analyzer (969a879)
 - [ ] 05 network security config and targetSdk analyzers
 - [ ] 06 dependency check (OSV, last, cuttable)
 - [ ] 07 use Ward from Claude Code
