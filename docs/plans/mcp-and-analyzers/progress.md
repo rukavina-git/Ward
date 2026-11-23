@@ -5,7 +5,7 @@
 - [x] 03 MCP server: knowledge tools (b88ad60)
 - [x] 04 manifest analyzer (969a879)
 - [x] 05 network security config and targetSdk analyzers (bdefc24)
-- [x] 06 dependency check (OSV, last, cuttable) (HASH)
+- [x] 06 dependency check (OSV, last, cuttable) (92f2418)
 - [ ] 07 use Ward from Claude Code
 
 ## Deviations
