@@ -9,6 +9,20 @@ and results that look bad for Ward.
 "$" is the API-equivalent Claude Code reports. Runs are on Karlo's Pro
 plan, not billed (ADR 0007).
 
+## 2026-11-23 Retrieval unchanged by the MCP search tool (plan 4, step 03)
+
+- **Question:** does adding matched/unmatched terms and the MCP tools
+  change search ranking?
+- **Setup:** `npm run eval:retrieval -- --retriever bm25-tuned`, before
+  and after the step's code, same query set and index.
+- **Numbers (recall@5 / MRR):** dev 0.938 / 0.811 before and after; test
+  0.981 / 0.885 before and after. Results file byte-identical.
+- **Sizes:** full `checklist` 48 KB (24 controls, 116 weakness entries,
+  195 tests; 81 KB with per-item URLs, which were dropped); `search` k=8
+  about 11 KB; largest `get_check` sampled about 7 KB.
+- **What it means:** ranking is untouched; the tools only add data.
+- **Raw data:** `evals/results/retrieval/bm25-tuned.json`.
+
 ## 2026-11-23 Held-out gate: Claude alone on real fixes (plan 4, step 02)
 
 - **Question:** does Claude Code alone already catch real security

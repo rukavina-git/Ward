@@ -2,7 +2,7 @@
 
 - [x] 01 held-out set and bar, batch 1 (f4c8c92)
 - [x] 02 Claude alone on the held-out set (gate) (6db3168)
-- [ ] 03 MCP server: knowledge tools
+- [x] 03 MCP server: knowledge tools (HASH)
 - [ ] 04 manifest analyzer
 - [ ] 05 network security config and targetSdk analyzers
 - [ ] 06 dependency check (OSV, last, cuttable)
@@ -42,6 +42,13 @@
   at export before Claude started; their empty folders were removed and
   the runs redone.
 - Step 02: roadmap "Held-out eval set" ticked with 10 of the planned 30.
+- Step 03: checklist entries carry no URL (full list 81 KB → 48 KB,
+  about 12k tokens, under Claude Code's 25k MCP output limit); get_check
+  gives the citation. No MCP outputSchema: structuredContent plus the
+  same JSON as text. matchedTerms comes from `KnowledgeBase.matchedTerms`
+  (not a SearchHit field), so the eval's search path is untouched. Tool
+  annotations (read-only) added. "Claude Code lists the three tools" is
+  checked by the stdio test; the live `/mcp` reconnect is Karlo's.
 
 ## Gotchas
 Carried over: see docs/plans/knowledge-base/progress.md (no "nothing
@@ -88,3 +95,20 @@ Step 02:
 - Claude's MASWE IDs look consistent but are wrong for v1.0.0; any
   citation check must compare against the pinned index, not trust IDs.
 - Step 03 onward: Ward must never be tuned on HO-01…HO-10.
+
+Step 03 (reviewer NITs, not fixed):
+- `checklist` filters tests by profile and status, not platform; "no
+  iOS tests" holds only because ingest drops them (guarded by the tools
+  test on the real index, not a core test).
+- `inProfile` keeps a record whose `profiles` isn't an array; use
+  `strings()` there if the data ever has a scalar.
+- get_check echoes `id`, search echoes `query` outside `text` fields;
+  the notice names only `text` as untrusted.
+
+Step 03:
+- The mcp package reads core's built types: rebuild core
+  (`npm run build -w @ward/core`) before typechecking mcp after core edits.
+- Tools load `packages/core/data/index.json` relative to core's dist;
+  step 04's analyzers add their own tools to `server.ts` the same way.
+- Claude Code caps MCP output at about 25k tokens; keep each tool's
+  result well under it (checklist is about 12k).

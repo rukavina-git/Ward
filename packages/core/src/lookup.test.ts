@@ -159,6 +159,104 @@ describe("KnowledgeBase.related", () => {
     });
     expect(ids("MASTG-TEST-0002", "weakness")?.ids).toEqual([]);
   });
+
+  it("returns an old test with no replacements for its own kind", () => {
+    expect(ids("MASTG-TEST-0002", "test")).toEqual({
+      from: null,
+      ids: ["MASTG-TEST-0002"],
+    });
+  });
+});
+
+describe("KnowledgeBase.checklist", () => {
+  const withFields = (
+    r: IndexRecord,
+    fields: IndexRecord["fields"],
+  ): IndexRecord => ({ ...r, fields });
+  const kb = new KnowledgeBase({
+    ...index,
+    records: [
+      rec("MASVS-NETWORK-1", "control", { weaknesses: ["MASWE-0050"] }),
+      rec("MASVS-STORAGE-1", "control", {
+        weaknesses: ["MASWE-0001", "MASWE-0002", "MASWE-0003"],
+      }),
+      withFields(
+        rec("MASWE-0001", "weakness", {
+          tests: ["MASTG-TEST-0001", "MASTG-TEST-0200", "MASTG-TEST-0201"],
+        }),
+        { platform: ["android", "ios"], profiles: ["L1", "L2"] },
+      ),
+      withFields(rec("MASWE-0002", "weakness"), {
+        platform: ["ios"],
+        profiles: ["L1", "L2"],
+      }),
+      withFields(rec("MASWE-0003", "weakness"), {
+        platform: ["android"],
+        profiles: ["P"],
+      }),
+      withFields(
+        rec("MASWE-0050", "weakness", { tests: ["MASTG-TEST-0233"] }),
+        { platform: ["android"], profiles: ["L1", "L2"] },
+      ),
+      withFields(rec("MASTG-TEST-0001", "test", {}, "deprecated"), {
+        profiles: ["L1"],
+      }),
+      withFields(rec("MASTG-TEST-0200", "test"), {
+        profiles: ["L2"],
+        type: ["dynamic"],
+      }),
+      withFields(rec("MASTG-TEST-0201", "test", {}, "placeholder"), {
+        profiles: ["L1", "L2"],
+        type: ["static", "code"],
+      }),
+      withFields(rec("MASTG-TEST-0233", "test"), {
+        profiles: ["L1", "L2"],
+        type: "static",
+      }),
+    ],
+  });
+  const shape = (filter = {}) =>
+    kb.checklist(filter).map((c) => ({
+      [c.id]: c.weaknesses.map((w) => ({ [w.id]: w.tests.map((t) => t.id) })),
+    }));
+
+  it("lists controls, Android weaknesses and their live tests", () => {
+    expect(shape()).toEqual([
+      { "MASVS-NETWORK-1": [{ "MASWE-0050": ["MASTG-TEST-0233"] }] },
+      {
+        "MASVS-STORAGE-1": [
+          { "MASWE-0001": ["MASTG-TEST-0200", "MASTG-TEST-0201"] },
+          { "MASWE-0003": [] },
+        ],
+      },
+    ]);
+  });
+
+  it("keeps placeholder tests, marked, with their types", () => {
+    const tests = kb.checklist()[1]?.weaknesses[0]?.tests;
+    expect(tests?.map((t) => [t.id, t.status, t.type])).toEqual([
+      ["MASTG-TEST-0200", "active", ["dynamic"]],
+      ["MASTG-TEST-0201", "placeholder", ["static", "code"]],
+    ]);
+  });
+
+  it("filters by group, any case", () => {
+    expect(shape({ group: "masvs-network" })).toEqual([
+      { "MASVS-NETWORK-1": [{ "MASWE-0050": ["MASTG-TEST-0233"] }] },
+    ]);
+    expect(shape({ group: "MASVS-NET" })).toEqual([]);
+  });
+
+  it("filters weaknesses and tests by profile", () => {
+    expect(shape({ profile: "L1" })).toEqual([
+      { "MASVS-NETWORK-1": [{ "MASWE-0050": ["MASTG-TEST-0233"] }] },
+      { "MASVS-STORAGE-1": [{ "MASWE-0001": ["MASTG-TEST-0201"] }] },
+    ]);
+    expect(shape({ profile: "P" })).toEqual([
+      { "MASVS-NETWORK-1": [] },
+      { "MASVS-STORAGE-1": [{ "MASWE-0003": [] }] },
+    ]);
+  });
 });
 
 describe("search", () => {
@@ -257,6 +355,27 @@ describe("search", () => {
     expect(ids("external storage files", { codeWeight: 0.1 })[0]).toBe(
       "MASTG-TEST-0200#0",
     );
+  });
+
+  it("says which query words each hit matched, as written", () => {
+    expect(kb.matchedTerms("Tokens in LOGCAT", "MASWE-0001#0")).toEqual([
+      "tokens",
+      "in",
+      "logcat",
+    ]);
+    expect(
+      kb.matchedTerms("tokens in logcat", "MASWE-0001#0", { stem: true }),
+    ).toEqual(["tokens", "in", "logcat"]);
+    expect(kb.matchedTerms("keys keys logcat", "MASWE-0002#0")).toEqual([
+      "keys",
+    ]);
+    expect(kb.matchedTerms("logcat", "MASWE-0099#0")).toEqual([]);
+  });
+
+  it("lists query words found nowhere", () => {
+    expect(kb.unmatchedTerms("kerberos tokens kerberos")).toEqual(["kerberos"]);
+    expect(kb.unmatchedTerms("key", { stem: true })).toEqual([]);
+    expect(kb.unmatchedTerms("key")).toEqual(["key"]);
   });
 
   it("respects limit and gives the same order every time", () => {

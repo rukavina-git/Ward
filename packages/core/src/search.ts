@@ -54,6 +54,8 @@ export class ChunkSearch {
   private readonly bm25: Bm25Index;
   private readonly code = new Set<string>();
   private readonly recordOf = new Map<string, string>();
+  /** Each chunk's distinct tokens, to say which query words it matched. */
+  private readonly tokenSets = new Map<string, ReadonlySet<string>>();
 
   constructor(
     chunks: readonly Chunk[],
@@ -72,6 +74,7 @@ export class ChunkSearch {
       for (let i = 0; i < tokens.titleWeight; i++) all.push(...headTokens);
       all.push(...tokenize(chunk.text, tokens));
       docs.push({ id: chunk.id, tokens: all });
+      this.tokenSets.set(chunk.id, new Set(all));
     }
     this.bm25 = new Bm25Index(docs);
   }
@@ -91,6 +94,37 @@ export class ChunkSearch {
         score: this.code.has(h.id) ? h.score * codeWeight : h.score,
       }))
       .sort((x, y) => y.score - x.score || (x.chunk < y.chunk ? -1 : 1));
+  }
+
+  /**
+   * The query's words as written (lower case, after stopwords), each with
+   * the token it is searched as. Repeats count once.
+   */
+  words(query: string): { word: string; token: string }[] {
+    const seen = new Set<string>();
+    const out = [];
+    for (const word of tokenize(query, { ...this.tokens, stem: false })) {
+      if (seen.has(word)) continue;
+      seen.add(word);
+      out.push({ word, token: tokenize(word, this.tokens)[0] ?? word });
+    }
+    return out;
+  }
+
+  /** Query words found in this chunk (title and section included). */
+  matchedTerms(query: string, chunkId: string): string[] {
+    const tokens = this.tokenSets.get(chunkId);
+    if (!tokens) return [];
+    return this.words(query)
+      .filter((w) => tokens.has(w.token))
+      .map((w) => w.word);
+  }
+
+  /** Query words found in no searchable chunk at all. */
+  unmatchedTerms(query: string): string[] {
+    return this.words(query)
+      .filter((w) => !this.bm25.has(w.token))
+      .map((w) => w.word);
   }
 }
 

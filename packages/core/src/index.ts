@@ -6,11 +6,3 @@ export * from "./tokenize.js";
 export * from "./bm25.js";
 export * from "./search.js";
 export * from "./vectors.js";
-
-/**
- * Placeholder so lint, typecheck, test and build have real code to run on.
- * Plan 4 replaces it with the real MCP tools.
- */
-export function hello(name: string): string {
-  return `Hello, ${name}. Ward is not built yet.`;
-}

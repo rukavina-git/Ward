@@ -247,6 +247,12 @@ marketplace.
 Claude Code to use outside tools and data. Ward is an MCP server: it
 offers tools like "get the checklist" and "search the standards".
 
+**Matched terms.** For one search result, the words of the query that
+actually appear in it; "unmatched terms" are query words found nowhere in
+the index. BM25 always returns something, even for nonsense, so these
+lists are the agent's honest clue: a hit that matched only "in" and "the"
+is probably unrelated. Ward's `search` tool returns both, with no cutoff.
+
 **MRR (mean reciprocal rank).** A retrieval score: for each test query,
 take 1 divided by the position of the first right answer (1st → 1, 2nd →
 0.5, 3rd → 0.33), then average. Rewards putting the right chunk at the
@@ -377,7 +383,10 @@ dropping them didn't help, so the tuned search keeps them.
 **Structured output.** Making the model answer in JSON that fits a schema
 you give it, instead of free text. Code can then read the answer without
 guessing. Ward's eval passes its findings schema to `claude -p
---json-schema` and validates the answer again with the same file.
+--json-schema` and validates the answer again with the same file. In MCP,
+a tool can do the same: it returns `structuredContent` (JSON with fixed
+fields) next to the usual text, so the agent can copy IDs and citation
+URLs exactly. Ward's tools send both.
 
 **Term frequency saturation (k1).** BM25's setting for how much a word
 repeated in one chunk adds: the first match counts most, later ones less
@@ -403,7 +412,9 @@ The user's agent will get Ward's checklist this way.
 the code. So the description works like a small prompt: it decides
 whether the model picks the tool. Claude Code first shows the model only
 MCP tool names and loads a full schema when needed, so the name matters
-too.
+too. Ward's schemas also cap inputs (a query is at most 500 characters):
+the server rejects a bad call before any Ward code runs. Tool
+annotations add hints such as "read-only".
 
 **Training cutoff.** The date a model's training data ends. A fix made
 after it can't be in what the model learned, so it tests reasoning, not

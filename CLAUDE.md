@@ -8,8 +8,8 @@ runtime. Static website. Portfolio project for rukavina.app
 
 ## Repo
 npm workspace, TypeScript, Node 26 (ADR 0002, tooling ADR 0008).
-- packages/core   shared library (placeholder; index + search in plan 3)
-- packages/mcp    stdio MCP server (`hello` tool only; real tools plan 4).
+- packages/core   index, lookup, BM25 search, checklist (data/index.json)
+- packages/mcp    stdio MCP server: checklist, get_check, search.
                   Logs to stderr only: stdout is the protocol.
 - .mcp.json       starts packages/mcp/dist as server `ward`
 - plugin/         the Claude Code plugin (manifest only so far)
@@ -73,8 +73,8 @@ don't yet know RAG, embeddings, vector search, evals or MCP.
   `/code-review` and `/security-review` on the branch before a PR to
   main.
 - Big product or architecture decisions: `/council`. Concepts: `/explain`.
-- Ward's own MCP server is in .mcp.json (hello only for now); from plan
-  4, Claude Code uses Ward's real tools while building it.
+- Ward's own MCP server is in .mcp.json (knowledge tools; analyzers
+  from step 04); Claude Code uses Ward's real tools while building it.
 
 ## Conventions
 - Decisions are ADRs: docs/adr/NNNN-*.md (template in docs/adr/README.md).

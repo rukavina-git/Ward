@@ -53,6 +53,11 @@ export class KnowledgeBase {
     return { record, chunks };
   }
 
+  /** One chunk by its ID (`<record id>#<n>`), exact. */
+  chunk(id: string): Chunk | undefined {
+    return this.chunks.get(id);
+  }
+
   /**
    * The records of `kind` linked to `id`, following the chain one step at a
    * time (a control's tests go through its weaknesses). An old v1 test
@@ -71,7 +76,10 @@ export class KnowledgeBase {
       // No replacements: only its direct (v1) links are known.
       return {
         redirectedFrom,
-        records: this.resolve(start.links[listFor[kind]]),
+        records:
+          kind === start.kind
+            ? [start]
+            : this.resolve(start.links[listFor[kind]]),
       };
     }
 
@@ -125,6 +133,52 @@ export class KnowledgeBase {
     return hits;
   }
 
+  /** Query words found in this chunk; used to show why a hit matched. */
+  matchedTerms(
+    query: string,
+    chunkId: string,
+    options: SearchOptions = {},
+  ): string[] {
+    return this.searcher(options).matchedTerms(query, chunkId);
+  }
+
+  /** Query words found in no searchable chunk: the agent's hint that search can't help. */
+  unmatchedTerms(query: string, options: SearchOptions = {}): string[] {
+    return this.searcher(options).unmatchedTerms(query);
+  }
+
+  /**
+   * What to check for an Android app: MASVS controls, their weaknesses
+   * (Android ones) and each weakness's active and placeholder tests, all
+   * sorted by ID. Filters: a MASVS group (MASVS-NETWORK) and a profile
+   * (L1, L2, R, P). A weakness or test without profiles is kept by any
+   * profile filter. Weaknesses with no test stay, with an empty list.
+   */
+  checklist(filter: ChecklistFilter = {}): ChecklistControl[] {
+    const group = filter.group?.trim().toUpperCase();
+    const inProfile = (r: IndexRecord): boolean => {
+      if (!filter.profile) return true;
+      const p = r.fields.profiles;
+      return !Array.isArray(p) || p.includes(filter.profile);
+    };
+    const controls = this.index.records.filter(
+      (r) =>
+        r.kind === "control" &&
+        (!group || r.id === group || r.id.startsWith(`${group}-`)),
+    );
+    return controls.map((control) => ({
+      ...item(control),
+      weaknesses: this.resolve(control.links.weaknesses)
+        .filter((w) => isAndroid(w) && inProfile(w))
+        .map((w) => ({
+          ...item(w),
+          tests: this.resolve(w.links.tests)
+            .filter((t) => t.status !== "deprecated" && inProfile(t))
+            .map((t) => ({ ...item(t), type: strings(t.fields.type) })),
+        })),
+    }));
+  }
+
   private searcher(options: SearchOptions): ChunkSearch {
     const key = indexKey(options);
     let s = this.searchers.get(key);
@@ -147,6 +201,59 @@ export class KnowledgeBase {
       return r;
     });
   }
+}
+
+export interface ChecklistFilter {
+  /** A MASVS group such as "MASVS-NETWORK", or one control ID. */
+  group?: string | undefined;
+  /** A MAS profile: L1, L2, R (resilience) or P (privacy). */
+  profile?: string | undefined;
+}
+
+/**
+ * One checklist entry: enough to choose it and fetch the rest by ID. No
+ * URL: the full list stays small, and get_check gives the citation.
+ */
+export interface ChecklistItem {
+  id: string;
+  title: string;
+  status: IndexRecord["status"];
+  profiles: string[];
+}
+
+export interface ChecklistTest extends ChecklistItem {
+  /** MASTG test types, e.g. ["static", "code"] or ["dynamic"]. */
+  type: string[];
+}
+
+export interface ChecklistWeakness extends ChecklistItem {
+  tests: ChecklistTest[];
+}
+
+export interface ChecklistControl extends ChecklistItem {
+  weaknesses: ChecklistWeakness[];
+}
+
+function item(r: IndexRecord): ChecklistItem {
+  return {
+    id: r.id,
+    title: r.title,
+    status: r.status,
+    profiles: strings(r.fields.profiles),
+  };
+}
+
+function strings(value: unknown): string[] {
+  if (typeof value === "string") return [value];
+  return Array.isArray(value)
+    ? value.filter((v): v is string => typeof v === "string")
+    : [];
+}
+
+/** A weakness is Android's if its platform list names android (or is missing). */
+function isAndroid(r: IndexRecord): boolean {
+  const p = strings(r.fields.platform);
+  return p.length === 0 || p.includes("android");
 }
 
 /** OWASP IDs are upper case; accept any case and stray spaces. */

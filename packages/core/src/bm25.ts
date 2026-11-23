@@ -52,6 +52,11 @@ export class Bm25Index {
     return this.ids.length;
   }
 
+  /** True if any document contains the token. */
+  has(token: string): boolean {
+    return this.postings.has(token);
+  }
+
   /**
    * Inverse document frequency. The `1 +` inside the log keeps it positive
    * even for a word in more than half the documents.

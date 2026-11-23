@@ -66,7 +66,7 @@ Scope from the council of 2026-11-23
 - [x] Claude Code alone on it (Sonnet 5.5 and Opus 5.5); if it aces
       this too, rethink before building analyzers (minimal gate: batch 1
       of 10, Sonnet only; result: Ward has room, docs/measurements.md)
-- [ ] Local MCP server (stdio): checklist, get check, search (top-k plus
+- [x] Local MCP server (stdio): checklist, get check, search (top-k plus
       matched terms, no cutoff)
 - [ ] Analyzers in plain code: merged manifest, network security config,
       targetSdk

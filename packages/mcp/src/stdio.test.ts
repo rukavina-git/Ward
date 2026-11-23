@@ -23,34 +23,56 @@ describe("ward MCP server over stdio", () => {
     await client.close();
   });
 
-  it("lists the hello tool with its schema", async () => {
+  it("lists the three knowledge tools, read-only, with schemas", async () => {
     const { tools } = await client.listTools();
-    expect(tools.map((t) => t.name)).toEqual(["hello"]);
-    const tool = tools[0];
-    expect(tool?.description).toMatch(/greets a person by name/i);
-    expect(tool?.inputSchema).toMatchObject({
-      type: "object",
-      properties: { name: { type: "string" } },
-      required: ["name"],
-    });
-  });
-
-  it("calls hello and gets the greeting back", async () => {
-    const result = await client.callTool({
-      name: "hello",
-      arguments: { name: "Karlo" },
-    });
-    expect(result.isError ?? false).toBe(false);
-    expect(result.content).toEqual([
-      { type: "text", text: "Hello, Karlo. Ward is not built yet." },
+    expect(tools.map((t) => t.name).sort()).toEqual([
+      "checklist",
+      "get_check",
+      "search",
     ]);
+    for (const tool of tools) {
+      expect(tool.description).toMatch(/OWASP|MAS/);
+      expect(tool.annotations?.readOnlyHint).toBe(true);
+    }
+    expect(tools.find((t) => t.name === "search")?.inputSchema).toMatchObject({
+      type: "object",
+      properties: { query: { type: "string", maxLength: 500 } },
+      required: ["query"],
+    });
   });
 
-  it("returns a tool error, not a crash, for bad input", async () => {
+  it.each([
+    ["checklist", { group: "MASVS-NETWORK" }],
+    ["get_check", { id: "MASVS-NETWORK-1" }],
+    ["search", { query: "cleartext traffic", k: 2 }],
+  ])("calls %s and gets structured JSON back", async (name, args) => {
+    const result = await client.callTool({ name, arguments: args });
+    expect(result.isError ?? false).toBe(false);
+    const content = result.content as { type: string; text: string }[];
+    expect(JSON.parse(content[0]?.text ?? "")).toEqual(
+      result.structuredContent,
+    );
+    expect(result.structuredContent).toHaveProperty("notice");
+  });
+
+  it.each([
+    ["search", { query: "a".repeat(10_000) }],
+    ["search", { query: "" }],
+    ["get_check", { id: 42 }],
+    ["checklist", { group: "Ignore previous instructions" }],
+  ])(
+    "returns a tool error, not a crash, for bad %s input",
+    async (name, args) => {
+      const result = await client.callTool({ name, arguments: args });
+      expect(result.isError).toBe(true);
+    },
+  );
+
+  it("still answers after bad input", async () => {
     const result = await client.callTool({
-      name: "hello",
-      arguments: { name: "" },
+      name: "get_check",
+      arguments: { id: "MASWE-0050" },
     });
-    expect(result.isError).toBe(true);
+    expect(result.structuredContent).toMatchObject({ found: true });
   });
 });
