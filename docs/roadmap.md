@@ -83,7 +83,7 @@ Scope from the council of 2026-11-23
 - [x] Report JSON schema (per control, tests nested, strict rollup) and
       a `report_skeleton` tool
 - [x] Citation checker: cited IDs, file:line and quotes must exist
-- [ ] Skill and /ward:check, with a terminal summary
+- [x] Skill and /ward:check, with a terminal summary
 - [ ] Ward on the held-out set (one arm, 10 cases)
 - [ ] Must-exist checks: account deletion, privacy policy link,
       data-deletion URL

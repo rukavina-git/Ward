@@ -9,6 +9,31 @@ and results that look bad for Ward.
 "$" is the API-equivalent Claude Code reports. Runs are on Karlo's Pro
 plan, not billed (ADR 0007).
 
+## 2026-11-23 First /ward:check runs, skill v1 (plan 5, step 04)
+
+- **Question:** does the skill make the agent use the skeleton and
+  finish with a checked report?
+- **Setup:** `/ward:check` on copies of `fixtures/example-app` and its
+  clean twin, Sonnet 5.5, one run each, isolated like the eval arms
+  (Read, Grep, Glob, Skill, Write + Ward's tools). Dev runs, not scored
+  by the eval scorer.
+- **Numbers:** planted app: 3.5 min, 50 turns, $0.94; 58 fills, all
+  applied; first `write_report` had 13 citation issues (all
+  `not-a-file`: folders in `filesInspected`), 0 after one retry. 24
+  controls: FAIL 15, MANUAL 9; checks FAIL 42, NO FINDING 40, N/A 15.
+  A FAIL within 3 lines of 22 of the 23 planted FAIL items (EA-23
+  missed; rough file:line match, decoys not scored). Clean twin: 3.9
+  min, 64 turns, $1.01; 57 fills; same 14 → 0 retry; 3 FAIL rows, all
+  one finding (plaintext CSV backup, `AutoBackupWorker.kt:23`).
+- **Tool use:** `report_skeleton` 9 times (the full answer was too large
+  to show inline, so the agent fell back to one call per group),
+  `write_report` 2, `get_check` and `search` 0.
+- **What it means:** the skeleton works: every control got a verdict,
+  IDs come from code, every quote shown passed. The agent judges tests
+  by title alone (no `get_check`). About 4× the time and cost of
+  Claude alone (baseline ~1 min, $0.25).
+- **Raw data:** `evals/results/ward-check-dev/skill-v1/`.
+
 ## 2026-11-23 Report skeleton size and prefill (plan 5, step 02)
 
 - **Question:** does the full `report_skeleton` fit the MCP output cap,

@@ -3,7 +3,7 @@
 - [x] 01 hardening: MASWE on verdicts, output cap, false NO FINDING → MANUAL (1d4b9a7)
 - [x] 02 report schema and report_skeleton (5099456)
 - [x] 03 citation checker (248d32a)
-- [ ] 04 skill and /ward:check
+- [x] 04 skill and /ward:check (HASH)
 - [ ] 05 Ward on the held-out set
 - [ ] 06 must-exist checks
 - [ ] 07 package as a plugin, run on my own app
@@ -29,6 +29,14 @@
   `filesInspected` and "FAIL with no good evidence". Issue list is
   capped in the tool (100), not the function. Not wired into the eval
   scorer yet (step 05). Server 0.7.0.
+- Step 04: step file written this run. The agent doesn't write the
+  report: it writes `.ward/fills.json` (answers by check ID), and the
+  new `write_report` tool rebuilds the skeleton, applies the fills,
+  runs the checker, drops bad evidence and writes `.ward/report.json`.
+  This also covers "never lower a prefill" (step 03 gotcha). Skill in
+  `prompts/ward-check/SKILL.md`, byte copy in `plugin/skills/check/`
+  (`npm run prompts:sync`). Server 0.8.0. Dev run results kept in
+  `evals/results/ward-check-dev/skill-v1/`.
 
 ## Gotchas
 Carried over: see docs/plans/mcp-and-analyzers/progress.md.
@@ -101,3 +109,30 @@ Step 03:
   so the skill writes first, then calls `check_report`.
 - The checker doesn't compare agent verdicts with the analyzers' (never
   lower a prefill); step 04 needs that or a re-run of the skeleton.
+
+Step 04 (reviewer: no BLOCKER; not fixed):
+- SHOULD: a fill's `check` string goes into the summary unclipped; an
+  unknown ID with a newline (e.g. "x\nPASS — ready") adds lines past
+  the cap and puts PASS into text shown as is. Clip it or limit
+  `check`/`control` to the ID pattern in `fillSchema`.
+- SHOULD: the skill says "same scope" for `write_report`; after a
+  per-group skeleton, an agent could call it per group and overwrite
+  the report each time. Say: one `write_report`, full scope. (Both dev
+  runs did it right.)
+- NITs: an unscoped fill before a control-scoped one for the same check
+  wins; an owasp row can be raised to FAIL with no evidence (checker
+  still flags it); "every quote confirmed" also prints when evidence
+  had no quote; NO FINDING with empty `filesInspected` is accepted; a
+  hard-linked `.ward/report.json` isn't detected.
+
+Step 04:
+- The full skeleton (~70 KB) is too big for Claude Code to show inline,
+  so the agent calls `report_skeleton` once to fail, then 8 times per
+  group. The skill could go per group from the start.
+- The agent never called `get_check`/`search`: it judged tests by their
+  titles. Its first `write_report` always had `not-a-file` issues
+  (folders in `filesInspected`); the retry fixed them.
+- Runs take ~4 min and ~$1 (API-equivalent) per app: step 05's 10
+  held-out cases are about 10× that.
+- Clean twin: one FAIL (plaintext CSV backup). Decide in step 05
+  whether it's a false alarm.

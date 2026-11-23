@@ -157,6 +157,12 @@ fixed a security problem, and the commit just before it. The parent still
 has the problem, so it's a real "broken app"; the fix is its clean twin.
 Ward's held-out set stores both hashes, never the code.
 
+**Fills.** The agent's answers to a report skeleton's open checks:
+check ID, verdict, reason, evidence. The agent writes only these
+(`.ward/fills.json`); Ward's code puts them into the form, checks the
+citations and writes the report, so IDs and control verdicts never
+come from the model.
+
 **Fixture.** Fixed test input kept in the repo so every run starts from
 the same thing. Ward's fixtures are the two Penny Jar apps in
 `fixtures/`. Their answer key lives in `evals/`, so an agent given a

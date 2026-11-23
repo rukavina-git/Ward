@@ -9,6 +9,7 @@ import { networkTool } from "./network-tool.js";
 import { reportSkeletonTool } from "./report-skeleton-tool.js";
 import { searchTool } from "./search-tool.js";
 import { WARD_VERSION } from "./version.js";
+import { writeReportTool } from "./write-report-tool.js";
 
 export const serverInfo = { name: "ward", version: WARD_VERSION };
 
@@ -58,6 +59,11 @@ export function createServer(): McpServer {
     checkReportTool.name,
     checkReportTool.config,
     checkReportTool.handler,
+  );
+  server.registerTool(
+    writeReportTool.name,
+    writeReportTool.config,
+    writeReportTool.handler,
   );
   return server;
 }

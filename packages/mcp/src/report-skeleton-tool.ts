@@ -5,7 +5,7 @@ import {
   analyzeNetwork,
   ProjectRootError,
 } from "@ward/analyzers";
-import { buildSkeleton, type AnalyzerInput } from "@ward/report";
+import { buildSkeleton, type AnalyzerInput, type Report } from "@ward/report";
 import type { CallToolResult } from "@modelcontextprotocol/server";
 import * as z from "zod/v4";
 import { mastgPin, projectInput, withMaswe } from "./app-tool.js";
@@ -53,45 +53,56 @@ export const reportSkeletonTool = {
     },
   },
   handler: async (input: ReportSkeletonInput): Promise<CallToolResult> => {
-    const { projectRoot, variant, group, profile } =
-      reportSkeletonInput.parse(input);
-    const analyzers: AnalyzerInput[] = [];
-    let osvDate: string | null = null;
-    for (const [name, analyze] of ANALYZERS) {
-      try {
-        const report = withMaswe(await analyze(projectRoot, variant));
-        analyzers.push({
-          name,
-          report: report as NonNullable<AnalyzerInput["report"]>,
-        });
-        const osv = (report as { osv?: { downloadedAt?: string | null } }).osv;
-        if (osv) osvDate = osv.downloadedAt ?? null;
-      } catch (e) {
-        if (e instanceof ProjectRootError) {
-          return error(e.message);
-        }
-        // One analyzer failing leaves its checks pending, not the run.
-        analyzers.push({ name, error: (e as Error).message });
-      }
-    }
-    const kb = knowledgeBase();
-    const report = buildSkeleton({
-      controls: kb.checklist({ group, profile }),
-      analyzers,
-      scope: {
-        groups: group ? [group] : [...MASVS_GROUPS],
-        profile: profile ?? null,
-        variant,
-      },
-      stamps: { wardVersion: WARD_VERSION, mastg: mastgPin(), osvDate },
-      allGroups: MASVS_GROUPS,
-    });
+    const built = await buildReport(input);
+    if ("error" in built) return error(built.error);
     return {
-      content: [{ type: "text", text: JSON.stringify(report) }],
-      structuredContent: report,
+      content: [{ type: "text", text: JSON.stringify(built.report) }],
+      structuredContent: built.report,
     };
   },
 };
+
+/**
+ * Runs the analyzers and builds the skeleton for a scope. Shared with
+ * write_report, so the prefills there are the code's, never the agent's.
+ * A bad root is `{ error }`; one analyzer failing leaves its checks
+ * pending.
+ */
+export async function buildReport(
+  input: ReportSkeletonInput,
+): Promise<{ report: Report } | { error: string }> {
+  const { projectRoot, variant, group, profile } =
+    reportSkeletonInput.parse(input);
+  const analyzers: AnalyzerInput[] = [];
+  let osvDate: string | null = null;
+  for (const [name, analyze] of ANALYZERS) {
+    try {
+      const report = withMaswe(await analyze(projectRoot, variant));
+      analyzers.push({
+        name,
+        report: report as NonNullable<AnalyzerInput["report"]>,
+      });
+      const osv = (report as { osv?: { downloadedAt?: string | null } }).osv;
+      if (osv) osvDate = osv.downloadedAt ?? null;
+    } catch (e) {
+      if (e instanceof ProjectRootError) return { error: e.message };
+      analyzers.push({ name, error: (e as Error).message });
+    }
+  }
+  const kb = knowledgeBase();
+  const report = buildSkeleton({
+    controls: kb.checklist({ group, profile }),
+    analyzers,
+    scope: {
+      groups: group ? [group] : [...MASVS_GROUPS],
+      profile: profile ?? null,
+      variant,
+    },
+    stamps: { wardVersion: WARD_VERSION, mastg: mastgPin(), osvDate },
+    allGroups: MASVS_GROUPS,
+  });
+  return { report };
+}
 
 function error(message: string): CallToolResult {
   const out = { error: message };

@@ -1,10 +1,10 @@
-import { lstat, readFile, realpath } from "node:fs/promises";
-import path from "node:path";
+import { readFile } from "node:fs/promises";
 import { checkReport } from "@ward/report";
 import type { CallToolResult } from "@modelcontextprotocol/server";
 import * as z from "zod/v4";
 import { projectInput } from "./app-tool.js";
 import { knowledgeBase } from "./knowledge.js";
+import { resolveFile, resolveRoot } from "./project-path.js";
 
 /** A filled report is about 20k tokens; anything far over that isn't one. */
 export const MAX_REPORT_BYTES = 2_000_000;
@@ -45,32 +45,17 @@ export const checkReportTool = {
   },
   handler: async (input: CheckReportInput): Promise<CallToolResult> => {
     const { projectRoot, reportPath } = checkReportInput.parse(input);
-    let root: string;
-    try {
-      root = await realpath(projectRoot);
-      if (!(await lstat(root)).isDirectory()) throw new Error();
-    } catch {
-      return error("projectRoot is not a readable folder.");
-    }
-    if (path.isAbsolute(reportPath) || reportPath.includes("\0")) {
-      return error("reportPath must be relative to projectRoot.");
-    }
-    let file: string;
-    try {
-      file = await realpath(path.resolve(root, reportPath));
-    } catch {
-      return error("No report at reportPath.");
-    }
-    const rel = path.relative(root, file);
-    if (rel === "" || rel.startsWith("..") || path.isAbsolute(rel)) {
-      return error("reportPath is outside projectRoot.");
-    }
-    const info = await lstat(file);
-    if (!info.isFile() || info.size > MAX_REPORT_BYTES) {
-      return error(
-        `reportPath is not a file under ${String(MAX_REPORT_BYTES)} bytes.`,
-      );
-    }
+    const r = await resolveRoot(projectRoot);
+    if ("error" in r) return error(r.error);
+    const root = r.root;
+    const f = await resolveFile(
+      root,
+      reportPath,
+      "reportPath",
+      MAX_REPORT_BYTES,
+    );
+    if ("error" in f) return error(f.error);
+    const file = f.file;
     let json: unknown;
     try {
       json = JSON.parse(await readFile(file, "utf8"));

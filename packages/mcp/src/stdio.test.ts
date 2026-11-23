@@ -39,7 +39,7 @@ describe("ward MCP server over stdio", () => {
     rmSync(cacheDir, { recursive: true, force: true });
   });
 
-  it("lists the knowledge and analyzer tools, read-only", async () => {
+  it("lists the tools; only write_report writes", async () => {
     const { tools } = await client.listTools();
     expect(tools.map((t) => t.name).sort()).toEqual([
       "build_config",
@@ -51,10 +51,14 @@ describe("ward MCP server over stdio", () => {
       "network",
       "report_skeleton",
       "search",
+      "write_report",
     ]);
     for (const tool of tools) {
       expect(tool.description).toMatch(/OWASP|MAS/);
-      expect(tool.annotations?.readOnlyHint).toBe(true);
+      // write_report writes .ward/report.json; every other tool only reads.
+      expect(tool.annotations?.readOnlyHint, tool.name).toBe(
+        tool.name !== "write_report",
+      );
     }
     expect(tools.find((t) => t.name === "search")?.inputSchema).toMatchObject({
       type: "object",
