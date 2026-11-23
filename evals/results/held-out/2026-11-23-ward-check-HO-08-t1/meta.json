@@ -1,0 +1,380 @@
+{
+  "name": "2026-11-23-ward-check-HO-08-t1",
+  "date": "2026-11-23T12:59:47.561Z",
+  "smoke": false,
+  "setup": "ward-check",
+  "setupDescription": "Claude Code + Ward's plugin (skill /ward:check) and MCP server, plus Write for .ward/ only. Prompt /ward:check; Ward's report is turned into findings in code.",
+  "plugin": {
+    "name": "ward",
+    "source": {
+      "kind": "local",
+      "path": "plugin"
+    },
+    "commit": null,
+    "sha256": "6f443625e50cb6341babdd0ed6c5c96e6a252c1ba1e041f61735f75e5acbffde"
+  },
+  "mcp": {
+    "name": "ward",
+    "entry": "packages/mcp/dist/index.js",
+    "distSha256": "90392588286e33ec7d0d2a64331b8dfdb78d28820e96749f81907f938e8c5fa0"
+  },
+  "case": "HO-08",
+  "repo": "https://github.com/signalapp/Signal-Android",
+  "commit": "5a2c40c14b21da7e1f24ad8c7e36a22b2cb58d0c",
+  "commitRole": "parent",
+  "barSha256": "82b98999930da9d8c811ef5d9b71df8b006409539b19a55b7ecf2a7f05594314",
+  "keySha256": "a422b14efae8755765f1121c0cb1220a4b46cc90fb1256903ff6613e4f04ee86",
+  "symlinksRemoved": 3,
+  "trial": 1,
+  "modelRequested": "claude-sonnet-5-5",
+  "modelReported": "claude-sonnet-5-5",
+  "claudeCodeVersion": "2.1.330 (Claude Code)",
+  "key": {
+    "name": "held-out",
+    "keyVersion": 1
+  },
+  "repoCommit": "0137a014425c3bbe9b75fea3852bfb71b06e3918",
+  "promptSha256": "9d1d89ea9afa21a7ca6a8508f4a08240149e58b3a86936f81a85ac79fba99a6e",
+  "transcriptSha256": "9cf4da3594a529164164cb4b58e0bc5c0eb1c098dec0c76eee54bebfc05b6d0e",
+  "schemaSha256": "bb61ae0b7ad3ac279b563942f1cbefaf22786da19ff2cc8cd280d6d4a24c7d69",
+  "flags": [
+    "-p",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--model",
+    "claude-sonnet-5-5",
+    "--tools",
+    "Read,Grep,Glob,Skill,Write",
+    "--allowedTools",
+    "Read,Grep,Glob,Skill,Write,mcp__ward__checklist,mcp__ward__get_check,mcp__ward__search,mcp__ward__manifest,mcp__ward__network,mcp__ward__build_config,mcp__ward__dependencies,mcp__ward__report_skeleton,mcp__ward__check_report,mcp__ward__write_report",
+    "--disallowedTools",
+    "WebFetch,WebSearch",
+    "--permission-mode",
+    "dontAsk",
+    "--no-session-persistence",
+    "--setting-sources",
+    "",
+    "--strict-mcp-config",
+    "--settings",
+    "{\"autoMemoryEnabled\":false}",
+    "--restricted",
+    "--plugin-dir",
+    "<tmp>/plugins/ward",
+    "--add-dir",
+    "<tmp>/plugins/ward",
+    "--mcp-config",
+    "{\"mcpServers\":{\"ward\":{\"command\":\"node\",\"args\":[\"~/Dev/ward/packages/mcp/dist/index.js\"]}}}"
+  ],
+  "report": {
+    "projectPrefix": "",
+    "counts": {
+      "controls": {
+        "MANUAL": 22,
+        "FAIL": 2
+      },
+      "checks": {
+        "NO FINDING": 23,
+        "NEEDS DYNAMIC": 49,
+        "MANUAL": 165,
+        "FAIL": 2,
+        "N/A": 1
+      }
+    },
+    "pending": 0,
+    "skippedNoEvidence": {
+      "fail": 0,
+      "other": 127
+    }
+  },
+  "status": "ok",
+  "failures": [],
+  "exitCode": 0,
+  "timedOut": false,
+  "wallMs": 172184,
+  "findings": 9,
+  "skillsInvoked": [],
+  "wardCalls": [
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-STORAGE"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-NETWORK"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-AUTH"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-CRYPTO"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-CODE"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-PLATFORM",
+        "profile": "L1"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-PRIVACY"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-RESILIENCE"
+      },
+      "isError": false
+    },
+    {
+      "tool": "write_report",
+      "input": {
+        "projectRoot": "<tmp>/app"
+      },
+      "isError": false
+    },
+    {
+      "tool": "write_report",
+      "input": {
+        "projectRoot": "<tmp>/app"
+      },
+      "isError": false
+    }
+  ],
+  "searchQueries": [],
+  "outsideBlocked": 0,
+  "init": {
+    "model": "claude-sonnet-5-5",
+    "claude_code_version": "2.1.330",
+    "permissionMode": "dontAsk",
+    "apiKeySource": "none",
+    "tools": [
+      "Glob",
+      "Grep",
+      "Read",
+      "Skill",
+      "Write",
+      "mcp__ward__build_config",
+      "mcp__ward__check_report",
+      "mcp__ward__checklist",
+      "mcp__ward__dependencies",
+      "mcp__ward__get_check",
+      "mcp__ward__manifest",
+      "mcp__ward__network",
+      "mcp__ward__report_skeleton",
+      "mcp__ward__search",
+      "mcp__ward__write_report"
+    ],
+    "mcp_servers": [
+      {
+        "name": "ward",
+        "status": "connected",
+        "source": "dynamic"
+      }
+    ],
+    "slash_commands": [
+      "ward:check",
+      "design",
+      "design-sync",
+      "dataviz",
+      "update-config",
+      "verify",
+      "debug",
+      "code-review",
+      "simplify",
+      "batch",
+      "fewer-permission-prompts",
+      "doctor",
+      "loop",
+      "schedule",
+      "claude-api",
+      "run",
+      "run-skill-generator",
+      "plugin-authoring",
+      "advisor",
+      "agents",
+      "auto-mode-setup",
+      "autocompact",
+      "clear",
+      "color",
+      "compact",
+      "config",
+      "output-style",
+      "context",
+      "effort",
+      "fast",
+      "focus",
+      "heapdump",
+      "init",
+      "mcp",
+      "import",
+      "model",
+      "__remote-workflow",
+      "workflow-launch-exec",
+      "reload-plugins",
+      "reload-skills",
+      "rename",
+      "ultrareview",
+      "security-review",
+      "usage-credits",
+      "extra-usage",
+      "usage",
+      "insights",
+      "recap",
+      "skill-doctor",
+      "goal",
+      "design-consent",
+      "design-revoke",
+      "list-agents",
+      "team-onboarding"
+    ],
+    "skills": [
+      "ward:check",
+      "design",
+      "design-sync",
+      "dataviz",
+      "update-config",
+      "verify",
+      "debug",
+      "code-review",
+      "simplify",
+      "batch",
+      "fewer-permission-prompts",
+      "doctor",
+      "loop",
+      "schedule",
+      "claude-api",
+      "run",
+      "run-skill-generator",
+      "plugin-authoring"
+    ],
+    "agents": [
+      "claude",
+      "Explore",
+      "general-purpose",
+      "Plan",
+      "statusline-setup",
+      "web-fetch"
+    ],
+    "output_style": "default",
+    "plugins": [
+      "ward@inline",
+      "cc-plugin-agents-md@builtin",
+      "cc-plugin-telemetry@builtin",
+      "cc-plugin-privacy@builtin",
+      "cc-plugin-plugin-authoring@builtin"
+    ]
+  },
+  "result": {
+    "subtype": "success",
+    "is_error": false,
+    "num_turns": 31,
+    "duration_ms": 171588,
+    "duration_api_ms": 169889,
+    "total_cost_usd": 0.7529832000000001,
+    "usage": {
+      "input_tokens": 36,
+      "cache_creation_input_tokens": 105237,
+      "cache_read_input_tokens": 1169632,
+      "output_tokens": 21500,
+      "output_tokens_details": {
+        "thinking_tokens": 3458
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 105237,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "global",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 755,
+          "cache_read_input_tokens": 112612,
+          "cache_creation_input_tokens": 2365,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2365
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard",
+      "fallback_credit": null
+    },
+    "modelUsage": {
+      "claude-sonnet-5-5": {
+        "inputTokens": 36,
+        "outputTokens": 21500,
+        "cacheReadInputTokens": 1169632,
+        "cacheCreationInputTokens": 105237,
+        "webSearchRequests": 0,
+        "costUSD": 0.7529832000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 3458,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 105237,
+        "canonicalModel": "claude-sonnet-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "permission_denials": 0
+  },
+  "recheck": {
+    "date": "2026-11-23T13:08:11.543Z",
+    "why": "Isolation check was too strict: the agent grepped Claude Code's saved copy of Ward's own report_skeleton answer (tool-results of this run), and HO-08 wrote a 1-line .ward/fills.json.note. Neither is outside data. Re-validated with Karlo's OK, no rerun.",
+    "statusBefore": "failed",
+    "isolationBefore": [
+      "isolation: Grep outside the copy: ~/.claude/projects/-private-var-folders-20-0jxv53k969vcs3hbp8sp9yk80000gn-T-tmp-UlGxpE-app/556e566e-77d9-42b2-89e1-9d884f61f2f3/tool-results/mcp-ward-report_skeleton-1795438621586-sc841t.txt",
+      "isolation: Grep outside the copy: ~/.claude/projects/-private-var-folders-20-0jxv53k969vcs3hbp8sp9yk80000gn-T-tmp-UlGxpE-app/556e566e-77d9-42b2-89e1-9d884f61f2f3/tool-results/mcp-ward-report_skeleton-1795438621586-sc841t.txt",
+      "isolation: Write other than .ward/fills.json: <tmp>/app/.ward/fills.json.note"
+    ]
+  }
+}

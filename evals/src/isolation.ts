@@ -99,6 +99,25 @@ function touchedPaths(call: ToolCall): string[] {
   }
 }
 
+/**
+ * Claude Code saves a tool answer too big to show inline to
+ * <config>/projects/<slug of the cwd>/<session>/tool-results/<file> and lets
+ * the agent read it there. The copy's temp folder is new for every run, so
+ * a file in its slug's tool-results holds only this run's own tool answers.
+ */
+export function isOwnToolResult(path: string, cwd: string): boolean {
+  const slug = cwd.replace(/[^A-Za-z0-9]/g, "-");
+  const parts = path.split("/");
+  const n = parts.length;
+  return (
+    n >= 6 &&
+    parts[n - 2] === "tool-results" &&
+    parts[n - 4] === slug &&
+    parts[n - 5] === "projects" &&
+    !parts.includes("..")
+  );
+}
+
 function inside(path: string, root: string): boolean {
   const rel = relative(root, path);
   return rel === "" || (!rel.startsWith("..") && !isAbsolute(rel));
@@ -115,6 +134,8 @@ export interface IsolationExpect {
   cwd: string;
   /** Folders the agent may read: the copy and the plugin, each also as its real path. */
   roots: string[];
+  /** The copy's real path, as Claude Code reports it in init (`cwd`). */
+  realCwd?: string | undefined;
 }
 
 export interface IsolationReport {
@@ -189,15 +210,21 @@ export function checkIsolation(
     }
     for (const p of touchedPaths(call)) {
       const abs = resolve(expect.cwd, p);
-      // The only file an arm may write is Ward's form, <project>/.ward/fills.json.
-      // Never the report: Ward's code writes that one.
+      // An arm may write only in <project>/.ward/, and never the report:
+      // Ward's write_report writes that one.
       if (
         call.name === "Write" &&
-        (basename(abs) !== "fills.json" || basename(dirname(abs)) !== ".ward")
+        (basename(abs) === "report.json" || basename(dirname(abs)) !== ".ward")
       ) {
-        failures.push(`Write other than .ward/fills.json: ${p}`);
+        failures.push(`Write outside .ward/ or of the report: ${p}`);
         continue;
       }
+      if (
+        call.name !== "Write" &&
+        expect.realCwd !== undefined &&
+        isOwnToolResult(abs, expect.realCwd)
+      )
+        continue;
       if (expect.roots.some((r) => inside(abs, r))) continue;
       if (call.isError === true) outsideBlocked++;
       else failures.push(`${call.name} outside the copy: ${p}`);

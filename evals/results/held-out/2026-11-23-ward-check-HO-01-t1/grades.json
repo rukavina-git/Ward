@@ -1,0 +1,511 @@
+{
+  "run": "2026-11-23-ward-check-HO-01-t1",
+  "case": "HO-01",
+  "kind": "config",
+  "found": {
+    "candidates": [
+      0
+    ],
+    "proposed": "found",
+    "proposedWhy": "generic: analyzer MANUAL list of exported activities names WidgetAuthenticationActivity (automotive manifest:198); same leniency as alone HO-01; strictly a miss",
+    "label": null
+  },
+  "decoysFlagged": {
+    "candidates": [
+      0
+    ],
+    "proposed": 0,
+    "proposedWhy": "MANUAL list of every exported activity, not a claim that the decoy is a problem",
+    "label": null
+  },
+  "findings": [
+    {
+      "finding": 0,
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "where": [
+        "app/src/main/AndroidManifest.xml:114",
+        "app/src/main/AndroidManifest.xml:137",
+        "automotive/src/main/AndroidManifest.xml:191",
+        "automotive/src/main/AndroidManifest.xml:198",
+        "automotive/src/main/AndroidManifest.xml:203",
+        "automotive/src/main/AndroidManifest.xml:210",
+        "app/src/main/AndroidManifest.xml:301",
+        "automotive/src/main/AndroidManifest.xml:217",
+        "automotive/src/main/AndroidManifest.xml:224",
+        "automotive/src/main/AndroidManifest.xml:307",
+        "automotive/src/main/AndroidManifest.xml:348",
+        "app/src/main/AndroidManifest.xml:461",
+        "automotive/src/main/AndroidManifest.xml:393",
+        "automotive/src/main/AndroidManifest.xml:434",
+        "automotive/src/main/AndroidManifest.xml:476",
+        "app/src/main/AndroidManifest.xml:555",
+        "app/src/main/AndroidManifest.xml:565",
+        "automotive/src/main/AndroidManifest.xml:291",
+        "wear/src/main/AndroidManifest.xml:73",
+        "wear/src/main/AndroidManifest.xml:87",
+        "wear/src/main/AndroidManifest.xml:96",
+        "wear/src/main/AndroidManifest.xml:138",
+        "automotive/src/full/AndroidManifest.xml:20"
+      ],
+      "role": "case",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 1,
+      "title": "MASTG-TEST-0365: Exported And Unprotected Services That Expose Sensitive Functionality",
+      "where": [
+        "automotive/src/main/AndroidManifest.xml:371",
+        "app/src/full/AndroidManifest.xml:79",
+        "wear/src/main/AndroidManifest.xml:294",
+        "automotive/src/full/AndroidManifest.xml:49",
+        "app/src/full/AndroidManifest.xml:104"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 2,
+      "title": "MASTG-TEST-0366: Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality",
+      "where": [
+        "automotive/src/main/AndroidManifest.xml:90",
+        "wear/src/main/AndroidManifest.xml:50",
+        "automotive/src/main/AndroidManifest.xml:173",
+        "automotive/src/main/AndroidManifest.xml:260"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 3,
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "where": [
+        "gradle/libs.versions.toml:46",
+        "wear/build.gradle.kts:51",
+        "common/build.gradle.kts:54",
+        "common/build.gradle.kts:55",
+        "common/build.gradle.kts:57",
+        "common/build.gradle.kts:58",
+        "common/build.gradle.kts:71",
+        "app/build.gradle.kts:45",
+        "wear/build.gradle.kts:40",
+        "wear/build.gradle.kts:59",
+        "testing-unit/build.gradle.kts:32",
+        "testing-unit/build.gradle.kts:33",
+        "testing-unit/build.gradle.kts:34",
+        "testing-unit/build.gradle.kts:37"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 4,
+      "title": "MASTG-TEST-0235: Android App Configurations Allowing Cleartext Traffic",
+      "where": [
+        "app/src/main/res/xml/network_security_config.xml:5"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 5,
+      "title": "MASTG-TEST-0285: Outdated Android Version Allowing Trust in User-Provided CAs",
+      "where": [
+        "app/src/main/res/xml/network_security_config.xml:10"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 6,
+      "title": "MASTG-TEST-0286: Network Security Configuration Allowing Trust in User-Provided CAs",
+      "where": [
+        "app/src/main/res/xml/network_security_config.xml:10"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 7,
+      "title": "MASTG-TEST-0242: Missing Certificate Pinning in Network Security Configuration",
+      "where": [
+        "wear/src/main/AndroidManifest.xml:44"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 8,
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "where": [
+        "common/src/main/AndroidManifest.xml:6",
+        "app/src/main/AndroidManifest.xml:9",
+        "app/src/main/AndroidManifest.xml:15",
+        "app/src/main/AndroidManifest.xml:16",
+        "app/src/main/AndroidManifest.xml:17",
+        "app/src/main/AndroidManifest.xml:21",
+        "app/src/main/AndroidManifest.xml:22",
+        "app/src/main/AndroidManifest.xml:23",
+        "app/src/main/AndroidManifest.xml:24",
+        "app/src/main/AndroidManifest.xml:25",
+        "app/src/main/AndroidManifest.xml:26",
+        "app/src/main/AndroidManifest.xml:30",
+        "app/src/main/AndroidManifest.xml:43",
+        "app/src/main/AndroidManifest.xml:49",
+        "wear/src/main/AndroidManifest.xml:13",
+        "wear/src/main/AndroidManifest.xml:17"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 9,
+      "title": "MASTG-TEST-0202: References to APIs and Permissions for Accessing External Storage",
+      "where": [
+        "app/src/main/AndroidManifest.xml:43"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 10,
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "where": [
+        "wear/src/main/AndroidManifest.xml:48",
+        "wear/src/main/AndroidManifest.xml:47"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 11,
+      "title": "MASTG-TEST-0231: References to Logging APIs",
+      "where": [
+        "app/src/main/kotlin/io/homeassistant/companion/android/HomeAssistantApplication.kt:91"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 12,
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "where": [
+        "wear/src/main/AndroidManifest.xml:48",
+        "wear/src/main/AndroidManifest.xml:47"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    }
+  ],
+  "citations": [
+    {
+      "finding": 0,
+      "id": "MASVS-AUTH-1",
+      "exists": true,
+      "indexTitle": "The app uses secure authentication and authorization protocols and follows the relevant best practices.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 0,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 0,
+      "id": "MASVS-STORAGE-2",
+      "exists": true,
+      "indexTitle": "The app prevents leakage of sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 0,
+      "id": "MASWE-0018",
+      "exists": true,
+      "indexTitle": "Lack of Authentication or Authorization on App Components",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 1,
+      "id": "MASVS-AUTH-1",
+      "exists": true,
+      "indexTitle": "The app uses secure authentication and authorization protocols and follows the relevant best practices.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 1,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 1,
+      "id": "MASVS-STORAGE-2",
+      "exists": true,
+      "indexTitle": "The app prevents leakage of sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 1,
+      "id": "MASWE-0018",
+      "exists": true,
+      "indexTitle": "Lack of Authentication or Authorization on App Components",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 2,
+      "id": "MASVS-AUTH-1",
+      "exists": true,
+      "indexTitle": "The app uses secure authentication and authorization protocols and follows the relevant best practices.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 2,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 2,
+      "id": "MASVS-STORAGE-2",
+      "exists": true,
+      "indexTitle": "The app prevents leakage of sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 2,
+      "id": "MASWE-0018",
+      "exists": true,
+      "indexTitle": "Lack of Authentication or Authorization on App Components",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 3,
+      "id": "MASVS-CODE-3",
+      "exists": true,
+      "indexTitle": "The app only uses software components without known vulnerabilities.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 3,
+      "id": "MASWE-0044",
+      "exists": true,
+      "indexTitle": "Dependencies with Known Vulnerabilities",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 4,
+      "id": "MASVS-NETWORK-1",
+      "exists": true,
+      "indexTitle": "The app secures all network traffic according to the current best practices.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 4,
+      "id": "MASWE-0026",
+      "exists": true,
+      "indexTitle": "Network Traffic Not Encrypted",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 5,
+      "id": "MASVS-NETWORK-1",
+      "exists": true,
+      "indexTitle": "The app secures all network traffic according to the current best practices.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 5,
+      "id": "MASWE-0027",
+      "exists": true,
+      "indexTitle": "Insecure Certificate Validation",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 6,
+      "id": "MASVS-NETWORK-1",
+      "exists": true,
+      "indexTitle": "The app secures all network traffic according to the current best practices.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 6,
+      "id": "MASWE-0027",
+      "exists": true,
+      "indexTitle": "Insecure Certificate Validation",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 7,
+      "id": "MASVS-NETWORK-2",
+      "exists": true,
+      "indexTitle": "The app performs identity pinning for all remote endpoints under the developer's control.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 7,
+      "id": "MASWE-0028",
+      "exists": true,
+      "indexTitle": "Insecure Identity Pinning",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 8,
+      "id": "MASVS-PRIVACY-1",
+      "exists": true,
+      "indexTitle": "The app minimizes access to sensitive data and resources.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 8,
+      "id": "MASWE-0066",
+      "exists": true,
+      "indexTitle": "Inadequate Permission Management",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 9,
+      "id": "MASVS-STORAGE-1",
+      "exists": true,
+      "indexTitle": "The app securely stores sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 9,
+      "id": "MASVS-STORAGE-2",
+      "exists": true,
+      "indexTitle": "The app prevents leakage of sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 9,
+      "id": "MASWE-0002",
+      "exists": true,
+      "indexTitle": "Sensitive Data Stored Unencrypted Outside of Private Storage",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 10,
+      "id": "MASVS-STORAGE-2",
+      "exists": true,
+      "indexTitle": "The app prevents leakage of sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 10,
+      "id": "MASWE-0006",
+      "exists": true,
+      "indexTitle": "Sensitive Data Not Excluded From Backup",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 11,
+      "id": "MASVS-STORAGE-2",
+      "exists": true,
+      "indexTitle": "The app prevents leakage of sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 11,
+      "id": "MASWE-0005",
+      "exists": true,
+      "indexTitle": "Insertion of Sensitive Data into Logs",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 12,
+      "id": "MASVS-STORAGE-2",
+      "exists": true,
+      "indexTitle": "The app prevents leakage of sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    },
+    {
+      "finding": 12,
+      "id": "MASWE-0006",
+      "exists": true,
+      "indexTitle": "Sensitive Data Not Excluded From Backup",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": null
+    }
+  ]
+}

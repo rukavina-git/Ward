@@ -1,0 +1,103 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "build.gradle",
+          "line": 79
+        },
+        {
+          "file": "build.gradle",
+          "line": 80
+        }
+      ],
+      "explanation": "com.fasterxml.jackson.core:jackson-databind:2.22.2 is in the affected range of 2 OSV advisories: GHSA-cxp5-3px4-pw24/CVE-2026-91777, GHSA-wv8q-qhhj-9h54/CVE-2026-91776. OSV Maven data downloaded 2026-11-23T09:56:12.549Z (published Fri, 20 Nov 2026 16:33:30 GMT). com.fasterxml.jackson.core:jackson-core:2.22.2 is in the affected range of 2 OSV advisories: GHSA-7hhh-6rmp-j9qf/CVE-2026-89425, GHSA-p6pp-m3f8-5c89/CVE-2026-89407. OSV Maven data downloaded 2026-11-23T09:56:12.549Z (published Fri, 20 Nov 2026 16:33:30 GMT). None of the other dependencies (9 with exact versions) is in an OSV advisory's affected range. Direct dependencies only (see limits). OSV Maven data downloaded 2026-11-23T09:56:12.549Z (published Fri, 20 Nov 2026 16:33:30 GMT).\nbuild.gradle:79: api (string notation) in module (root)\nbuild.gradle:80: api (string notation) in module (root)"
+    },
+    {
+      "title": "MASTG-TEST-0274: Dependencies with Known Vulnerabilities in the App's SBOM",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "build.gradle",
+          "line": 79
+        },
+        {
+          "file": "build.gradle",
+          "line": 80
+        }
+      ],
+      "explanation": "Ward's dependency analyzer matched jackson-databind 2.22.2 and jackson-core 2.22.2 against OSV advisories (fixed in 2.22.3). Direct dependencies only.\nbuild.gradle:79: jackson-databind 2.22.2 is in the range of GHSA-cxp5-3px4-pw24 and GHSA-wv8q-qhhj-9h54.\nbuild.gradle:80: jackson-core 2.22.2 is in the range of GHSA-7hhh-6rmp-j9qf and GHSA-p6pp-m3f8-5c89."
+    },
+    {
+      "title": "MASTG-TEST-0227: Debugging Enabled for WebViews",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-2",
+        "MASVS-RESILIENCE-4"
+      ],
+      "maswe": [
+        "MASWE-0063"
+      ],
+      "locations": [
+        {
+          "file": "src/itkach/aard2/ArticleWebView.java",
+          "line": 134
+        }
+      ],
+      "explanation": "WebView remote debugging is switched on unconditionally, not tied to a debuggable build.\nsrc/itkach/aard2/ArticleWebView.java:134: setWebContentsDebuggingEnabled(true) runs in every build, including release."
+    },
+    {
+      "title": "MASTG-TEST-0334: Native Code Exposed Through WebViews",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-2",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0033"
+      ],
+      "locations": [
+        {
+          "file": "src/itkach/aard2/ArticleWebView.java",
+          "line": 152
+        }
+      ],
+      "explanation": "A JavascriptInterface object is exposed to the WebView, which renders content from user-supplied dictionary files; any script in an article can call its @JavascriptInterface methods.\nsrc/itkach/aard2/ArticleWebView.java:152: The WebView itself is registered as the JS bridge '$SLOB'."
+    }
+  ],
+  "inspected": [
+    "AndroidManifest.xml",
+    "build.gradle",
+    "res/layout/search_field.xml",
+    "src/itkach/aard2/Application.java",
+    "src/itkach/aard2/ArticleCollectionActivity.java",
+    "src/itkach/aard2/ArticleWebView.java",
+    "src/itkach/aard2/DescriptorStore.java",
+    "src/itkach/aard2/DictionariesFragment.java",
+    "src/itkach/aard2/LookupFragment.java",
+    "src/itkach/aard2/MainActivity.java",
+    "src/itkach/aard2/Util.java"
+  ]
+}

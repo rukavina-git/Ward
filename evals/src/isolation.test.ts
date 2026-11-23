@@ -220,7 +220,7 @@ describe("checkIsolation", () => {
     ]);
   });
 
-  it("lets Write reach only .ward/fills.json inside the copy", () => {
+  it("lets Write reach only .ward/ inside the copy, never the report", () => {
     const withWrite = { ...expectChecklist, tools: [...tools, "Write"] };
     const report = checkIsolation(
       goodInit,
@@ -235,8 +235,8 @@ describe("checkIsolation", () => {
     );
     expect(report.failures).toEqual([
       "tools are Glob,Grep,Read,Skill,StructuredOutput, not Glob,Grep,Read,Skill,StructuredOutput,Write",
-      "Write other than .ward/fills.json: /tmp/x/penny-jar/app/build.gradle.kts",
-      "Write other than .ward/fills.json: /tmp/x/penny-jar/.ward/report.json",
+      "Write outside .ward/ or of the report: /tmp/x/penny-jar/app/build.gradle.kts",
+      "Write outside .ward/ or of the report: /tmp/x/penny-jar/.ward/report.json",
       "Write outside the copy: /tmp/elsewhere/.ward/fills.json",
     ]);
   });
@@ -257,6 +257,25 @@ describe("mcpCalls", () => {
     ).toEqual([
       { tool: "search", input: { query: "webview" }, isError: false },
       { tool: "manifest", input: { projectRoot: "/tmp/x" }, isError: true },
+    ]);
+  });
+
+  it("lets the run read Claude Code's saved copy of its own tool answers", () => {
+    const cfg = "/Users/someone/.claude/projects";
+    const own = `${cfg}/-private-tmp-x-penny-jar/abc/tool-results/mcp-ward-1.txt`;
+    const other = `${cfg}/-Users-someone-ward/abc/tool-results/mcp-ward-1.txt`;
+    const report = checkIsolation(
+      goodInit,
+      [
+        call("Grep", { path: own }),
+        call("Read", { file_path: other }),
+        call("Write", { file_path: own }),
+      ],
+      { ...expectChecklist, realCwd: "/private/tmp/x/penny-jar" },
+    );
+    expect(report.failures).toEqual([
+      `Read outside the copy: ${other}`,
+      `called Write, which the arm doesn't have`,
     ]);
   });
 });

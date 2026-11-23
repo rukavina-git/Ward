@@ -1,0 +1,324 @@
+{
+  "name": "2026-11-23-ward-check-HO-04-t1",
+  "date": "2026-11-23T12:51:25.048Z",
+  "smoke": false,
+  "setup": "ward-check",
+  "setupDescription": "Claude Code + Ward's plugin (skill /ward:check) and MCP server, plus Write for .ward/ only. Prompt /ward:check; Ward's report is turned into findings in code.",
+  "plugin": {
+    "name": "ward",
+    "source": {
+      "kind": "local",
+      "path": "plugin"
+    },
+    "commit": null,
+    "sha256": "6f443625e50cb6341babdd0ed6c5c96e6a252c1ba1e041f61735f75e5acbffde"
+  },
+  "mcp": {
+    "name": "ward",
+    "entry": "packages/mcp/dist/index.js",
+    "distSha256": "90392588286e33ec7d0d2a64331b8dfdb78d28820e96749f81907f938e8c5fa0"
+  },
+  "case": "HO-04",
+  "repo": "https://github.com/nextcloud/talk-android",
+  "commit": "487f5b6c7b36377f0b4b8c8fad142dd982e574af",
+  "commitRole": "parent",
+  "barSha256": "82b98999930da9d8c811ef5d9b71df8b006409539b19a55b7ecf2a7f05594314",
+  "keySha256": "a422b14efae8755765f1121c0cb1220a4b46cc90fb1256903ff6613e4f04ee86",
+  "symlinksRemoved": 0,
+  "trial": 1,
+  "modelRequested": "claude-sonnet-5-5",
+  "modelReported": "claude-sonnet-5-5",
+  "claudeCodeVersion": "2.1.330 (Claude Code)",
+  "key": {
+    "name": "held-out",
+    "keyVersion": 1
+  },
+  "repoCommit": "0137a014425c3bbe9b75fea3852bfb71b06e3918",
+  "promptSha256": "9d1d89ea9afa21a7ca6a8508f4a08240149e58b3a86936f81a85ac79fba99a6e",
+  "transcriptSha256": "710b1d4adf94733118bc4bf1f68af97f7365a4d220ed9adffddf07a8a7285f8e",
+  "schemaSha256": "bb61ae0b7ad3ac279b563942f1cbefaf22786da19ff2cc8cd280d6d4a24c7d69",
+  "flags": [
+    "-p",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--model",
+    "claude-sonnet-5-5",
+    "--tools",
+    "Read,Grep,Glob,Skill,Write",
+    "--allowedTools",
+    "Read,Grep,Glob,Skill,Write,mcp__ward__checklist,mcp__ward__get_check,mcp__ward__search,mcp__ward__manifest,mcp__ward__network,mcp__ward__build_config,mcp__ward__dependencies,mcp__ward__report_skeleton,mcp__ward__check_report,mcp__ward__write_report",
+    "--disallowedTools",
+    "WebFetch,WebSearch",
+    "--permission-mode",
+    "dontAsk",
+    "--no-session-persistence",
+    "--setting-sources",
+    "",
+    "--strict-mcp-config",
+    "--settings",
+    "{\"autoMemoryEnabled\":false}",
+    "--restricted",
+    "--plugin-dir",
+    "<tmp>/plugins/ward",
+    "--add-dir",
+    "<tmp>/plugins/ward",
+    "--mcp-config",
+    "{\"mcpServers\":{\"ward\":{\"command\":\"node\",\"args\":[\"~/Dev/ward/packages/mcp/dist/index.js\"]}}}"
+  ],
+  "report": {
+    "projectPrefix": "",
+    "counts": {
+      "controls": {
+        "MANUAL": 21,
+        "FAIL": 2,
+        "NEEDS DYNAMIC": 1
+      },
+      "checks": {
+        "NO FINDING": 24,
+        "NEEDS DYNAMIC": 49,
+        "MANUAL": 146,
+        "FAIL": 5,
+        "N/A": 16
+      }
+    },
+    "pending": 0,
+    "skippedNoEvidence": {
+      "fail": 0,
+      "other": 115
+    }
+  },
+  "status": "ok",
+  "failures": [],
+  "exitCode": 0,
+  "timedOut": false,
+  "wallMs": 89267,
+  "findings": 11,
+  "skillsInvoked": [],
+  "wardCalls": [
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-STORAGE"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-NETWORK"
+      },
+      "isError": false
+    },
+    {
+      "tool": "write_report",
+      "input": {
+        "projectRoot": "<tmp>/app"
+      },
+      "isError": false
+    }
+  ],
+  "searchQueries": [],
+  "outsideBlocked": 0,
+  "init": {
+    "model": "claude-sonnet-5-5",
+    "claude_code_version": "2.1.330",
+    "permissionMode": "dontAsk",
+    "apiKeySource": "none",
+    "tools": [
+      "Glob",
+      "Grep",
+      "Read",
+      "Skill",
+      "Write",
+      "mcp__ward__build_config",
+      "mcp__ward__check_report",
+      "mcp__ward__checklist",
+      "mcp__ward__dependencies",
+      "mcp__ward__get_check",
+      "mcp__ward__manifest",
+      "mcp__ward__network",
+      "mcp__ward__report_skeleton",
+      "mcp__ward__search",
+      "mcp__ward__write_report"
+    ],
+    "mcp_servers": [
+      {
+        "name": "ward",
+        "status": "connected",
+        "source": "dynamic"
+      }
+    ],
+    "slash_commands": [
+      "ward:check",
+      "design",
+      "design-sync",
+      "dataviz",
+      "update-config",
+      "verify",
+      "debug",
+      "code-review",
+      "simplify",
+      "batch",
+      "fewer-permission-prompts",
+      "doctor",
+      "loop",
+      "schedule",
+      "claude-api",
+      "run",
+      "run-skill-generator",
+      "plugin-authoring",
+      "advisor",
+      "agents",
+      "auto-mode-setup",
+      "autocompact",
+      "clear",
+      "color",
+      "compact",
+      "config",
+      "output-style",
+      "context",
+      "effort",
+      "fast",
+      "focus",
+      "heapdump",
+      "init",
+      "mcp",
+      "import",
+      "model",
+      "__remote-workflow",
+      "workflow-launch-exec",
+      "reload-plugins",
+      "reload-skills",
+      "rename",
+      "ultrareview",
+      "security-review",
+      "usage-credits",
+      "extra-usage",
+      "usage",
+      "insights",
+      "recap",
+      "skill-doctor",
+      "goal",
+      "design-consent",
+      "design-revoke",
+      "list-agents",
+      "team-onboarding"
+    ],
+    "skills": [
+      "ward:check",
+      "design",
+      "design-sync",
+      "dataviz",
+      "update-config",
+      "verify",
+      "debug",
+      "code-review",
+      "simplify",
+      "batch",
+      "fewer-permission-prompts",
+      "doctor",
+      "loop",
+      "schedule",
+      "claude-api",
+      "run",
+      "run-skill-generator",
+      "plugin-authoring"
+    ],
+    "agents": [
+      "claude",
+      "Explore",
+      "general-purpose",
+      "Plan",
+      "statusline-setup",
+      "web-fetch"
+    ],
+    "output_style": "default",
+    "plugins": [
+      "ward@inline",
+      "cc-plugin-agents-md@builtin",
+      "cc-plugin-telemetry@builtin",
+      "cc-plugin-privacy@builtin",
+      "cc-plugin-plugin-authoring@builtin"
+    ]
+  },
+  "result": {
+    "subtype": "success",
+    "is_error": false,
+    "num_turns": 22,
+    "duration_ms": 88619,
+    "duration_api_ms": 87735,
+    "total_cost_usd": 0.3715026,
+    "usage": {
+      "input_tokens": 28,
+      "cache_creation_input_tokens": 52618,
+      "cache_read_input_tokens": 504246,
+      "output_tokens": 11055,
+      "output_tokens_details": {
+        "thinking_tokens": 1045
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 52618,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "global",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 764,
+          "cache_read_input_tokens": 60120,
+          "cache_creation_input_tokens": 2238,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2238
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard",
+      "fallback_credit": null
+    },
+    "modelUsage": {
+      "claude-sonnet-5-5": {
+        "inputTokens": 28,
+        "outputTokens": 11055,
+        "cacheReadInputTokens": 504246,
+        "cacheCreationInputTokens": 52618,
+        "webSearchRequests": 0,
+        "costUSD": 0.3715026,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1045,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 52618,
+        "canonicalModel": "claude-sonnet-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "permission_denials": 0
+  },
+  "recheck": {
+    "date": "2026-11-23T13:08:11.540Z",
+    "why": "Isolation check was too strict: the agent grepped Claude Code's saved copy of Ward's own report_skeleton answer (tool-results of this run), and HO-08 wrote a 1-line .ward/fills.json.note. Neither is outside data. Re-validated with Karlo's OK, no rerun.",
+    "statusBefore": "failed",
+    "isolationBefore": [
+      "isolation: Grep outside the copy: ~/.claude/projects/-private-var-folders-20-0jxv53k969vcs3hbp8sp9yk80000gn-T-tmp-YW8r2x-app/5b0cd2f2-ab03-4038-a982-688855599810/tool-results/mcp-ward-report_skeleton-1795438199998-8qm1j9.txt",
+      "isolation: Grep outside the copy: ~/.claude/projects/-private-var-folders-20-0jxv53k969vcs3hbp8sp9yk80000gn-T-tmp-YW8r2x-app/5b0cd2f2-ab03-4038-a982-688855599810/tool-results/mcp-ward-report_skeleton-1795438199998-8qm1j9.txt"
+    ]
+  }
+}

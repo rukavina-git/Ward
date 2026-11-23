@@ -1,0 +1,270 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0202: References to APIs and Permissions for Accessing External Storage",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0002"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/org/tasks/preferences/Preferences.kt",
+          "line": 648
+        }
+      ],
+      "explanation": "App writes backups and attachments to app-specific external storage (getExternalFilesDir), readable by other apps with storage access on older Android versions.\napp/src/main/java/org/tasks/preferences/Preferences.kt:648: Default file location is the external files dir."
+    },
+    {
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "composeApp/src/androidMain/AndroidManifest.xml",
+          "line": 5
+        }
+      ],
+      "explanation": "Backup is on (android:allowBackup=\"true\") and there are no backup rules (dataExtractionRules, fullBackupContent), so every app file goes into cloud backups and device transfers.\ncomposeApp/src/androidMain/AndroidManifest.xml:5: android:allowBackup=\"true\""
+    },
+    {
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "composeApp/src/androidMain/AndroidManifest.xml",
+          "line": 5
+        }
+      ],
+      "explanation": "Backup is on (android:allowBackup=\"true\") and there are no backup rules (dataExtractionRules, fullBackupContent), so every app file goes into cloud backups and device transfers.\ncomposeApp/src/androidMain/AndroidManifest.xml:5: android:allowBackup=\"true\""
+    },
+    {
+      "title": "MASTG-TEST-0355: References to Unauthorized Database Access through Content Providers",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 421
+        }
+      ],
+      "explanation": "A content provider is exported with no permission: any installed app can query it. If it is public by design, accept it with a reason.\napp/src/main/AndroidManifest.xml:421: provider .widget.WidgetIconProvider; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0357: References to Oversharing of File-Based Content Providers",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 421
+        }
+      ],
+      "explanation": "A content provider is exported with no permission: any installed app can query it. If it is public by design, accept it with a reason.\napp/src/main/AndroidManifest.xml:421: provider .widget.WidgetIconProvider; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "cert4android/src/androidMain/AndroidManifest.xml",
+          "line": 8
+        },
+        {
+          "file": "app/src/generic/AndroidManifest.xml",
+          "line": 9
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 223
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 230
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 241
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 268
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 281
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 312
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 599
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 617
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 641
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 666
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 698
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 145
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 156
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 167
+        },
+        {
+          "file": "app/src/googleplay/AndroidManifest.xml",
+          "line": 42
+        }
+      ],
+      "explanation": "Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\ncert4android/src/androidMain/AndroidManifest.xml:8: activity .TrustCertificateActivity; exported: yes (android:exported is set)\napp/src/generic/AndroidManifest.xml:9: activity net.openid.appauth.RedirectUriReceiverActivity; exported: yes (android:exported is set); deep link schemes: msauth\napp/src/main/AndroidManifest.xml:223: activity .compose.FilterSelectionActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:230: activity .compose.IconPickerActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:241: activity .activities.UriHandler; exported: yes (android:exported is set); deep link schemes: content, content\napp/src/main/AndroidManifest.xml:268: activity .widget.ShortcutConfigActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:281: activity com.todoroo.astrid.activity.ShareLinkActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:312: activity .widget.WidgetConfigActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:599: activity .dashclock.DashClockSettings; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:617: activity .locale.ui.activity.TaskerCreateTaskActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:641: activity-alias com.twofortyfouram.locale.example.setting.toast.ui.activity.PluginActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:666: activity com.todoroo.astrid.activity.MainActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:698: activity .preferences.NotificationPreferences; exported: yes (android:exported is set)\nwear/src/main/AndroidManifest.xml:145: activity .complications.ComplicationConfigActivity; exported: yes (android:exported is set)\nwear/src/main/AndroidManifest.xml:156: activity .complications.FilterConfigActivity; exported: yes (android:exported is set)\nwear/src/main/AndroidManifest.xml:167: activity .complications.NextTaskConfigActivity; exported: yes (android:exported is set)\napp/src/googleplay/AndroidManifest.xml:42: activity com.microsoft.identity.client.BrowserTabActivity; exported: yes (android:exported is set); deep link schemes: msauth"
+    },
+    {
+      "title": "MASTG-TEST-0365: Exported And Unprotected Services That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 133
+        },
+        {
+          "file": "app/src/googleplay/AndroidManifest.xml",
+          "line": 29
+        }
+      ],
+      "explanation": "Exported services without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\nwear/src/main/AndroidManifest.xml:133: service .complications.ComplicationUpdateService; exported: yes (android:exported is set); deep link schemes: wear\napp/src/googleplay/AndroidManifest.xml:29: service .wear.WearDataService; exported: yes (android:exported is set); deep link schemes: wear"
+    },
+    {
+      "title": "MASTG-TEST-0366: Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 339
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 518
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 527
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 537
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 564
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 654
+        }
+      ],
+      "explanation": "Exported receivers without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/AndroidManifest.xml:339: receiver .widget.TasksWidget; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:518: receiver .receivers.SystemEventReceiver; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:527: receiver .receivers.ScheduleExactAlarmsPermissionReceiver; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:537: receiver .receivers.MyPackageReplacedReceiver; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:564: receiver .receivers.LocationProviderChangedReceiver; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:654: receiver .locale.receiver.FireReceiver; exported: yes (android:exported is set)"
+    }
+  ],
+  "inspected": [
+    "app/build.gradle.kts",
+    "app/src/generic/AndroidManifest.xml",
+    "app/src/googleplay/AndroidManifest.xml",
+    "app/src/googleplayRelease/res/values/keys.xml",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/java/org/tasks/TasksApplication.kt",
+    "app/src/main/java/org/tasks/notifications/NotificationManager.kt",
+    "app/src/main/java/org/tasks/preferences/Preferences.kt",
+    "app/src/main/res/values/styles.xml",
+    "cert4android/build.gradle.kts",
+    "cert4android/src/androidMain/AndroidManifest.xml",
+    "composeApp/build.gradle.kts",
+    "composeApp/src/androidMain/AndroidManifest.xml",
+    "composeApp/src/googleplay/AndroidManifest.xml",
+    "data/build.gradle.kts",
+    "data/src/commonMain/AndroidManifest.xml",
+    "gradle/libs.versions.toml",
+    "kmp/build.gradle.kts",
+    "kmp/src/androidMain/AndroidManifest.xml",
+    "wear-datalayer/build.gradle.kts",
+    "wear-datalayer/src/main/AndroidManifest.xml",
+    "wear/build.gradle.kts",
+    "wear/src/main/AndroidManifest.xml"
+  ]
+}

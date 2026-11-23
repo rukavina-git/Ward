@@ -37,6 +37,10 @@ This is the eval. No retrieval, chunking or prompt change.
 11 `claude -p` runs on Karlo's plan, Sonnet 5.5: about 16 points of
 the 5-hour window (~$1–3 API-equivalent each, not billed). Asked first.
 
+## Result
+Found 5 of 10 (2 counting only FAILs), `alone` 3. Wrong citations 0 of
+243. See `evals/results/held-out/ward-check.md`.
+
 ## Done when
 - `npm run lint`, `format:check`, `typecheck`, `test` pass.
 - Tests: converter (FAIL with evidence, evidence-less row skipped, one

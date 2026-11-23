@@ -1,0 +1,67 @@
+{
+  "grades": [
+    {
+      "finding": 17,
+      "title": "MASTG-TEST-0242: Missing Certificate Pinning in Network Security Configuration",
+      "candidates": [
+        "EA-04"
+      ],
+      "suggested": "EA-04",
+      "label": null
+    },
+    {
+      "finding": 21,
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "candidates": [
+        "EA-02",
+        "EA-22",
+        "EA-04"
+      ],
+      "suggested": "EA-22",
+      "label": null
+    },
+    {
+      "finding": 22,
+      "title": "MASTG-TEST-0318: References to SDK APIs Known to Handle Sensitive User Data",
+      "candidates": [
+        "EA-20",
+        "EA-21"
+      ],
+      "suggested": null,
+      "label": null
+    },
+    {
+      "finding": 23,
+      "title": "MASTG-TEST-0202: References to APIs and Permissions for Accessing External Storage",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": null,
+      "label": null
+    },
+    {
+      "finding": 24,
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-04",
+      "label": null
+    },
+    {
+      "finding": 26,
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-04",
+      "label": null
+    }
+  ]
+}

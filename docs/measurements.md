@@ -9,6 +9,32 @@ and results that look bad for Ward.
 "$" is the API-equivalent Claude Code reports. Runs are on Karlo's Pro
 plan, not billed (ADR 0007).
 
+## 2026-11-23 /ward:check on the held-out set, skill v1 (plan 5, step 05)
+
+- **Question:** does Ward's report find what Claude alone missed on 10
+  real fixes, with right IDs?
+- **Setup:** arm `ward-check` (`/ward:check`, Ward's plugin and MCP
+  server, Write limited to `.ward/`), Sonnet 5.5, one trial per case,
+  HO-01…HO-10 at their parent commits, the same isolation as the gate.
+  The report was converted to findings in code and scored by the gate's
+  scorer. Pre-registered in `evals/held-out-ward-check.md`. Labels are
+  proposed by Claude and not yet confirmed.
+- **Numbers:** found 5 of 10 (HO-01, 02, 04, 09, 10). That is 2 of 10
+  counting only FAILs; `alone` found 3. Harder kinds missed: 2 (HO-03,
+  08); `alone` missed 4. Decoys flagged: 0 (2 place matches inside
+  MANUAL lists). Wrong citations: 0 of 243; `alone` had 25 of 83. FAIL
+  rows per case: 2–8. Time: 51–189 s, $0.20–0.79 per case, $6.16 in
+  total. Ward tool calls: `report_skeleton` 71, `write_report` 17,
+  `dependencies` 1, `get_check` and `search` 0. 5 runs were re-checked
+  after an isolation-check fix (see the step 05 deviations).
+- **What it means:** right IDs every time, and the analyzers catch the
+  config and dependency cases (HO-02 and HO-04 were new compared with
+  `alone`). Ward adds nothing on code-level bugs or absences: the agent
+  still doesn't read deeper. 5 vs 3 is within one-trial noise. The bar
+  says "room".
+- **Raw data:** `evals/results/held-out/2026-11-23-ward-check-*`,
+  `evals/results/held-out/ward-check.md`.
+
 ## 2026-11-23 First /ward:check runs, skill v1 (plan 5, step 04)
 
 - **Question:** does the skill make the agent use the skeleton and

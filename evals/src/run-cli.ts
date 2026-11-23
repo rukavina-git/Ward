@@ -226,6 +226,8 @@ try {
           plugin: setup.plugin?.name,
           mcpServer: setup.mcp?.name,
           cwd: copy.dir,
+          realCwd:
+            typeof stream.init.cwd === "string" ? stream.init.cwd : undefined,
           roots: [...roots, ...roots.map((r) => realpathSync(r))],
         });
 

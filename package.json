@@ -24,6 +24,7 @@
     "test": "vitest run",
     "eval:run": "npm run -s build -w @ward/core -w @ward/analyzers -w @ward/report -w @ward/mcp -w @ward/evals && node evals/dist/run-cli.js",
     "eval:score": "npm run -s build -w @ward/evals && node evals/dist/score-cli.js",
+    "eval:recheck": "npm run -s build -w @ward/core -w @ward/report -w @ward/evals && node evals/dist/recheck-cli.js",
     "eval:summary": "npm run -s build -w @ward/evals && node evals/dist/summary-cli.js",
     "eval:retrieval": "npm run -s build -w @ward/core -w @ward/ingest -w @ward/evals && node evals/dist/retrieval-cli.js",
     "eval:tune-bm25": "npm run -s build -w @ward/core -w @ward/evals && node evals/dist/tune-bm25-cli.js",

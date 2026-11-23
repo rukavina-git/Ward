@@ -4,7 +4,7 @@
 - [x] 02 report schema and report_skeleton (5099456)
 - [x] 03 citation checker (248d32a)
 - [x] 04 skill and /ward:check (461db14)
-- [ ] 05 Ward on the held-out set
+- [x] 05 Ward on the held-out set (HASH)
 - [ ] 06 must-exist checks
 - [ ] 07 package as a plugin, run on my own app
 
@@ -37,6 +37,18 @@
   `prompts/ward-check/SKILL.md`, byte copy in `plugin/skills/check/`
   (`npm run prompts:sync`). Server 0.8.0. Dev run results kept in
   `evals/results/ward-check-dev/skill-v1/`.
+- Step 05: step file written this run. The harness and the
+  pre-registration were committed first (0137a01). The arm is
+  `ward-check`: prompt `/ward:check`, no schema, plus Write. The arm
+  also gets all 10 Ward tools. The runner now requires a successful
+  `write_report`. 5 of 10 runs failed the first isolation check: the
+  agent had grepped Claude Code's saved copy of Ward's own
+  `report_skeleton` answer, and HO-08 wrote a 1-line
+  `.ward/fills.json.note`. With Karlo's OK, the check now allows the
+  run's own `tool-results` and any `.ward/` file except `report.json`.
+  The saved transcripts were re-checked with the new `eval:recheck`,
+  with no reruns. Labels are proposed, not yet set by Karlo. The smoke
+  run on the example app was scored but isn't counted.
 
 ## Gotchas
 Carried over: see docs/plans/mcp-and-analyzers/progress.md.
@@ -124,6 +136,24 @@ Step 04 (reviewer: no BLOCKER; not fixed):
   still flags it); "every quote confirmed" also prints when evidence
   had no quote; NO FINDING with empty `filesInspected` is accepted; a
   hard-linked `.ward/report.json` isn't detected.
+
+Step 05 (reviewer, harness part: 1 BLOCKER fixed, Write could create
+report.json, so now only `.ward/` minus the report is allowed and a
+successful `write_report` is required. A guarded JSON parse and the
+pre-registration wording were also fixed. Not fixed: NIT, a `.ward/`
+nested deep in the tree passes the Write check, but `findReport` then
+fails the run.)
+- Karlo must set `label` in the 10 `ward-check` grades.json files
+  (HO-01, 02, 09 are lenient "found"), then rerun
+  `npm run eval:score-heldout`.
+- The agent still never calls `get_check` or `search`, and it misses
+  every code and absence case. That is the gap step 06 onward (and
+  Plan 6) should aim at. It is not tuned on these cases.
+- Runs grep the spilled skeleton file, so a skill that asks per group
+  from the start would save turns.
+- Ward rows are long (one MANUAL row can list 20+ exported activities),
+  so place-based scoring over-proposes "found" for Ward. Plan 6's
+  scorer should weigh verdict and specificity.
 
 Step 04:
 - The full skeleton (~70 KB) is too big for Claude Code to show inline,
