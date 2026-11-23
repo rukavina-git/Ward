@@ -48,6 +48,7 @@ describe("ward MCP server over stdio", () => {
       "get_check",
       "manifest",
       "network",
+      "report_skeleton",
       "search",
     ]);
     for (const tool of tools) {
@@ -69,6 +70,7 @@ describe("ward MCP server over stdio", () => {
     ["network", { projectRoot: exampleApp }],
     ["build_config", { projectRoot: exampleApp, variant: "release" }],
     ["dependencies", { projectRoot: exampleApp }],
+    ["report_skeleton", { projectRoot: exampleApp, group: "MASVS-NETWORK" }],
   ])("calls %s and gets structured JSON back", async (name, args) => {
     const result = await client.callTool({ name, arguments: args });
     expect(result.isError ?? false).toBe(false);
@@ -89,6 +91,8 @@ describe("ward MCP server over stdio", () => {
     ["manifest", { projectRoot: "/no/such/ward/project" }],
     ["network", { projectRoot: "relative/path" }],
     ["build_config", { projectRoot: "/no/such/ward/project" }],
+    ["report_skeleton", { projectRoot: "/no/such/ward/project" }],
+    ["report_skeleton", { projectRoot: exampleApp, group: "MASVS-ALL" }],
   ])(
     "returns a tool error, not a crash, for bad %s input",
     async (name, args) => {

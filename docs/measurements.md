@@ -9,6 +9,24 @@ and results that look bad for Ward.
 "$" is the API-equivalent Claude Code reports. Runs are on Karlo's Pro
 plan, not billed (ADR 0007).
 
+## 2026-11-23 Report skeleton size and prefill (plan 5, step 02)
+
+- **Question:** does the full `report_skeleton` fit the MCP output cap,
+  and how much of it does Ward fill before the agent starts?
+- **Setup:** both fixtures (no build/, OSV offline, empty cache); tokens
+  as JSON chars / 4. 24 controls, 240 checks (191 test rows, 49
+  weaknesses with no test).
+- **Numbers (example / clean):** full scope 17,601 / 17,178 tokens
+  (22,050 before trimming repeated reasons and per-check file lists);
+  L1 only 9,284 / 8,934; MASVS-NETWORK 2,251 / 2,256. Checks prefilled:
+  FAIL 12 / 0, NO FINDING 8 / 18, MANUAL 79 / 81, NEEDS DYNAMIC 49 / 49,
+  N/A 1 / 1; left for the agent: 91 / 91.
+- **What it means:** the whole skeleton fits under the 20k test cap with
+  little room; real apps with long analyzer evidence may need paging by
+  group. 149 of 240 checks are decided before the agent reads any code,
+  most as MANUAL or NEEDS DYNAMIC from the index.
+- **Raw data:** `packages/mcp/src/report-skeleton-tool.test.ts`.
+
 ## 2026-11-23 MCP tool output sizes (plan 5, step 01)
 
 - **Question:** does every Ward tool answer fit Claude Code's MCP output

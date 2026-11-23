@@ -5,9 +5,11 @@ import { dependenciesTool } from "./dependencies-tool.js";
 import { getCheckTool } from "./get-check-tool.js";
 import { manifestTool } from "./manifest-tool.js";
 import { networkTool } from "./network-tool.js";
+import { reportSkeletonTool } from "./report-skeleton-tool.js";
 import { searchTool } from "./search-tool.js";
+import { WARD_VERSION } from "./version.js";
 
-export const serverInfo = { name: "ward", version: "0.5.0" };
+export const serverInfo = { name: "ward", version: WARD_VERSION };
 
 /**
  * Builds the Ward MCP server with its tools registered. No I/O here: the
@@ -45,6 +47,11 @@ export function createServer(): McpServer {
     dependenciesTool.name,
     dependenciesTool.config,
     dependenciesTool.handler,
+  );
+  server.registerTool(
+    reportSkeletonTool.name,
+    reportSkeletonTool.config,
+    reportSkeletonTool.handler,
   );
   return server;
 }

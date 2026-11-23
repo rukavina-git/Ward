@@ -4,7 +4,11 @@
   "license": "MIT",
   "type": "module",
   "workspaces": [
-    "packages/*",
+    "packages/core",
+    "packages/analyzers",
+    "packages/report",
+    "packages/ingest",
+    "packages/mcp",
     "evals"
   ],
   "engines": {

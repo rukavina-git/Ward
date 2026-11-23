@@ -232,6 +232,11 @@ notification that gets no reply. MCP uses it. Over stdio, every line on
 stdout must be one of these messages, which is why Ward's server logs
 only to stderr.
 
+**JSON Schema.** A standard way to describe what a JSON document must
+look like: which fields, which types, which values are allowed. Ward
+writes its report schema in zod (TypeScript) and generates the JSON
+Schema from it, so other tools can check a report too.
+
 **Knowledge graph.** Records joined by typed links instead of loose text.
 Ward's graph is control → weakness (MASWE) → test → demo, stored both
 ways, so a control can list its tests and a cited test can name its
@@ -378,9 +383,20 @@ results that count as right. Short for "query relevance judgments".
 Ward's are record IDs, taken from the answer key, not from what the
 agent cited.
 
+**Report skeleton.** Ward's report handed to the agent half filled: every
+control and test in scope, IDs and titles copied from the index, and the
+analyzers' verdicts already in place. The agent fills the empty verdicts
+instead of writing a report from memory, so it can't skip a control or
+invent an ID unnoticed.
+
 **Retriever.** Anything that takes a query and returns a ranked list of
 results. Ward's first is exact ID lookup; BM25 and vector search come
 next. All are scored by the same eval, so they can be compared fairly.
+
+**Rollup.** Deriving a parent's verdict from its children by a fixed
+rule. Ward's is strict and in code: the worst test verdict becomes the
+control's, so a control is never NO FINDING while one of its tests is
+MANUAL, NEEDS DYNAMIC or not yet checked.
 
 **Skill.** A set of written instructions Claude Code loads for a task.
 Ward's skill tells the agent how to run the check and how to write the
