@@ -5,7 +5,7 @@
 - [x] 03 citation checker (248d32a)
 - [x] 04 skill and /ward:check (461db14)
 - [x] 05 Ward on the held-out set (6d4c6d9)
-- [x] 06 must-exist checks (HASH)
+- [x] 06 must-exist checks (d71b86c)
 - [ ] 07 package as a plugin, run on my own app
 
 ## Deviations
