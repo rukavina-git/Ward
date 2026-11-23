@@ -4,7 +4,7 @@
 - [x] 02 report schema and report_skeleton (5099456)
 - [x] 03 citation checker (248d32a)
 - [x] 04 skill and /ward:check (461db14)
-- [x] 05 Ward on the held-out set (HASH)
+- [x] 05 Ward on the held-out set (6d4c6d9)
 - [ ] 06 must-exist checks
 - [ ] 07 package as a plugin, run on my own app
 
