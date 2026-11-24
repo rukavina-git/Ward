@@ -1,6 +1,6 @@
 # Plan 6 progress
 
-- [x] 01 depth marking, proxy metrics, strict scoring (HASH)
+- [x] 01 depth marking, proxy metrics, strict scoring (d6caeb1)
 - [ ] 02 skill v2 and dev runs until the proxy gate passes
 - [ ] 03 label held-out batch 2
 - [ ] 04 prompt-injection tests in code
