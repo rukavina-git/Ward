@@ -9,6 +9,14 @@
     "proposed": "found",
     "label": "found"
   },
+  "strict": {
+    "failCandidates": [
+      0
+    ],
+    "proposed": "found",
+    "proposedWhy": "found (lenient) and a FAIL among the case's candidates; check by hand that the FAIL is the case's problem",
+    "label": null
+  },
   "decoysFlagged": {
     "candidates": [],
     "proposed": 0,

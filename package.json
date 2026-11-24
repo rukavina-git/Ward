@@ -33,6 +33,7 @@
     "eval:tune-hybrid": "npm run -s build -w @ward/core -w @ward/ingest -w @ward/evals && node evals/dist/tune-hybrid-cli.js",
     "eval:compare": "npm run -s build -w @ward/evals && node evals/dist/compare-cli.js",
     "heldout:check": "npm run -s build -w @ward/core -w @ward/evals && node evals/dist/held-out-check-cli.js",
+    "eval:proxy": "npm run -s build -w @ward/report -w @ward/evals && node evals/dist/proxy-cli.js",
     "eval:score-heldout": "npm run -s build -w @ward/core -w @ward/evals && node evals/dist/held-out-score-cli.js",
     "prompts:sync": "cp prompts/ward-check/SKILL.md plugin/skills/check/SKILL.md",
     "plugin:build": "node scripts/build-plugin.mjs"

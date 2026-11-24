@@ -18,6 +18,7 @@ const itemSchema = z.object({
   severity: z.enum(["high", "medium"]).optional(),
   masvs: z.array(z.string()),
   maswe: z.array(z.string()),
+  mastg: z.array(z.string()).optional(),
   difficulty: z.string().optional(),
   locations: z.array(locationSchema).min(1),
 });

@@ -3,7 +3,13 @@
  * in code, never from the model. The worst check wins, so NO FINDING
  * never covers a MANUAL or a NEEDS DYNAMIC.
  */
-import { VERDICTS, type Control, type Report, type Verdict } from "./schema.js";
+import {
+  VERDICTS,
+  type Control,
+  type Depth,
+  type Report,
+  type Verdict,
+} from "./schema.js";
 
 /** Worst first: FAIL, MANUAL, NEEDS DYNAMIC, NO FINDING, N/A. */
 const rank = (v: Verdict): number => VERDICTS.indexOf(v);
@@ -52,10 +58,8 @@ export function finalize(
     ...c,
     verdict: rollupControl(c),
   }));
-  const counts = {
-    controls: {} as Record<string, number>,
-    checks: {} as Record<string, number>,
-  };
+  const counts: Report["counts"] = { controls: {}, checks: {} };
+  const depth: Record<string, number> = {};
   const pending = new Set<string>();
   const manual = new Set<string>();
   const needsDynamic = new Set<string>();
@@ -65,11 +69,13 @@ export function finalize(
     if (c.checks.length === 0) manual.add(c.id);
     for (const t of c.checks) {
       counts.checks[key(t.verdict)] = (counts.checks[key(t.verdict)] ?? 0) + 1;
+      if (t.depth != null) depth[t.depth] = (depth[t.depth] ?? 0) + 1;
       if (t.verdict === null) pending.add(t.id);
       else if (t.verdict === "MANUAL") manual.add(t.id);
       else if (t.verdict === "NEEDS DYNAMIC") needsDynamic.add(t.id);
     }
   }
+  if (Object.keys(depth).length > 0) counts.depth = depth;
   return {
     ...report,
     controls,
@@ -81,4 +87,27 @@ export function finalize(
       outOfScope: report.gaps?.outOfScope ?? [],
     },
   };
+}
+
+/**
+ * Sets each check's depth (ADR 0013) from who decided it and, for the
+ * agent's answers, whether Ward served that check's text (`served`, IDs
+ * as in the index). In code only: the agent can't claim a depth.
+ */
+export function markDepth(report: Report, served: ReadonlySet<string>): Report {
+  const depthOf = (
+    c: Report["controls"][number]["checks"][number],
+  ): Depth | null => {
+    if (c.verdict === null || c.by === null) return null;
+    if (c.by === "analyzer") return "analyzer";
+    if (c.by === "owasp") return "index";
+    return served.has(c.id) ? "test text" : "title only";
+  };
+  return finalize({
+    ...report,
+    controls: report.controls.map((c) => ({
+      ...c,
+      checks: c.checks.map((t) => ({ ...t, depth: depthOf(t) })),
+    })),
+  });
 }

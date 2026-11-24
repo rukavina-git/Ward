@@ -74,6 +74,12 @@ export interface RunGrades {
   case: string;
   kind: HeldOutCase["kind"];
   found: Labelled<CaseLabel> & { candidates: number[] };
+  /**
+   * Strict found (ADR 0013, evals/scoring.md): found, and a FAIL among the
+   * case's candidates. MANUAL or NEEDS DYNAMIC rows never count. Proposed
+   * fresh on every regrade from `found`; Karlo may set `label`.
+   */
+  strict: Labelled<CaseLabel> & { failCandidates: number[] };
   decoysFlagged: Labelled<number> & { candidates: number[] };
   findings: FindingGrade[];
   citations: CitationGrade[];
@@ -140,16 +146,27 @@ export function buildGrades(
       };
     }),
   );
+  const found = keep<CaseLabel>(
+    { proposed: cand.length > 0 ? "found" : "missed", label: null },
+    previous?.found,
+  );
+  const failCandidates = cand.filter((i) => fs.findings[i]?.verdict === "FAIL");
   return {
     run,
     case: c.id,
     kind: c.kind,
-    found: {
-      candidates: cand,
-      ...keep<CaseLabel>(
-        { proposed: cand.length > 0 ? "found" : "missed", label: null },
-        previous?.found,
-      ),
+    found: { candidates: cand, ...found },
+    strict: {
+      failCandidates,
+      proposed:
+        value(found) === "found" && failCandidates.length > 0
+          ? "found"
+          : "missed",
+      proposedWhy:
+        "found (lenient) and a FAIL among the case's candidates; check by hand that the FAIL is the case's problem",
+      // grades.json from before Plan 6 has no `strict`.
+      label:
+        (previous as Partial<RunGrades> | undefined)?.strict?.label ?? null,
     },
     decoysFlagged: {
       candidates: decoys,
@@ -174,6 +191,8 @@ function unlabelled(l: Labelled<unknown>): boolean {
 export interface GateTally {
   runs: number;
   found: string[];
+  /** Found by a FAIL on the case (strict); a subset of `found`. */
+  strictFound: string[];
   missed: string[];
   harderMissed: string[];
   decoysFlagged: number;
@@ -190,6 +209,7 @@ export function tally(grades: readonly RunGrades[]): GateTally {
   const t: GateTally = {
     runs: grades.length,
     found: [],
+    strictFound: [],
     missed: [],
     harderMissed: [],
     decoysFlagged: 0,
@@ -200,8 +220,10 @@ export function tally(grades: readonly RunGrades[]): GateTally {
     provisional: false,
   };
   for (const g of grades) {
-    if (value(g.found) === "found") t.found.push(g.case);
-    else {
+    if (value(g.found) === "found") {
+      t.found.push(g.case);
+      if (value(g.strict) === "found") t.strictFound.push(g.case);
+    } else {
       t.missed.push(g.case);
       if (g.kind !== "code") t.harderMissed.push(g.case);
     }

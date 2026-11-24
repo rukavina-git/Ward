@@ -2,6 +2,7 @@ import type { RecordKind } from "@ward/core";
 import type { CallToolResult } from "@modelcontextprotocol/server";
 import * as z from "zod/v4";
 import { citation, jsonResult, knowledgeBase, readOnly } from "./knowledge.js";
+import { markServed } from "./served.js";
 
 export const getCheckInput = z.object({
   id: z
@@ -44,6 +45,7 @@ export const getCheckTool = {
       });
     }
     const { record, chunks } = found;
+    markServed(record.id);
     const links: Record<string, string[]> = {};
     for (const kind of kinds) {
       if (kind === record.kind) continue;

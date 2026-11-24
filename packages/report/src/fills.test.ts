@@ -6,7 +6,7 @@ import {
   summaryText,
   type Fills,
 } from "./fills.js";
-import { finalize } from "./rollup.js";
+import { finalize, markDepth } from "./rollup.js";
 import { REPORT_SCHEMA, type Check, type Report } from "./schema.js";
 
 const row = (id: string, extra: Partial<Check> = {}): Check => ({
@@ -182,5 +182,34 @@ describe("summaryText", () => {
     expect(text).toMatch(/C-1 {2}T-PENDING {2}app\/x\.kt:3/);
     expect(text).toMatch(/every ID, file:line and quote confirmed/);
     expect(text).toMatch(/Controls: FAIL 1 · pending 1/);
+  });
+});
+
+describe("markDepth", () => {
+  it("sets depth from who decided and what Ward served, and counts it", () => {
+    const { report } = applyFills(
+      skeleton(),
+      fills(fill("T-PENDING"), fill("T-SHARED", "FAIL", "C-1")),
+    );
+    const r = markDepth(report, new Set(["T-SHARED", "T-OWASP"]));
+    expect(find(r, "C-1", "T-PENDING")?.depth).toBe("title only");
+    expect(find(r, "C-1", "T-SHARED")?.depth).toBe("test text");
+    expect(find(r, "C-2", "T-SHARED")?.depth).toBeNull();
+    expect(find(r, "C-1", "T-OWASP")?.depth).toBe("index");
+    expect(find(r, "C-1", "T-ANALYZER")?.depth).toBe("analyzer");
+    expect(r.counts.depth).toEqual({
+      "title only": 1,
+      "test text": 1,
+      index: 1,
+      analyzer: 1,
+    });
+    expect(summaryText(r, [], [])).toMatch(
+      /Depth: +1 by Ward's code · 1 of 2 agent answers after reading the test text/,
+    );
+  });
+
+  it("leaves counts.depth out of reports without depth", () => {
+    expect(skeleton().counts.depth).toBeUndefined();
+    expect(summaryText(skeleton(), [], [])).not.toMatch(/Depth:/);
   });
 });

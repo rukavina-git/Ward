@@ -8,6 +8,12 @@
     "proposedWhy": "no finding about the case problem",
     "label": "missed"
   },
+  "strict": {
+    "failCandidates": [],
+    "proposed": "missed",
+    "proposedWhy": "found (lenient) and a FAIL among the case's candidates; check by hand that the FAIL is the case's problem",
+    "label": null
+  },
   "decoysFlagged": {
     "candidates": [],
     "proposed": 0,

@@ -157,6 +157,14 @@ export function summaryText(
       .join(" · ");
   lines.push(`Controls: ${counts(report.counts.controls) || "none"}`);
   lines.push(`Checks:   ${counts(report.counts.checks) || "none"}`);
+  const d = report.counts.depth;
+  if (d !== undefined) {
+    const read = d["test text"] ?? 0;
+    const title = d["title only"] ?? 0;
+    lines.push(
+      `Depth:    ${String(d.analyzer ?? 0)} by Ward's code · ${String(read)} of ${String(read + title)} agent answers after reading the test text`,
+    );
+  }
 
   const tail: string[] = [];
   const g = report.gaps;

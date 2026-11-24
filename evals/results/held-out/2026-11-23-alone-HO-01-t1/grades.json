@@ -10,6 +10,12 @@
     "proposedWhy": "generic exported-components finding lists line 282, the widget auth activity",
     "label": "found"
   },
+  "strict": {
+    "failCandidates": [],
+    "proposed": "missed",
+    "proposedWhy": "found (lenient) and a FAIL among the case's candidates; check by hand that the FAIL is the case's problem",
+    "label": null
+  },
   "decoysFlagged": {
     "candidates": [
       4

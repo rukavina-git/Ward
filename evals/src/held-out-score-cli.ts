@@ -87,7 +87,8 @@ function writeArm(setup: string, armRuns: Run[]): void {
     "",
     "| Metric | Result | Bar |",
     "| --- | --- | --- |",
-    `| Found | ${String(t.found.length)} of ${String(t.runs)} (${t.found.join(", ") || "none"}) | room ≤ 7, rethink ≥ 9 |`,
+    `| Found (lenient) | ${String(t.found.length)} of ${String(t.runs)} (${t.found.join(", ") || "none"}) | room ≤ 7, rethink ≥ 9 |`,
+    `| Found (strict: a FAIL on the case) | ${String(t.strictFound.length)} of ${String(t.runs)} (${t.strictFound.join(", ") || "none"}) | main number from Plan 6 (evals/scoring.md) |`,
     `| Harder kinds missed | ${String(t.harderMissed.length)} (${t.harderMissed.join(", ") || "none"}) | room ≥ 2, rethink 0 |`,
     `| Decoys flagged | ${String(t.decoysFlagged)} | rethink ≤ 1 |`,
     `| Wrong citations | ${String(t.wrongCitations)} of ${String(t.citations)} (${String(t.citationsUngraded)} ungraded) | room ≥ 2, rethink ≤ 1 |`,
@@ -100,7 +101,7 @@ function writeArm(setup: string, armRuns: Run[]): void {
     "| --- | --- | --- | --- | --- | --- | --- |",
     ...armRuns.map(
       (r) =>
-        `| ${r.grades.case} | ${r.grades.kind} | ${t.found.includes(r.grades.case) ? "found" : "missed"} | ${String(r.grades.findings.length)} | ${String(r.inspected)} | ${String(Math.round(r.meta.wallMs / 1000))} | ${(r.meta.result?.total_cost_usd ?? 0).toFixed(2)} |`,
+        `| ${r.grades.case} | ${r.grades.kind} | ${t.strictFound.includes(r.grades.case) ? "found (strict)" : t.found.includes(r.grades.case) ? "found (lenient)" : "missed"} | ${String(r.grades.findings.length)} | ${String(r.inspected)} | ${String(Math.round(r.meta.wallMs / 1000))} | ${(r.meta.result?.total_cost_usd ?? 0).toFixed(2)} |`,
     ),
     "",
     `Total API-equivalent $${cost.toFixed(2)} (plan, not billed).`,

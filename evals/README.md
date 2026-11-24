@@ -73,6 +73,7 @@ key: the runner drops `ANTHROPIC_*` variables.
 npm run eval:run -- --app planted --setup alone --model <id> --trial 1
 npm run eval:score -- evals/results/example-app/<run>
 npm run eval:summary
+npm run eval:proxy -- <run dir> …   # free depth metrics (evals/scoring.md)
 ```
 
 The runner copies the app's committed files to a fresh temp folder named

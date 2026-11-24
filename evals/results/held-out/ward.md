@@ -7,7 +7,8 @@ PROVISIONAL: some labels are still proposals. Set every `label` in grades.json, 
 
 | Metric | Result | Bar |
 | --- | --- | --- |
-| Found | 1 of 1 (HO-04) | room ≤ 7, rethink ≥ 9 |
+| Found (lenient) | 1 of 1 (HO-04) | room ≤ 7, rethink ≥ 9 |
+| Found (strict: a FAIL on the case) | 1 of 1 (HO-04) | main number from Plan 6 (evals/scoring.md) |
 | Harder kinds missed | 0 (none) | room ≥ 2, rethink 0 |
 | Decoys flagged | 0 | rethink ≤ 1 |
 | Wrong citations | 4 of 12 (0 ungraded) | room ≥ 2, rethink ≤ 1 |
@@ -18,7 +19,7 @@ Other findings: 0 real, 0 defensible, 0 wrong, 6 ungraded.
 
 | Case | Kind | Result | Findings | Files read | Seconds | $ (API-eq.) |
 | --- | --- | --- | --- | --- | --- | --- |
-| HO-04 | dependency | found | 7 | 5 | 28 | 0.23 |
+| HO-04 | dependency | found (strict) | 7 | 5 | 28 | 0.23 |
 
 Total API-equivalent $0.23 (plan, not billed).
 <!-- gate:end -->

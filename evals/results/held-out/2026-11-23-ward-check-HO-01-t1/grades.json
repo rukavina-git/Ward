@@ -10,6 +10,12 @@
     "proposedWhy": "generic: analyzer MANUAL list of exported activities names WidgetAuthenticationActivity (automotive manifest:198); same leniency as alone HO-01; strictly a miss",
     "label": "found"
   },
+  "strict": {
+    "failCandidates": [],
+    "proposed": "missed",
+    "proposedWhy": "found (lenient) and a FAIL among the case's candidates; check by hand that the FAIL is the case's problem",
+    "label": null
+  },
   "decoysFlagged": {
     "candidates": [
       0

@@ -14,7 +14,9 @@ import { fileURLToPath } from "node:url";
 import { reportSchema, type Report } from "@ward/report";
 import type { CallToolResult } from "@modelcontextprotocol/server";
 import { afterAll, describe, expect, it } from "vitest";
+import { getCheckTool } from "./get-check-tool.js";
 import { createServer } from "./server.js";
+import { resetServed, servedIds } from "./served.js";
 import { reportSkeletonTool } from "./report-skeleton-tool.js";
 import { writeReportTool } from "./write-report-tool.js";
 
@@ -105,6 +107,39 @@ describe("write_report", () => {
     expect(readFileSync(path.join(app, ".ward/.gitignore"), "utf8")).toBe(
       "*\n",
     );
+  });
+
+  it("marks an answer test text only after get_check served that ID", async () => {
+    rmSync(path.join(app, ".ward"), { recursive: true, force: true });
+    resetServed();
+    const pending = (await skeleton()).controls
+      .flatMap((c) => c.checks)
+      .filter((c) => c.verdict === null)
+      .map((c) => c.id);
+    const [read, title] = pending;
+    getCheckTool.handler({ id: String(read).toLowerCase() });
+    getCheckTool.handler({ id: "MASTG-TEST-9999" });
+    expect([...servedIds()]).toEqual([read]);
+    writeFills([
+      { check: read, verdict: "NO FINDING", reason: "Read it." },
+      { check: title, verdict: "NO FINDING", reason: "Title only." },
+    ]);
+    const o = out(await writeReportTool.handler({ projectRoot: app }));
+    const written = reportSchema.parse(
+      JSON.parse(readFileSync(path.join(app, ".ward/report.json"), "utf8")),
+    );
+    const rows = written.controls.flatMap((c) => c.checks);
+    const depth = (id?: string) => rows.find((c) => c.id === id)?.depth;
+    expect(depth(read)).toBe("test text");
+    expect(depth(title)).toBe("title only");
+    expect(rows.find((c) => c.by === "analyzer")?.depth).toBe("analyzer");
+    expect(rows.find((c) => c.by === "owasp")?.depth).toBe("index");
+    expect(rows.find((c) => c.verdict === null)?.depth).toBeNull();
+    const n = (d: string) => rows.filter((c) => c.depth === d).length;
+    expect(o.summary).toContain(
+      `${String(n("test text"))} of ${String(n("test text") + n("title only"))} agent answers after reading`,
+    );
+    resetServed();
   });
 
   it("is a tool error for a missing, invalid or outside fills file", async () => {

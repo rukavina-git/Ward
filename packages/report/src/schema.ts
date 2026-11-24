@@ -42,6 +42,17 @@ export type Evidence = z.infer<typeof evidenceSchema>;
  */
 export const BY = ["analyzer", "owasp", "agent"] as const;
 
+/**
+ * How deep a verdict went, set in code (ADR 0013). analyzer: Ward's code
+ * read the files. index: follows from the index (placeholder,
+ * dynamic-only, no test). test text: the agent answered after Ward served
+ * it the check's MASTG/MASWE text. title only: the agent answered without
+ * it. "Served" is not "understood": it is what Ward gave the agent.
+ */
+export const DEPTHS = ["analyzer", "index", "test text", "title only"] as const;
+export const depthSchema = z.enum(DEPTHS);
+export type Depth = z.infer<typeof depthSchema>;
+
 /** One MASTG test under a control, or a MASWE weakness that has no test. */
 export const checkSchema = z.object({
   id,
@@ -63,6 +74,8 @@ export const checkSchema = z.object({
    * root. An analyzer's files are in the report's `analyzers` entry.
    */
   filesInspected: z.array(z.string()),
+  /** null while pending; absent in reports from before Ward 0.10. */
+  depth: depthSchema.nullable().optional(),
 });
 export type Check = z.infer<typeof checkSchema>;
 
@@ -118,7 +131,12 @@ export const reportSchema = z.object({
   analyzers: z.array(analyzerRunSchema),
   controls: z.array(controlSchema),
   /** Per verdict (and "pending"), for controls and for checks. */
-  counts: z.object({ controls: countsSchema, checks: countsSchema }),
+  counts: z.object({
+    controls: countsSchema,
+    checks: countsSchema,
+    /** Decided checks per depth; absent before Ward 0.10. */
+    depth: countsSchema.optional(),
+  }),
   gaps: gapsSchema,
 });
 export type Report = z.infer<typeof reportSchema>;

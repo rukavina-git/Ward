@@ -9,6 +9,30 @@ and results that look bad for Ward.
 "$" is the API-equivalent Claude Code reports. Runs are on Karlo's Pro
 plan, not billed (ADR 0007).
 
+## 2026-11-24 Skill v1 baseline: depth and strict scoring (plan 6, step 01)
+
+- **Question:** before skill v2, how deep did v1 look, and what is v1's
+  score when only a FAIL counts?
+- **Setup:** no new runs. `npm run eval:proxy` on v1's saved runs
+  (example-app smoke run, both dev reports, held-out HO-01…HO-10), and
+  `npm run eval:score-heldout` with the new strict column (rules in
+  evals/scoring.md).
+- **Numbers:** `get_check` and `search` calls: 0 in every run. Test-text
+  share of agent answers: 0% everywhere (example app 0 of 57; held-out
+  0 of 56 in 9 runs, 0 of 16 in HO-05). Proxy gate (80%): failed by
+  every v1 run. Agent NO FINDINGs: 16 on the example app, 6–25 per
+  held-out run; nearly all list files read, none carry file:line
+  evidence. Planted issues with a NO FINDING on their tests (example
+  app): none. Held-out found, strict / lenient: Ward 2 / 5 of 10
+  (HO-04, HO-10), Claude alone 2 / 3 (HO-09, HO-10). Strict labels are
+  proposals until Karlo checks them.
+- **What it means:** strictly, v1 ties Claude alone at 2 of 10; Ward's
+  lenient lead came from MANUAL rows. v1 judged every agent-answered
+  check by its title. That is the gap skill v2 targets, and the proxy
+  gives a free number to watch on dev runs.
+- **Raw data:** evals/results/held-out/*.md and grades.json (strict
+  fields), the proxy table from the command above.
+
 ## 2026-11-23 Installed plugin on Karlo's own app (plan 5, step 07)
 
 - **Question:** does the installed plugin work on a real app Ward has

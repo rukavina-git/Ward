@@ -10,6 +10,14 @@
     "proposedWhy": "FAIL MASTG-TEST-0227 at ArticleWebView.java:134",
     "label": "found"
   },
+  "strict": {
+    "failCandidates": [
+      2
+    ],
+    "proposed": "found",
+    "proposedWhy": "found (lenient) and a FAIL among the case's candidates; check by hand that the FAIL is the case's problem",
+    "label": null
+  },
   "decoysFlagged": {
     "candidates": [],
     "proposed": 0,

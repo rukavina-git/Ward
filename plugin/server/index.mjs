@@ -27093,6 +27093,8 @@ var evidenceSchema = object({
   quote: string2().max(2e3).optional()
 });
 var BY = ["analyzer", "owasp", "agent"];
+var DEPTHS = ["analyzer", "index", "test text", "title only"];
+var depthSchema = _enum(DEPTHS);
 var checkSchema = object({
   id,
   kind: _enum(["test", "weakness"]),
@@ -27112,7 +27114,9 @@ var checkSchema = object({
    * Files the agent read to reach its verdict, relative to the project
    * root. An analyzer's files are in the report's `analyzers` entry.
    */
-  filesInspected: array(string2())
+  filesInspected: array(string2()),
+  /** null while pending; absent in reports from before Ward 0.10. */
+  depth: depthSchema.nullable().optional()
 });
 var controlSchema = object({
   id,
@@ -27157,7 +27161,12 @@ var reportSchema = object({
   analyzers: array(analyzerRunSchema),
   controls: array(controlSchema),
   /** Per verdict (and "pending"), for controls and for checks. */
-  counts: object({ controls: countsSchema, checks: countsSchema }),
+  counts: object({
+    controls: countsSchema,
+    checks: countsSchema,
+    /** Decided checks per depth; absent before Ward 0.10. */
+    depth: countsSchema.optional()
+  }),
   gaps: gapsSchema
 });
 
@@ -27191,10 +27200,8 @@ function finalize2(report) {
     ...c,
     verdict: rollupControl(c)
   }));
-  const counts = {
-    controls: {},
-    checks: {}
-  };
+  const counts = { controls: {}, checks: {} };
+  const depth = {};
   const pending = /* @__PURE__ */ new Set();
   const manual = /* @__PURE__ */ new Set();
   const needsDynamic = /* @__PURE__ */ new Set();
@@ -27204,6 +27211,8 @@ function finalize2(report) {
       manual.add(c.id);
     for (const t of c.checks) {
       counts.checks[key(t.verdict)] = (counts.checks[key(t.verdict)] ?? 0) + 1;
+      if (t.depth != null)
+        depth[t.depth] = (depth[t.depth] ?? 0) + 1;
       if (t.verdict === null)
         pending.add(t.id);
       else if (t.verdict === "MANUAL")
@@ -27212,6 +27221,8 @@ function finalize2(report) {
         needsDynamic.add(t.id);
     }
   }
+  if (Object.keys(depth).length > 0)
+    counts.depth = depth;
   return {
     ...report,
     controls,
@@ -27223,6 +27234,24 @@ function finalize2(report) {
       outOfScope: report.gaps?.outOfScope ?? []
     }
   };
+}
+function markDepth(report, served2) {
+  const depthOf = (c) => {
+    if (c.verdict === null || c.by === null)
+      return null;
+    if (c.by === "analyzer")
+      return "analyzer";
+    if (c.by === "owasp")
+      return "index";
+    return served2.has(c.id) ? "test text" : "title only";
+  };
+  return finalize2({
+    ...report,
+    controls: report.controls.map((c) => ({
+      ...c,
+      checks: c.checks.map((t) => ({ ...t, depth: depthOf(t) }))
+    }))
+  });
 }
 
 // packages/report/dist/skeleton.js
@@ -27775,6 +27804,12 @@ function summaryText(report, issues, rejected) {
   const counts = (r) => order.filter((v) => (r[v] ?? 0) > 0).map((v) => `${v} ${String(r[v])}`).join(" \xB7 ");
   lines.push(`Controls: ${counts(report.counts.controls) || "none"}`);
   lines.push(`Checks:   ${counts(report.counts.checks) || "none"}`);
+  const d = report.counts.depth;
+  if (d !== void 0) {
+    const read = d["test text"] ?? 0;
+    const title = d["title only"] ?? 0;
+    lines.push(`Depth:    ${String(d.analyzer ?? 0)} by Ward's code \xB7 ${String(read)} of ${String(read + title)} agent answers after reading the test text`);
+  }
   const tail = [];
   const g = report.gaps;
   tail.push("", "Not checked", `  ${String(g.pending.length)} pending \xB7 ${String(g.manual.length)} manual \xB7 ${String(g.needsDynamic.length)} need a running app \xB7 ${String(g.outOfScope.length)} out of scope`);
@@ -27993,6 +28028,15 @@ var dependenciesTool = {
   })
 };
 
+// packages/mcp/src/served.ts
+var served = /* @__PURE__ */ new Set();
+function markServed(id2) {
+  served.add(id2);
+}
+function servedIds() {
+  return served;
+}
+
 // packages/mcp/src/get-check-tool.ts
 var getCheckInput = object({
   id: string2().min(1).max(40).describe(
@@ -28025,6 +28069,7 @@ var getCheckTool = {
       });
     }
     const { record: record2, chunks } = found;
+    markServed(record2.id);
     const links = {};
     for (const kind of kinds) {
       if (kind === record2.kind) continue;
@@ -28111,7 +28156,7 @@ var networkTool = {
 };
 
 // packages/mcp/src/version.ts
-var WARD_VERSION = "0.9.0";
+var WARD_VERSION = "0.10.0";
 
 // packages/mcp/src/report-skeleton-tool.ts
 var reportSkeletonInput = projectInput.extend({
@@ -28253,7 +28298,7 @@ var writeReportTool = {
   name: "write_report",
   config: {
     title: "Ward write report",
-    description: "Finish a Ward check. Rebuilds the report skeleton (same scope as report_skeleton), applies your answers from the fills file to the open checks (a fill may raise an OWASP prefill to FAIL; analyzer verdicts never change), runs the citation check against the pinned OWASP index and the app's files, removes evidence that fails it, and writes .ward/report.json. Returns a one-screen summary to show the user, the counts, coverage gaps, citation issues and rejected fills.",
+    description: "Finish a Ward check. Rebuilds the report skeleton (same scope as report_skeleton), applies your answers from the fills file to the open checks (a fill may raise an OWASP prefill to FAIL; analyzer verdicts never change), runs the citation check against the pinned OWASP index and the app's files, removes evidence that fails it, and writes .ward/report.json. Each answer's depth is set in code: 'test text' when get_check returned that check's ID earlier in this session, else 'title only'. Returns a one-screen summary to show the user, the counts, coverage gaps, citation issues and rejected fills.",
     inputSchema: writeReportInput,
     // Writes only .ward/report.json and .ward/.gitignore in the project;
     // the dependencies analyzer may download OSV data.
@@ -28285,11 +28330,11 @@ var writeReportTool = {
     }
     const built = await buildReport({ ...scope, projectRoot: root });
     if ("error" in built) return error4(built.error);
-    const {
-      report: filled,
-      applied,
-      rejected
-    } = applyFills(built.report, parsed.data);
+    const { applied, rejected, ...fill } = applyFills(
+      built.report,
+      parsed.data
+    );
+    const filled = markDepth(fill.report, servedIds());
     const kb2 = knowledgeBase();
     const first = await checkReport(filled, root, kb2);
     const report = dropBadEvidence(filled, first.issues);

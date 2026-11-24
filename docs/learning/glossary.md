@@ -120,6 +120,13 @@ looking perfect.
 like "backup is on, is that intended?" when backup rules exist. Ward's
 scorer counts it as neither a false alarm nor a hit (ADR 0009).
 
+**Depth (of a verdict).** How far Ward looked before a check got its
+verdict: Ward's own code read the files (analyzer), the verdict follows
+from OWASP's index alone (index), the agent answered after Ward handed it
+the test's full text (test text), or the agent answered from the title
+alone (title only). Set in code from what Ward served, never claimed by
+the model. It shows which NO FINDINGs are shallow.
+
 **Dev/test split.** Dividing an eval's queries into two fixed sets. You
 look at and tune on dev; test is only run to report, so its score shows
 how search does on questions it wasn't tuned for. Ward keeps each
@@ -346,6 +353,12 @@ the vector of the special [CLS] piece at the start, which the model was
 trained to fill with a summary. bge models use CLS pooling; others
 average all pieces (mean pooling).
 
+**Proxy metric.** A cheap number that stands in for the one you care
+about but can't afford to measure often. Ward can't run the held-out set
+after every skill change, so it first checks, for free from saved
+transcripts, whether the agent read the test text for most checks. If
+not, the expensive run would be wasted.
+
 **Pre-registration.** Writing down the pass/fail rule before you see
 any data, so the data can't move the goalposts. Ward fixed ADR 0001's
 "Claude Code alone finds almost everything" as a number (21 of 23, at
@@ -451,6 +464,12 @@ standard input and output. Local only, no network. Ward uses it.
 **Stopwords.** Very common words ("the", "of", "is") that a search may
 drop. BM25's IDF already gives them little weight. In Ward's tuning,
 dropping them didn't help, so the tuned search keeps them.
+
+**Strict vs lenient scoring.** Two ways to count a held-out case as
+found. Lenient: any finding near the problem that describes it, even a
+MANUAL "check this by hand" row. Strict: only a FAIL on the case's
+problem. An auditor accepts only the strict kind, so from Plan 6 strict
+is the main number and lenient is shown beside it.
 
 **Structured output.** Making the model answer in JSON that fits a schema
 you give it, instead of free text. Code can then read the answer without

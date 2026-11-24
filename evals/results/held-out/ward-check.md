@@ -7,7 +7,8 @@ All labels set.
 
 | Metric | Result | Bar |
 | --- | --- | --- |
-| Found | 5 of 10 (HO-01, HO-02, HO-04, HO-09, HO-10) | room ≤ 7, rethink ≥ 9 |
+| Found (lenient) | 5 of 10 (HO-01, HO-02, HO-04, HO-09, HO-10) | room ≤ 7, rethink ≥ 9 |
+| Found (strict: a FAIL on the case) | 2 of 10 (HO-04, HO-10) | main number from Plan 6 (evals/scoring.md) |
 | Harder kinds missed | 2 (HO-03, HO-08) | room ≥ 2, rethink 0 |
 | Decoys flagged | 0 | rethink ≤ 1 |
 | Wrong citations | 0 of 243 (0 ungraded) | room ≥ 2, rethink ≤ 1 |
@@ -18,16 +19,16 @@ Other findings: 0 real, 0 defensible, 0 wrong, 88 ungraded.
 
 | Case | Kind | Result | Findings | Files read | Seconds | $ (API-eq.) |
 | --- | --- | --- | --- | --- | --- | --- |
-| HO-01 | config | found | 13 | 29 | 167 | 0.79 |
-| HO-02 | config | found | 9 | 26 | 133 | 0.66 |
+| HO-01 | config | found (lenient) | 13 | 29 | 167 | 0.79 |
+| HO-02 | config | found (lenient) | 9 | 26 | 133 | 0.66 |
 | HO-03 | absence | missed | 12 | 35 | 189 | 0.74 |
-| HO-04 | dependency | found | 11 | 16 | 89 | 0.37 |
+| HO-04 | dependency | found (strict) | 11 | 16 | 89 | 0.37 |
 | HO-05 | code | missed | 8 | 23 | 51 | 0.20 |
 | HO-06 | code | missed | 6 | 19 | 148 | 0.69 |
 | HO-07 | code | missed | 13 | 18 | 129 | 0.62 |
 | HO-08 | absence | missed | 9 | 97 | 172 | 0.75 |
-| HO-09 | config | found | 12 | 23 | 180 | 0.71 |
-| HO-10 | config | found | 4 | 11 | 153 | 0.63 |
+| HO-09 | config | found (lenient) | 12 | 23 | 180 | 0.71 |
+| HO-10 | config | found (strict) | 4 | 11 | 153 | 0.63 |
 
 Total API-equivalent $6.16 (plan, not billed).
 <!-- gate:end -->

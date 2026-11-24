@@ -132,3 +132,35 @@ describe("barOutcome", () => {
     );
   });
 });
+
+describe("strict scoring", () => {
+  const kb = new KnowledgeBase(loadIndex());
+
+  it("counts a found case strictly only with a FAIL candidate", () => {
+    const fail = findings(["app/Main.kt", 101]);
+    const manual = findings(["app/Main.kt", 101]);
+    const m0 = manual.findings[0];
+    if (m0 !== undefined) m0.verdict = "MANUAL";
+    const a = buildGrades("a", base, fail, kb);
+    const b = buildGrades("b", { ...base, id: "HO-98" }, manual, kb);
+    expect(a.strict).toMatchObject({ failCandidates: [0], proposed: "found" });
+    expect(b.strict).toMatchObject({ failCandidates: [], proposed: "missed" });
+    const t = tally([a, b]);
+    expect(t.found).toEqual(["HO-99", "HO-98"]);
+    expect(t.strictFound).toEqual(["HO-99"]);
+  });
+
+  it("follows the lenient label and keeps a strict label", () => {
+    const fs = findings(["app/Main.kt", 101]);
+    const first = buildGrades("run", base, fs, kb);
+    first.found.label = "missed";
+    expect(buildGrades("run", base, fs, kb, first).strict.proposed).toBe(
+      "missed",
+    );
+    first.found.label = "found";
+    first.strict.label = "missed";
+    const again = buildGrades("run", base, fs, kb, first);
+    expect(again.strict.label).toBe("missed");
+    expect(tally([again]).strictFound).toEqual([]);
+  });
+});
