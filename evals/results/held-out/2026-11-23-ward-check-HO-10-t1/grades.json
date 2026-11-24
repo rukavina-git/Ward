@@ -1,0 +1,154 @@
+{
+  "run": "2026-11-23-ward-check-HO-10-t1",
+  "case": "HO-10",
+  "kind": "config",
+  "found": {
+    "candidates": [
+      2
+    ],
+    "proposed": "found",
+    "proposedWhy": "FAIL MASTG-TEST-0227 at ArticleWebView.java:134",
+    "label": "found"
+  },
+  "decoysFlagged": {
+    "candidates": [],
+    "proposed": 0,
+    "label": 0
+  },
+  "findings": [
+    {
+      "finding": 0,
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "where": [
+        "build.gradle:79",
+        "build.gradle:80"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 1,
+      "title": "MASTG-TEST-0274: Dependencies with Known Vulnerabilities in the App's SBOM",
+      "where": [
+        "build.gradle:79",
+        "build.gradle:80"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 2,
+      "title": "MASTG-TEST-0227: Debugging Enabled for WebViews",
+      "where": [
+        "src/itkach/aard2/ArticleWebView.java:134"
+      ],
+      "role": "case",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 3,
+      "title": "MASTG-TEST-0334: Native Code Exposed Through WebViews",
+      "where": [
+        "src/itkach/aard2/ArticleWebView.java:152"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    }
+  ],
+  "citations": [
+    {
+      "finding": 0,
+      "id": "MASVS-CODE-3",
+      "exists": true,
+      "indexTitle": "The app only uses software components without known vulnerabilities.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": "right"
+    },
+    {
+      "finding": 0,
+      "id": "MASWE-0044",
+      "exists": true,
+      "indexTitle": "Dependencies with Known Vulnerabilities",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": "right"
+    },
+    {
+      "finding": 1,
+      "id": "MASVS-CODE-3",
+      "exists": true,
+      "indexTitle": "The app only uses software components without known vulnerabilities.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": "right"
+    },
+    {
+      "finding": 1,
+      "id": "MASWE-0044",
+      "exists": true,
+      "indexTitle": "Dependencies with Known Vulnerabilities",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": "right"
+    },
+    {
+      "finding": 2,
+      "id": "MASVS-PLATFORM-2",
+      "exists": true,
+      "indexTitle": "The app uses WebViews securely.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": "right"
+    },
+    {
+      "finding": 2,
+      "id": "MASVS-RESILIENCE-4",
+      "exists": true,
+      "indexTitle": "The app implements anti-dynamic analysis techniques.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": "right"
+    },
+    {
+      "finding": 2,
+      "id": "MASWE-0063",
+      "exists": true,
+      "indexTitle": "Debug Mechanisms Not Disabled",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": "right"
+    },
+    {
+      "finding": 3,
+      "id": "MASVS-PLATFORM-2",
+      "exists": true,
+      "indexTitle": "The app uses WebViews securely.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": "right"
+    },
+    {
+      "finding": 3,
+      "id": "MASVS-STORAGE-2",
+      "exists": true,
+      "indexTitle": "The app prevents leakage of sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": "right"
+    },
+    {
+      "finding": 3,
+      "id": "MASWE-0033",
+      "exists": true,
+      "indexTitle": "Sensitive Native Functionality Exposed in WebViews",
+      "proposed": "right",
+      "proposedWhy": "from Ward index; the finding is that check, so the ID names its weakness/control",
+      "label": "right"
+    }
+  ]
+}

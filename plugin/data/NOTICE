@@ -1,0 +1,30 @@
+Ward knowledge base (packages/core/data)
+========================================
+
+index.json is adapted from the OWASP Mobile Application Security (MAS)
+project and is licensed under the Creative Commons Attribution-ShareAlike
+4.0 International licence (CC BY-SA 4.0); see LICENSE in this folder.
+Ward's code is MIT; this data folder is not, and can't be relicensed.
+
+Sources, each at a pinned release:
+- OWASP MASVS v2.1.0, commit 8e133d09f4140518ed04cc254b18be9ff4990ffc
+  https://github.com/OWASP/masvs/tree/v2.1.0 (controls/)
+- OWASP MASWE v1.0.0, commit 308b82b4bbe29166934fb5a621b40471cfea61db
+  https://github.com/OWASP/maswe/tree/v1.0.0 (weaknesses/)
+- OWASP MASTG v2.0.0, commit 990472dbcffe126f5556045d60270c4ffdfdde72
+  https://github.com/OWASP/mastg/tree/v2.0.0 (tests-beta/android,
+  tests/android, demos/android)
+
+Copyright the OWASP MAS project authors and contributors.
+https://mas.owasp.org
+
+Changes made by Ward:
+- Android records only; iOS records left out.
+- Front matter reshaped into fields and links between records. Six links
+  between tests and weaknesses were set by hand; each is listed with its
+  reason under "overrides" in index.json.
+- Text split into chunks at its "##" headings, long sections at blank
+  lines. Deprecated MASTG v1 tests and placeholders are reduced to a short
+  summary (title, replacements or note).
+- Every record and chunk keeps the URL of its source file at the pinned
+  tag, the version and the licence. Citations shown by Ward link there.

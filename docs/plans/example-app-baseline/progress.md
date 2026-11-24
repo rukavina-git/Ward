@@ -1,0 +1,208 @@
+# Plan 2 progress
+
+- [x] 01 issue list and answer key (e0121ef, CI green:
+  https://github.com/rukavina-git/Ward/actions/runs/44947344852)
+- [x] 02 example app and clean twin (bd3d7d1, CI green:
+  https://github.com/rukavina-git/Ward/actions/runs/44957675627)
+- [x] 03 eval harness v0 (4d5d2f9, CI green:
+  https://github.com/rukavina-git/Ward/actions/runs/44962340094)
+- [x] 04 baseline (68ca023, CI green:
+  https://github.com/rukavina-git/Ward/actions/runs/44967494490)
+
+## Deviations
+- The roadmap had three steps. The app step was split into 01 (issue
+  list and answer key) and 02 (app and twin), so the answer key is fixed
+  before any code is written.
+- Step 01:
+  - Key fields are camelCase. Decoys carry `whyFine` and no severity,
+    MASTG, difficulty, planted or fix. Difficulty has a fifth value,
+    `absence` (EA-23).
+  - The key doesn't record whether each MASTG test is static or dynamic.
+    All cited tests are static except MASTG-TEST-0287 (dynamic). No issue
+    is NEEDS DYNAMIC.
+  - Only IDs are cited, so there's no docs/sources.md yet.
+  - After review, Karlo approved three changes: EA-08 reworded (a
+    per-device seeded `Random` can't predict other users' tokens) and set
+    to medium. EA-02's threat spelled out with minSdk 26 (it stays high).
+    EA-13 and EA-15 set to medium, because each needs a second flaw.
+- Step 02:
+  - compileSdk is 37.2 (`compileSdk = 37`, `compileSdkMinor = 2`), not
+    36: current AndroidX, Compose and OkHttp need 37.1 or later. AGP
+    installed platform 37.2 into the SDK on its own.
+  - No `-x lintVitalRelease` needed: lint-vital skips debuggable
+    builds (the planted release is one), and the twin passes it.
+  - Key v2 anchors: EA-05, EA-10 and EA-D5 anchor on declarations
+    (`X =`). EA-08 is `Random()`. EA-22 keeps `ACCESS_FINE_LOCATION`,
+    which occurs only once in PlaceTagger.kt.
+  - Key v2 content: EA-21 has a second location (`put("merchant"`).
+    EA-02's CSV holds date, amount, category, merchant and place, with
+    no note (plain notes in a backup would undo note encryption in the
+    twin). EA-09's fix uses its own biometric key and unlocks by opening
+    a sealed secret. New field `app` and four twin-only decoys
+    EA-D7 to D10, so 10 decoys in all (step 01 aimed for 4 to 6).
+  - EA-16 is fixed by removing WebView debugging, not gating it on
+    debug builds (the key allows either; one decoy fewer).
+  - The twin adds what the fixes need: email prefill (EA-01), a support
+    endpoint (EA-05), export through the file picker (EA-02), delete
+    account (EA-23), consent applied to Mixpanel (EA-20).
+  - Both apps have a "Share usage statistics" switch, because the
+    consent screen promises one. In the planted app it only stores the
+    answer, like the consent screen (part of EA-20).
+  - After review: the twin kept Mixpanel's automatic events on
+    (`true, true`), so the diff holds only EA-20's fix.
+
+- Step 03:
+  - Model: Sonnet 5.5 (`claude-sonnet-5-5`), Karlo's choice.
+  - The findings schema has no `$schema` line: Claude Code's
+    `--json-schema` rejects the 2020-12 meta-schema URL. It also avoids
+    minimum, minItems and pattern; line ≥ 1 and endLine ≥ line are
+    checked in code. zod's `fromJSONSchema` validates against the same
+    file (zod was already a dependency; ajv would have been a new one).
+  - `--safe-mode` keeps four built-in plugins (cc-plugin-agents-md,
+    -telemetry, -privacy, -plugin-authoring) and lists bundled skills.
+    With no Skill tool they can't run. User plugins, MCP servers,
+    CLAUDE.md, hooks and auto memory are off. Only `--bare` drops the
+    built-ins, and it needs an API key.
+  - Extra flags: `--strict-mcp-config`, `--settings
+    {"autoMemoryEnabled":false}`, `--permission-mode dontAsk`,
+    `--allowedTools`. The child env drops `ANTHROPIC_*` and `CLAUDE*`
+    (except `CLAUDE_CONFIG_DIR`).
+  - Scorer rules added while grading: a label can join item IDs with
+    "+" (hand-graded chains), and an automatic match with another issue
+    nearby that shares no ID goes to hand grading. Twin precision is
+    null; its number is false alarms.
+  - The temp copy is deleted after each run. `evals/results/` is in
+    .prettierignore, so agent output stays as returned.
+  - Smoke (not baseline): planted 18/23 found, 0 false alarms, 55 s,
+    about $0.19 estimated. Missed EA-08, 09, 11, 19, 23. Twin: 4
+    findings, 3 false alarms (EA-D7, EA-D8, analytics opt-out misread),
+    1 real unplanted. Grades proposed by Claude, confirmed by Karlo.
+
+- Step 04:
+  - No `--safe-mode`: a probe showed it hides plugin skills. Every arm
+    instead gets `--setting-sources ""`, `--strict-mcp-config`, auto
+    memory off and `--restricted` (file tools confined to the copy plus
+    `--add-dir`; a probe confirmed a read outside was refused).
+  - Every arm, `alone` included, gets the Skill tool (the step file gave
+    it to plugin arms only), so arms differ only in the plugin. `alone`
+    never used a skill.
+  - The runner now also: copies the plugin beside the app copy, pins
+    OWASP's clone to tag and commit, fails runs on isolation breaches,
+    records skills invoked, and names reruns `-a2`. Not needed: no run
+    failed.
+  - Results: alone 21.7/23 (21–22), checklist 21.0 (18–23), owasp 21.3
+    (20–23). Twin false alarms 2.0 / 2.3 / 1.7 per run. OWASP's skill
+    was never invoked (0/6); the checklist's was always (6/6). ADR 0001
+    bar not triggered, only because of twin false alarms.
+  - 105 hand grades, proposed by Claude, confirmed by Karlo in one go.
+  - The attribution in SKILL.md is a footer, not a header.
+  - meta.json records commit 0c0d684, before the runner changes were
+    committed (noted in baseline.md).
+
+## Gotchas
+Carried over from plan 1: see docs/plans/foundations/progress.md.
+- Building the fixtures: `JAVA_HOME="/Applications/Android
+  Studio.app/Contents/jbr/Contents/Home"` (JDK 25) and
+  `ANDROID_HOME=~/Library/Android/sdk`, then `./gradlew assembleDebug
+  assembleRelease` in each app. Gradle 9.9.2, AGP 9.5.2, Kotlin 2.4.21.
+- MASWE v1.0.0 renumbered its IDs, but MASTG v2.0.0 tests still name
+  the beta IDs. Translate through `mappings.maswe-beta` in each MASWE
+  file. This matters for plan 3's ingest (control → MASWE → test).
+  MASTG-TEST-0334 maps to the wrong weakness even after translation
+  (noted in the key).
+- Step 03:
+  - A finding matches an item on location plus issue type (MASWE ID or
+    keywords). Ties are graded by hand.
+  - Decide whether one finding can count for both items of a chain
+    (EA-12/13, EA-14/15).
+  - Copy both apps under the same neutral folder name, with identical
+    rootProject.name and applicationId.
+  - The scorer fails when an anchor matches zero times or more than once.
+  - Generic hardening advice (pinning, root detection, FLAG_SECURE) in
+    either app is graded by hand.
+  - Copy only tracked files (e.g. `git archive`). The fixture folders
+    hold gitignored build output, and its merged manifest gives EA-12
+    away.
+  - Issue anchors resolve in the planted app, decoy anchors in each app
+    the decoy is in (`app`). EA-D7, D8 and D9 share anchors with
+    planted issues.
+  - Likely twin findings to grade by hand (reviewer nits, not fixed):
+    the email kept in plain prefs for 'remember me'; the biometric
+    unlock secret protects no data, so hooking `openSecret` still
+    unlocks; no `distributionSha256Sum` in the Gradle wrapper; Lint
+    style nits (KTX helpers, icon folder, OldTargetApi).
+  - EA-D3's other half, the debug `http://10.0.2.2:8080/` in
+    sync/build.gradle.kts, isn't a D3 location yet. A correct finding
+    there would be unmatched.
+  - Key wording to fix in the next key version: EA-09 says the callback
+    sets an 'unlocked' flag (it navigates); EA-12 says read only (the
+    provider also allows insert, update and delete).
+  - Android Lint is a free static checker; on the planted app it could
+    be a cheap extra eval arm (idea only).
+- Gson 2.8.5 in the planted app may raise a Dependabot alert. Dismiss
+  it as a test fixture.
+- Step 04:
+  - Manifest items sit within 5 lines of each other, so manifest
+    findings often go to hand grading, as do findings with no IDs
+    (targetSdk). Expect about 7 hand grades per planted run.
+  - The twin's EA-09 fix seals a secret nothing uses; the smoke run
+    flagged it (graded real-unplanted). Decide before step 04: a key v3
+    item, or a better fix in the twin.
+  - One smoke trial found 18 of 23. ADR 0001 says rethink Ward if Claude
+    Code alone finds almost everything: step 04's trials decide.
+  - Runs take 1 to 1.5 minutes and about $0.2 to $0.3 (estimated, on the
+    plan), so 3+ trials per setup and app are cheap.
+  - The scorer refuses a run whose fixture tree differs from HEAD's, so
+    changing a fixture means old runs can't be rescored.
+  - Skill and plugin setups need `Skill` in `--tools`. Whether
+    `--plugin-dir` works with `--safe-mode` is untested.
+  - Open from step 03's review (not fixed; none changes the smoke
+    scores):
+    - An automatic decoy match with an issue nearby is scored as a
+      false alarm; the "issue nearby → hand" rule only covers issue
+      matches (e.g. an EA-14 finding tagged only MASWE-0018 next to
+      EA-D6).
+    - Isolation is recorded, not enforced: fail a run when
+      apiKeySource isn't "none", MCP servers or extra plugins load, the
+      tools differ, or a tool reads outside the copy.
+    - grades.json has no "graded by". Proposals should go in
+      `suggested` with `label` left null until Karlo confirms.
+    - The failed-run paths in run-cli.ts and score-cli.ts have no tests
+      (they're top-level CLI code).
+    - Duplicates count as correct in precision, which favours arms that
+      repeat themselves.
+    - The README doesn't yet say a hand label may credit an item at none
+      of its locations (smoke #13).
+    - Timeout sends SIGTERM with no SIGKILL; no error handler on the
+      child's stdin; validation errors printed without `clean()`;
+      childEnv passes npm's INIT_CWD and npm_package_json (repo path),
+      which matters once an arm has a shell; duplicate grade entries
+      for one finding: last wins silently.
+- Step 04 (for plan 3 onward):
+  - Claude Code alone already finds ~94% of the planted issues. Ward's
+    room is false alarms, citations, privacy and Play, and harder or
+    held-out cases. Consider `/council` before plan 3 on what that means
+    for scope.
+  - A skill only counts if it triggers. OWASP's never did on "is it
+    ready to publish?". Ward's skill description needs its own trigger
+    test (plan 5).
+  - Runner's Node: this shell defaults to Node 24; prefix
+    `~/.nvm/versions/node/v26.13.1/bin` to PATH. `claude` is a native
+    binary, so the arm itself is unaffected.
+  - Open from step 04's review (not fixed):
+    - `copyPlugin` keeps symlinks: OWASP's plugin has 3 relative links
+      that become absolute links into the repo's cache. Use
+      `dereference: true`; `dirHash` skips links too. No run read them.
+    - The isolation check treats `~/...` as inside the copy (it
+      resolves against cwd). Treat `~` as outside.
+    - The revisit verdict is printed even from provisional scores, and
+      `aloneClean` doesn't skip failed runs.
+    - Glob patterns resolve against cwd, not their `path`.
+    - outDir is created before the plugin fetch; a fetch error leaves
+      an empty folder. `-aN` naming has no test.
+    - OWASP's `data/{masvs,asvs}` is CC BY-SA 4.0 per its notices;
+      docs/sources.md says CC BY 4.0 for the whole plugin.
+    - Twin "bearer token to own hosts" findings were graded `generic`;
+      the reviewer argues `false-alarm`. Same in every arm.
+  - Grading a run takes most of the time; a rule-based proposal
+    (finding pattern → label) would make plan 6 faster.

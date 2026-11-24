@@ -1,0 +1,209 @@
+{
+  "findings": [
+    {
+      "title": "allowBackup=\"true\" contradicts the stated intent that backups are disabled",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 65
+        },
+        {
+          "file": "app/src/main/res/xml/backup_rules.xml",
+          "line": 3
+        },
+        {
+          "file": "app/src/main/res/xml/data_extraction_rules.xml",
+          "line": 3
+        }
+      ],
+      "explanation": "Both backup XML files say backups are disabled with allowBackup=\"false\", but the manifest sets it to true. The exclude rules only cover sharedpref, database and datastore/. Other app files, such as downloaded models, workspace files and any other files-dir content, can still be backed up. The app stores conversations, notifications, memories and API-key material. Set allowBackup=\"false\", or make the rules exclude every sensitive domain."
+    },
+    {
+      "title": "Highly sensitive permissions (SMS, call, background location, QUERY_ALL_PACKAGES, accessibility) need Play declarations and may be rejected",
+      "category": "play",
+      "severity": "high",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 13,
+          "endLine": 15
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 11
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 20
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 46
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 39
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 45
+        }
+      ],
+      "explanation": "SEND_SMS, READ_SMS and RECEIVE_SMS are allowed only when the app is the default SMS or Phone handler or qualifies for another narrow exception. CALL_PHONE is also restricted. ACCESS_BACKGROUND_LOCATION, QUERY_ALL_PACKAGES, SYSTEM_ALERT_WINDOW and PACKAGE_USAGE_STATS each need a Permissions Declaration Form with justification. An AI agent is unlikely to qualify for the SMS permissions. Remove any permission the app doesn't strictly need, or prepare the declarations. Several of these also look unused, for example WRITE_SETTINGS, ACCESS_NOTIFICATION_POLICY and SCHEDULE_EXACT_ALARM together with USE_EXACT_ALARM."
+    },
+    {
+      "title": "AccessibilityService used for general agent automation needs Play policy approval and prominent disclosure",
+      "category": "play",
+      "severity": "high",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PLATFORM-1",
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/accessibility_service_config.xml",
+          "line": 3
+        },
+        {
+          "file": "app/src/main/res/xml/accessibility_service_config.xml",
+          "line": 5,
+          "endLine": 7
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 112,
+          "endLine": 122
+        }
+      ],
+      "explanation": "The service listens to all event types, retrieves window content and performs gestures across all apps. Play's AccessibilityService API policy says the API isn't meant for autonomous AI agents acting on a user's behalf unless the app is an accessibility tool. It requires a Play Console declaration, an in-app prominent disclosure with consent, and a valid core-functionality justification. The service also reads other apps' screens, including messaging apps, and sends content to LLM providers, so the Data safety form must reflect that. Confirm eligibility or expect rejection."
+    },
+    {
+      "title": "Notification listener, SMS and contacts data sent to third-party LLM providers need disclosure (Data safety / privacy policy)",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1",
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 133,
+          "endLine": 141
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 8,
+          "endLine": 9
+        }
+      ],
+      "explanation": "The app reads notifications, contacts, SMS, calendar and screen content and drives auto-replies through cloud LLM providers (OpenAI-compatible, custom endpoints and others). This is sensitive personal data leaving the device. You need accurate Data safety answers, a published privacy policy, an in-app disclosure and consent before collection or transmission, and clear user control over which providers receive data."
+    },
+    {
+      "title": "Exported BootReceiver and cleartext HTTP exceptions to local and emulator addresses",
+      "category": "security",
+      "severity": "low",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-1",
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 125,
+          "endLine": 131
+        },
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 7,
+          "endLine": 11
+        }
+      ],
+      "explanation": "BootReceiver is exported without a permission. It only needs BOOT_COMPLETED, which the system sends, so android:exported=\"false\" would work and would stop other apps from triggering it. Cleartext is allowed for localhost, 127.0.0.1 and 10.0.2.2. The emulator address 10.0.2.2 is dev-only. Users who point the app at a LAN Ollama host over HTTP will fail because those hosts aren't listed, or will push you to widen the cleartext rules. Remove 10.0.2.2 from the release config and warn users about HTTP endpoints."
+    },
+    {
+      "title": "Privileged root/Shizuku shell command execution",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PLATFORM-1",
+        "MASVS-CODE-4"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/opendroid/ai/core/service/PrivilegedCommandExecutor.kt",
+          "line": 35
+        },
+        {
+          "file": "app/src/main/java/com/opendroid/ai/core/service/PrivilegedCommandExecutor.kt",
+          "line": 54
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 93,
+          "endLine": 99
+        }
+      ],
+      "explanation": "The app runs arbitrary shell commands through `su -c` or Shizuku. If the commands come from LLM output, prompt injection through notifications, screen content or web content could lead to arbitrary command execution with elevated privileges. Review that commands are allow-listed and user-approved. Play's deceptive-behavior and device-abuse policies also need review."
+    },
+    {
+      "title": "R8 rules keep broad packages unobfuscated and shrinkResources is off",
+      "category": "security",
+      "severity": "low",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-RESILIENCE-3"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/proguard-rules.pro",
+          "line": 6,
+          "endLine": 13
+        },
+        {
+          "file": "app/proguard-rules.pro",
+          "line": 37
+        },
+        {
+          "file": "app/proguard-rules.pro",
+          "line": 65
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 62
+        }
+      ],
+      "explanation": "Blanket `-keep class ... { *; }` rules cover the llm, accessibility and actions packages, okhttp3, retrofit2 and androidx.compose. This largely defeats shrinking and obfuscation and increases APK size. shrinkResources=false adds to that. Narrow the rules. Only the Log.d and Log.v calls are stripped, so Log.i and Log.w calls in release builds still log details such as model paths and error messages."
+    }
+  ],
+  "inspected": [
+    "app/build.gradle",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/res/xml/network_security_config.xml",
+    "app/src/main/res/xml/backup_rules.xml",
+    "app/src/main/res/xml/data_extraction_rules.xml",
+    "app/src/main/res/xml/accessibility_service_config.xml",
+    "app/proguard-rules.pro"
+  ]
+}

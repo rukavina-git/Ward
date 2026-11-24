@@ -1,0 +1,100 @@
+{
+  "grades": [
+    {
+      "finding": 0,
+      "title": "Release build is debuggable",
+      "candidates": [
+        "EA-17"
+      ],
+      "suggested": "EA-17",
+      "label": "EA-17",
+      "proposed": "EA-17",
+      "proposedWhy": "isDebuggable = true in release"
+    },
+    {
+      "finding": 7,
+      "title": "Exported HelpActivity loads arbitrary URL into WebView with JS bridge exposing session token",
+      "candidates": [
+        "EA-14",
+        "EA-D4",
+        "EA-D6",
+        "EA-15"
+      ],
+      "suggested": null,
+      "label": "EA-14+EA-15",
+      "proposed": "EA-14+EA-15",
+      "proposedWhy": "deep link loads any URL and the JS bridge hands out the session token"
+    },
+    {
+      "finding": 10,
+      "title": "Hard-coded secrets in source: helpdesk API token and Mixpanel token",
+      "candidates": [
+        "EA-05",
+        "EA-D5"
+      ],
+      "suggested": null,
+      "label": "EA-05",
+      "proposed": "EA-05",
+      "proposedWhy": "helpdesk token; the Mixpanel token is mentioned in passing (decoy D5)"
+    },
+    {
+      "finding": 12,
+      "title": "Background location permission declared without need or justification",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-22",
+      "label": "EA-22",
+      "proposed": "EA-22",
+      "proposedWhy": "background and fine location for a one-off city lookup"
+    },
+    {
+      "finding": 13,
+      "title": "Legacy external storage permissions and public backup file containing financial data",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": null,
+      "label": "EA-02",
+      "proposed": "EA-02",
+      "proposedWhy": "CSV of all expenses to public Documents"
+    },
+    {
+      "finding": 14,
+      "title": "allowBackup enabled with no backup rules for sensitive data",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-04",
+      "label": "EA-04",
+      "proposed": "EA-04",
+      "proposedWhy": "allowBackup with no rules exposes saved credentials"
+    },
+    {
+      "finding": 20,
+      "title": "Receipt copies shared through FileProvider are left in cache and share file names are predictable",
+      "candidates": [],
+      "suggested": null,
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "retention of shared copies in cache: hygiene advice"
+    },
+    {
+      "finding": 21,
+      "title": "Privacy disclosures need verification (Data safety form / policy)",
+      "candidates": [
+        "EA-23"
+      ],
+      "suggested": "EA-23",
+      "label": "EA-23",
+      "proposed": "EA-23",
+      "proposedWhy": "says plainly there is no in-app account deletion; the rest is Data safety advice"
+    }
+  ]
+}

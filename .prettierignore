@@ -1,0 +1,22 @@
+# Docs are hand-wrapped prose; Prettier would reflow them.
+*.md
+package-lock.json
+# Test apps (Kotlin and Gradle). They're eval inputs: never reformat them.
+fixtures/
+dist/
+coverage/
+# Written by Claude Code (e.g. MCP server approval); never committed.
+.claude/settings.local.json
+# Eval results: agent output is kept exactly as returned.
+evals/results/
+# Third-party plugins fetched for eval arms.
+evals/.cache/
+# OWASP sources and ingest output; test fixtures are OWASP files kept verbatim.
+packages/ingest/.cache/
+packages/ingest/out/
+packages/ingest/test/fixtures/
+# The shipped index is written by ingest; its bytes are part of the build check.
+packages/core/data/
+# The plugin's bundled server and data are build output (npm run plugin:build).
+plugin/server/
+plugin/data/

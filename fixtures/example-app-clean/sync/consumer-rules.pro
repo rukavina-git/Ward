@@ -1,0 +1,2 @@
+-keepattributes Signature
+-keep class app.pennyjar.sync.model.** { *; }

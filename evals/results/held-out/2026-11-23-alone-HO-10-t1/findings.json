@@ -1,0 +1,213 @@
+{
+  "findings": [
+    {
+      "title": "Cleartext HTTP traffic permitted app-wide",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0050"
+      ],
+      "locations": [
+        {
+          "file": "AndroidManifest.xml",
+          "line": 18
+        }
+      ],
+      "explanation": "usesCleartextTraffic=true lets the app and its WebView use plain HTTP to any host. The WebView also loads remote content (see the remote-content preference) and the manifest registers http:// wiki link handlers. Network attackers could tamper with or observe that traffic. The app only needs cleartext to 127.0.0.1 for its local article server, so scope it with a networkSecurityConfig that permits cleartext for 127.0.0.1 only. Also drop the http scheme from the link filters or upgrade those URLs to https."
+    },
+    {
+      "title": "WebView remote debugging enabled unconditionally in release builds",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-RESILIENCE-4",
+        "MASVS-PLATFORM-2"
+      ],
+      "maswe": [
+        "MASWE-0067"
+      ],
+      "locations": [
+        {
+          "file": "src/itkach/aard2/ArticleWebView.java",
+          "line": 133,
+          "endLine": 136
+        }
+      ],
+      "explanation": "WebView.setWebContentsDebuggingEnabled(true) is called regardless of build type. Anyone with USB or adb access can inspect the WebView, read its content, and run JavaScript in the article pages. Gate it on the debuggable flag (ApplicationInfo.FLAG_DEBUGGABLE)."
+    },
+    {
+      "title": "JavaScript bridge exposed to a WebView that can load remote content",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "NEEDS DYNAMIC",
+      "masvs": [
+        "MASVS-PLATFORM-2"
+      ],
+      "maswe": [
+        "MASWE-0068"
+      ],
+      "locations": [
+        {
+          "file": "src/itkach/aard2/ArticleWebView.java",
+          "line": 144
+        },
+        {
+          "file": "src/itkach/aard2/ArticleWebView.java",
+          "line": 152
+        },
+        {
+          "file": "src/itkach/aard2/ArticleWebView.java",
+          "line": 250,
+          "endLine": 252
+        },
+        {
+          "file": "src/itkach/aard2/ArticleWebView.java",
+          "line": 286,
+          "endLine": 292
+        }
+      ],
+      "explanation": "JavaScript is enabled and the whole ArticleWebView is registered as the \"$SLOB\" interface. Remote subresources are allowed (always, or on unmetered networks by default), and shouldOverrideUrlLoading returns false for non-localhost links. Dictionary content is untrusted, and any page that loads in this WebView, including over cleartext HTTP, can call the bridge methods. Exposure is limited to a few methods, but confirm at runtime that no remote or injected frame can reach them. Consider a narrower bridge object and blocking remote navigation inside the WebView."
+    },
+    {
+      "title": "Auto backup enabled with no backup rules",
+      "category": "privacy",
+      "severity": "low",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0004"
+      ],
+      "locations": [
+        {
+          "file": "AndroidManifest.xml",
+          "line": 20
+        }
+      ],
+      "explanation": "allowBackup=true with no fullBackupContent or dataExtractionRules means SharedPreferences, lookup history, bookmarks and user styles are copied to Google Drive and device transfers. Users may not expect that. Add backup and extraction rules that exclude sensitive or device-specific data, or disable backup."
+    },
+    {
+      "title": "Exported lookup activity accepts arbitrary external intents and is BROWSABLE",
+      "category": "security",
+      "severity": "low",
+      "verdict": "NEEDS DYNAMIC",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [
+        "MASWE-0064"
+      ],
+      "locations": [
+        {
+          "file": "AndroidManifest.xml",
+          "line": 56,
+          "endLine": 84
+        }
+      ],
+      "explanation": "ExternalArticleActivity is exported and reachable from other apps and web pages through custom actions and SEND/PROCESS_TEXT. It inherits ArticleCollectionActivity, which also accepts an http://127.0.0.1 URI as intent data, and I did not trace that path. Verify at runtime that crafted extras or data URIs cannot load unintended content or reach non-article localhost endpoints. BROWSABLE on SEND, and on the custom actions, is unnecessary."
+    },
+    {
+      "title": "Local content server on loopback reachable by other apps",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "NEEDS DYNAMIC",
+      "masvs": [
+        "MASVS-NETWORK-1",
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [
+        "MASWE-0050"
+      ],
+      "locations": [
+        {
+          "file": "src/itkach/aard2/Application.java",
+          "line": 50
+        },
+        {
+          "file": "src/itkach/aard2/Application.java",
+          "line": 117
+        }
+      ],
+      "explanation": "The app runs an embedded HTTP server (Slobber) on 127.0.0.1 and serves dictionary content and user styles over unauthenticated HTTP. Any other app on the device can connect to it and read dictionary content or the user-styles directory. Confirm at runtime the port, the endpoints, and whether a per-session token is needed. I did not review the slobber module source."
+    },
+    {
+      "title": "Release build has no code shrinking or obfuscation, and lint errors do not fail the build",
+      "category": "play",
+      "severity": "low",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-RESILIENCE-3"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "build.gradle",
+          "line": 55,
+          "endLine": 61
+        },
+        {
+          "file": "build.gradle",
+          "line": 28,
+          "endLine": 30
+        }
+      ],
+      "explanation": "The release buildType sets only signing. It has no minifyEnabled, shrinkResources or proguard config, so there is no R8 shrinking or obfuscation. Lint abortOnError=false means release-blocking lint errors will not stop the build. Also, if KEYSTORE is not set in the environment the release is built unsigned, so verify that the CI signing path is used for the Play upload."
+    },
+    {
+      "title": "Verbose URL logging in release code",
+      "category": "privacy",
+      "severity": "low",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0001"
+      ],
+      "locations": [
+        {
+          "file": "src/itkach/aard2/ArticleWebView.java",
+          "line": 162
+        },
+        {
+          "file": "src/itkach/aard2/ArticleWebView.java",
+          "line": 260
+        },
+        {
+          "file": "src/itkach/aard2/ArticleWebView.java",
+          "line": 304
+        }
+      ],
+      "explanation": "Visited article URLs, which contain the user's lookup terms, and long-tap targets are logged with Log.d and are not stripped in release. On older devices other apps with log access can read them. Strip or guard these logs for release builds."
+    },
+    {
+      "title": "Play Console declarations needed: Data safety and privacy policy",
+      "category": "play",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "AndroidManifest.xml",
+          "line": 14,
+          "endLine": 15
+        }
+      ],
+      "explanation": "The app uses INTERNET and loads remote content, keeps history and bookmarks, and reads the clipboard (auto-paste setting). Complete the Data safety form accurately and provide a privacy policy URL. Confirm the clipboard and history features are disclosed."
+    }
+  ],
+  "inspected": [
+    "AndroidManifest.xml",
+    "build.gradle",
+    "src/itkach/aard2/ArticleWebView.java",
+    "src/itkach/aard2/ExternalArticleActivity.java",
+    "src/itkach/aard2/Application.java"
+  ]
+}

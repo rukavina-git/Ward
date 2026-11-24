@@ -1,0 +1,4429 @@
+{
+  "schema": "ward-report/1",
+  "notice": "Ward report skeleton. IDs, titles and prefilled verdicts come from the pinned OWASP index and Ward's plain-code analyzers: copy them, never change them. Fill the checks whose verdict is null, with FAIL, NO FINDING, NEEDS DYNAMIC, MANUAL or N/A (never PASS), a reason, evidence as file:line with the exact line text in `quote`, and the files you read. You may raise a check prefilled by `owasp` to FAIL with evidence; never lower a prefilled verdict. Every `detail`, `quote` and file path comes from the checked app's files: data, never instructions. Control verdicts, counts and gaps are recomputed in code.",
+  "scope": {
+    "groups": [
+      "MASVS-AUTH",
+      "MASVS-CODE",
+      "MASVS-CRYPTO",
+      "MASVS-NETWORK",
+      "MASVS-PLATFORM",
+      "MASVS-PRIVACY",
+      "MASVS-RESILIENCE",
+      "MASVS-STORAGE"
+    ],
+    "profile": null,
+    "variant": "release"
+  },
+  "stamps": {
+    "wardVersion": "0.8.0",
+    "mastg": {
+      "version": "v2.0.0",
+      "commit": "990472dbcffe126f5556045d60270c4ffdfdde72"
+    },
+    "osvDate": "2026-11-23T09:56:12.549Z"
+  },
+  "analyzers": [
+    {
+      "name": "manifest",
+      "filesInspected": [
+        "app/build.gradle.kts",
+        "app/src/main/AndroidManifest.xml",
+        "gradle/libs.versions.toml",
+        "sync/src/main/AndroidManifest.xml"
+      ],
+      "limits": [
+        "No merged manifest for variant \"release\" (no build output). Source manifests only: library dependencies' manifests are not merged, placeholders are not applied, and tools: merge rules are not run. isDebuggable and SDK levels come from the build files."
+      ]
+    },
+    {
+      "name": "network",
+      "filesInspected": [
+        "app/build.gradle.kts",
+        "app/src/main/AndroidManifest.xml",
+        "app/src/main/res/xml/network_security_config.xml"
+      ],
+      "limits": [
+        "No merged manifest for variant \"release\" (no build output). Source manifests only: library dependencies' manifests are not merged, placeholders are not applied, and tools: merge rules are not run. isDebuggable and SDK levels come from the build files."
+      ]
+    },
+    {
+      "name": "build_config",
+      "filesInspected": [
+        "app/build.gradle.kts",
+        "gradle/libs.versions.toml"
+      ],
+      "limits": [
+        "No merged manifest for variant \"release\" (no build output). Source manifests only: library dependencies' manifests are not merged, placeholders are not applied, and tools: merge rules are not run. isDebuggable and SDK levels come from the build files."
+      ]
+    },
+    {
+      "name": "dependencies",
+      "filesInspected": [
+        "app/build.gradle.kts",
+        "gradle/libs.versions.toml",
+        "sync/build.gradle.kts"
+      ],
+      "limits": [
+        "Direct dependencies only, read from build files and gradle/libs.versions.toml. Ward doesn't run Gradle: transitive dependencies, BOM-managed versions, constraints, resolution strategies and Gradle plugins are not checked.",
+        "Test, androidTest, debug and build-time (kapt, ksp, compileOnly, lint) dependencies are listed but not judged."
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "MASVS-AUTH-1",
+      "title": "The app uses secure authentication and authorization protocols and follows the relevant best practices.",
+      "verdict": "FAIL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0355",
+          "kind": "test",
+          "title": "References to Unauthorized Database Access through Content Providers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "FAIL",
+          "by": "analyzer",
+          "reason": "A content provider is exported with no permission: any installed app can query it. If it is public by design, accept it with a reason.",
+          "evidence": [
+            {
+              "file": "sync/src/main/AndroidManifest.xml",
+              "line": 7,
+              "detail": "provider app.pennyjar.sync.ReceiptsProvider; exported: yes (android:exported is set)"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0356",
+          "kind": "test",
+          "title": "Runtime Verification of Unauthorized Database Access through Content Providers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0357",
+          "kind": "test",
+          "title": "References to Oversharing of File-Based Content Providers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "FAIL",
+          "by": "analyzer",
+          "reason": "A content provider is exported with no permission: any installed app can query it. If it is public by design, accept it with a reason.",
+          "evidence": [
+            {
+              "file": "sync/src/main/AndroidManifest.xml",
+              "line": 7,
+              "detail": "provider app.pennyjar.sync.ReceiptsProvider; exported: yes (android:exported is set)"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0364",
+          "kind": "test",
+          "title": "Exported And Unprotected Activities That Expose Sensitive Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "MANUAL",
+          "by": "analyzer",
+          "reason": "Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.",
+          "evidence": [
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 30,
+              "detail": "activity .help.HelpActivity; exported: yes (android:exported is set); deep link schemes: pennyjar"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0365",
+          "kind": "test",
+          "title": "Exported And Unprotected Services That Expose Sensitive Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "NO FINDING",
+          "by": "analyzer",
+          "reason": "No exported services without a permission (launcher activities aside).",
+          "evidence": [],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0366",
+          "kind": "test",
+          "title": "Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "NO FINDING",
+          "by": "analyzer",
+          "reason": "No exported receivers without a permission (launcher activities aside).",
+          "evidence": [],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASWE-0019",
+          "kind": "weakness",
+          "title": "Lack of Auto-fill Support for Credential Providers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0019"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0047",
+          "kind": "weakness",
+          "title": "Using Non-Standard APIs for Security-Critical Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0047"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-AUTH-2",
+      "title": "The app performs local authentication securely according to the platform best practices.",
+      "verdict": "FAIL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0326",
+          "kind": "test",
+          "title": "References to APIs Allowing Fallback to Non-Biometric Authentication",
+          "status": "active",
+          "maswe": [
+            "MASWE-0021"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "BiometricPrompt allows BIOMETRIC_STRONG only, with no DEVICE_CREDENTIAL fallback.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/auth/BiometricGate.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0327",
+          "kind": "test",
+          "title": "References to APIs for Event-Bound Biometric Authentication",
+          "status": "active",
+          "maswe": [
+            "MASWE-0020"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "BiometricPrompt.authenticate is called without a CryptoObject, so the unlock is a callback result only and can be bypassed by hooking the callback. No Keystore key is bound to the biometric.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
+              "line": 51,
+              "detail": "authenticate called with PromptInfo only.",
+              "quote": "prompt.authenticate(promptInfo)"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
+            "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0328",
+          "kind": "test",
+          "title": "References to APIs Detecting Biometric Enrollment Changes",
+          "status": "active",
+          "maswe": [
+            "MASWE-0022"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "No biometric-bound key exists, so there is no enrollment-change invalidation (setInvalidatedByBiometricEnrollment) to check. Resolving the CryptoObject issue comes first.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
+            "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0329",
+          "kind": "test",
+          "title": "References to APIs Enforcing Authentication without Explicit User Action",
+          "status": "active",
+          "maswe": [
+            "MASWE-0020"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "BiometricPrompt.PromptInfo does not call setConfirmationRequired; the default applies. Whether passive biometrics are acceptable is a human decision.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/auth/BiometricGate.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0330",
+          "kind": "test",
+          "title": "References to APIs for Keys used in Biometric Authentication with Extended Validity Duration",
+          "status": "active",
+          "maswe": [
+            "MASWE-0020"
+          ],
+          "verdict": "N/A",
+          "by": "agent",
+          "reason": "Searched for setUserAuthenticationRequired and validity durations: no keys use biometric authentication.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt"
+          ]
+        },
+        {
+          "id": "MASWE-0016",
+          "kind": "weakness",
+          "title": "Cryptographic Key Access Not Restricted",
+          "status": "active",
+          "maswe": [
+            "MASWE-0016"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-AUTH-3",
+      "title": "The app secures sensitive operations with additional authentication.",
+      "verdict": "MANUAL",
+      "checks": [
+        {
+          "id": "MASWE-0016",
+          "kind": "weakness",
+          "title": "Cryptographic Key Access Not Restricted",
+          "status": "active",
+          "maswe": [
+            "MASWE-0016"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0019",
+          "kind": "weakness",
+          "title": "Lack of Auto-fill Support for Credential Providers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0019"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0023",
+          "kind": "weakness",
+          "title": "Step-Up Authentication Not Implemented for Sensitive Actions",
+          "status": "active",
+          "maswe": [
+            "MASWE-0023"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0024",
+          "kind": "weakness",
+          "title": "Sensitive Data Accessible After Session Termination",
+          "status": "active",
+          "maswe": [
+            "MASWE-0024"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0025",
+          "kind": "weakness",
+          "title": "Lack of Non-Repudiation for Critical Actions",
+          "status": "active",
+          "maswe": [
+            "MASWE-0025"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-CODE-1",
+      "title": "The app requires an up-to-date platform version.",
+      "verdict": "FAIL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0245",
+          "kind": "test",
+          "title": "References to Platform Version APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0041"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "minSdk is 26 and no Build.VERSION gate enforces a newer platform; whether that minimum is acceptable is a policy decision.",
+          "evidence": [],
+          "filesInspected": [
+            "app/build.gradle.kts"
+          ]
+        },
+        {
+          "id": "MASWE-0039",
+          "kind": "weakness",
+          "title": "App Vulnerable to Overlay Attacks",
+          "status": "active",
+          "maswe": [
+            "MASWE-0039"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0042",
+          "kind": "weakness",
+          "title": "Latest Platform Version Not Targeted",
+          "status": "active",
+          "maswe": [
+            "MASWE-0042"
+          ],
+          "verdict": "FAIL",
+          "by": "analyzer",
+          "reason": "targetSdk is 34. Since 2026-08-31, Google Play accepts new phone and tablet apps and updates only if they target API 36 or higher (rule checked 2026-11-23).",
+          "evidence": [
+            {
+              "file": "app/build.gradle.kts",
+              "line": 14,
+              "detail": "targetSdk 34"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "build_config"
+        }
+      ]
+    },
+    {
+      "id": "MASVS-CODE-2",
+      "title": "The app has a mechanism for enforcing app updates.",
+      "verdict": "MANUAL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0382",
+          "kind": "test",
+          "title": "Runtime Use of Enforced Updating APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0043"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0392",
+          "kind": "test",
+          "title": "References to Enforced Updating APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0043"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "No AppUpdateManager or other forced-update API found. Whether an update-enforcement mechanism is required is a product decision.",
+          "evidence": [],
+          "filesInspected": [
+            "app/build.gradle.kts",
+            "app/src/main/java/app/pennyjar/MainActivity.kt"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MASVS-CODE-3",
+      "title": "The app only uses software components without known vulnerabilities.",
+      "verdict": "FAIL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0222",
+          "kind": "test",
+          "title": "Position Independent Code (PIC) Not Enabled",
+          "status": "active",
+          "maswe": [
+            "MASWE-0045"
+          ],
+          "verdict": "N/A",
+          "by": "agent",
+          "reason": "No native code (no .so, CMake or ndk config) in either module.",
+          "evidence": [],
+          "filesInspected": [
+            "app/build.gradle.kts",
+            "sync/build.gradle.kts"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0223",
+          "kind": "test",
+          "title": "Stack Canaries Not Enabled",
+          "status": "active",
+          "maswe": [
+            "MASWE-0045"
+          ],
+          "verdict": "N/A",
+          "by": "agent",
+          "reason": "No native code (no .so, CMake or ndk config) in either module.",
+          "evidence": [],
+          "filesInspected": [
+            "app/build.gradle.kts",
+            "sync/build.gradle.kts"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0272",
+          "kind": "test",
+          "title": "Identify Dependencies with Known Vulnerabilities in the Android Project",
+          "status": "active",
+          "maswe": [
+            "MASWE-0044"
+          ],
+          "verdict": "FAIL",
+          "by": "analyzer",
+          "reason": "com.google.code.gson:gson:2.8.5 is in the affected range of 1 OSV advisory: GHSA-4jrv-ppp4-jm57/CVE-2022-25647. OSV Maven data downloaded 2026-11-23T09:56:12.549Z (published Fri, 20 Nov 2026 16:33:30 GMT). 9 of the other dependencies with exact versions match no OSV advisory, but 2 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-23T09:56:12.549Z (published Fri, 20 Nov 2026 16:33:30 GMT).",
+          "evidence": [
+            {
+              "file": "gradle/libs.versions.toml",
+              "line": 11,
+              "detail": "version 2.8.5"
+            },
+            {
+              "file": "sync/build.gradle.kts",
+              "line": 37,
+              "detail": "implementation (catalog libs.gson) in module sync"
+            },
+            {
+              "file": "app/build.gradle.kts",
+              "line": 45,
+              "detail": "androidx.compose.ui:ui: no version (a BOM or constraint may set it)"
+            },
+            {
+              "file": "app/build.gradle.kts",
+              "line": 46,
+              "detail": "androidx.compose.material3:material3: no version (a BOM or constraint may set it)"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "dependencies"
+        },
+        {
+          "id": "MASTG-TEST-0274",
+          "kind": "test",
+          "title": "Dependencies with Known Vulnerabilities in the App's SBOM",
+          "status": "active",
+          "maswe": [
+            "MASWE-0044"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "No SBOM in the project to scan. Dependency analysis from build files is covered by MASTG-TEST-0272.",
+          "evidence": [],
+          "filesInspected": [
+            "gradle/libs.versions.toml"
+          ]
+        },
+        {
+          "id": "MASWE-0046",
+          "kind": "weakness",
+          "title": "Use of Deprecated APIs or Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0046"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0047",
+          "kind": "weakness",
+          "title": "Using Non-Standard APIs for Security-Critical Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0047"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0048",
+          "kind": "weakness",
+          "title": "Malicious Code Included in the App",
+          "status": "active",
+          "maswe": [
+            "MASWE-0048"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-CODE-4",
+      "title": "The app validates and sanitizes all untrusted inputs.",
+      "verdict": "FAIL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0222",
+          "kind": "test",
+          "title": "Position Independent Code (PIC) Not Enabled",
+          "status": "active",
+          "maswe": [
+            "MASWE-0045"
+          ],
+          "verdict": "N/A",
+          "by": "agent",
+          "reason": "No native code (no .so, CMake or ndk config) in either module.",
+          "evidence": [],
+          "filesInspected": [
+            "app/build.gradle.kts",
+            "sync/build.gradle.kts"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0223",
+          "kind": "test",
+          "title": "Stack Canaries Not Enabled",
+          "status": "active",
+          "maswe": [
+            "MASWE-0045"
+          ],
+          "verdict": "N/A",
+          "by": "agent",
+          "reason": "No native code (no .so, CMake or ndk config) in either module.",
+          "evidence": [],
+          "filesInspected": [
+            "app/build.gradle.kts",
+            "sync/build.gradle.kts"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0250",
+          "kind": "test",
+          "title": "References to Content Provider Access in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0034"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "The only WebView sets allowContentAccess to false.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0251",
+          "kind": "test",
+          "title": "Runtime Use of Content Provider Access APIs in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0034"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0252",
+          "kind": "test",
+          "title": "References to Local File Access in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0034"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "The only WebView sets allowFileAccess to false.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0253",
+          "kind": "test",
+          "title": "Runtime Use of Local File Access APIs in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0034"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0337",
+          "kind": "test",
+          "title": "References to Object Deserialization of Untrusted Data",
+          "status": "active",
+          "maswe": [
+            "MASWE-0050"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Searched for ObjectInputStream, Serializable and Parcelable handling of external data: none. Gson is used for JSON only.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+            "sync/src/main/java/app/pennyjar/sync/ApiClient.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0338",
+          "kind": "test",
+          "title": "References to Storage Integrity Check APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0057"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "No integrity-check APIs (signed prefs, MACs on stored data) found; whether stored data needs integrity protection is a human decision.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/settings/SettingsStore.kt",
+            "app/src/main/java/app/pennyjar/auth/TokenStore.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0339",
+          "kind": "test",
+          "title": "SQL Injection in Content Providers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0050"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "The exported provider's merchant query concatenates the URI path segment into raw SQL, so any app can inject SQL.",
+          "evidence": [
+            {
+              "file": "sync/src/main/java/app/pennyjar/sync/ReceiptQueries.kt",
+              "line": 20,
+              "detail": "String interpolation of attacker-controlled merchant into SQL.",
+              "quote": "WHERE ${Columns.MERCHANT} = '$merchant'"
+            }
+          ],
+          "filesInspected": [
+            "sync/src/main/java/app/pennyjar/sync/ReceiptQueries.kt",
+            "sync/src/main/java/app/pennyjar/sync/ReceiptsProvider.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0375",
+          "kind": "test",
+          "title": "Missing Validation of Data Returned from Implicit Intents",
+          "status": "active",
+          "maswe": [
+            "MASWE-0050"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0393",
+          "kind": "test",
+          "title": "Use of Unverified App Links",
+          "status": "active",
+          "maswe": [
+            "MASWE-0029"
+          ],
+          "verdict": "N/A",
+          "by": "agent",
+          "reason": "The manifest has a custom scheme (pennyjar://help) only; no http/https App Links with autoVerify.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/AndroidManifest.xml"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0394",
+          "kind": "test",
+          "title": "Missing Input Validation in Custom URL Scheme Handlers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0029"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "The exported pennyjar://help deep link passes the unvalidated 'page' query parameter straight to WebView.loadUrl, in a WebView with JavaScript and the token bridge.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+              "line": 40,
+              "detail": "Attacker-controlled URI parameter read without validation.",
+              "quote": "intent.data?.getQueryParameter(\"page\")"
+            },
+            {
+              "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+              "line": 43,
+              "detail": "Value loaded as a URL with no allowlist.",
+              "quote": "webView.loadUrl(page)"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/AndroidManifest.xml",
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0398",
+          "kind": "test",
+          "title": "References to WebViewClient URL Loading Handlers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0035"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "The WebView uses a default WebViewClient with no URL allowlist, and loads any URL given by the deep link or intent extra.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+              "line": 27,
+              "detail": "No shouldOverrideUrlLoading restriction.",
+              "quote": "webView.webViewClient = WebViewClient()"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0399",
+          "kind": "test",
+          "title": "SafeBrowsing Disabled",
+          "status": "active",
+          "maswe": [
+            "MASWE-0035"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "No setSafeBrowsingEnabled(false) or manifest opt-out found; the default (enabled) applies.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+            "app/src/main/AndroidManifest.xml"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0400",
+          "kind": "test",
+          "title": "Runtime Use of WebViewClient URL Loading Handlers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0035"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0049",
+          "kind": "weakness",
+          "title": "Unsafe Dynamic Code Loading",
+          "status": "active",
+          "maswe": [
+            "MASWE-0049"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-CRYPTO-1",
+      "title": "The app employs current strong cryptography and uses it according to industry best practices.",
+      "verdict": "FAIL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0204",
+          "kind": "test",
+          "title": "Insecure Random API Usage",
+          "status": "active",
+          "maswe": [
+            "MASWE-0012"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "Share-link tokens (access secrets for monthly reports) are generated with java.util.Random, which is not cryptographically secure.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/share/ShareLinks.kt",
+              "line": 11,
+              "detail": "Predictable PRNG used for a security token.",
+              "quote": "private val random = Random()"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/share/ShareLinks.kt",
+            "app/src/main/java/app/pennyjar/ui/AvatarColors.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0205",
+          "kind": "test",
+          "title": "Non-random Sources Usage",
+          "status": "active",
+          "maswe": [
+            "MASWE-0012"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "No timestamps or other non-random sources used as randomness for security. The seeded Random in AvatarColors only picks a colour.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/ui/AvatarColors.kt",
+            "app/src/main/java/app/pennyjar/share/ShareLinks.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0221",
+          "kind": "test",
+          "title": "Broken Symmetric Encryption Algorithms",
+          "status": "active",
+          "maswe": [
+            "MASWE-0007"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Only AES is used for encryption; no DES/3DES/RC4. MD5 in ThumbnailCache is a hash used for cache file names, not encryption.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/crypto/NoteCipher.kt",
+            "app/src/main/java/app/pennyjar/auth/TokenStore.kt",
+            "app/src/main/java/app/pennyjar/ui/ThumbnailCache.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0232",
+          "kind": "test",
+          "title": "Broken Symmetric Encryption Modes",
+          "status": "active",
+          "maswe": [
+            "MASWE-0007"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "Notes are encrypted with AES in ECB mode, which leaks patterns and has no integrity.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/crypto/NoteCipher.kt",
+              "line": 9,
+              "detail": "ECB transformation.",
+              "quote": "\"AES/ECB/PKCS5Padding\""
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/crypto/NoteCipher.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0307",
+          "kind": "test",
+          "title": "References to Asymmetric Key Pairs Used For Multiple Purposes",
+          "status": "active",
+          "maswe": [
+            "MASWE-0007",
+            "MASWE-0010"
+          ],
+          "verdict": "N/A",
+          "by": "agent",
+          "reason": "Searched for KeyPairGenerator and asymmetric keys: none. Only AES keys are used.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0308",
+          "kind": "test",
+          "title": "Runtime Use of Asymmetric Key Pairs Used For Multiple Purposes",
+          "status": "active",
+          "maswe": [
+            "MASWE-0007",
+            "MASWE-0010"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0309",
+          "kind": "test",
+          "title": "References to Reused Initialization Vectors in Symmetric Encryption",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0007"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0310",
+          "kind": "test",
+          "title": "Runtime Use of Reused Initialization Vectors in Symmetric Encryption",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0007"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0312",
+          "kind": "test",
+          "title": "References to Explicit Security Provider in Cryptographic APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0007"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Cipher.getInstance is called without an explicit provider; the only provider named is AndroidKeyStore for key generation.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/crypto/NoteCipher.kt",
+            "app/src/main/java/app/pennyjar/auth/TokenStore.kt",
+            "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0350",
+          "kind": "test",
+          "title": "Runtime Use of Broken Symmetric Encryption Modes",
+          "status": "active",
+          "maswe": [
+            "MASWE-0007"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0008",
+          "kind": "weakness",
+          "title": "Improper Hashing",
+          "status": "active",
+          "maswe": [
+            "MASWE-0008"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0009",
+          "kind": "weakness",
+          "title": "Improper Use of Message Authentication Code (MAC)",
+          "status": "active",
+          "maswe": [
+            "MASWE-0009"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0011",
+          "kind": "weakness",
+          "title": "Improper Verification of Cryptographic Signature",
+          "status": "active",
+          "maswe": [
+            "MASWE-0011"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0047",
+          "kind": "weakness",
+          "title": "Using Non-Standard APIs for Security-Critical Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0047"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-CRYPTO-2",
+      "title": "The app performs key management according to industry best practices.",
+      "verdict": "FAIL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0207",
+          "kind": "test",
+          "title": "Runtime Storage of Unencrypted Data in the App Sandbox",
+          "status": "active",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0208",
+          "kind": "test",
+          "title": "Insufficient Key Sizes",
+          "status": "active",
+          "maswe": [
+            "MASWE-0013"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Keys are AES-256 (Keystore) and AES-128 (hardcoded, flagged under hardcoded keys). No RSA/EC keys.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt",
+            "app/src/main/java/app/pennyjar/crypto/NoteKeys.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0212",
+          "kind": "test",
+          "title": "Use of Hardcoded Cryptographic Keys in Code",
+          "status": "active",
+          "maswe": [
+            "MASWE-0003"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "The AES key used to encrypt notes is a constant byte array in the app code.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/crypto/NoteKeys.kt",
+              "line": 8,
+              "detail": "Hardcoded key bytes passed to SecretKeySpec.",
+              "quote": "private val keyBytes = byteArrayOf("
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/crypto/NoteKeys.kt",
+            "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0221",
+          "kind": "test",
+          "title": "Broken Symmetric Encryption Algorithms",
+          "status": "active",
+          "maswe": [
+            "MASWE-0007"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Only AES is used for encryption; no DES/3DES/RC4. MD5 in ThumbnailCache is a hash used for cache file names, not encryption.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/crypto/NoteCipher.kt",
+            "app/src/main/java/app/pennyjar/auth/TokenStore.kt",
+            "app/src/main/java/app/pennyjar/ui/ThumbnailCache.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0232",
+          "kind": "test",
+          "title": "Broken Symmetric Encryption Modes",
+          "status": "active",
+          "maswe": [
+            "MASWE-0007"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "Notes are encrypted with AES in ECB mode, which leaks patterns and has no integrity.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/crypto/NoteCipher.kt",
+              "line": 9,
+              "detail": "ECB transformation.",
+              "quote": "\"AES/ECB/PKCS5Padding\""
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/crypto/NoteCipher.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0247",
+          "kind": "test",
+          "title": "References to APIs for Detecting Secure Screen Lock",
+          "status": "active",
+          "maswe": [
+            "MASWE-0017"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "No isDeviceSecure/KeyguardManager use found, and Keystore keys do not require user authentication. Whether the token needs a screen-lock gate is a human decision.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt",
+            "app/src/main/java/app/pennyjar/auth/TokenStore.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0249",
+          "kind": "test",
+          "title": "Runtime Use of Secure Screen Lock Detection APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0017"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0287",
+          "kind": "test",
+          "title": "Runtime Storage of Unencrypted Data via the SharedPreferences API",
+          "status": "active",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "The user's email and password are stored in plain text in SharedPreferences ('Remember me').",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/auth/CredentialStore.kt",
+              "line": 12,
+              "detail": "Password written unencrypted to the 'credentials' prefs file.",
+              "quote": ".putString(KEY_PASSWORD, password)"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/auth/CredentialStore.kt",
+            "app/src/main/java/app/pennyjar/auth/AuthRepository.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0304",
+          "kind": "test",
+          "title": "References to Sensitive Data Unencrypted via Android Room Database",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0305",
+          "kind": "test",
+          "title": "Sensitive Data Stored Unencrypted via DataStore",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0306",
+          "kind": "test",
+          "title": "References to Sensitive Data Stored Unencrypted via Android Room DB",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0307",
+          "kind": "test",
+          "title": "References to Asymmetric Key Pairs Used For Multiple Purposes",
+          "status": "active",
+          "maswe": [
+            "MASWE-0007",
+            "MASWE-0010"
+          ],
+          "verdict": "N/A",
+          "by": "agent",
+          "reason": "Searched for KeyPairGenerator and asymmetric keys: none. Only AES keys are used.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0308",
+          "kind": "test",
+          "title": "Runtime Use of Asymmetric Key Pairs Used For Multiple Purposes",
+          "status": "active",
+          "maswe": [
+            "MASWE-0007",
+            "MASWE-0010"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0309",
+          "kind": "test",
+          "title": "References to Reused Initialization Vectors in Symmetric Encryption",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0007"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0310",
+          "kind": "test",
+          "title": "Runtime Use of Reused Initialization Vectors in Symmetric Encryption",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0007"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0312",
+          "kind": "test",
+          "title": "References to Explicit Security Provider in Cryptographic APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0007"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Cipher.getInstance is called without an explicit provider; the only provider named is AndroidKeyStore for key generation.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/crypto/NoteCipher.kt",
+            "app/src/main/java/app/pennyjar/auth/TokenStore.kt",
+            "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0320",
+          "kind": "test",
+          "title": "WebViews Not Cleaning Up Sensitive Data",
+          "status": "active",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0327",
+          "kind": "test",
+          "title": "References to APIs for Event-Bound Biometric Authentication",
+          "status": "active",
+          "maswe": [
+            "MASWE-0020"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "BiometricPrompt.authenticate is called without a CryptoObject, so the unlock is a callback result only and can be bypassed by hooking the callback. No Keystore key is bound to the biometric.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
+              "line": 51,
+              "detail": "authenticate called with PromptInfo only.",
+              "quote": "prompt.authenticate(promptInfo)"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
+            "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0328",
+          "kind": "test",
+          "title": "References to APIs Detecting Biometric Enrollment Changes",
+          "status": "active",
+          "maswe": [
+            "MASWE-0022"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "No biometric-bound key exists, so there is no enrollment-change invalidation (setInvalidatedByBiometricEnrollment) to check. Resolving the CryptoObject issue comes first.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
+            "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0329",
+          "kind": "test",
+          "title": "References to APIs Enforcing Authentication without Explicit User Action",
+          "status": "active",
+          "maswe": [
+            "MASWE-0020"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "BiometricPrompt.PromptInfo does not call setConfirmationRequired; the default applies. Whether passive biometrics are acceptable is a human decision.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/auth/BiometricGate.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0330",
+          "kind": "test",
+          "title": "References to APIs for Keys used in Biometric Authentication with Extended Validity Duration",
+          "status": "active",
+          "maswe": [
+            "MASWE-0020"
+          ],
+          "verdict": "N/A",
+          "by": "agent",
+          "reason": "Searched for setUserAuthenticationRequired and validity durations: no keys use biometric authentication.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0350",
+          "kind": "test",
+          "title": "Runtime Use of Broken Symmetric Encryption Modes",
+          "status": "active",
+          "maswe": [
+            "MASWE-0007"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0009",
+          "kind": "weakness",
+          "title": "Improper Use of Message Authentication Code (MAC)",
+          "status": "active",
+          "maswe": [
+            "MASWE-0009"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0014",
+          "kind": "weakness",
+          "title": "Improper Cryptographic Key Derivation",
+          "status": "active",
+          "maswe": [
+            "MASWE-0014"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0015",
+          "kind": "weakness",
+          "title": "Cryptographic Key Rotation Not Implemented",
+          "status": "active",
+          "maswe": [
+            "MASWE-0015"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0016",
+          "kind": "weakness",
+          "title": "Cryptographic Key Access Not Restricted",
+          "status": "active",
+          "maswe": [
+            "MASWE-0016"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0046",
+          "kind": "weakness",
+          "title": "Use of Deprecated APIs or Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0046"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-NETWORK-1",
+      "title": "The app secures all network traffic according to the current best practices.",
+      "verdict": "FAIL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0217",
+          "kind": "test",
+          "title": "Insecure TLS Protocols Explicitly Allowed in Code",
+          "status": "active",
+          "maswe": [
+            "MASWE-0026"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "No explicit SSLv3/TLS 1.0/1.1 protocol lists. UploadClient asks for the generic 'TLS' context (but see trust and hostname findings).",
+          "evidence": [],
+          "filesInspected": [
+            "sync/src/main/java/app/pennyjar/sync/UploadClient.kt",
+            "sync/src/main/java/app/pennyjar/sync/ApiClient.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0218",
+          "kind": "test",
+          "title": "Insecure TLS Protocols in Network Traffic",
+          "status": "active",
+          "maswe": [
+            "MASWE-0026"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0233",
+          "kind": "test",
+          "title": "Hardcoded HTTP URLs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0026"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "A hardcoded http:// URL is used for receipt images; the cleartext-permitting network config allows it. Debug-only http://10.0.2.2 in sync/build.gradle.kts is not counted.",
+          "evidence": [
+            {
+              "file": "sync/src/main/java/app/pennyjar/sync/Endpoints.kt",
+              "line": 6,
+              "detail": "Cleartext receipt image base URL.",
+              "quote": "\"http://images.pennyjar.example/receipts/\""
+            }
+          ],
+          "filesInspected": [
+            "sync/src/main/java/app/pennyjar/sync/Endpoints.kt",
+            "sync/build.gradle.kts"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0234",
+          "kind": "test",
+          "title": "Missing Implementation of Server Hostname Verification with SSLSockets",
+          "status": "active",
+          "maswe": [
+            "MASWE-0027"
+          ],
+          "verdict": "N/A",
+          "by": "agent",
+          "reason": "No direct SSLSocket use; connections go through OkHttp.",
+          "evidence": [],
+          "filesInspected": [
+            "sync/src/main/java/app/pennyjar/sync/ApiClient.kt",
+            "sync/src/main/java/app/pennyjar/sync/UploadClient.kt",
+            "app/src/main/java/app/pennyjar/support/SupportClient.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0235",
+          "kind": "test",
+          "title": "Android App Configurations Allowing Cleartext Traffic",
+          "status": "active",
+          "maswe": [
+            "MASWE-0026"
+          ],
+          "verdict": "FAIL",
+          "by": "analyzer",
+          "reason": "The network security config's base-config permits cleartext traffic for every domain.",
+          "evidence": [
+            {
+              "file": "app/src/main/res/xml/network_security_config.xml",
+              "line": 3,
+              "detail": "base-config cleartextTrafficPermitted=\"true\""
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "network"
+        },
+        {
+          "id": "MASTG-TEST-0236",
+          "kind": "test",
+          "title": "Cleartext Traffic Observed on the Network",
+          "status": "active",
+          "maswe": [
+            "MASWE-0026"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0237",
+          "kind": "test",
+          "title": "Cross-Platform Framework Configurations Allowing Cleartext Traffic",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0026"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0238",
+          "kind": "test",
+          "title": "Runtime Use of Network APIs Transmitting Cleartext Traffic",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0026"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0239",
+          "kind": "test",
+          "title": "Using low-level APIs (e.g. Socket) to set up a custom HTTP connection",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0026"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0282",
+          "kind": "test",
+          "title": "Unsafe Custom Trust Evaluation",
+          "status": "active",
+          "maswe": [
+            "MASWE-0027"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "UploadClient installs an X509TrustManager whose checkServerTrusted does nothing, so any certificate is accepted.",
+          "evidence": [
+            {
+              "file": "sync/src/main/java/app/pennyjar/sync/UploadClient.kt",
+              "line": 19,
+              "detail": "Empty server certificate check.",
+              "quote": "override fun checkServerTrusted(chain: Array<X509Certificate>, authType: String) {}"
+            }
+          ],
+          "filesInspected": [
+            "sync/src/main/java/app/pennyjar/sync/UploadClient.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0283",
+          "kind": "test",
+          "title": "Incorrect Implementation of Server Hostname Verification",
+          "status": "active",
+          "maswe": [
+            "MASWE-0027"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "UploadClient's hostname verifier accepts every host.",
+          "evidence": [
+            {
+              "file": "sync/src/main/java/app/pennyjar/sync/UploadClient.kt",
+              "line": 28,
+              "detail": "Always-true hostname verifier.",
+              "quote": ".hostnameVerifier { _, _ -> true }"
+            }
+          ],
+          "filesInspected": [
+            "sync/src/main/java/app/pennyjar/sync/UploadClient.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0284",
+          "kind": "test",
+          "title": "Incorrect SSL Error Handling in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0027"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "The WebViewClient does not override onReceivedSslError, so the WebView default (cancel the load) applies.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0285",
+          "kind": "test",
+          "title": "Outdated Android Version Allowing Trust in User-Provided CAs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0027"
+          ],
+          "verdict": "NO FINDING",
+          "by": "analyzer",
+          "reason": "No configuration trusts user-installed CAs.",
+          "evidence": [
+            {
+              "file": "app/src/main/res/xml/network_security_config.xml",
+              "line": 3,
+              "detail": "base-config trust anchors: system"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "network"
+        },
+        {
+          "id": "MASTG-TEST-0286",
+          "kind": "test",
+          "title": "Network Security Configuration Allowing Trust in User-Provided CAs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0027"
+          ],
+          "verdict": "NO FINDING",
+          "by": "analyzer",
+          "reason": "No configuration trusts user-installed CAs.",
+          "evidence": [
+            {
+              "file": "app/src/main/res/xml/network_security_config.xml",
+              "line": 3,
+              "detail": "base-config trust anchors: system"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "network"
+        },
+        {
+          "id": "MASTG-TEST-0295",
+          "kind": "test",
+          "title": "GMS Security Provider Not Updated",
+          "status": "active",
+          "maswe": [
+            "MASWE-0027"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "No Google Play services dependency or ProviderInstaller call found; whether the security provider needs updating on the supported devices is a human decision.",
+          "evidence": [],
+          "filesInspected": [
+            "app/build.gradle.kts",
+            "gradle/libs.versions.toml"
+          ]
+        },
+        {
+          "id": "MASWE-0047",
+          "kind": "weakness",
+          "title": "Using Non-Standard APIs for Security-Critical Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0047"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0062",
+          "kind": "weakness",
+          "title": "No Application-Level Payload Encryption",
+          "status": "active",
+          "maswe": [
+            "MASWE-0062"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-NETWORK-2",
+      "title": "The app performs identity pinning for all remote endpoints under the developer's control.",
+      "verdict": "MANUAL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0242",
+          "kind": "test",
+          "title": "Missing Certificate Pinning in Network Security Configuration",
+          "status": "active",
+          "maswe": [
+            "MASWE-0028"
+          ],
+          "verdict": "MANUAL",
+          "by": "analyzer",
+          "reason": "No pin-set in a network security config. Pinning may be done in code (OkHttp CertificatePinner, a custom TrustManager), which Ward doesn't read. MASVS L2 expects pinning; L1 doesn't.",
+          "evidence": [
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 16,
+              "detail": "networkSecurityConfig @xml/network_security_config"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "network"
+        },
+        {
+          "id": "MASTG-TEST-0243",
+          "kind": "test",
+          "title": "Expired Certificate Pins in the Network Security Configuration",
+          "status": "active",
+          "maswe": [
+            "MASWE-0028"
+          ],
+          "verdict": "N/A",
+          "by": "analyzer",
+          "reason": "No pin-sets.",
+          "evidence": [],
+          "filesInspected": [],
+          "analyzer": "network"
+        },
+        {
+          "id": "MASTG-TEST-0244",
+          "kind": "test",
+          "title": "Missing Certificate Pinning in Network Traffic",
+          "status": "active",
+          "maswe": [
+            "MASWE-0028"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-PLATFORM-1",
+      "title": "The app uses IPC mechanisms securely.",
+      "verdict": "FAIL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0355",
+          "kind": "test",
+          "title": "References to Unauthorized Database Access through Content Providers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "FAIL",
+          "by": "analyzer",
+          "reason": "A content provider is exported with no permission: any installed app can query it. If it is public by design, accept it with a reason.",
+          "evidence": [
+            {
+              "file": "sync/src/main/AndroidManifest.xml",
+              "line": 7,
+              "detail": "provider app.pennyjar.sync.ReceiptsProvider; exported: yes (android:exported is set)"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0356",
+          "kind": "test",
+          "title": "Runtime Verification of Unauthorized Database Access through Content Providers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0357",
+          "kind": "test",
+          "title": "References to Oversharing of File-Based Content Providers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "FAIL",
+          "by": "analyzer",
+          "reason": "A content provider is exported with no permission: any installed app can query it. If it is public by design, accept it with a reason.",
+          "evidence": [
+            {
+              "file": "sync/src/main/AndroidManifest.xml",
+              "line": 7,
+              "detail": "provider app.pennyjar.sync.ReceiptsProvider; exported: yes (android:exported is set)"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0364",
+          "kind": "test",
+          "title": "Exported And Unprotected Activities That Expose Sensitive Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "MANUAL",
+          "by": "analyzer",
+          "reason": "Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.",
+          "evidence": [
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 30,
+              "detail": "activity .help.HelpActivity; exported: yes (android:exported is set); deep link schemes: pennyjar"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0365",
+          "kind": "test",
+          "title": "Exported And Unprotected Services That Expose Sensitive Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "NO FINDING",
+          "by": "analyzer",
+          "reason": "No exported services without a permission (launcher activities aside).",
+          "evidence": [],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0366",
+          "kind": "test",
+          "title": "Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "NO FINDING",
+          "by": "analyzer",
+          "reason": "No exported receivers without a permission (launcher activities aside).",
+          "evidence": [],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0372",
+          "kind": "test",
+          "title": "Implicit Intents Used for Internal App Communication",
+          "status": "active",
+          "maswe": [
+            "MASWE-0032"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Internal navigation uses explicit intents (Intent(context, HelpActivity::class.java)); the only implicit intents are user-initiated share chooser calls.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+            "app/src/main/java/app/pennyjar/ui/ExpenseListScreen.kt",
+            "app/src/main/java/app/pennyjar/ui/ReceiptSharing.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0374",
+          "kind": "test",
+          "title": "References to Implicit Intents Carrying Sensitive Extras",
+          "status": "active",
+          "maswe": [
+            "MASWE-0032"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "The implicit ACTION_SEND intents carry a share link and a receipt image through a user-chosen chooser, which is the intended sharing. The image is passed as a FileProvider URI scoped to cache/shared_images.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/ui/ExpenseListScreen.kt",
+            "app/src/main/java/app/pennyjar/ui/ReceiptSharing.kt",
+            "app/src/main/res/xml/file_paths.xml"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0381",
+          "kind": "test",
+          "title": "References to Insecure PendingIntent Creation",
+          "status": "active",
+          "maswe": [
+            "MASWE-0032"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Searched all sources for PendingIntent: none created.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+            "app/src/main/java/app/pennyjar/ui/ReceiptSharing.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0393",
+          "kind": "test",
+          "title": "Use of Unverified App Links",
+          "status": "active",
+          "maswe": [
+            "MASWE-0029"
+          ],
+          "verdict": "N/A",
+          "by": "agent",
+          "reason": "The manifest has a custom scheme (pennyjar://help) only; no http/https App Links with autoVerify.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/AndroidManifest.xml"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0394",
+          "kind": "test",
+          "title": "Missing Input Validation in Custom URL Scheme Handlers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0029"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "The exported pennyjar://help deep link passes the unvalidated 'page' query parameter straight to WebView.loadUrl, in a WebView with JavaScript and the token bridge.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+              "line": 40,
+              "detail": "Attacker-controlled URI parameter read without validation.",
+              "quote": "intent.data?.getQueryParameter(\"page\")"
+            },
+            {
+              "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+              "line": 43,
+              "detail": "Value loaded as a URL with no allowlist.",
+              "quote": "webView.loadUrl(page)"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/AndroidManifest.xml",
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt"
+          ]
+        },
+        {
+          "id": "MASWE-0030",
+          "kind": "weakness",
+          "title": "Improper Use of the Clipboard",
+          "status": "active",
+          "maswe": [
+            "MASWE-0030"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-PLATFORM-2",
+      "title": "The app uses WebViews securely.",
+      "verdict": "FAIL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0226",
+          "kind": "test",
+          "title": "Debuggable Flag Enabled in the AndroidManifest",
+          "status": "active",
+          "maswe": [
+            "MASWE-0063"
+          ],
+          "verdict": "FAIL",
+          "by": "analyzer",
+          "reason": "The release build type sets isDebuggable to true.",
+          "evidence": [
+            {
+              "file": "app/build.gradle.kts",
+              "line": 23,
+              "detail": "isDebuggable = true"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0227",
+          "kind": "test",
+          "title": "Debugging Enabled for WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0063"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "WebView remote debugging is enabled unconditionally at app start, including in release.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+              "line": 45,
+              "detail": "WebView debugging on in all builds.",
+              "quote": "WebView.setWebContentsDebuggingEnabled(true)"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/PennyJarApp.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0250",
+          "kind": "test",
+          "title": "References to Content Provider Access in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0034"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "The only WebView sets allowContentAccess to false.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0251",
+          "kind": "test",
+          "title": "Runtime Use of Content Provider Access APIs in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0034"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0252",
+          "kind": "test",
+          "title": "References to Local File Access in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0034"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "The only WebView sets allowFileAccess to false.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0253",
+          "kind": "test",
+          "title": "Runtime Use of Local File Access APIs in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0034"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0334",
+          "kind": "test",
+          "title": "Native Code Exposed Through WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0033"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "A JavaScript bridge is added to a WebView that loads URLs taken from an intent, and the bridge exposes the session token.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+              "line": 28,
+              "detail": "Bridge object registered with the WebView.",
+              "quote": "webView.addJavascriptInterface(HelpBridge(this, app.tokenStore), \"PennyJar\")"
+            },
+            {
+              "file": "app/src/main/java/app/pennyjar/help/HelpBridge.kt",
+              "line": 14,
+              "detail": "Bridge method returns the decrypted session token to page JavaScript.",
+              "quote": "fun sessionToken(): String? = tokens.read()"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+            "app/src/main/java/app/pennyjar/help/HelpBridge.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0398",
+          "kind": "test",
+          "title": "References to WebViewClient URL Loading Handlers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0035"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "The WebView uses a default WebViewClient with no URL allowlist, and loads any URL given by the deep link or intent extra.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+              "line": 27,
+              "detail": "No shouldOverrideUrlLoading restriction.",
+              "quote": "webView.webViewClient = WebViewClient()"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0399",
+          "kind": "test",
+          "title": "SafeBrowsing Disabled",
+          "status": "active",
+          "maswe": [
+            "MASWE-0035"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "No setSafeBrowsingEnabled(false) or manifest opt-out found; the default (enabled) applies.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+            "app/src/main/AndroidManifest.xml"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0400",
+          "kind": "test",
+          "title": "Runtime Use of WebViewClient URL Loading Handlers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0035"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-PLATFORM-3",
+      "title": "The app uses the user interface securely.",
+      "verdict": "MANUAL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0258",
+          "kind": "test",
+          "title": "References to Keyboard Caching Attributes in UI Elements",
+          "status": "active",
+          "maswe": [
+            "MASWE-0036"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Password input uses OutlinedSecureTextField; other fields hold email or amounts. Ward found no sensitive free-text field lacking keyboard-cache protection.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/auth/LoginScreen.kt",
+            "app/src/main/java/app/pennyjar/support/SupportScreen.kt",
+            "app/src/main/java/app/pennyjar/ui/AddExpenseScreen.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0289",
+          "kind": "test",
+          "title": "Runtime Verification of Sensitive Content Exposure in Screenshots During App Backgrounding",
+          "status": "active",
+          "maswe": [
+            "MASWE-0038"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0291",
+          "kind": "test",
+          "title": "References to Screen Capturing Prevention APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0038"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "No FLAG_SECURE, setSecure or setRecentsScreenshotEnabled found in the code. Whether the expense and receipt screens need screenshot protection is a product decision.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/MainActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0292",
+          "kind": "test",
+          "title": "`setRecentsScreenshotEnabled` Not Used to Prevent Screenshots When Backgrounded",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0038"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0293",
+          "kind": "test",
+          "title": "`setSecure` Not Used to Prevent Screenshots in SurfaceViews",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0038"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0294",
+          "kind": "test",
+          "title": "`SecureOn` Not Used to Prevent Screenshots in Compose Dialogs",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0038"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0315",
+          "kind": "test",
+          "title": "Sensitive Data Exposed via Notifications",
+          "status": "active",
+          "maswe": [
+            "MASWE-0037"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Searched all sources for NotificationCompat and NotificationManager: the app posts no notifications.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+            "app/src/main/java/app/pennyjar/MainActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0316",
+          "kind": "test",
+          "title": "App Exposing User Authentication Data in Text Input Fields",
+          "status": "active",
+          "maswe": [
+            "MASWE-0036"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "The login password field is a secure text field.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/auth/LoginScreen.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0340",
+          "kind": "test",
+          "title": "References to Overlay Attack Protections",
+          "status": "active",
+          "maswe": [
+            "MASWE-0036"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "No filterTouchesWhenObscured or similar overlay protection found; whether it is needed is a human decision.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/MainActivity.kt"
+          ]
+        },
+        {
+          "id": "MASWE-0023",
+          "kind": "weakness",
+          "title": "Step-Up Authentication Not Implemented for Sensitive Actions",
+          "status": "active",
+          "maswe": [
+            "MASWE-0023"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0039",
+          "kind": "weakness",
+          "title": "App Vulnerable to Overlay Attacks",
+          "status": "active",
+          "maswe": [
+            "MASWE-0039"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0040",
+          "kind": "weakness",
+          "title": "Sensitive Data Leaked via Accessibility Services",
+          "status": "active",
+          "maswe": [
+            "MASWE-0040"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-PRIVACY-1",
+      "title": "The app minimizes access to sensitive data and resources.",
+      "verdict": "FAIL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0206",
+          "kind": "test",
+          "title": "Undeclared PII in Network Traffic Capture",
+          "status": "active",
+          "maswe": [
+            "MASWE-0073"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0254",
+          "kind": "test",
+          "title": "Dangerous App Permissions",
+          "status": "active",
+          "maswe": [
+            "MASWE-0066"
+          ],
+          "verdict": "MANUAL",
+          "by": "analyzer",
+          "reason": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.",
+          "evidence": [
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 6,
+              "detail": "android.permission.ACCESS_COARSE_LOCATION"
+            },
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 7,
+              "detail": "android.permission.ACCESS_FINE_LOCATION"
+            },
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 8,
+              "detail": "android.permission.ACCESS_BACKGROUND_LOCATION"
+            },
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 9,
+              "detail": "android.permission.WRITE_EXTERNAL_STORAGE"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0255",
+          "kind": "test",
+          "title": "Permission Requests Not Minimized",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0066"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0256",
+          "kind": "test",
+          "title": "Missing Permission Rationale",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0066"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0257",
+          "kind": "test",
+          "title": "Not Resetting Unused Permissions",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0066"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0318",
+          "kind": "test",
+          "title": "References to SDK APIs Known to Handle Sensitive User Data",
+          "status": "active",
+          "maswe": [
+            "MASWE-0073"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "The Mixpanel SDK is initialised and tracks events at app start with no check of the stored analytics consent; it identifies the user by email and sends merchant names.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+              "line": 51,
+              "detail": "SDK started before any consent check.",
+              "quote": "MixpanelAPI.getInstance(this, Analytics.MIXPANEL_PROJECT_TOKEN, true)"
+            },
+            {
+              "file": "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+              "line": 14,
+              "detail": "User email used as analytics identity.",
+              "quote": "mixpanel.identify(email)"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+            "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+            "app/src/main/java/app/pennyjar/consent/ConsentStore.kt",
+            "app/src/main/java/app/pennyjar/MainActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0319",
+          "kind": "test",
+          "title": "Runtime Use of SDK APIs Known to Handle Sensitive User Data",
+          "status": "active",
+          "maswe": [
+            "MASWE-0073"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-PRIVACY-2",
+      "title": "The app prevents identification of the user.",
+      "verdict": "MANUAL",
+      "checks": [
+        {
+          "id": "MASWE-0067",
+          "kind": "weakness",
+          "title": "Lack of Anonymization or Pseudonymisation Measures",
+          "status": "active",
+          "maswe": [
+            "MASWE-0067"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0068",
+          "kind": "weakness",
+          "title": "Incorrect Use of Identifiers for User Tracking",
+          "status": "active",
+          "maswe": [
+            "MASWE-0068"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0069",
+          "kind": "weakness",
+          "title": "Usage of Non-Privacy-Preserving Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0069"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0070",
+          "kind": "weakness",
+          "title": "Inadequate Awareness for Privacy Relevant Actions",
+          "status": "active",
+          "maswe": [
+            "MASWE-0070"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0071",
+          "kind": "weakness",
+          "title": "Inadequate Defaults for Privacy Relevant Actions",
+          "status": "active",
+          "maswe": [
+            "MASWE-0071"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-PRIVACY-3",
+      "title": "The app is transparent about data collection and usage.",
+      "verdict": "FAIL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0206",
+          "kind": "test",
+          "title": "Undeclared PII in Network Traffic Capture",
+          "status": "active",
+          "maswe": [
+            "MASWE-0073"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0318",
+          "kind": "test",
+          "title": "References to SDK APIs Known to Handle Sensitive User Data",
+          "status": "active",
+          "maswe": [
+            "MASWE-0073"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "The Mixpanel SDK is initialised and tracks events at app start with no check of the stored analytics consent; it identifies the user by email and sends merchant names.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+              "line": 51,
+              "detail": "SDK started before any consent check.",
+              "quote": "MixpanelAPI.getInstance(this, Analytics.MIXPANEL_PROJECT_TOKEN, true)"
+            },
+            {
+              "file": "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+              "line": 14,
+              "detail": "User email used as analytics identity.",
+              "quote": "mixpanel.identify(email)"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+            "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+            "app/src/main/java/app/pennyjar/consent/ConsentStore.kt",
+            "app/src/main/java/app/pennyjar/MainActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0319",
+          "kind": "test",
+          "title": "Runtime Use of SDK APIs Known to Handle Sensitive User Data",
+          "status": "active",
+          "maswe": [
+            "MASWE-0073"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0072",
+          "kind": "weakness",
+          "title": "Inadequate Privacy Policy",
+          "status": "active",
+          "maswe": [
+            "MASWE-0072"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0074",
+          "kind": "weakness",
+          "title": "Inadequate Tracking Domains Declarations",
+          "status": "active",
+          "maswe": [
+            "MASWE-0074"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0075",
+          "kind": "weakness",
+          "title": "Non-Reproducible Builds",
+          "status": "active",
+          "maswe": [
+            "MASWE-0075"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-PRIVACY-4",
+      "title": "The app offers user control over their data.",
+      "verdict": "MANUAL",
+      "checks": [
+        {
+          "id": "MASWE-0076",
+          "kind": "weakness",
+          "title": "Lack of Proper Data Management Controls",
+          "status": "active",
+          "maswe": [
+            "MASWE-0076"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0077",
+          "kind": "weakness",
+          "title": "Inadequate Data Visibility Controls",
+          "status": "active",
+          "maswe": [
+            "MASWE-0077"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0078",
+          "kind": "weakness",
+          "title": "Inadequate or Ambiguous User Consent Mechanisms",
+          "status": "active",
+          "maswe": [
+            "MASWE-0078"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-RESILIENCE-1",
+      "title": "The app validates the integrity of the platform.",
+      "verdict": "MANUAL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0324",
+          "kind": "test",
+          "title": "References to Root Detection Mechanisms",
+          "status": "active",
+          "maswe": [
+            "MASWE-0051"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "No root detection code found. Whether the app should have it is a resilience (R profile) decision.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+            "app/src/main/java/app/pennyjar/MainActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0325",
+          "kind": "test",
+          "title": "Runtime Use of Root Detection Techniques",
+          "status": "active",
+          "maswe": [
+            "MASWE-0051"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0351",
+          "kind": "test",
+          "title": "Runtime Use of Emulator Detection Techniques",
+          "status": "active",
+          "maswe": [
+            "MASWE-0053"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0052",
+          "kind": "weakness",
+          "title": "App Virtualization Environment Detection Not Implemented",
+          "status": "active",
+          "maswe": [
+            "MASWE-0052"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0054",
+          "kind": "weakness",
+          "title": "Device Attestation Not Implemented",
+          "status": "active",
+          "maswe": [
+            "MASWE-0054"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-RESILIENCE-2",
+      "title": "The app implements anti-tampering mechanisms.",
+      "verdict": "MANUAL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0224",
+          "kind": "test",
+          "title": "Usage of Insecure APK Signature Version",
+          "status": "active",
+          "maswe": [
+            "MASWE-0056"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "No signingConfig in the Gradle files; the signature scheme comes from the signing setup and the built APK, which Ward can't see.",
+          "evidence": [],
+          "filesInspected": [
+            "app/build.gradle.kts"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0225",
+          "kind": "test",
+          "title": "Usage of Insecure APK Signature Key Size",
+          "status": "active",
+          "maswe": [
+            "MASWE-0056"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "The signing key is not in the project; check the key size on the built APK.",
+          "evidence": [],
+          "filesInspected": [
+            "app/build.gradle.kts"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0338",
+          "kind": "test",
+          "title": "References to Storage Integrity Check APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0057"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "No integrity-check APIs (signed prefs, MACs on stored data) found; whether stored data needs integrity protection is a human decision.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/settings/SettingsStore.kt",
+            "app/src/main/java/app/pennyjar/auth/TokenStore.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0341",
+          "kind": "test",
+          "title": "Runtime Use of Hook Detection Techniques",
+          "status": "active",
+          "maswe": [
+            "MASWE-0058"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0055",
+          "kind": "weakness",
+          "title": "Malware Detection Not Implemented",
+          "status": "active",
+          "maswe": [
+            "MASWE-0055"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-RESILIENCE-3",
+      "title": "The app implements anti-static analysis mechanisms.",
+      "verdict": "MANUAL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0263",
+          "kind": "test",
+          "title": "Logging of StrictMode Violations",
+          "status": "active",
+          "maswe": [
+            "MASWE-0061"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0264",
+          "kind": "test",
+          "title": "Runtime Use of StrictMode APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0061"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0265",
+          "kind": "test",
+          "title": "References to StrictMode APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0061"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Searched all sources for StrictMode: no references.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+            "sync/src/main/java/app/pennyjar/sync/Sync.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0288",
+          "kind": "test",
+          "title": "Debugging Symbols in Native Binaries",
+          "status": "active",
+          "maswe": [
+            "MASWE-0061"
+          ],
+          "verdict": "N/A",
+          "by": "agent",
+          "reason": "No native binaries in the project.",
+          "evidence": [],
+          "filesInspected": [
+            "app/build.gradle.kts",
+            "sync/build.gradle.kts"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0368",
+          "kind": "test",
+          "title": "Insufficient Obfuscation of Security-Relevant Java/Kotlin Code",
+          "status": "active",
+          "maswe": [
+            "MASWE-0059"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Release enables R8 (isMinifyEnabled and isShrinkResources). The only keep rule is for the JavaScript interface. This isn't a judgement of obfuscation strength.",
+          "evidence": [],
+          "filesInspected": [
+            "app/build.gradle.kts",
+            "app/proguard-rules.pro"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0369",
+          "kind": "test",
+          "title": "Insufficient Obfuscation of Security-Relevant Native Code",
+          "status": "active",
+          "maswe": [
+            "MASWE-0059"
+          ],
+          "verdict": "N/A",
+          "by": "agent",
+          "reason": "No native code in the project.",
+          "evidence": [],
+          "filesInspected": [
+            "app/build.gradle.kts",
+            "sync/build.gradle.kts"
+          ]
+        },
+        {
+          "id": "MASWE-0060",
+          "kind": "weakness",
+          "title": "Resource Obfuscation Not Implemented",
+          "status": "active",
+          "maswe": [
+            "MASWE-0060"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0062",
+          "kind": "weakness",
+          "title": "No Application-Level Payload Encryption",
+          "status": "active",
+          "maswe": [
+            "MASWE-0062"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-RESILIENCE-4",
+      "title": "The app implements anti-dynamic analysis techniques.",
+      "verdict": "FAIL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0226",
+          "kind": "test",
+          "title": "Debuggable Flag Enabled in the AndroidManifest",
+          "status": "active",
+          "maswe": [
+            "MASWE-0063"
+          ],
+          "verdict": "FAIL",
+          "by": "analyzer",
+          "reason": "The release build type sets isDebuggable to true.",
+          "evidence": [
+            {
+              "file": "app/build.gradle.kts",
+              "line": 23,
+              "detail": "isDebuggable = true"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0227",
+          "kind": "test",
+          "title": "Debugging Enabled for WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0063"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "WebView remote debugging is enabled unconditionally at app start, including in release.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+              "line": 45,
+              "detail": "WebView debugging on in all builds.",
+              "quote": "WebView.setWebContentsDebuggingEnabled(true)"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/PennyJarApp.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0324",
+          "kind": "test",
+          "title": "References to Root Detection Mechanisms",
+          "status": "active",
+          "maswe": [
+            "MASWE-0051"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "No root detection code found. Whether the app should have it is a resilience (R profile) decision.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+            "app/src/main/java/app/pennyjar/MainActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0325",
+          "kind": "test",
+          "title": "Runtime Use of Root Detection Techniques",
+          "status": "active",
+          "maswe": [
+            "MASWE-0051"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0351",
+          "kind": "test",
+          "title": "Runtime Use of Emulator Detection Techniques",
+          "status": "active",
+          "maswe": [
+            "MASWE-0053"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0352",
+          "kind": "test",
+          "title": "References to Debugging Detection APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0064"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "No debugger-detection APIs found (isDebuggerConnected, FLAG_DEBUGGABLE checks). Resilience (R profile) decision.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+            "app/src/main/java/app/pennyjar/MainActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0353",
+          "kind": "test",
+          "title": "Runtime Use of Debugging Detection APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0064"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0065",
+          "kind": "weakness",
+          "title": "Dynamic Analysis Tools Detection Not Implemented",
+          "status": "active",
+          "maswe": [
+            "MASWE-0065"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    },
+    {
+      "id": "MASVS-STORAGE-1",
+      "title": "The app securely stores sensitive data.",
+      "verdict": "FAIL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0200",
+          "kind": "test",
+          "title": "Files Written to External Storage",
+          "status": "active",
+          "maswe": [
+            "MASWE-0002"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0201",
+          "kind": "test",
+          "title": "Runtime Use of APIs to Access External Storage",
+          "status": "active",
+          "maswe": [
+            "MASWE-0002"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0202",
+          "kind": "test",
+          "title": "References to APIs and Permissions for Accessing External Storage",
+          "status": "active",
+          "maswe": [
+            "MASWE-0002"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "The app requests WRITE_EXTERNAL_STORAGE, opts out of scoped storage, and writes its expense backup to public shared Documents.",
+          "evidence": [
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 9,
+              "detail": "Legacy external storage write permission.",
+              "quote": "android.permission.WRITE_EXTERNAL_STORAGE"
+            },
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 17,
+              "detail": "Opts out of scoped storage.",
+              "quote": "android:requestLegacyExternalStorage=\"true\""
+            },
+            {
+              "file": "app/src/main/java/app/pennyjar/backup/AutoBackupWorker.kt",
+              "line": 21,
+              "detail": "Backup directory is the public Documents folder, readable by other apps with storage access.",
+              "quote": "Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/AndroidManifest.xml",
+            "app/src/main/java/app/pennyjar/backup/AutoBackupWorker.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0207",
+          "kind": "test",
+          "title": "Runtime Storage of Unencrypted Data in the App Sandbox",
+          "status": "active",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0212",
+          "kind": "test",
+          "title": "Use of Hardcoded Cryptographic Keys in Code",
+          "status": "active",
+          "maswe": [
+            "MASWE-0003"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "The AES key used to encrypt notes is a constant byte array in the app code.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/crypto/NoteKeys.kt",
+              "line": 8,
+              "detail": "Hardcoded key bytes passed to SecretKeySpec.",
+              "quote": "private val keyBytes = byteArrayOf("
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/crypto/NoteKeys.kt",
+            "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0287",
+          "kind": "test",
+          "title": "Runtime Storage of Unencrypted Data via the SharedPreferences API",
+          "status": "active",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "The user's email and password are stored in plain text in SharedPreferences ('Remember me').",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/auth/CredentialStore.kt",
+              "line": 12,
+              "detail": "Password written unencrypted to the 'credentials' prefs file.",
+              "quote": ".putString(KEY_PASSWORD, password)"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/auth/CredentialStore.kt",
+            "app/src/main/java/app/pennyjar/auth/AuthRepository.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0304",
+          "kind": "test",
+          "title": "References to Sensitive Data Unencrypted via Android Room Database",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0305",
+          "kind": "test",
+          "title": "Sensitive Data Stored Unencrypted via DataStore",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0306",
+          "kind": "test",
+          "title": "References to Sensitive Data Stored Unencrypted via Android Room DB",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0320",
+          "kind": "test",
+          "title": "WebViews Not Cleaning Up Sensitive Data",
+          "status": "active",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0004",
+          "kind": "weakness",
+          "title": "Sensitive Data Hardcoded in the App Package",
+          "status": "active",
+          "maswe": [
+            "MASWE-0004"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "A helpdesk API bearer token is hardcoded in the app (a Mixpanel project token is also embedded, which is normally client-visible).",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/support/SupportClient.kt",
+              "line": 35,
+              "detail": "Hardcoded helpdesk API token sent as a bearer credential.",
+              "quote": "HELPDESK_API_TOKEN = \"hdk.4Tq9vXm2Lr7Wc8Np3Zs6Yb1Jf5Hd0Ga\""
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/support/SupportClient.kt",
+            "app/src/main/java/app/pennyjar/analytics/Analytics.kt"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MASVS-STORAGE-2",
+      "title": "The app prevents leakage of sensitive data.",
+      "verdict": "FAIL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0200",
+          "kind": "test",
+          "title": "Files Written to External Storage",
+          "status": "active",
+          "maswe": [
+            "MASWE-0002"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0201",
+          "kind": "test",
+          "title": "Runtime Use of APIs to Access External Storage",
+          "status": "active",
+          "maswe": [
+            "MASWE-0002"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0202",
+          "kind": "test",
+          "title": "References to APIs and Permissions for Accessing External Storage",
+          "status": "active",
+          "maswe": [
+            "MASWE-0002"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "The app requests WRITE_EXTERNAL_STORAGE, opts out of scoped storage, and writes its expense backup to public shared Documents.",
+          "evidence": [
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 9,
+              "detail": "Legacy external storage write permission.",
+              "quote": "android.permission.WRITE_EXTERNAL_STORAGE"
+            },
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 17,
+              "detail": "Opts out of scoped storage.",
+              "quote": "android:requestLegacyExternalStorage=\"true\""
+            },
+            {
+              "file": "app/src/main/java/app/pennyjar/backup/AutoBackupWorker.kt",
+              "line": 21,
+              "detail": "Backup directory is the public Documents folder, readable by other apps with storage access.",
+              "quote": "Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/AndroidManifest.xml",
+            "app/src/main/java/app/pennyjar/backup/AutoBackupWorker.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0203",
+          "kind": "test",
+          "title": "Runtime Use of Logging APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0005"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0207",
+          "kind": "test",
+          "title": "Runtime Storage of Unencrypted Data in the App Sandbox",
+          "status": "active",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0216",
+          "kind": "test",
+          "title": "Sensitive Data Not Excluded From Backup",
+          "status": "active",
+          "maswe": [
+            "MASWE-0006"
+          ],
+          "verdict": "FAIL",
+          "by": "analyzer",
+          "reason": "Backup is on (android:allowBackup=\"true\") and there are no backup rules (dataExtractionRules, fullBackupContent), so every app file goes into cloud backups and device transfers.",
+          "evidence": [
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 13,
+              "detail": "android:allowBackup=\"true\""
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0231",
+          "kind": "test",
+          "title": "References to Logging APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0005"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "OkHttp's logging interceptor runs at BODY level in the release client, so request and response bodies (login credentials, bearer token) go to logcat. No direct android.util.Log calls were found.",
+          "evidence": [
+            {
+              "file": "sync/src/main/java/app/pennyjar/sync/ApiClient.kt",
+              "line": 25,
+              "detail": "Full body logging, not limited to debug builds.",
+              "quote": "level = HttpLoggingInterceptor.Level.BODY"
+            }
+          ],
+          "filesInspected": [
+            "sync/src/main/java/app/pennyjar/sync/ApiClient.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0250",
+          "kind": "test",
+          "title": "References to Content Provider Access in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0034"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "The only WebView sets allowContentAccess to false.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0251",
+          "kind": "test",
+          "title": "Runtime Use of Content Provider Access APIs in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0034"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0252",
+          "kind": "test",
+          "title": "References to Local File Access in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0034"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "The only WebView sets allowFileAccess to false.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0253",
+          "kind": "test",
+          "title": "Runtime Use of Local File Access APIs in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0034"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0258",
+          "kind": "test",
+          "title": "References to Keyboard Caching Attributes in UI Elements",
+          "status": "active",
+          "maswe": [
+            "MASWE-0036"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Password input uses OutlinedSecureTextField; other fields hold email or amounts. Ward found no sensitive free-text field lacking keyboard-cache protection.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/auth/LoginScreen.kt",
+            "app/src/main/java/app/pennyjar/support/SupportScreen.kt",
+            "app/src/main/java/app/pennyjar/ui/AddExpenseScreen.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0262",
+          "kind": "test",
+          "title": "References to Backup Configurations Not Excluding Sensitive Data",
+          "status": "active",
+          "maswe": [
+            "MASWE-0006"
+          ],
+          "verdict": "FAIL",
+          "by": "analyzer",
+          "reason": "Backup is on (android:allowBackup=\"true\") and there are no backup rules (dataExtractionRules, fullBackupContent), so every app file goes into cloud backups and device transfers.",
+          "evidence": [
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 13,
+              "detail": "android:allowBackup=\"true\""
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0287",
+          "kind": "test",
+          "title": "Runtime Storage of Unencrypted Data via the SharedPreferences API",
+          "status": "active",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "The user's email and password are stored in plain text in SharedPreferences ('Remember me').",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/auth/CredentialStore.kt",
+              "line": 12,
+              "detail": "Password written unencrypted to the 'credentials' prefs file.",
+              "quote": ".putString(KEY_PASSWORD, password)"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/auth/CredentialStore.kt",
+            "app/src/main/java/app/pennyjar/auth/AuthRepository.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0289",
+          "kind": "test",
+          "title": "Runtime Verification of Sensitive Content Exposure in Screenshots During App Backgrounding",
+          "status": "active",
+          "maswe": [
+            "MASWE-0038"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0291",
+          "kind": "test",
+          "title": "References to Screen Capturing Prevention APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0038"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "No FLAG_SECURE, setSecure or setRecentsScreenshotEnabled found in the code. Whether the expense and receipt screens need screenshot protection is a product decision.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/MainActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0292",
+          "kind": "test",
+          "title": "`setRecentsScreenshotEnabled` Not Used to Prevent Screenshots When Backgrounded",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0038"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0293",
+          "kind": "test",
+          "title": "`setSecure` Not Used to Prevent Screenshots in SurfaceViews",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0038"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0294",
+          "kind": "test",
+          "title": "`SecureOn` Not Used to Prevent Screenshots in Compose Dialogs",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0038"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0304",
+          "kind": "test",
+          "title": "References to Sensitive Data Unencrypted via Android Room Database",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0305",
+          "kind": "test",
+          "title": "Sensitive Data Stored Unencrypted via DataStore",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0306",
+          "kind": "test",
+          "title": "References to Sensitive Data Stored Unencrypted via Android Room DB",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0315",
+          "kind": "test",
+          "title": "Sensitive Data Exposed via Notifications",
+          "status": "active",
+          "maswe": [
+            "MASWE-0037"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Searched all sources for NotificationCompat and NotificationManager: the app posts no notifications.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+            "app/src/main/java/app/pennyjar/MainActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0316",
+          "kind": "test",
+          "title": "App Exposing User Authentication Data in Text Input Fields",
+          "status": "active",
+          "maswe": [
+            "MASWE-0036"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "The login password field is a secure text field.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/auth/LoginScreen.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0320",
+          "kind": "test",
+          "title": "WebViews Not Cleaning Up Sensitive Data",
+          "status": "active",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0334",
+          "kind": "test",
+          "title": "Native Code Exposed Through WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0033"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "A JavaScript bridge is added to a WebView that loads URLs taken from an intent, and the bridge exposes the session token.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+              "line": 28,
+              "detail": "Bridge object registered with the WebView.",
+              "quote": "webView.addJavascriptInterface(HelpBridge(this, app.tokenStore), \"PennyJar\")"
+            },
+            {
+              "file": "app/src/main/java/app/pennyjar/help/HelpBridge.kt",
+              "line": 14,
+              "detail": "Bridge method returns the decrypted session token to page JavaScript.",
+              "quote": "fun sessionToken(): String? = tokens.read()"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+            "app/src/main/java/app/pennyjar/help/HelpBridge.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0340",
+          "kind": "test",
+          "title": "References to Overlay Attack Protections",
+          "status": "active",
+          "maswe": [
+            "MASWE-0036"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "No filterTouchesWhenObscured or similar overlay protection found; whether it is needed is a human decision.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/MainActivity.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0355",
+          "kind": "test",
+          "title": "References to Unauthorized Database Access through Content Providers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "FAIL",
+          "by": "analyzer",
+          "reason": "A content provider is exported with no permission: any installed app can query it. If it is public by design, accept it with a reason.",
+          "evidence": [
+            {
+              "file": "sync/src/main/AndroidManifest.xml",
+              "line": 7,
+              "detail": "provider app.pennyjar.sync.ReceiptsProvider; exported: yes (android:exported is set)"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0356",
+          "kind": "test",
+          "title": "Runtime Verification of Unauthorized Database Access through Content Providers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASTG-TEST-0357",
+          "kind": "test",
+          "title": "References to Oversharing of File-Based Content Providers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "FAIL",
+          "by": "analyzer",
+          "reason": "A content provider is exported with no permission: any installed app can query it. If it is public by design, accept it with a reason.",
+          "evidence": [
+            {
+              "file": "sync/src/main/AndroidManifest.xml",
+              "line": 7,
+              "detail": "provider app.pennyjar.sync.ReceiptsProvider; exported: yes (android:exported is set)"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0364",
+          "kind": "test",
+          "title": "Exported And Unprotected Activities That Expose Sensitive Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "MANUAL",
+          "by": "analyzer",
+          "reason": "Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.",
+          "evidence": [
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 30,
+              "detail": "activity .help.HelpActivity; exported: yes (android:exported is set); deep link schemes: pennyjar"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0365",
+          "kind": "test",
+          "title": "Exported And Unprotected Services That Expose Sensitive Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "NO FINDING",
+          "by": "analyzer",
+          "reason": "No exported services without a permission (launcher activities aside).",
+          "evidence": [],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0366",
+          "kind": "test",
+          "title": "Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "NO FINDING",
+          "by": "analyzer",
+          "reason": "No exported receivers without a permission (launcher activities aside).",
+          "evidence": [],
+          "filesInspected": [],
+          "analyzer": "manifest"
+        },
+        {
+          "id": "MASTG-TEST-0372",
+          "kind": "test",
+          "title": "Implicit Intents Used for Internal App Communication",
+          "status": "active",
+          "maswe": [
+            "MASWE-0032"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Internal navigation uses explicit intents (Intent(context, HelpActivity::class.java)); the only implicit intents are user-initiated share chooser calls.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+            "app/src/main/java/app/pennyjar/ui/ExpenseListScreen.kt",
+            "app/src/main/java/app/pennyjar/ui/ReceiptSharing.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0374",
+          "kind": "test",
+          "title": "References to Implicit Intents Carrying Sensitive Extras",
+          "status": "active",
+          "maswe": [
+            "MASWE-0032"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "The implicit ACTION_SEND intents carry a share link and a receipt image through a user-chosen chooser, which is the intended sharing. The image is passed as a FileProvider URI scoped to cache/shared_images.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/ui/ExpenseListScreen.kt",
+            "app/src/main/java/app/pennyjar/ui/ReceiptSharing.kt",
+            "app/src/main/res/xml/file_paths.xml"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0381",
+          "kind": "test",
+          "title": "References to Insecure PendingIntent Creation",
+          "status": "active",
+          "maswe": [
+            "MASWE-0032"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Searched all sources for PendingIntent: none created.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+            "app/src/main/java/app/pennyjar/ui/ReceiptSharing.kt"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0393",
+          "kind": "test",
+          "title": "Use of Unverified App Links",
+          "status": "active",
+          "maswe": [
+            "MASWE-0029"
+          ],
+          "verdict": "N/A",
+          "by": "agent",
+          "reason": "The manifest has a custom scheme (pennyjar://help) only; no http/https App Links with autoVerify.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/AndroidManifest.xml"
+          ]
+        },
+        {
+          "id": "MASTG-TEST-0394",
+          "kind": "test",
+          "title": "Missing Input Validation in Custom URL Scheme Handlers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0029"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "The exported pennyjar://help deep link passes the unvalidated 'page' query parameter straight to WebView.loadUrl, in a WebView with JavaScript and the token bridge.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+              "line": 40,
+              "detail": "Attacker-controlled URI parameter read without validation.",
+              "quote": "intent.data?.getQueryParameter(\"page\")"
+            },
+            {
+              "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+              "line": 43,
+              "detail": "Value loaded as a URL with no allowlist.",
+              "quote": "webView.loadUrl(page)"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/AndroidManifest.xml",
+            "app/src/main/java/app/pennyjar/help/HelpActivity.kt"
+          ]
+        },
+        {
+          "id": "MASWE-0030",
+          "kind": "weakness",
+          "title": "Improper Use of the Clipboard",
+          "status": "active",
+          "maswe": [
+            "MASWE-0030"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        },
+        {
+          "id": "MASWE-0040",
+          "kind": "weakness",
+          "title": "Sensitive Data Leaked via Accessibility Services",
+          "status": "active",
+          "maswe": [
+            "MASWE-0040"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": []
+        }
+      ]
+    }
+  ],
+  "gaps": {
+    "pending": [],
+    "manual": [
+      "MASTG-TEST-0224",
+      "MASTG-TEST-0225",
+      "MASTG-TEST-0237",
+      "MASTG-TEST-0238",
+      "MASTG-TEST-0239",
+      "MASTG-TEST-0242",
+      "MASTG-TEST-0245",
+      "MASTG-TEST-0247",
+      "MASTG-TEST-0254",
+      "MASTG-TEST-0255",
+      "MASTG-TEST-0256",
+      "MASTG-TEST-0257",
+      "MASTG-TEST-0274",
+      "MASTG-TEST-0291",
+      "MASTG-TEST-0292",
+      "MASTG-TEST-0293",
+      "MASTG-TEST-0294",
+      "MASTG-TEST-0295",
+      "MASTG-TEST-0304",
+      "MASTG-TEST-0305",
+      "MASTG-TEST-0306",
+      "MASTG-TEST-0309",
+      "MASTG-TEST-0310",
+      "MASTG-TEST-0324",
+      "MASTG-TEST-0328",
+      "MASTG-TEST-0329",
+      "MASTG-TEST-0338",
+      "MASTG-TEST-0340",
+      "MASTG-TEST-0352",
+      "MASTG-TEST-0364",
+      "MASTG-TEST-0392",
+      "MASWE-0008",
+      "MASWE-0009",
+      "MASWE-0011",
+      "MASWE-0014",
+      "MASWE-0015",
+      "MASWE-0016",
+      "MASWE-0019",
+      "MASWE-0023",
+      "MASWE-0024",
+      "MASWE-0025",
+      "MASWE-0030",
+      "MASWE-0039",
+      "MASWE-0040",
+      "MASWE-0046",
+      "MASWE-0047",
+      "MASWE-0048",
+      "MASWE-0049",
+      "MASWE-0052",
+      "MASWE-0054",
+      "MASWE-0055",
+      "MASWE-0060",
+      "MASWE-0062",
+      "MASWE-0065",
+      "MASWE-0067",
+      "MASWE-0068",
+      "MASWE-0069",
+      "MASWE-0070",
+      "MASWE-0071",
+      "MASWE-0072",
+      "MASWE-0074",
+      "MASWE-0075",
+      "MASWE-0076",
+      "MASWE-0077",
+      "MASWE-0078"
+    ],
+    "needsDynamic": [
+      "MASTG-TEST-0200",
+      "MASTG-TEST-0201",
+      "MASTG-TEST-0203",
+      "MASTG-TEST-0206",
+      "MASTG-TEST-0207",
+      "MASTG-TEST-0218",
+      "MASTG-TEST-0236",
+      "MASTG-TEST-0244",
+      "MASTG-TEST-0249",
+      "MASTG-TEST-0251",
+      "MASTG-TEST-0253",
+      "MASTG-TEST-0263",
+      "MASTG-TEST-0264",
+      "MASTG-TEST-0289",
+      "MASTG-TEST-0308",
+      "MASTG-TEST-0319",
+      "MASTG-TEST-0320",
+      "MASTG-TEST-0325",
+      "MASTG-TEST-0341",
+      "MASTG-TEST-0350",
+      "MASTG-TEST-0351",
+      "MASTG-TEST-0353",
+      "MASTG-TEST-0356",
+      "MASTG-TEST-0375",
+      "MASTG-TEST-0382",
+      "MASTG-TEST-0400"
+    ],
+    "outOfScope": []
+  },
+  "counts": {
+    "controls": {
+      "FAIL": 15,
+      "MANUAL": 9
+    },
+    "checks": {
+      "FAIL": 42,
+      "NEEDS DYNAMIC": 46,
+      "MANUAL": 97,
+      "NO FINDING": 40,
+      "N/A": 15
+    }
+  }
+}

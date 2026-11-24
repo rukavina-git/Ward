@@ -1,0 +1,87 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["findings", "inspected"],
+  "properties": {
+    "findings": {
+      "type": "array",
+      "description": "One entry per problem. Empty if you found none.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "title",
+          "category",
+          "severity",
+          "verdict",
+          "masvs",
+          "maswe",
+          "locations",
+          "explanation"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "One line naming the problem."
+          },
+          "category": {
+            "type": "string",
+            "enum": ["security", "privacy", "play"],
+            "description": "play: a Google Play requirement or policy."
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["high", "medium", "low"]
+          },
+          "verdict": {
+            "type": "string",
+            "enum": ["FAIL", "NEEDS DYNAMIC", "MANUAL"],
+            "description": "FAIL: the code or configuration shows the problem. NEEDS DYNAMIC: only a running app can confirm it. MANUAL: it needs a human decision."
+          },
+          "masvs": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "OWASP MASVS v2 control IDs (MASVS-<GROUP>-<number>), only where you know them. Otherwise empty."
+          },
+          "maswe": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "OWASP MASWE weakness IDs (MASWE-<four digits>), only where you know them. Otherwise empty."
+          },
+          "locations": {
+            "type": "array",
+            "description": "Where the problem is. List every place when it spans several.",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["file", "line"],
+              "properties": {
+                "file": {
+                  "type": "string",
+                  "description": "Path relative to the project root."
+                },
+                "line": {
+                  "type": "integer",
+                  "description": "First line, counting from 1."
+                },
+                "endLine": {
+                  "type": "integer",
+                  "description": "Last line, if it spans several."
+                }
+              }
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "What is wrong and why it matters."
+          }
+        }
+      }
+    },
+    "inspected": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Files you read, relative to the project root."
+    }
+  }
+}

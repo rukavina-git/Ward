@@ -1,0 +1,732 @@
+{
+  "name": "example-app",
+  "keyVersion": 2,
+  "created": "2026-11-21",
+  "apps": {
+    "planted": "fixtures/example-app",
+    "clean": "fixtures/example-app-clean"
+  },
+  "concept": "Penny Jar, a personal expense tracker in Kotlin and Jetpack Compose, minSdk 26. Users sign in with email and password, log expenses with receipt photos and sync them to the Penny Jar backend over a REST API. Features: biometric app unlock, private notes on expenses encrypted on the device, share links for monthly reports, automatic backup, help pages in a WebView opened from the app and from deep links, place tagging for expenses, Mixpanel analytics with a consent screen, a support form and settings. Two Gradle modules: :app (UI and features) and :sync (a library module: REST client, receipt upload, receipts database and a content provider).",
+  "sources": [
+    {
+      "name": "OWASP MASVS",
+      "version": "v2.1.0",
+      "released": "2024-01-18",
+      "url": "https://github.com/OWASP/masvs/releases/tag/v2.1.0",
+      "licence": "CC-BY-SA-4.0"
+    },
+    {
+      "name": "OWASP MASWE",
+      "version": "v1.0.0",
+      "released": "2026-08-17",
+      "url": "https://github.com/OWASP/maswe/releases/tag/v1.0.0",
+      "licence": "CC-BY-SA-4.0"
+    },
+    {
+      "name": "OWASP MASTG",
+      "version": "v2.0.0",
+      "released": "2026-06-30",
+      "url": "https://github.com/OWASP/mastg/releases/tag/v2.0.0",
+      "licence": "CC-BY-SA-4.0"
+    }
+  ],
+  "notes": [
+    "IDs checked against the tagged releases above on 2026-11-21. Only IDs are cited; no OWASP text is copied.",
+    "MASWE v1.0.0 renumbered the weakness IDs, but MASTG v2.0.0 tests still point to the old beta IDs (MASTG-TEST-0231 names beta MASWE-0001, which is MASWE-0005 in v1.0.0). This key uses MASWE v1.0.0 IDs. Each MASWE v1.0.0 file lists its beta IDs under mappings.maswe-beta.",
+    "MASTG test IDs are from tests-beta/android (the v2 tests). The older tests/android are all deprecated in v2.0.0.",
+    "One OWASP mapping disagrees: MASTG-TEST-0334 tests JavaScript bridges (addJavascriptInterface) but names beta MASWE-0069, which v1.0.0 maps to MASWE-0034. EA-15 uses MASWE-0033, the v1.0.0 weakness for JavaScript bridges.",
+    "A location is a file path relative to the app root plus an anchor: text that occurs exactly once in that file. Step 02 makes every anchor exist; the scorer turns anchors into lines.",
+    "No issue needs a running app, so none is NEEDS DYNAMIC.",
+    "A decoy with \"app\": \"clean\" exists only in the clean twin: risky-looking code that stays after a fix. In the planted app the same anchor may belong to an issue. Decoys without \"app\" are in both apps."
+  ],
+  "items": [
+    {
+      "id": "EA-01",
+      "decoy": false,
+      "title": "Password saved in plain text for 'remember me'",
+      "category": "security",
+      "severity": "high",
+      "masvs": ["MASVS-STORAGE-1"],
+      "maswe": ["MASWE-0001"],
+      "mastg": ["MASTG-TEST-0287"],
+      "verdict": "FAIL",
+      "difficulty": "obvious",
+      "planted": "When 'remember me' is ticked, the login flow stores the user's email and password as plain strings in SharedPreferences.",
+      "fix": "Don't store the password. Keep only the session token, encrypted with an AES key held in the Android Keystore.",
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/auth/CredentialStore.kt",
+          "anchor": "putString(KEY_PASSWORD"
+        }
+      ]
+    },
+    {
+      "id": "EA-02",
+      "decoy": false,
+      "title": "Automatic backup writes all transactions to shared storage",
+      "category": "security",
+      "severity": "high",
+      "masvs": ["MASVS-STORAGE-1"],
+      "maswe": ["MASWE-0002"],
+      "mastg": ["MASTG-TEST-0202"],
+      "verdict": "FAIL",
+      "difficulty": "obvious",
+      "planted": "A periodic WorkManager job writes every expense (date, amount, category, merchant, place) to a CSV file in the public Documents folder, using WRITE_EXTERNAL_STORAGE and requestLegacyExternalStorage. With minSdk 26, on Android 8 to 10 any app with storage permission can read it. On every version the file outlives an uninstall and is readable in the Files app, over USB and by apps with all-files access.",
+      "fix": "Write the automatic backup to app-private storage. Export to shared storage only when the user asks, through the system file picker (ACTION_CREATE_DOCUMENT). Remove the storage permission.",
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/backup/AutoBackupWorker.kt",
+          "anchor": "Environment.DIRECTORY_DOCUMENTS"
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "anchor": "android.permission.WRITE_EXTERNAL_STORAGE"
+        }
+      ]
+    },
+    {
+      "id": "EA-03",
+      "decoy": false,
+      "title": "HTTP bodies and auth headers logged in release builds",
+      "category": "security",
+      "severity": "medium",
+      "masvs": ["MASVS-STORAGE-2"],
+      "maswe": ["MASWE-0005"],
+      "mastg": ["MASTG-TEST-0231"],
+      "verdict": "FAIL",
+      "difficulty": "cross-file",
+      "planted": "The REST client in :sync always adds an OkHttp logging interceptor at body level. Another interceptor adds the Authorization header, so tokens, emails and expense data reach logcat in release builds.",
+      "fix": "Add the logging interceptor only in debug builds, at basic level, and redact the Authorization header.",
+      "locations": [
+        {
+          "file": "sync/src/main/java/app/pennyjar/sync/ApiClient.kt",
+          "anchor": "HttpLoggingInterceptor.Level.BODY"
+        }
+      ]
+    },
+    {
+      "id": "EA-04",
+      "decoy": false,
+      "title": "Backups include stored credentials",
+      "category": "security",
+      "severity": "medium",
+      "masvs": ["MASVS-STORAGE-2"],
+      "maswe": ["MASWE-0006"],
+      "mastg": ["MASTG-TEST-0262"],
+      "verdict": "FAIL",
+      "difficulty": "config",
+      "planted": "allowBackup is true and there are no backup or data extraction rules, so the SharedPreferences file with the saved password (EA-01) goes into cloud backups and device transfers.",
+      "fix": "Add data extraction rules (and full backup content for older versions) that exclude the credentials and token files.",
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "anchor": "android:allowBackup=\"true\""
+        }
+      ]
+    },
+    {
+      "id": "EA-05",
+      "decoy": false,
+      "title": "Helpdesk API token with write access hardcoded in the app",
+      "category": "security",
+      "severity": "high",
+      "masvs": ["MASVS-STORAGE-1"],
+      "maswe": ["MASWE-0004"],
+      "mastg": [],
+      "verdict": "FAIL",
+      "difficulty": "obvious",
+      "planted": "The support form posts tickets straight to a third-party helpdesk API with an account-wide API token stored as a constant. Anyone who unpacks the APK can read, edit or delete every ticket.",
+      "fix": "Remove the token from the app. Send support requests to the Penny Jar backend, which holds the token.",
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/support/SupportClient.kt",
+          "anchor": "HELPDESK_API_TOKEN ="
+        }
+      ]
+    },
+    {
+      "id": "EA-06",
+      "decoy": false,
+      "title": "Hardcoded AES key for private notes",
+      "category": "security",
+      "severity": "medium",
+      "masvs": ["MASVS-CRYPTO-2"],
+      "maswe": ["MASWE-0003"],
+      "mastg": ["MASTG-TEST-0212"],
+      "verdict": "FAIL",
+      "difficulty": "cross-file",
+      "planted": "Private notes are encrypted with an AES key built from a constant byte array in one file and used by the cipher in another. The key is the same on every install.",
+      "fix": "Generate the AES key in the Android Keystore on first use and never export it.",
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/crypto/NoteKeys.kt",
+          "anchor": "SecretKeySpec("
+        }
+      ]
+    },
+    {
+      "id": "EA-07",
+      "decoy": false,
+      "title": "Private notes encrypted with AES in ECB mode",
+      "category": "security",
+      "severity": "medium",
+      "masvs": ["MASVS-CRYPTO-1"],
+      "maswe": ["MASWE-0007"],
+      "mastg": ["MASTG-TEST-0232"],
+      "verdict": "FAIL",
+      "difficulty": "obvious",
+      "planted": "The note cipher uses AES/ECB/PKCS5Padding, so equal plaintext blocks give equal ciphertext blocks.",
+      "fix": "Use AES/GCM/NoPadding with a fresh random IV per note, stored next to the ciphertext.",
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/crypto/NoteCipher.kt",
+          "anchor": "AES/ECB/PKCS5Padding"
+        }
+      ]
+    },
+    {
+      "id": "EA-08",
+      "decoy": false,
+      "title": "Share-link tokens from a non-cryptographic random generator",
+      "category": "security",
+      "severity": "medium",
+      "masvs": ["MASVS-CRYPTO-1"],
+      "maswe": ["MASWE-0012"],
+      "mastg": ["MASTG-TEST-0204"],
+      "verdict": "FAIL",
+      "difficulty": "obvious",
+      "planted": "Share links for monthly reports use a token made with java.util.Random: a non-cryptographic generator with 48 bits of state (CWE-338). The tokens are far easier to guess than a 128-bit secure token, and one generator's output predicts its later tokens.",
+      "fix": "Make the token with SecureRandom (at least 128 bits), or let the backend issue it.",
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/share/ShareLinks.kt",
+          "anchor": "Random()"
+        }
+      ]
+    },
+    {
+      "id": "EA-09",
+      "decoy": false,
+      "title": "Biometric unlock not bound to a key",
+      "category": "security",
+      "severity": "medium",
+      "masvs": ["MASVS-AUTH-2"],
+      "maswe": ["MASWE-0020"],
+      "mastg": ["MASTG-TEST-0327"],
+      "verdict": "FAIL",
+      "difficulty": "obvious",
+      "planted": "App unlock calls BiometricPrompt without a CryptoObject and sets an 'unlocked' flag in the success callback. Hooking the callback bypasses the lock.",
+      "fix": "Authenticate with a CryptoObject for a Keystore key of its own that requires biometric authentication, and unlock only if decrypting a secret sealed with that key succeeds. The session token keeps its own key, which background sync uses without a prompt.",
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
+          "anchor": "authenticate(promptInfo)"
+        }
+      ]
+    },
+    {
+      "id": "EA-10",
+      "decoy": false,
+      "title": "Cleartext traffic allowed, receipt images over HTTP",
+      "category": "security",
+      "severity": "high",
+      "masvs": ["MASVS-NETWORK-1"],
+      "maswe": ["MASWE-0026"],
+      "mastg": ["MASTG-TEST-0235", "MASTG-TEST-0233"],
+      "verdict": "FAIL",
+      "difficulty": "config",
+      "planted": "The release network security config permits cleartext in its base config, and receipt images load from an http:// base URL.",
+      "fix": "Set cleartextTrafficPermitted to false in the base config and use https:// for the image host.",
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "anchor": "cleartextTrafficPermitted=\"true\""
+        },
+        {
+          "file": "sync/src/main/java/app/pennyjar/sync/Endpoints.kt",
+          "anchor": "RECEIPT_IMAGE_BASE ="
+        }
+      ]
+    },
+    {
+      "id": "EA-11",
+      "decoy": false,
+      "title": "Receipt upload trusts any certificate and any host",
+      "category": "security",
+      "severity": "high",
+      "masvs": ["MASVS-NETWORK-1"],
+      "maswe": ["MASWE-0027"],
+      "mastg": ["MASTG-TEST-0282", "MASTG-TEST-0283"],
+      "verdict": "FAIL",
+      "difficulty": "obvious",
+      "planted": "The upload client uses an X509TrustManager whose checks are empty and a hostname verifier that always returns true.",
+      "fix": "Delete the custom trust manager and hostname verifier and use the platform defaults.",
+      "locations": [
+        {
+          "file": "sync/src/main/java/app/pennyjar/sync/UploadClient.kt",
+          "anchor": "checkServerTrusted"
+        },
+        {
+          "file": "sync/src/main/java/app/pennyjar/sync/UploadClient.kt",
+          "anchor": "hostnameVerifier"
+        }
+      ]
+    },
+    {
+      "id": "EA-12",
+      "decoy": false,
+      "title": "Receipts content provider exported without a permission",
+      "category": "security",
+      "severity": "high",
+      "masvs": ["MASVS-PLATFORM-1"],
+      "maswe": ["MASWE-0018"],
+      "mastg": ["MASTG-TEST-0355"],
+      "verdict": "FAIL",
+      "difficulty": "merged-manifest",
+      "planted": "The :sync library's own manifest declares the receipts content provider with exported=\"true\" and no permission. The app's manifest doesn't mention it; it only appears in the merged manifest. Any installed app can read every receipt.",
+      "fix": "Set exported=\"false\" on the provider; nothing outside the app uses it.",
+      "locations": [
+        {
+          "file": "sync/src/main/AndroidManifest.xml",
+          "anchor": ".ReceiptsProvider"
+        },
+        {
+          "file": "sync/src/main/java/app/pennyjar/sync/ReceiptsProvider.kt",
+          "anchor": "class ReceiptsProvider"
+        }
+      ]
+    },
+    {
+      "id": "EA-13",
+      "decoy": false,
+      "title": "SQL injection through the receipts provider",
+      "category": "security",
+      "severity": "medium",
+      "masvs": ["MASVS-CODE-4"],
+      "maswe": ["MASWE-0050"],
+      "mastg": ["MASTG-TEST-0339"],
+      "verdict": "FAIL",
+      "difficulty": "cross-file",
+      "planted": "The provider passes a URI path segment (a merchant name) to a query helper in another file, which concatenates it into raw SQL.",
+      "fix": "Use a parameterised query with selection arguments.",
+      "locations": [
+        {
+          "file": "sync/src/main/java/app/pennyjar/sync/ReceiptQueries.kt",
+          "anchor": "fun byMerchant("
+        }
+      ]
+    },
+    {
+      "id": "EA-14",
+      "decoy": false,
+      "title": "Deep link opens any URL in the help WebView",
+      "category": "security",
+      "severity": "high",
+      "masvs": ["MASVS-PLATFORM-2", "MASVS-PLATFORM-1"],
+      "maswe": ["MASWE-0035", "MASWE-0029"],
+      "mastg": ["MASTG-TEST-0394", "MASTG-TEST-0398"],
+      "verdict": "FAIL",
+      "difficulty": "cross-file",
+      "planted": "A pennyjar:// deep link declared in the manifest opens the help activity, which loads the 'page' query parameter into its JavaScript-enabled WebView without checking the host.",
+      "fix": "Load only https URLs on the help host (allow-list), and open anything else in the browser.",
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+          "anchor": "getQueryParameter(\"page\")"
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "anchor": "android:scheme=\"pennyjar\""
+        }
+      ]
+    },
+    {
+      "id": "EA-15",
+      "decoy": false,
+      "title": "WebView JavaScript bridge hands out the session token",
+      "category": "security",
+      "severity": "medium",
+      "masvs": ["MASVS-PLATFORM-2"],
+      "maswe": ["MASWE-0033"],
+      "mastg": ["MASTG-TEST-0334"],
+      "verdict": "FAIL",
+      "difficulty": "cross-file",
+      "planted": "The help WebView adds a JavaScript interface whose methods include one that returns the current session token. With EA-14, any web page can steal it.",
+      "fix": "Remove the token method from the bridge; the help pages don't need it.",
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/help/HelpBridge.kt",
+          "anchor": "fun sessionToken("
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+          "anchor": "addJavascriptInterface("
+        }
+      ]
+    },
+    {
+      "id": "EA-16",
+      "decoy": false,
+      "title": "WebView remote debugging always on",
+      "category": "security",
+      "severity": "medium",
+      "masvs": ["MASVS-RESILIENCE-4"],
+      "maswe": ["MASWE-0063"],
+      "mastg": ["MASTG-TEST-0227"],
+      "verdict": "FAIL",
+      "difficulty": "obvious",
+      "planted": "Application.onCreate enables WebView contents debugging unconditionally, in release builds too.",
+      "fix": "Enable it only in debug builds, or remove it.",
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+          "anchor": "setWebContentsDebuggingEnabled(true)"
+        }
+      ]
+    },
+    {
+      "id": "EA-17",
+      "decoy": false,
+      "title": "Release build is debuggable",
+      "category": "play",
+      "severity": "high",
+      "masvs": ["MASVS-RESILIENCE-4"],
+      "maswe": ["MASWE-0063"],
+      "mastg": ["MASTG-TEST-0226"],
+      "verdict": "FAIL",
+      "difficulty": "config",
+      "planted": "The release build type sets isDebuggable = true. Play Console rejects debuggable uploads, and a debuggable app can be attached to and inspected.",
+      "fix": "Remove isDebuggable from the release build type.",
+      "refs": ["https://developer.android.com/studio/publish/preparing"],
+      "locations": [
+        {
+          "file": "app/build.gradle.kts",
+          "anchor": "isDebuggable = true"
+        }
+      ]
+    },
+    {
+      "id": "EA-18",
+      "decoy": false,
+      "title": "targetSdk below Play's requirement",
+      "category": "play",
+      "severity": "high",
+      "masvs": ["MASVS-CODE-1"],
+      "maswe": ["MASWE-0042"],
+      "mastg": [],
+      "verdict": "FAIL",
+      "difficulty": "config",
+      "planted": "targetSdk is 34. Since 31 August 2026, Play accepts new apps and updates only if they target API 36 or higher.",
+      "fix": "Target API 36.",
+      "refs": [
+        "https://developer.android.com/google/play/requirements/target-sdk"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle.kts",
+          "anchor": "targetSdk = 34"
+        }
+      ]
+    },
+    {
+      "id": "EA-19",
+      "decoy": false,
+      "title": "Gson version with a known vulnerability",
+      "category": "security",
+      "severity": "medium",
+      "masvs": ["MASVS-CODE-3"],
+      "maswe": ["MASWE-0044"],
+      "mastg": ["MASTG-TEST-0272"],
+      "verdict": "FAIL",
+      "difficulty": "config",
+      "planted": "The version catalog pins Gson 2.8.5, affected by CVE-2022-25647 (fixed in 2.8.9).",
+      "fix": "Upgrade Gson to a current release.",
+      "refs": ["https://osv.dev/vulnerability/GHSA-4jrv-ppp4-jm57"],
+      "locations": [
+        {
+          "file": "gradle/libs.versions.toml",
+          "anchor": "gson = \"2.8.5\""
+        }
+      ]
+    },
+    {
+      "id": "EA-20",
+      "decoy": false,
+      "title": "Analytics starts before the user consents",
+      "category": "privacy",
+      "severity": "high",
+      "masvs": ["MASVS-PRIVACY-4"],
+      "maswe": ["MASWE-0078"],
+      "mastg": [],
+      "verdict": "FAIL",
+      "difficulty": "cross-file",
+      "planted": "Mixpanel is initialised and tracks app-open events in Application.onCreate. The consent screen, shown later, only stores the user's answer; nothing checks it before tracking.",
+      "fix": "Initialise Mixpanel opted out by default and opt in only after the user consents; opt out again if they decline.",
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+          "anchor": "MixpanelAPI.getInstance("
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/consent/ConsentScreen.kt",
+          "anchor": "fun ConsentScreen("
+        }
+      ]
+    },
+    {
+      "id": "EA-21",
+      "decoy": false,
+      "title": "Email used as the analytics user ID",
+      "category": "privacy",
+      "severity": "medium",
+      "masvs": ["MASVS-PRIVACY-2"],
+      "maswe": ["MASWE-0068"],
+      "mastg": [],
+      "verdict": "FAIL",
+      "difficulty": "obvious",
+      "planted": "After login, analytics identifies the user by email address and sends the merchant name with every expense event.",
+      "fix": "Identify users by a random internal ID from the backend, and don't send merchant names.",
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+          "anchor": ".identify("
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+          "anchor": "put(\"merchant\""
+        }
+      ]
+    },
+    {
+      "id": "EA-22",
+      "decoy": false,
+      "title": "Precise and background location for city tagging",
+      "category": "privacy",
+      "severity": "high",
+      "masvs": ["MASVS-PRIVACY-1"],
+      "maswe": ["MASWE-0066"],
+      "mastg": ["MASTG-TEST-0254"],
+      "verdict": "FAIL",
+      "difficulty": "config",
+      "planted": "To tag an expense with a city, the app requests fine and background location. Coarse foreground location is enough, and Play reviews background location requests strictly.",
+      "fix": "Request only ACCESS_COARSE_LOCATION, in the foreground, when the user taps 'tag place'. Remove background location.",
+      "refs": [
+        "https://support.google.com/googleplay/android-developer/answer/9799150"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "anchor": "android.permission.ACCESS_BACKGROUND_LOCATION"
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/location/PlaceTagger.kt",
+          "anchor": "ACCESS_FINE_LOCATION"
+        }
+      ]
+    },
+    {
+      "id": "EA-23",
+      "decoy": false,
+      "title": "No way to delete the account in the app",
+      "category": "privacy",
+      "severity": "high",
+      "masvs": ["MASVS-PRIVACY-4"],
+      "maswe": ["MASWE-0076"],
+      "mastg": [],
+      "verdict": "FAIL",
+      "difficulty": "absence",
+      "planted": "Users can create an account, but settings offer only sign-out. Play requires apps that allow account creation to let users delete the account from within the app.",
+      "fix": "Add 'Delete account' to settings: call the backend's delete endpoint, clear local data and sign out.",
+      "refs": [
+        "https://support.google.com/googleplay/android-developer/answer/13327111"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/settings/SettingsScreen.kt",
+          "anchor": "fun SettingsScreen("
+        }
+      ]
+    },
+    {
+      "id": "EA-D1",
+      "decoy": true,
+      "title": "MD5 used for thumbnail cache file names",
+      "category": "security",
+      "masvs": ["MASVS-CRYPTO-1"],
+      "maswe": ["MASWE-0008"],
+      "verdict": "NO FINDING",
+      "whyFine": "MD5 only turns a receipt image URL into a cache file name. No security property depends on it.",
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/ui/ThumbnailCache.kt",
+          "anchor": "MessageDigest.getInstance(\"MD5\")"
+        }
+      ]
+    },
+    {
+      "id": "EA-D2",
+      "decoy": true,
+      "title": "Non-secure random for avatar colours",
+      "category": "security",
+      "masvs": ["MASVS-CRYPTO-1"],
+      "maswe": ["MASWE-0012"],
+      "verdict": "NO FINDING",
+      "whyFine": "Random picks a placeholder avatar colour. Predicting it harms nothing.",
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/ui/AvatarColors.kt",
+          "anchor": "Random("
+        }
+      ]
+    },
+    {
+      "id": "EA-D3",
+      "decoy": true,
+      "title": "Cleartext to the emulator host in debug builds",
+      "category": "security",
+      "masvs": ["MASVS-NETWORK-1"],
+      "maswe": ["MASWE-0026"],
+      "verdict": "NO FINDING",
+      "whyFine": "The debug source set's network config allows cleartext only to 10.0.2.2 (the emulator's host, for a local mock server). It isn't part of release builds.",
+      "locations": [
+        {
+          "file": "app/src/debug/res/xml/network_security_config.xml",
+          "anchor": "10.0.2.2"
+        }
+      ]
+    },
+    {
+      "id": "EA-D4",
+      "decoy": true,
+      "title": "Exported launcher activity",
+      "category": "security",
+      "masvs": ["MASVS-PLATFORM-1"],
+      "maswe": ["MASWE-0018"],
+      "verdict": "NO FINDING",
+      "whyFine": "The launcher activity must be exported so the home screen can start it, and it reads no input from the intent.",
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "anchor": "android.intent.category.LAUNCHER"
+        }
+      ]
+    },
+    {
+      "id": "EA-D5",
+      "decoy": true,
+      "title": "Mixpanel project token in the code",
+      "category": "security",
+      "masvs": ["MASVS-STORAGE-1"],
+      "maswe": ["MASWE-0004"],
+      "verdict": "NO FINDING",
+      "whyFine": "Mixpanel's project token is public by design: it only says which project events go to and grants no access.",
+      "refs": ["https://docs.mixpanel.com/reference/project-token"],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+          "anchor": "MIXPANEL_PROJECT_TOKEN ="
+        }
+      ]
+    },
+    {
+      "id": "EA-D6",
+      "decoy": true,
+      "title": "FileProvider for sharing receipt images",
+      "category": "security",
+      "masvs": ["MASVS-PLATFORM-1"],
+      "maswe": ["MASWE-0018"],
+      "verdict": "NO FINDING",
+      "whyFine": "The FileProvider isn't exported, grants temporary read access per URI, and its paths cover only the shared-images cache folder.",
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/file_paths.xml",
+          "anchor": "<cache-path"
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "anchor": "androidx.core.content.FileProvider"
+        }
+      ]
+    },
+    {
+      "id": "EA-D7",
+      "decoy": true,
+      "app": "clean",
+      "title": "Backup on, with rules that exclude credentials",
+      "category": "security",
+      "masvs": ["MASVS-STORAGE-2"],
+      "maswe": ["MASWE-0006"],
+      "verdict": "NO FINDING",
+      "whyFine": "Backup stays on so users keep their expenses. The data extraction rules (and full backup rules for older versions) exclude the files with the email, the session token and the unlock secret.",
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "anchor": "android:allowBackup=\"true\""
+        },
+        {
+          "file": "app/src/main/res/xml/data_extraction_rules.xml",
+          "anchor": "<cloud-backup>"
+        }
+      ]
+    },
+    {
+      "id": "EA-D8",
+      "decoy": true,
+      "app": "clean",
+      "title": "JavaScript bridge in the help WebView",
+      "category": "security",
+      "masvs": ["MASVS-PLATFORM-2"],
+      "maswe": ["MASWE-0033"],
+      "verdict": "NO FINDING",
+      "whyFine": "The bridge exposes only the app version and a close action, and the WebView loads only https pages on the help host.",
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+          "anchor": "addJavascriptInterface("
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/help/HelpBridge.kt",
+          "anchor": "class HelpBridge"
+        }
+      ]
+    },
+    {
+      "id": "EA-D9",
+      "decoy": true,
+      "app": "clean",
+      "title": "Exported help activity with a deep link",
+      "category": "security",
+      "masvs": ["MASVS-PLATFORM-1"],
+      "maswe": ["MASWE-0029"],
+      "verdict": "NO FINDING",
+      "whyFine": "A deep link needs an exported activity. It loads the requested page only if it is an https URL on the help host, and opens anything else in the browser.",
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "anchor": "android:scheme=\"pennyjar\""
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+          "anchor": "getQueryParameter(\"page\")"
+        }
+      ]
+    },
+    {
+      "id": "EA-D10",
+      "decoy": true,
+      "app": "clean",
+      "title": "HTTP logging in debug builds",
+      "category": "security",
+      "masvs": ["MASVS-STORAGE-2"],
+      "maswe": ["MASWE-0005"],
+      "verdict": "NO FINDING",
+      "whyFine": "The logging interceptor is added only when BuildConfig.DEBUG is true, logs request and response lines without bodies, and redacts the Authorization header. Release builds log no HTTP traffic.",
+      "locations": [
+        {
+          "file": "sync/src/main/java/app/pennyjar/sync/ApiClient.kt",
+          "anchor": "HttpLoggingInterceptor.Level.BASIC"
+        }
+      ]
+    }
+  ]
+}

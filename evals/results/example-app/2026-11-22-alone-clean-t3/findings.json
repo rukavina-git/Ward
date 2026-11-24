@@ -1,0 +1,176 @@
+{
+  "findings": [
+    {
+      "title": "Auto Backup/device transfer still includes the expense database, receipt photos and plaintext CSV backup",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0004"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 10
+        },
+        {
+          "file": "app/src/main/res/xml/backup_rules.xml",
+          "line": 3,
+          "endLine": 5
+        },
+        {
+          "file": "app/src/main/res/xml/data_extraction_rules.xml",
+          "line": 3,
+          "endLine": 12
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/backup/AutoBackupWorker.kt",
+          "line": 20,
+          "endLine": 23
+        }
+      ],
+      "explanation": "allowBackup is true and the rules only exclude the credentials, session and unlock SharedPreferences. receipts.db (merchant, amount, city), the receipts/ photo directory and the plaintext files/backup/penny-jar-backup.csv are all still copied to cloud backup and device transfer. Keystore keys are not restored, so the encrypted notes in a restored database would be unreadable. Exclude the database and files domains, or set allowBackup to false."
+    },
+    {
+      "title": "Biometric unlock is not bound to anything that protects data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-2"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
+          "line": 110,
+          "endLine": 128
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/MainActivity.kt",
+          "line": 62,
+          "endLine": 69
+        }
+      ],
+      "explanation": "The biometric prompt unwraps a random 32-byte secret, but the code only checks that its length is 32 and then discards it. The session token, the notes key and the receipts database do not depend on it. The lock is a UI state flag that a hooked or instrumented process can skip, and the data stays readable without authentication. Use the unlocked secret or the auth-bound key to protect the token or database."
+    },
+    {
+      "title": "Release build points at placeholder *.example hosts",
+      "category": "play",
+      "severity": "high",
+      "verdict": "FAIL",
+      "masvs": [],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "sync/build.gradle.kts",
+          "line": 21
+        },
+        {
+          "file": "sync/src/main/java/app/pennyjar/sync/Endpoints.kt",
+          "line": 5,
+          "endLine": 6
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/settings/SettingsScreen.kt",
+          "line": 42
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/share/ShareLinks.kt",
+          "line": 22
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+          "line": 84
+        }
+      ],
+      "explanation": "The API, upload, image, share, help and privacy-policy URLs all use .example domains, which are reserved and will not resolve. The released app could not sign in or sync. The privacy policy link is also a Play Console requirement and must be a real, reachable page. Replace these with the production hosts."
+    },
+    {
+      "title": "Data safety form and in-app disclosure need review for location, email, photos and financial data",
+      "category": "play",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 6
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/location/PlaceTagger.kt",
+          "line": 27,
+          "endLine": 40
+        },
+        {
+          "file": "sync/src/main/java/app/pennyjar/sync/ApiClient.kt",
+          "line": 47,
+          "endLine": 56
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/consent/ConsentScreen.kt",
+          "line": 29,
+          "endLine": 33
+        }
+      ],
+      "explanation": "The app collects approximate location (city), email and name, expense data and receipt photos. It uploads these to the server and sends analytics to Mixpanel. A person must make sure the Play Data safety form, the privacy policy and the account-deletion declaration cover all of this, including the web deletion link Play asks for. The consent screen only mentions usage statistics."
+    }
+  ],
+  "inspected": [
+    "app/src/main/AndroidManifest.xml",
+    "app/build.gradle.kts",
+    "app/proguard-rules.pro",
+    "app/src/main/res/xml/network_security_config.xml",
+    "app/src/debug/res/xml/network_security_config.xml",
+    "app/src/main/res/xml/backup_rules.xml",
+    "app/src/main/res/xml/data_extraction_rules.xml",
+    "app/src/main/res/xml/file_paths.xml",
+    "sync/src/main/AndroidManifest.xml",
+    "sync/build.gradle.kts",
+    "sync/consumer-rules.pro",
+    "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+    "app/src/main/java/app/pennyjar/help/HelpBridge.kt",
+    "app/src/main/java/app/pennyjar/auth/CredentialStore.kt",
+    "app/src/main/java/app/pennyjar/auth/TokenStore.kt",
+    "app/src/main/java/app/pennyjar/auth/AuthRepository.kt",
+    "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
+    "app/src/main/java/app/pennyjar/auth/LoginScreen.kt",
+    "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+    "app/src/main/java/app/pennyjar/crypto/NoteCipher.kt",
+    "app/src/main/java/app/pennyjar/crypto/NoteKeys.kt",
+    "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt",
+    "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+    "app/src/main/java/app/pennyjar/MainActivity.kt",
+    "app/src/main/java/app/pennyjar/consent/ConsentStore.kt",
+    "app/src/main/java/app/pennyjar/consent/ConsentScreen.kt",
+    "app/src/main/java/app/pennyjar/location/PlaceTagger.kt",
+    "app/src/main/java/app/pennyjar/support/SupportClient.kt",
+    "app/src/main/java/app/pennyjar/backup/AutoBackupWorker.kt",
+    "app/src/main/java/app/pennyjar/backup/ExpenseCsv.kt",
+    "app/src/main/java/app/pennyjar/ui/ReceiptSharing.kt",
+    "app/src/main/java/app/pennyjar/ui/ThumbnailCache.kt",
+    "app/src/main/java/app/pennyjar/ui/AddExpenseScreen.kt",
+    "app/src/main/java/app/pennyjar/ui/ExpenseListScreen.kt",
+    "app/src/main/java/app/pennyjar/share/ShareLinks.kt",
+    "app/src/main/java/app/pennyjar/settings/SettingsStore.kt",
+    "app/src/main/java/app/pennyjar/settings/SettingsScreen.kt",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptsProvider.kt",
+    "sync/src/main/java/app/pennyjar/sync/ApiClient.kt",
+    "sync/src/main/java/app/pennyjar/sync/Sync.kt",
+    "sync/src/main/java/app/pennyjar/sync/AuthInterceptor.kt",
+    "sync/src/main/java/app/pennyjar/sync/Endpoints.kt",
+    "sync/src/main/java/app/pennyjar/sync/UploadClient.kt",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptStore.kt",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptQueries.kt",
+    "sync/src/main/java/app/pennyjar/sync/SyncWorker.kt",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptsDatabase.kt"
+  ]
+}

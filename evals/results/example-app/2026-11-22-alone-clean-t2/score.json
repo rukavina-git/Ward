@@ -1,0 +1,81 @@
+{
+  "run": "2026-11-22-alone-clean-t2",
+  "setup": "alone",
+  "trial": 2,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "clean",
+  "provisional": false,
+  "findings": 6,
+  "ungraded": 0,
+  "duplicates": 0,
+  "decoyHits": [
+    "EA-D7",
+    "EA-D9"
+  ],
+  "falseAlarms": 3,
+  "realUnplanted": 1,
+  "generic": 2,
+  "precision": null,
+  "citations": {
+    "locations": 20,
+    "bad": []
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "Analytics SDK active and user identified before/without consent",
+      "outcome": {
+        "kind": "false-alarm",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 1,
+      "title": "Cloud backup / device transfer include financial data and plaintext CSV backup; undecryptable notes",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D7"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 2,
+      "title": "Biometric lock is UI-only and only applied at cold start",
+      "outcome": {
+        "kind": "real-unplanted",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 3,
+      "title": "Bearer token attached to arbitrary download URL built from server-supplied id",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 4,
+      "title": "Exported HelpActivity accepts attacker-controlled page and exposes a JS bridge",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D9"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 5,
+      "title": "Play Data safety, location and account-deletion disclosures need a human check",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    }
+  ]
+}

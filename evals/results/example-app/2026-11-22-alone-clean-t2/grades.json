@@ -1,0 +1,61 @@
+{
+  "grades": [
+    {
+      "finding": 0,
+      "title": "Analytics SDK active and user identified before/without consent",
+      "candidates": [
+        "EA-D5"
+      ],
+      "suggested": "false-alarm",
+      "label": "false-alarm",
+      "proposed": "false-alarm",
+      "proposedWhy": "wrong: Mixpanel starts opted out (getInstance optOutTrackingDefault = true), so nothing is sent before consent"
+    },
+    {
+      "finding": 2,
+      "title": "Biometric lock is UI-only and only applied at cold start",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": "real-unplanted",
+      "proposed": "real-unplanted",
+      "proposedWhy": "known twin gap: the sealed secret protects nothing, and no re-lock after background"
+    },
+    {
+      "finding": 3,
+      "title": "Bearer token attached to arbitrary download URL built from server-supplied id",
+      "candidates": [
+        "EA-D1",
+        "EA-D10"
+      ],
+      "suggested": "false-alarm",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "token goes only to first-party hosts; OkHttp drops Authorization on cross-host redirects. Hardening advice"
+    },
+    {
+      "finding": 4,
+      "title": "Exported HelpActivity accepts attacker-controlled page and exposes a JS bridge",
+      "candidates": [
+        "EA-D4",
+        "EA-D6",
+        "EA-D9",
+        "EA-D8"
+      ],
+      "suggested": "false-alarm",
+      "label": "EA-D9",
+      "proposed": "EA-D9",
+      "proposedWhy": "the exported deep link and browser hand-off are the decoy design; the bridge is called small"
+    },
+    {
+      "finding": 5,
+      "title": "Play Data safety, location and account-deletion disclosures need a human check",
+      "candidates": [
+        "EA-D7"
+      ],
+      "suggested": "EA-D7",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "review the Data safety form and policy: process advice"
+    }
+  ]
+}

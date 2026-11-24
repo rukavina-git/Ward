@@ -1,0 +1,73 @@
+{
+  "run": "2026-11-22-owasp-clean-t3",
+  "setup": "owasp",
+  "trial": 3,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "clean",
+  "provisional": false,
+  "findings": 5,
+  "ungraded": 0,
+  "duplicates": 0,
+  "decoyHits": [
+    "EA-D7",
+    "EA-D8"
+  ],
+  "falseAlarms": 2,
+  "realUnplanted": 1,
+  "generic": 2,
+  "precision": null,
+  "citations": {
+    "locations": 15,
+    "bad": []
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "Cloud backup / device transfer include the receipts DB, receipt photos and plaintext CSV export",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D7"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 1,
+      "title": "Biometric lock is UI-only and does not protect data or the session",
+      "outcome": {
+        "kind": "real-unplanted",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 2,
+      "title": "Exported HelpActivity exposes a JavaScript bridge and accepts a caller-controlled page",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D8"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 3,
+      "title": "Bearer token attached to every request, including the image download and upload hosts",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 4,
+      "title": "Play Data safety and account-deletion disclosures need a human check",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    }
+  ]
+}

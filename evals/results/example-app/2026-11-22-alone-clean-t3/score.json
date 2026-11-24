@@ -1,0 +1,61 @@
+{
+  "run": "2026-11-22-alone-clean-t3",
+  "setup": "alone",
+  "trial": 3,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "clean",
+  "provisional": false,
+  "findings": 4,
+  "ungraded": 0,
+  "duplicates": 0,
+  "decoyHits": [
+    "EA-D7"
+  ],
+  "falseAlarms": 1,
+  "realUnplanted": 1,
+  "generic": 2,
+  "precision": null,
+  "citations": {
+    "locations": 15,
+    "bad": []
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "Auto Backup/device transfer still includes the expense database, receipt photos and plaintext CSV backup",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D7"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 1,
+      "title": "Biometric unlock is not bound to anything that protects data",
+      "outcome": {
+        "kind": "real-unplanted",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 2,
+      "title": "Release build points at placeholder *.example hosts",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 3,
+      "title": "Data safety form and in-app disclosure need review for location, email, photos and financial data",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    }
+  ]
+}

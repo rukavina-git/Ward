@@ -1,0 +1,193 @@
+{
+  "findings": [
+    {
+      "title": "Cleartext HTTP allowed globally and user-installed CAs trusted",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0050"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 10,
+          "endLine": 15
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 93
+        }
+      ],
+      "explanation": "base-config sets cleartextTrafficPermitted=\"true\" and trusts user-added CA certificates for all domains. Chat, credentials and call signalling can then go over plain HTTP, and a user-installed or malicious CA can intercept TLS. Disable cleartext by default. Use a domain-config for the specific hosts that need an exception, or warn and require an explicit opt-in. Limit user CAs to managed-device cases."
+    },
+    {
+      "title": "Backups enabled with an empty backup rule set and no Android 12+ data extraction rules",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-1"
+      ],
+      "maswe": [
+        "MASWE-0004"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 88,
+          "endLine": 89
+        },
+        {
+          "file": "app/src/main/res/xml/backup_config.xml",
+          "line": 8,
+          "endLine": 10
+        },
+        {
+          "file": "app/src/gplay/AndroidManifest.xml",
+          "line": 14,
+          "endLine": 15
+        }
+      ],
+      "explanation": "allowBackup=true and backup_config.xml contains only a comment, so nothing is excluded. Shared preferences with push registration data and tokens, the account database and cached files can be uploaded to cloud backup or extracted with adb backup. No android:dataExtractionRules is declared for Android 12+, so the full-backup-content file is ignored there. Add exclusions for sensitive data and a dataExtractionRules file, or set allowBackup=false."
+    },
+    {
+      "title": "Media session service exported with no permission",
+      "category": "security",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 348,
+          "endLine": 356
+        }
+      ],
+      "explanation": "VoiceMessageMediaService is exported without a permission and lint is suppressed. Any app can bind to it and may be able to control playback or read voice message metadata. Confirm that the MediaSession callback validates the controller package and that no private data is exposed to untrusted controllers."
+    },
+    {
+      "title": "Exported SyncService and a content/file VIEW intent filter on the main activity",
+      "category": "security",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 331,
+          "endLine": 344
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 119,
+          "endLine": 126
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 133,
+          "endLine": 138
+        }
+      ],
+      "explanation": "SyncService is exported, which is normal for sync adapters. MainActivity accepts VIEW intents with content and file schemes and a custom nextcloudtalk BROWSABLE scheme. These are external inputs that can be controlled by other apps or web pages. Check that the handlers validate URIs and parameters, and that a file:// URI cannot make the app read its own private files."
+    },
+    {
+      "title": "Sensitive permissions and policy declarations need Play Console review",
+      "category": "play",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 43
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 47,
+          "endLine": 49
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 66,
+          "endLine": 68
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 76,
+          "endLine": 77
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 44,
+          "endLine": 50
+        }
+      ],
+      "explanation": "The app requests USE_FULL_SCREEN_INTENT, READ/WRITE_CONTACTS, READ_MEDIA_IMAGES/VIDEO/AUDIO, fine and coarse location, and foreground service types for camera, microphone and media playback. Google Play requires a declaration for each of these: the full-screen intent use case, the photo and video permissions policy (the system photo picker is preferred), and the foreground service types. It also needs an accurate Data safety form and privacy policy covering contacts, location, audio and camera. READ_PROFILE is a deprecated permission and should be removed if it is not used. Confirm each use is justified, or remove it."
+    },
+    {
+      "title": "Full HTTP bodies written to logs when debug log level is selected",
+      "category": "privacy",
+      "severity": "low",
+      "verdict": "NEEDS DYNAMIC",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0001"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/api/LoggingHttpInterceptor.kt",
+          "line": 26,
+          "endLine": 43
+        }
+      ],
+      "explanation": "When the user sets the log level to DEBUG, the interceptor logs full request and response bodies. Only the Authorization and Proxy-Authorization headers are redacted. Bodies include chat content, login or app-password responses and cookies. These go to a log file that can be shared through the FileProvider (the logs/ path). Confirm at runtime what ends up in the file, and redact sensitive bodies and headers such as Set-Cookie. Also redact them before logs are shared."
+    },
+    {
+      "title": "Build is a pre-release alpha with no explicit release signing or shrinking config; target SDK lags compile SDK",
+      "category": "play",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-RESILIENCE-3"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/build.gradle.kts",
+          "line": 59,
+          "endLine": 65
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 115,
+          "endLine": 121
+        }
+      ],
+      "explanation": "versionName is \"26.0.0 Alpha 02\". The release build type only enables optimization and has no signingConfig or visible proguard/R8 rule files. compileSdk is 37 and targetSdk is 36. Confirm that the Play App Signing setup, the keep rules and the target API level meet Play's current requirement before you publish. Also consider whether an alpha version belongs on a production track."
+    }
+  ],
+  "inspected": [
+    "app/build.gradle.kts",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/gplay/AndroidManifest.xml",
+    "app/src/main/res/xml/network_security_config.xml",
+    "app/src/main/res/xml/backup_config.xml",
+    "app/src/main/res/xml/file_provider_paths.xml",
+    "app/src/main/java/com/nextcloud/talk/api/LoggingHttpInterceptor.kt"
+  ]
+}

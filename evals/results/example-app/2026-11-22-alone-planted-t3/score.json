@@ -1,0 +1,317 @@
+{
+  "run": "2026-11-22-alone-planted-t3",
+  "setup": "alone",
+  "trial": 3,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "planted",
+  "provisional": false,
+  "findings": 19,
+  "ungraded": 0,
+  "duplicates": 0,
+  "decoyHits": [
+    "EA-D1"
+  ],
+  "falseAlarms": 1,
+  "realUnplanted": 0,
+  "generic": 0,
+  "precision": 0.9473684210526315,
+  "citations": {
+    "locations": 33,
+    "bad": []
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "Release build is debuggable",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-17"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 1,
+      "title": "Cleartext traffic permitted in release network security config",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-10"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 2,
+      "title": "TLS validation disabled in UploadClient (trust-all + hostname verifier)",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-11"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 3,
+      "title": "Hardcoded static AES key with ECB mode for notes",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-06",
+          "EA-07"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 4,
+      "title": "User password stored in plaintext SharedPreferences",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-01"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 5,
+      "title": "Hardcoded helpdesk API token in app",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-05"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 6,
+      "title": "Exported ContentProvider without permissions and with SQL injection",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-12",
+          "EA-13"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 7,
+      "title": "WebView exposes session token to JS and loads attacker-controlled URL from exported activity",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-14",
+          "EA-15"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 8,
+      "title": "WebView remote debugging enabled unconditionally",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-16"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 9,
+      "title": "HTTP BODY-level logging of requests including credentials and tokens",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-03"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 10,
+      "title": "Analytics runs without honoring consent and sends email/merchant data",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-20",
+          "EA-21"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 11,
+      "title": "Background location permission declared without use or justification",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-22"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 12,
+      "title": "Legacy storage permissions and backups written to public Documents folder",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-02"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 13,
+      "title": "allowBackup enabled with sensitive data and no backup rules",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-04"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 14,
+      "title": "targetSdk 34 is below Google Play's current requirement",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-18"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 15,
+      "title": "Predictable PRNG for share-link tokens",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-08"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 16,
+      "title": "Biometric gate is not cryptographically bound and allows bypass",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-09"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 17,
+      "title": "Weak MD5 used and downloaded thumbnails fetched over HTTP into cache",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D1"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 18,
+      "title": "Outdated dependency with known issues (Gson 2.8.5)",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-19"
+        ],
+        "how": "auto"
+      }
+    }
+  ],
+  "issues": {
+    "found": 22,
+    "total": 23,
+    "recall": 0.9565217391304348,
+    "missed": [
+      "EA-23"
+    ],
+    "byDifficulty": {
+      "obvious": {
+        "found": 9,
+        "total": 9
+      },
+      "cross-file": {
+        "found": 6,
+        "total": 6
+      },
+      "config": {
+        "found": 6,
+        "total": 6
+      },
+      "merged-manifest": {
+        "found": 1,
+        "total": 1
+      },
+      "absence": {
+        "found": 0,
+        "total": 1
+      }
+    },
+    "byMasvsGroup": {
+      "STORAGE": {
+        "found": 5,
+        "total": 5
+      },
+      "CRYPTO": {
+        "found": 3,
+        "total": 3
+      },
+      "AUTH": {
+        "found": 1,
+        "total": 1
+      },
+      "NETWORK": {
+        "found": 2,
+        "total": 2
+      },
+      "PLATFORM": {
+        "found": 3,
+        "total": 3
+      },
+      "CODE": {
+        "found": 3,
+        "total": 3
+      },
+      "RESILIENCE": {
+        "found": 2,
+        "total": 2
+      },
+      "PRIVACY": {
+        "found": 3,
+        "total": 4
+      }
+    },
+    "byCategory": {
+      "security": {
+        "found": 17,
+        "total": 17
+      },
+      "play": {
+        "found": 2,
+        "total": 2
+      },
+      "privacy": {
+        "found": 3,
+        "total": 4
+      }
+    }
+  }
+}

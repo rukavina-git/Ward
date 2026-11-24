@@ -1,0 +1,326 @@
+{
+  "run": "2026-11-22-owasp-planted-t2",
+  "setup": "owasp",
+  "trial": 2,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "planted",
+  "provisional": false,
+  "findings": 20,
+  "ungraded": 0,
+  "duplicates": 0,
+  "decoyHits": [
+    "EA-D1"
+  ],
+  "falseAlarms": 1,
+  "realUnplanted": 0,
+  "generic": 0,
+  "precision": 0.95,
+  "citations": {
+    "locations": 34,
+    "bad": []
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "Release build is debuggable",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-17"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 1,
+      "title": "Cleartext HTTP permitted in release network security config",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-10"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 2,
+      "title": "TLS validation disabled in UploadClient (trust-all manager and hostname verifier)",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-11"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 3,
+      "title": "Exported, unprotected ContentProvider exposing receipt data with SQL injection",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-12",
+          "EA-13"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 4,
+      "title": "Exported HelpActivity loads attacker-controlled URL in a WebView with a JavaScript bridge that returns the session token",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-14",
+          "EA-15"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 5,
+      "title": "WebView remote debugging enabled unconditionally",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-16"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 6,
+      "title": "Hardcoded static AES key with ECB mode for note encryption",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-06",
+          "EA-07"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 7,
+      "title": "Hardcoded secrets in source (helpdesk API token, Mixpanel token)",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-05"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 8,
+      "title": "User password stored in plaintext SharedPreferences and used for silent re-login",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-01"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 9,
+      "title": "Auto-backup enabled; session and credential prefs and the database can be extracted via backup",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-04"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 10,
+      "title": "Financial data exported as plaintext CSV to public Documents storage; legacy storage flags",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-02"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 11,
+      "title": "Background location permission declared without need and without disclosure",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-22"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 12,
+      "title": "Analytics collected without honouring consent; email used as analytics identity",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-20",
+          "EA-21"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 13,
+      "title": "HTTP body logging in release builds leaks credentials and tokens",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-03"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 14,
+      "title": "targetSdk 34 is below Google Play's current requirement",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-18"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 15,
+      "title": "No in-app account deletion option",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-23"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 16,
+      "title": "Biometric gate is not cryptographically bound and unlock is only a UI flag",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-09"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 17,
+      "title": "Weak share-link token generation using java.util.Random",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-08"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 18,
+      "title": "Outdated Gson dependency with known vulnerability",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-19"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 19,
+      "title": "Weak MD5 used for cache file naming",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D1"
+        ],
+        "how": "auto"
+      }
+    }
+  ],
+  "issues": {
+    "found": 23,
+    "total": 23,
+    "recall": 1,
+    "missed": [],
+    "byDifficulty": {
+      "obvious": {
+        "found": 9,
+        "total": 9
+      },
+      "cross-file": {
+        "found": 6,
+        "total": 6
+      },
+      "config": {
+        "found": 6,
+        "total": 6
+      },
+      "merged-manifest": {
+        "found": 1,
+        "total": 1
+      },
+      "absence": {
+        "found": 1,
+        "total": 1
+      }
+    },
+    "byMasvsGroup": {
+      "STORAGE": {
+        "found": 5,
+        "total": 5
+      },
+      "CRYPTO": {
+        "found": 3,
+        "total": 3
+      },
+      "AUTH": {
+        "found": 1,
+        "total": 1
+      },
+      "NETWORK": {
+        "found": 2,
+        "total": 2
+      },
+      "PLATFORM": {
+        "found": 3,
+        "total": 3
+      },
+      "CODE": {
+        "found": 3,
+        "total": 3
+      },
+      "RESILIENCE": {
+        "found": 2,
+        "total": 2
+      },
+      "PRIVACY": {
+        "found": 4,
+        "total": 4
+      }
+    },
+    "byCategory": {
+      "security": {
+        "found": 17,
+        "total": 17
+      },
+      "play": {
+        "found": 2,
+        "total": 2
+      },
+      "privacy": {
+        "found": 4,
+        "total": 4
+      }
+    }
+  }
+}

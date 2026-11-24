@@ -1,0 +1,495 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 109
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 167
+        }
+      ],
+      "explanation": "Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/AndroidManifest.xml:109: activity .activities.MainActivity; exported: yes (android:exported is set); deep link schemes: content, file, nextcloudtalk\napp/src/main/AndroidManifest.xml:167: activity .conversationlist.ConversationsListActivity; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0365: Exported And Unprotected Services That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 331
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 348
+        }
+      ],
+      "explanation": "Exported services without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/AndroidManifest.xml:331: service .utils.SyncService; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:348: service .chat.data.io.VoiceMessageMediaService; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle.kts",
+          "line": 254
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 309
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 336
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 337
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 340
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 199
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 214
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 215
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 220
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 221
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 222
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 223
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 224
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 225
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 226
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 237
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 238
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 239
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 240
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 241
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 242
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 249
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 250
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 251
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 257
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 258
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 259
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 262
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 272
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 273
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 275
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 277
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 281
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 282
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 283
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 284
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 287
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 288
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 292
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 293
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 294
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 295
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 296
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 297
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 301
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 302
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 303
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 304
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 318
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 319
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 322
+        }
+      ],
+      "explanation": "com.fasterxml.jackson.core:jackson-core:2.20.1 is in the affected range of 4 OSV advisories: GHSA-72hv-8253-57qq/CVE-2026-18401, GHSA-7hhh-6rmp-j9qf/CVE-2026-89425, GHSA-p6pp-m3f8-5c89/CVE-2026-89407, GHSA-r7wm-3cxj-wff9/CVE-2026-68494. OSV Maven data downloaded 2026-11-23T09:56:12.549Z (published Fri, 20 Nov 2026 16:33:30 GMT). 47 of the other dependencies with exact versions match no OSV advisory, but 53 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-23T09:56:12.549Z (published Fri, 20 Nov 2026 16:33:30 GMT).\napp/build.gradle.kts:254: implementation (string notation) in module app\napp/build.gradle.kts:309: unrecognised: Ward can't read this declaration form: \"gplayImplementation\"(\"com.google.mediapipe:tasks-vision:0.10.26\")\napp/build.gradle.kts:336: unrecognised: Ward can't read this declaration form: \"gplayImplementation\"(\"com.google.android.gms:play-services-base:18.11.1\")\napp/build.gradle.kts:337: unrecognised: Ward can't read this declaration form: \"gplayImplementation\"(\"com.google.firebase:firebase-messaging:26.0.0\")\napp/build.gradle.kts:340: unrecognised: Ward can't read this declaration form: \"genericImplementation\"(\"org.unifiedpush.android:embedded-fcm-distributor:3.1.0\")\napp/build.gradle.kts:199: androidx.room:room-testing-android: version is a variable, range or dynamic\napp/build.gradle.kts:214: org.jetbrains.kotlinx:kotlinx-coroutines-core: version is a variable, range or dynamic\napp/build.gradle.kts:215: org.jetbrains.kotlinx:kotlinx-coroutines-android: version is a variable, range or dynamic\napp/build.gradle.kts:220: androidx.emoji2:emoji2: version is a variable, range or dynamic\napp/build.gradle.kts:221: androidx.emoji2:emoji2-bundled: version is a variable, range or dynamic\napp/build.gradle.kts:222: androidx.emoji2:emoji2-views: version is a variable, range or dynamic\napp/build.gradle.kts:223: androidx.emoji2:emoji2-views-helper: version is a variable, range or dynamic\napp/build.gradle.kts:224: androidx.emoji2:emoji2-emojipicker: version is a variable, range or dynamic\napp/build.gradle.kts:225: androidx.work:work-runtime: version is a variable, range or dynamic\napp/build.gradle.kts:226: androidx.work:work-rxjava2: version is a variable, range or dynamic\napp/build.gradle.kts:237: androidx.lifecycle:lifecycle-runtime-ktx: version is a variable, range or dynamic\napp/build.gradle.kts:238: androidx.lifecycle:lifecycle-livedata-ktx: version is a variable, range or dynamic\napp/build.gradle.kts:239: androidx.lifecycle:lifecycle-viewmodel-ktx: version is a variable, range or dynamic\napp/build.gradle.kts:240: androidx.lifecycle:lifecycle-process: version is a variable, range or dynamic\napp/build.gradle.kts:241: androidx.lifecycle:lifecycle-common: version is a variable, range or dynamic\napp/build.gradle.kts:242: androidx.lifecycle:lifecycle-viewmodel-compose: version is a variable, range or dynamic\napp/build.gradle.kts:249: com.squareup.okhttp3:okhttp: version is a variable, range or dynamic\napp/build.gradle.kts:250: com.squareup.okhttp3:okhttp-urlconnection: version is a variable, range or dynamic\napp/build.gradle.kts:251: com.squareup.okhttp3:logging-interceptor: version is a variable, range or dynamic\napp/build.gradle.kts:257: com.squareup.retrofit2:retrofit: version is a variable, range or dynamic\napp/build.gradle.kts:258: com.squareup.retrofit2:adapter-rxjava2: version is a variable, range or dynamic\napp/build.gradle.kts:259: com.squareup.retrofit2:converter-gson: version is a variable, range or dynamic\napp/build.gradle.kts:262: com.google.dagger:dagger: version is a variable, range or dynamic\napp/build.gradle.kts:272: androidx.room:room-runtime: version is a variable, range or dynamic\napp/build.gradle.kts:273: androidx.room:room-rxjava2: version is a variable, range or dynamic\napp/build.gradle.kts:275: androidx.room:room-ktx: version is a variable, range or dynamic\napp/build.gradle.kts:277: org.parceler:parceler-api: version is a variable, range or dynamic\napp/build.gradle.kts:281: io.coil-kt:coil: version is a variable, range or dynamic\napp/build.gradle.kts:282: io.coil-kt:coil-gif: version is a variable, range or dynamic\napp/build.gradle.kts:283: io.coil-kt:coil-svg: version is a variable, range or dynamic\napp/build.gradle.kts:284: io.coil-kt:coil-compose: version is a variable, range or dynamic\napp/build.gradle.kts:287: com.github.nextcloud-deps.hwsecurity:hwsecurity-fido: version is a variable, range or dynamic\napp/build.gradle.kts:288: com.github.nextcloud-deps.hwsecurity:hwsecurity-fido2: version is a variable, range or dynamic\napp/build.gradle.kts:292: androidx.media3:media3-exoplayer: version is a variable, range or dynamic\napp/build.gradle.kts:293: androidx.media3:media3-datasource-okhttp: version is a variable, range or dynamic\napp/build.gradle.kts:294: androidx.media3:media3-database: version is a variable, range or dynamic\napp/build.gradle.kts:295: androidx.media3:media3-ui: version is a variable, range or dynamic\napp/build.gradle.kts:296: androidx.media3:media3-transformer: version is a variable, range or dynamic\napp/build.gradle.kts:297: androidx.media3:media3-effect: version is a variable, range or dynamic\napp/build.gradle.kts:301: io.noties.markwon:core: version is a variable, range or dynamic\napp/build.gradle.kts:302: io.noties.markwon:ext-strikethrough: version is a variable, range or dynamic\napp/build.gradle.kts:303: io.noties.markwon:ext-tasklist: version is a variable, range or dynamic\napp/build.gradle.kts:304: io.noties.markwon:ext-tables: version is a variable, range or dynamic\napp/build.gradle.kts:318: org.maplibre.compose:maplibre-compose: version is a variable, range or dynamic\napp/build.gradle.kts:319: org.maplibre.compose:maplibre-compose-material3: version is a variable, range or dynamic\napp/build.gradle.kts:322: org.maplibre.compose:maplibre-compose-runtime-opengl-android: version is a variable, range or dynamic"
+    },
+    {
+      "title": "MASTG-TEST-0233: Hardcoded HTTP URLs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0026"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/account/ServerSelectionActivity.kt",
+          "line": 322
+        }
+      ],
+      "explanation": "The app offers a user-confirmed fallback that rewrites the server URL from https:// to http://, and the network config permits cleartext for all domains.\napp/src/main/java/com/nextcloud/talk/account/ServerSelectionActivity.kt:322: Login falls back to a plain http:// server URL."
+    },
+    {
+      "title": "MASTG-TEST-0235: Android App Configurations Allowing Cleartext Traffic",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0026"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 10
+        }
+      ],
+      "explanation": "The network security config's base-config permits cleartext traffic for every domain.\napp/src/main/res/xml/network_security_config.xml:10: base-config cleartextTrafficPermitted=\"true\""
+    },
+    {
+      "title": "MASTG-TEST-0285: Outdated Android Version Allowing Trust in User-Provided CAs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 14
+        }
+      ],
+      "explanation": "The network security config trusts user-installed CAs outside debug-overrides, so anyone who can install a certificate on the device can read the app's TLS traffic.\napp/src/main/res/xml/network_security_config.xml:14: base-config trusts user-installed CAs"
+    },
+    {
+      "title": "MASTG-TEST-0286: Network Security Configuration Allowing Trust in User-Provided CAs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 14
+        }
+      ],
+      "explanation": "The network security config trusts user-installed CAs outside debug-overrides, so anyone who can install a certificate on the device can read the app's TLS traffic.\napp/src/main/res/xml/network_security_config.xml:14: base-config trusts user-installed CAs"
+    },
+    {
+      "title": "MASTG-TEST-0242: Missing Certificate Pinning in Network Security Configuration",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-NETWORK-2"
+      ],
+      "maswe": [
+        "MASWE-0028"
+      ],
+      "locations": [
+        {
+          "file": "app/src/gplay/AndroidManifest.xml",
+          "line": 18
+        }
+      ],
+      "explanation": "No pin-set in a network security config. Pinning may be done in code (OkHttp CertificatePinner, a custom TrustManager), which Ward doesn't read. MASVS L2 expects pinning; L1 doesn't.\napp/src/gplay/AndroidManifest.xml:18: networkSecurityConfig @xml/network_security_config"
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 28
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 30
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 31
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 34
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 47
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 48
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 59
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 63
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 66
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 67
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 68
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 76
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 77
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 79
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\napp/src/main/AndroidManifest.xml:28: android.permission.BLUETOOTH_CONNECT\napp/src/main/AndroidManifest.xml:30: android.permission.CAMERA\napp/src/main/AndroidManifest.xml:31: android.permission.GET_ACCOUNTS\napp/src/main/AndroidManifest.xml:34: android.permission.RECORD_AUDIO\napp/src/main/AndroidManifest.xml:47: android.permission.READ_CONTACTS\napp/src/main/AndroidManifest.xml:48: android.permission.WRITE_CONTACTS\napp/src/main/AndroidManifest.xml:59: android.permission.WRITE_EXTERNAL_STORAGE\napp/src/main/AndroidManifest.xml:63: android.permission.READ_EXTERNAL_STORAGE\napp/src/main/AndroidManifest.xml:66: android.permission.READ_MEDIA_IMAGES\napp/src/main/AndroidManifest.xml:67: android.permission.READ_MEDIA_VIDEO\napp/src/main/AndroidManifest.xml:68: android.permission.READ_MEDIA_AUDIO\napp/src/main/AndroidManifest.xml:76: android.permission.ACCESS_FINE_LOCATION\napp/src/main/AndroidManifest.xml:77: android.permission.ACCESS_COARSE_LOCATION\napp/src/main/AndroidManifest.xml:79: android.permission.POST_NOTIFICATIONS"
+    },
+    {
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/gplay/AndroidManifest.xml",
+          "line": 15
+        }
+      ],
+      "explanation": "Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/gplay/AndroidManifest.xml:15: rules file @xml/backup_config"
+    },
+    {
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/gplay/AndroidManifest.xml",
+          "line": 15
+        }
+      ],
+      "explanation": "Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/gplay/AndroidManifest.xml:15: rules file @xml/backup_config"
+    }
+  ],
+  "inspected": [
+    "app/build.gradle.kts",
+    "app/src/gplay/AndroidManifest.xml",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/java/com/nextcloud/talk/account/BrowserLoginActivity.kt",
+    "app/src/main/java/com/nextcloud/talk/account/ServerSelectionActivity.kt",
+    "app/src/main/java/com/nextcloud/talk/activities/BaseActivity.kt",
+    "app/src/main/java/com/nextcloud/talk/call/e2ee/CallEncryption.kt",
+    "app/src/main/java/com/nextcloud/talk/dagger/modules/RestModule.java",
+    "app/src/main/java/com/nextcloud/talk/jobs/NotificationWorker.kt",
+    "app/src/main/java/com/nextcloud/talk/lock/LockedActivity.kt",
+    "app/src/main/java/com/nextcloud/talk/passwordpolicy/PasswordGenerator.kt",
+    "app/src/main/java/com/nextcloud/talk/utils/PushUtils.kt",
+    "app/src/main/java/com/nextcloud/talk/utils/SecurityUtils.java",
+    "app/src/main/java/com/nextcloud/talk/utils/ssl/SSLSocketFactoryCompat.kt",
+    "app/src/main/java/com/nextcloud/talk/utils/ssl/TrustManager.java",
+    "app/src/main/res/xml/network_security_config.xml"
+  ]
+}

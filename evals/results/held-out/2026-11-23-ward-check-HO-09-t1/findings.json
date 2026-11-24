@@ -1,0 +1,375 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0355: References to Unauthorized Database Access through Content Providers",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 93
+        }
+      ],
+      "explanation": "Exported providers are protected by permissions. Check those permissions' protection level (signature).\napp/src/main/AndroidManifest.xml:93: provider rikka.shizuku.ShizukuProvider; exported: yes (android:exported is set); permissions: android.permission.INTERACT_ACROSS_USERS_FULL"
+    },
+    {
+      "title": "MASTG-TEST-0357: References to Oversharing of File-Based Content Providers",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 93
+        }
+      ],
+      "explanation": "Exported providers are protected by permissions. Check those permissions' protection level (signature).\napp/src/main/AndroidManifest.xml:93: provider rikka.shizuku.ShizukuProvider; exported: yes (android:exported is set); permissions: android.permission.INTERACT_ACROSS_USERS_FULL"
+    },
+    {
+      "title": "MASTG-TEST-0366: Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 125
+        }
+      ],
+      "explanation": "Exported receivers without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/AndroidManifest.xml:125: receiver .core.service.BootReceiver; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle",
+          "line": 209
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 210
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 211
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 212
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 213
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 240
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 241
+        }
+      ],
+      "explanation": "23 of the declared dependencies with exact versions match no OSV advisory, but 7 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-23T09:56:12.549Z (published Fri, 20 Nov 2026 16:33:30 GMT).\napp/build.gradle:209: androidx.compose.ui:ui: no version (a BOM or constraint may set it)\napp/build.gradle:210: androidx.compose.ui:ui-graphics: no version (a BOM or constraint may set it)\napp/build.gradle:211: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\napp/build.gradle:212: androidx.compose.material3:material3: no version (a BOM or constraint may set it)\napp/build.gradle:213: androidx.compose.material:material-icons-extended: no version (a BOM or constraint may set it)\napp/build.gradle:240: com.squareup.okhttp3:okhttp: no version (a BOM or constraint may set it)\napp/build.gradle:241: com.squareup.okhttp3:logging-interceptor: no version (a BOM or constraint may set it)"
+    },
+    {
+      "title": "MASTG-TEST-0233: Hardcoded HTTP URLs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0026"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/opendroid/ai/core/util/UrlUtils.kt",
+          "line": 36
+        }
+      ],
+      "explanation": "Endpoints entered without a scheme default to cleartext http://. The network security config only allows cleartext for localhost, 127.0.0.1 and 10.0.2.2, so LAN endpoints will fail or users will be pushed to cleartext.\napp/src/main/java/com/opendroid/ai/core/util/UrlUtils.kt:36: Defaults to http:// when no scheme is given."
+    },
+    {
+      "title": "MASTG-TEST-0235: Android App Configurations Allowing Cleartext Traffic",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0026"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 8
+        },
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 9
+        },
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 10
+        }
+      ],
+      "explanation": "Cleartext is blocked by default but permitted for some domains. Check that nothing sensitive goes to them.\napp/src/main/res/xml/network_security_config.xml:8: cleartext permitted: localhost\napp/src/main/res/xml/network_security_config.xml:9: cleartext permitted: 127.0.0.1\napp/src/main/res/xml/network_security_config.xml:10: cleartext permitted: 10.0.2.2"
+    },
+    {
+      "title": "MASTG-TEST-0242: Missing Certificate Pinning in Network Security Configuration",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-NETWORK-2"
+      ],
+      "maswe": [
+        "MASWE-0028"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 71
+        }
+      ],
+      "explanation": "No pin-set in a network security config. Pinning may be done in code (OkHttp CertificatePinner, a custom TrustManager), which Ward doesn't read. MASVS L2 expects pinning; L1 doesn't.\napp/src/main/AndroidManifest.xml:71: networkSecurityConfig @xml/network_security_config"
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 7
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 8
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 9
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 10
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 11
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 12
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 13
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 14
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 15
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 16
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 18
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 19
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 20
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 27
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 28
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 41
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 42
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 43
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\napp/src/main/AndroidManifest.xml:7: android.permission.RECORD_AUDIO\napp/src/main/AndroidManifest.xml:8: android.permission.READ_CONTACTS\napp/src/main/AndroidManifest.xml:9: android.permission.WRITE_CONTACTS\napp/src/main/AndroidManifest.xml:10: android.permission.READ_CALENDAR\napp/src/main/AndroidManifest.xml:11: android.permission.CALL_PHONE\napp/src/main/AndroidManifest.xml:12: android.permission.READ_PHONE_STATE\napp/src/main/AndroidManifest.xml:13: android.permission.SEND_SMS\napp/src/main/AndroidManifest.xml:14: android.permission.READ_SMS\napp/src/main/AndroidManifest.xml:15: android.permission.RECEIVE_SMS\napp/src/main/AndroidManifest.xml:16: android.permission.CAMERA\napp/src/main/AndroidManifest.xml:18: android.permission.ACCESS_FINE_LOCATION\napp/src/main/AndroidManifest.xml:19: android.permission.ACCESS_COARSE_LOCATION\napp/src/main/AndroidManifest.xml:20: android.permission.ACCESS_BACKGROUND_LOCATION\napp/src/main/AndroidManifest.xml:27: android.permission.BLUETOOTH_CONNECT\napp/src/main/AndroidManifest.xml:28: android.permission.BLUETOOTH_SCAN\napp/src/main/AndroidManifest.xml:41: android.permission.POST_NOTIFICATIONS\napp/src/main/AndroidManifest.xml:42: android.permission.READ_EXTERNAL_STORAGE\napp/src/main/AndroidManifest.xml:43: android.permission.WRITE_EXTERNAL_STORAGE"
+    },
+    {
+      "title": "MASTG-TEST-0224: Usage of Insecure APK Signature Version",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-RESILIENCE-2"
+      ],
+      "maswe": [
+        "MASWE-0056"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle",
+          "line": 53
+        }
+      ],
+      "explanation": "The release signing config enables the v1 (JAR) signature scheme. With minSdk 26 v2+ is always available, and v1 leaves the app open to signature-stripping on older devices.\napp/build.gradle:53: enableV1Signing is true in the release signing config."
+    },
+    {
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 67
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 68
+        }
+      ],
+      "explanation": "Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/main/AndroidManifest.xml:67: rules file @xml/data_extraction_rules\napp/src/main/AndroidManifest.xml:68: rules file @xml/backup_rules"
+    },
+    {
+      "title": "MASTG-TEST-0231: References to Logging APIs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0005"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/opendroid/ai/core/agent/AutoReplyEngine.kt",
+          "line": 79
+        },
+        {
+          "file": "app/src/main/java/com/opendroid/ai/accessibility/WhatsAppAutomator.kt",
+          "line": 116
+        }
+      ],
+      "explanation": "Message text is written to logcat with Log.d/Log.w (auto-reply bounceback check and WhatsApp post-send check). Sent and received message content is sensitive user data.\napp/src/main/java/com/opendroid/ai/core/agent/AutoReplyEngine.kt:79: Logs expected reply text and incoming message text.\napp/src/main/java/com/opendroid/ai/accessibility/WhatsAppAutomator.kt:116: Logs the text still in the WhatsApp input field."
+    },
+    {
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 67
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 68
+        }
+      ],
+      "explanation": "Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/main/AndroidManifest.xml:67: rules file @xml/data_extraction_rules\napp/src/main/AndroidManifest.xml:68: rules file @xml/backup_rules"
+    }
+  ],
+  "inspected": [
+    "app/build.gradle",
+    "app/proguard-rules.pro",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/java/com/opendroid/ai/MainActivity.kt",
+    "app/src/main/java/com/opendroid/ai/OpenDroidApp.kt",
+    "app/src/main/java/com/opendroid/ai/accessibility/WhatsAppAutomator.kt",
+    "app/src/main/java/com/opendroid/ai/actions/AdvancedControlActions.kt",
+    "app/src/main/java/com/opendroid/ai/actions/CommunicationActions.kt",
+    "app/src/main/java/com/opendroid/ai/actions/base/ActionResult.kt",
+    "app/src/main/java/com/opendroid/ai/core/agent/AutoReplyEngine.kt",
+    "app/src/main/java/com/opendroid/ai/core/agent/ReplyDispatcher.kt",
+    "app/src/main/java/com/opendroid/ai/core/llm/LLMProvider.kt",
+    "app/src/main/java/com/opendroid/ai/core/llm/LLMProviderFactory.kt",
+    "app/src/main/java/com/opendroid/ai/core/llm/ModelDownloadForegroundInfoFactory.kt",
+    "app/src/main/java/com/opendroid/ai/core/llm/providers/OpencodeGoProvider.kt",
+    "app/src/main/java/com/opendroid/ai/core/security/KeystoreSecretStorage.kt",
+    "app/src/main/java/com/opendroid/ai/core/service/McpConfigStore.kt",
+    "app/src/main/java/com/opendroid/ai/core/service/PrivilegedCommandExecutor.kt",
+    "app/src/main/java/com/opendroid/ai/core/storage/StorageWorkspaceProvider.kt",
+    "app/src/main/java/com/opendroid/ai/core/util/SmsSender.kt",
+    "app/src/main/java/com/opendroid/ai/core/util/UrlUtils.kt",
+    "app/src/main/java/com/opendroid/ai/ui/screens/SettingsScreen.kt",
+    "app/src/main/res/xml/network_security_config.xml"
+  ]
+}

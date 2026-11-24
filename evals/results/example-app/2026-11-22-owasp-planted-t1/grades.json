@@ -1,0 +1,112 @@
+{
+  "grades": [
+    {
+      "finding": 3,
+      "title": "Exported HelpActivity loads attacker-controlled URL into WebView with JS bridge that leaks the session token",
+      "candidates": [
+        "EA-14",
+        "EA-D4",
+        "EA-D6",
+        "EA-15"
+      ],
+      "suggested": null,
+      "label": "EA-14+EA-15",
+      "proposed": "EA-14+EA-15",
+      "proposedWhy": "deep link loads any URL and the JS bridge hands out the session token"
+    },
+    {
+      "finding": 6,
+      "title": "Hardcoded helpdesk API token and analytics token in source",
+      "candidates": [
+        "EA-05",
+        "EA-D5"
+      ],
+      "suggested": null,
+      "label": "EA-05",
+      "proposed": "EA-05",
+      "proposedWhy": "helpdesk token; also mentions the Mixpanel token as lower risk"
+    },
+    {
+      "finding": 9,
+      "title": "Analytics collected without honoring consent; PII sent to Mixpanel",
+      "candidates": [
+        "EA-20",
+        "EA-21"
+      ],
+      "suggested": null,
+      "label": "EA-20+EA-21",
+      "proposed": "EA-20+EA-21",
+      "proposedWhy": "tracking before consent, email as the user ID, merchant names sent"
+    },
+    {
+      "finding": 10,
+      "title": "Auto-backup writes CSV of all expenses to public Documents storage",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": null,
+      "label": "EA-02",
+      "proposed": "EA-02",
+      "proposedWhy": "CSV of all expenses to public Documents"
+    },
+    {
+      "finding": 11,
+      "title": "allowBackup enabled with no backup rules",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-04",
+      "label": "EA-04",
+      "proposed": "EA-04",
+      "proposedWhy": "allowBackup with no rules exposes saved credentials"
+    },
+    {
+      "finding": 12,
+      "title": "Background location permission requested without need",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-22",
+      "label": "EA-22",
+      "proposed": "EA-22",
+      "proposedWhy": "background location for a one-off city lookup"
+    },
+    {
+      "finding": 15,
+      "title": "targetSdk 34 is below the current Google Play requirement",
+      "candidates": [
+        "EA-18"
+      ],
+      "suggested": "EA-18",
+      "label": "EA-18",
+      "proposed": "EA-18",
+      "proposedWhy": "targetSdk 34 below the Play requirement"
+    },
+    {
+      "finding": 16,
+      "title": "Release hardening and shrinker config is minimal, with no signing or verification",
+      "candidates": [],
+      "suggested": null,
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "R8 keep rules and signing: release hygiene, not a security or privacy flaw"
+    },
+    {
+      "finding": 17,
+      "title": "Receipt photos and location data need Data safety and privacy-policy disclosure",
+      "candidates": [
+        "EA-05"
+      ],
+      "suggested": null,
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "asks to confirm Data safety, policy and deletion exist; never says deletion is missing, so no EA-23 credit"
+    }
+  ]
+}

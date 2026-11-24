@@ -1,0 +1,102 @@
+{
+  "grades": [
+    {
+      "finding": 0,
+      "title": "Release build is debuggable",
+      "candidates": [
+        "EA-17"
+      ],
+      "suggested": "EA-17",
+      "label": "EA-17",
+      "proposed": "EA-17",
+      "proposedWhy": "isDebuggable = true in release"
+    },
+    {
+      "finding": 5,
+      "title": "Hardcoded helpdesk API token in app",
+      "candidates": [
+        "EA-05"
+      ],
+      "suggested": "EA-05",
+      "label": "EA-05",
+      "proposed": "EA-05",
+      "proposedWhy": "helpdesk token"
+    },
+    {
+      "finding": 7,
+      "title": "WebView exposes session token to JS and loads attacker-controlled URL from exported activity",
+      "candidates": [
+        "EA-14",
+        "EA-D4",
+        "EA-D6",
+        "EA-15"
+      ],
+      "suggested": null,
+      "label": "EA-14+EA-15",
+      "proposed": "EA-14+EA-15",
+      "proposedWhy": "deep link loads any URL and the JS bridge hands out the session token"
+    },
+    {
+      "finding": 10,
+      "title": "Analytics runs without honoring consent and sends email/merchant data",
+      "candidates": [
+        "EA-20",
+        "EA-21"
+      ],
+      "suggested": null,
+      "label": "EA-20+EA-21",
+      "proposed": "EA-20+EA-21",
+      "proposedWhy": "tracking before consent, email as the user ID, merchant names sent"
+    },
+    {
+      "finding": 11,
+      "title": "Background location permission declared without use or justification",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-22",
+      "label": "EA-22",
+      "proposed": "EA-22",
+      "proposedWhy": "background and fine location for a one-off city lookup"
+    },
+    {
+      "finding": 12,
+      "title": "Legacy storage permissions and backups written to public Documents folder",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-04",
+      "label": "EA-02",
+      "proposed": "EA-02",
+      "proposedWhy": "CSV of all expenses to public Documents"
+    },
+    {
+      "finding": 13,
+      "title": "allowBackup enabled with sensitive data and no backup rules",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-04",
+      "label": "EA-04",
+      "proposed": "EA-04",
+      "proposedWhy": "allowBackup with no rules exposes saved credentials"
+    },
+    {
+      "finding": 14,
+      "title": "targetSdk 34 is below Google Play's current requirement",
+      "candidates": [
+        "EA-18"
+      ],
+      "suggested": "EA-18",
+      "label": "EA-18",
+      "proposed": "EA-18",
+      "proposedWhy": "targetSdk 34 below the Play requirement"
+    }
+  ]
+}

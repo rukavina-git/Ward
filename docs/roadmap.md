@@ -1,0 +1,143 @@
+# Roadmap
+
+Legend: [x] done · [ ] to do · (me) manual, done by me · (deferred)
+waiting on me
+
+Each plan teaches one part of AI engineering. The "Learn" line says which.
+Rewritten after the council of 2026-11-21
+(docs/council/2026-11-21-product-scope.md). Plans 3 to 6 revised after
+the baseline council of 2026-11-22
+(docs/council/2026-11-22-baseline-scope.md, ADR 0009).
+
+## Done
+
+- [x] Repo, README, licence
+- [x] Claude setup: CLAUDE.md, /step, /explain, /council, reviewer, guard hook
+- [x] Product council: Ward is a local pre-publish check plugin (ADR 0001)
+- [x] No paid APIs: LLM work runs in Claude Code on my plan (ADR 0007)
+- [x] Baseline council: claim precision and evidence, not completeness
+      (ADR 0009)
+
+## Any time
+- [ ] (me) Short post on rukavina.app: the baseline, "I measured before
+      building". Not blocking.
+
+## Plan 1: foundations
+Learn: how an agent calls a tool (MCP), and a repo set up for AI work.
+- [x] 1.1 Stack ADRs: language and layout, retrieval storage, embeddings,
+      LLM for offline work, distribution and site hosting
+- [x] 1.2 Scaffold: TypeScript workspace, lint, typecheck, tests, CI
+- [x] 1.3 Hello MCP: a tiny local MCP server with one tool, connected to
+      Claude Code; watch the agent call it
+
+## Plan 2: example app and baseline
+Learn: what an eval is, and why you measure before you build.
+- [x] 2.1 Issue list and answer key: planted security and privacy issues
+      plus decoys, mapped to MASVS and MASWE
+- [x] 2.2 Example Kotlin app with the planted issues, plus a clean twin;
+      answer key outside the app folder
+- [x] 2.3 Eval harness v0: findings format, task prompt, runner, scoring
+      script (missed issues, false passes)
+- [x] 2.4 Baseline: Claude Code alone, + plain checklist skill, + OWASP's
+      plugin (small N, on my Claude plan)
+
+## Plan 3: knowledge base (first RAG)
+Learn: chunking, keyword and vector search, embeddings, retrieval evals,
+and deciding by measurement.
+- [x] Ingest MASVS and MASTG by ID (control → MASWE → test → demo);
+      docs/sources.md
+- [x] Chunk and store as an index file; exact ID lookup over the graph
+- [x] Retrieval eval: 40–60 queries with expected IDs (recall@5, MRR),
+      seeded from the baseline runs' findings
+- [x] BM25 keyword search, built by hand
+- [x] Extend the retrieval eval to about 150 queries
+- [x] Embeddings and vector search, built by hand, compared with BM25 on
+      the retrieval eval; shipped only if they win (ADR 0009). They
+      didn't: BM25 ships alone (ADR 0010)
+
+## Plan 4: MCP server and analyzers
+Learn: tool use, MCP, how AI assistants call external tools.
+Scope from the council of 2026-11-23
+(docs/council/2026-11-23-plan4-scope.md, ADR 0011).
+- [x] Held-out eval set, frozen before any check is written: about 30
+      real security-fix commits from open-source Android apps (absences,
+      dependency CVEs, config), decoys, a "defensible" label, and a bar
+      written first
+- [x] Claude Code alone on it (Sonnet 5.5 and Opus 5.5); if it aces
+      this too, rethink before building analyzers (minimal gate: batch 1
+      of 10, Sonnet only; result: Ward has room, docs/measurements.md)
+- [x] Local MCP server (stdio): checklist, get check, search (top-k plus
+      matched terms, no cutoff)
+- [x] Analyzers in plain code: merged manifest, network security config,
+      targetSdk (plan 4 steps 04 and 05)
+- [x] Dependency check, last and cuttable: fresh OSV data matched by
+      Ward, data date on every verdict (ADR 0011)
+- [x] Use Ward from Claude Code while building it (.mcp.json)
+
+## Plan 5: the check
+Learn: agent workflows, skills, structured output.
+Scope from the council of 2026-11-23
+(docs/council/2026-11-23-plan5-scope.md, ADR 0012).
+- [x] Hardening: MASWE IDs on every verdict, tool output cap, false
+      NO FINDING risks give MANUAL
+- [x] Report JSON schema (per control, tests nested, strict rollup) and
+      a `report_skeleton` tool
+- [x] Citation checker: cited IDs, file:line and quotes must exist
+- [x] Skill and /ward:check, with a terminal summary
+- [x] Ward on the held-out set (one arm, 10 cases)
+- [x] Must-exist checks: account deletion, privacy policy link,
+      data-deletion URL
+- [x] Package as a Claude Code plugin; run it on my own app
+
+## Plan 6: proof
+Learn: end-to-end evals for agents, and AI security.
+Scope from the council of 2026-11-24
+(docs/council/2026-11-24-plan6-scope.md, ADR 0013).
+- [ ] (me) Merge develop → main (after /code-review and
+      /security-review)
+- [ ] Depth marking ("test text read" vs "title only"), free proxy
+      metrics, strict scoring pre-registered
+- [ ] Skill v2: test text in the skeleton, NO FINDING tied to evidence;
+      dev runs on the example app until the proxy passes
+- [ ] Label held-out batch 2 (20 cases, frozen; Karlo spot-checks)
+- [ ] Prompt-injection tests in code: hostile text can't change IDs,
+      verdicts or the summary
+- [ ] Prompt-injection agent runs (1–3): canary next to a planted bug
+- [ ] Skill v2 on the held-out set (30 cases, strict and lenient), plus
+      the analyzers-only arm
+- Dropped: retrieval fixes (reranking); `search` is never called
+  (ADR 0013). Revisit if v2 traces show bad hits.
+
+## Plan 7: privacy and GDPR module
+Learn: adding a knowledge domain, and where model judgement is needed.
+- [ ] Sources and licences (GDPR, Android privacy docs, Data Safety)
+- [ ] Checks and analyzers: permissions, SDK list, consent before
+      analytics, Data Safety CSV diff
+- [ ] Planted issues in the example app; evals for the module
+
+## Plan 8: triage UI
+Learn: local tools that are safe by design.
+- [ ] Read-only HTML report (moved from plan 5, ADR 0012)
+- [ ] /ward:review: local report UI (localhost only, random token), bulk
+      fix / accept / skip
+- [ ] .ward/decisions.json; reruns show new or changed items; /ward:fix
+
+## Plan 9: website and v1 release
+- [ ] Full end-to-end eval (moved from Plan 6, ADR 0013): all four
+      setups plus analyzers only, example app and held-out, at least 3
+      trials, spread reported
+- [ ] Static site: landing, demo video or slideshow of a real run,
+      2-minute install guide, in-browser search, sample report, eval page
+      with traces
+- [ ] (me) Deploy, DNS for ward.rukavina.app
+- [ ] Publish the plugin (npm, trusted publishing); weekly source-update job
+- [ ] Case study on rukavina.app
+
+## Later
+- v2 or v3: direct Claude API work (streaming, prompt caching, batches),
+  optional and capped at $5 (ADR 0007)
+- Play policy module (plain-code checks), licences (existing tools),
+  targetSdk bump module
+- Auditor and pentester pack
+- Remote MCP endpoint
+- iOS; web (OWASP ASVS)

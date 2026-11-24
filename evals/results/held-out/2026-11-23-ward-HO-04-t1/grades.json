@@ -1,0 +1,207 @@
+{
+  "run": "2026-11-23-ward-HO-04-t1",
+  "case": "HO-04",
+  "kind": "dependency",
+  "found": {
+    "candidates": [
+      3
+    ],
+    "proposed": "found",
+    "label": null
+  },
+  "decoysFlagged": {
+    "candidates": [],
+    "proposed": 0,
+    "label": null
+  },
+  "findings": [
+    {
+      "finding": 0,
+      "title": "Cleartext HTTP allowed for all domains",
+      "where": [
+        "app/src/main/res/xml/network_security_config.xml:10"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 1,
+      "title": "User-installed CAs trusted in release builds",
+      "where": [
+        "app/src/main/res/xml/network_security_config.xml:14"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 2,
+      "title": "Auto-backup enabled with an empty backup rules file",
+      "where": [
+        "app/src/gplay/AndroidManifest.xml:14-15",
+        "app/src/main/AndroidManifest.xml:88-89",
+        "app/src/main/res/xml/backup_config.xml:8-10"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 3,
+      "title": "Vulnerable jackson-core version (4 advisories, 3 high)",
+      "where": [
+        "app/build.gradle.kts:254"
+      ],
+      "role": "case",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 4,
+      "title": "No certificate pinning configured",
+      "where": [
+        "app/src/main/res/xml/network_security_config.xml:10"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 5,
+      "title": "Sensitive permissions and Play declarations need review",
+      "where": [
+        "app/src/main/AndroidManifest.xml:43",
+        "app/src/main/AndroidManifest.xml:45-46",
+        "app/src/main/AndroidManifest.xml:47-48",
+        "app/src/main/AndroidManifest.xml:66-68",
+        "app/src/main/AndroidManifest.xml:76-77",
+        "app/src/main/AndroidManifest.xml:94"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 6,
+      "title": "Exported entry points accept content:// and file:// VIEW intents and a custom scheme",
+      "where": [
+        "app/src/main/AndroidManifest.xml:109-138",
+        "app/src/main/AndroidManifest.xml:167-190"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    }
+  ],
+  "citations": [
+    {
+      "finding": 0,
+      "id": "MASVS-NETWORK-1",
+      "exists": true,
+      "indexTitle": "The app secures all network traffic according to the current best practices.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app secures all network traffic according to the current best practices.",
+      "label": null
+    },
+    {
+      "finding": 0,
+      "id": "MASWE-0050",
+      "exists": true,
+      "indexTitle": "Unsafe Handling of Untrusted Data",
+      "proposed": "wrong",
+      "proposedWhy": "0050 is untrusted-data handling; cleartext is MASWE-0026",
+      "label": null
+    },
+    {
+      "finding": 1,
+      "id": "MASVS-NETWORK-1",
+      "exists": true,
+      "indexTitle": "The app secures all network traffic according to the current best practices.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app secures all network traffic according to the current best practices.",
+      "label": null
+    },
+    {
+      "finding": 1,
+      "id": "MASWE-0052",
+      "exists": true,
+      "indexTitle": "App Virtualization Environment Detection Not Implemented",
+      "proposed": "wrong",
+      "proposedWhy": "0052 is virtualization detection; user CAs are a trust-config weakness",
+      "label": null
+    },
+    {
+      "finding": 2,
+      "id": "MASVS-STORAGE-1",
+      "exists": true,
+      "indexTitle": "The app securely stores sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app securely stores sensitive data.",
+      "label": null
+    },
+    {
+      "finding": 2,
+      "id": "MASWE-0004",
+      "exists": true,
+      "indexTitle": "Sensitive Data Hardcoded in the App Package",
+      "proposed": "wrong",
+      "proposedWhy": "0004 is hardcoded data; backup is MASWE-0006 (gate note)",
+      "label": null
+    },
+    {
+      "finding": 3,
+      "id": "MASVS-CODE-3",
+      "exists": true,
+      "indexTitle": "The app only uses software components without known vulnerabilities.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app only uses software components without known vulnerabilities.",
+      "label": null
+    },
+    {
+      "finding": 3,
+      "id": "MASWE-0044",
+      "exists": true,
+      "indexTitle": "Dependencies with Known Vulnerabilities",
+      "proposed": "right",
+      "proposedWhy": "fits: dependencies with known vulnerabilities (from Ward's dependencies tool)",
+      "label": null
+    },
+    {
+      "finding": 4,
+      "id": "MASVS-NETWORK-2",
+      "exists": true,
+      "indexTitle": "The app performs identity pinning for all remote endpoints under the developer's control.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app performs identity pinning for all remote endpoints under the developer's control.",
+      "label": null
+    },
+    {
+      "finding": 4,
+      "id": "MASWE-0047",
+      "exists": true,
+      "indexTitle": "Using Non-Standard APIs for Security-Critical Functionality",
+      "proposed": "wrong",
+      "proposedWhy": "0047 is non-standard APIs; not pinning",
+      "label": null
+    },
+    {
+      "finding": 5,
+      "id": "MASVS-PRIVACY-1",
+      "exists": true,
+      "indexTitle": "The app minimizes access to sensitive data and resources.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app minimizes access to sensitive data and resources.",
+      "label": null
+    },
+    {
+      "finding": 6,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app uses IPC mechanisms securely.",
+      "label": null
+    }
+  ]
+}

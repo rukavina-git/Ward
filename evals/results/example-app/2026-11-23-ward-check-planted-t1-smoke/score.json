@@ -1,0 +1,416 @@
+{
+  "run": "2026-11-23-ward-check-planted-t1-smoke",
+  "setup": "ward-check",
+  "trial": 1,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "planted",
+  "provisional": true,
+  "findings": 27,
+  "ungraded": 6,
+  "duplicates": 4,
+  "decoyHits": [
+    "EA-D4"
+  ],
+  "falseAlarms": 1,
+  "realUnplanted": 0,
+  "generic": 0,
+  "precision": 0.9523809523809523,
+  "citations": {
+    "locations": 38,
+    "bad": []
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "MASTG-TEST-0355: References to Unauthorized Database Access through Content Providers",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-12"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 1,
+      "title": "MASTG-TEST-0357: References to Oversharing of File-Based Content Providers",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-12"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 2,
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D4"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 3,
+      "title": "MASTG-TEST-0327: References to APIs for Event-Bound Biometric Authentication",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-09"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 4,
+      "title": "MASWE-0042: Latest Platform Version Not Targeted",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-18"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 5,
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-19"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 6,
+      "title": "MASTG-TEST-0339: SQL Injection in Content Providers",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-13"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 7,
+      "title": "MASTG-TEST-0394: Missing Input Validation in Custom URL Scheme Handlers",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-14"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 8,
+      "title": "MASTG-TEST-0398: References to WebViewClient URL Loading Handlers",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-15"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 9,
+      "title": "MASTG-TEST-0204: Insecure Random API Usage",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-08"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 10,
+      "title": "MASTG-TEST-0232: Broken Symmetric Encryption Modes",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-07"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 11,
+      "title": "MASTG-TEST-0212: Use of Hardcoded Cryptographic Keys in Code",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-06"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 12,
+      "title": "MASTG-TEST-0287: Runtime Storage of Unencrypted Data via the SharedPreferences API",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-01"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 13,
+      "title": "MASTG-TEST-0233: Hardcoded HTTP URLs",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-10"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 14,
+      "title": "MASTG-TEST-0235: Android App Configurations Allowing Cleartext Traffic",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-10"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 15,
+      "title": "MASTG-TEST-0282: Unsafe Custom Trust Evaluation",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-11"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 16,
+      "title": "MASTG-TEST-0283: Incorrect Implementation of Server Hostname Verification",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-11"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 17,
+      "title": "MASTG-TEST-0242: Missing Certificate Pinning in Network Security Configuration",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [
+          "EA-04"
+        ],
+        "suggested": "EA-04"
+      }
+    },
+    {
+      "index": 18,
+      "title": "MASTG-TEST-0226: Debuggable Flag Enabled in the AndroidManifest",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-17"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 19,
+      "title": "MASTG-TEST-0227: Debugging Enabled for WebViews",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-16"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 20,
+      "title": "MASTG-TEST-0334: Native Code Exposed Through WebViews",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-15"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 21,
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [
+          "EA-02",
+          "EA-22",
+          "EA-04"
+        ],
+        "suggested": "EA-22"
+      }
+    },
+    {
+      "index": 22,
+      "title": "MASTG-TEST-0318: References to SDK APIs Known to Handle Sensitive User Data",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [
+          "EA-20",
+          "EA-21"
+        ],
+        "suggested": null
+      }
+    },
+    {
+      "index": 23,
+      "title": "MASTG-TEST-0202: References to APIs and Permissions for Accessing External Storage",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [
+          "EA-02",
+          "EA-04",
+          "EA-22"
+        ],
+        "suggested": null
+      }
+    },
+    {
+      "index": 24,
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [
+          "EA-02",
+          "EA-04",
+          "EA-22"
+        ],
+        "suggested": "EA-04"
+      }
+    },
+    {
+      "index": 25,
+      "title": "MASTG-TEST-0231: References to Logging APIs",
+      "outcome": {
+        "kind": "issue",
+        "items": [
+          "EA-03"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 26,
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [
+          "EA-02",
+          "EA-04",
+          "EA-22"
+        ],
+        "suggested": "EA-04"
+      }
+    }
+  ],
+  "issues": {
+    "found": 16,
+    "total": 23,
+    "recall": 0.6956521739130435,
+    "missed": [
+      "EA-02",
+      "EA-04",
+      "EA-05",
+      "EA-20",
+      "EA-21",
+      "EA-22",
+      "EA-23"
+    ],
+    "byDifficulty": {
+      "obvious": {
+        "found": 6,
+        "total": 9
+      },
+      "cross-file": {
+        "found": 5,
+        "total": 6
+      },
+      "config": {
+        "found": 4,
+        "total": 6
+      },
+      "merged-manifest": {
+        "found": 1,
+        "total": 1
+      },
+      "absence": {
+        "found": 0,
+        "total": 1
+      }
+    },
+    "byMasvsGroup": {
+      "STORAGE": {
+        "found": 2,
+        "total": 5
+      },
+      "CRYPTO": {
+        "found": 3,
+        "total": 3
+      },
+      "AUTH": {
+        "found": 1,
+        "total": 1
+      },
+      "NETWORK": {
+        "found": 2,
+        "total": 2
+      },
+      "PLATFORM": {
+        "found": 3,
+        "total": 3
+      },
+      "CODE": {
+        "found": 3,
+        "total": 3
+      },
+      "RESILIENCE": {
+        "found": 2,
+        "total": 2
+      },
+      "PRIVACY": {
+        "found": 0,
+        "total": 4
+      }
+    },
+    "byCategory": {
+      "security": {
+        "found": 14,
+        "total": 17
+      },
+      "play": {
+        "found": 2,
+        "total": 2
+      },
+      "privacy": {
+        "found": 0,
+        "total": 4
+      }
+    }
+  }
+}

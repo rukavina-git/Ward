@@ -1,0 +1,206 @@
+{
+  "run": "2026-11-23-alone-HO-09-t1",
+  "case": "HO-09",
+  "kind": "config",
+  "found": {
+    "candidates": [
+      0
+    ],
+    "proposed": "found",
+    "label": "found"
+  },
+  "decoysFlagged": {
+    "candidates": [],
+    "proposed": 0,
+    "label": 0
+  },
+  "findings": [
+    {
+      "finding": 0,
+      "title": "allowBackup=\"true\" contradicts the stated intent that backups are disabled",
+      "where": [
+        "app/src/main/AndroidManifest.xml:65",
+        "app/src/main/res/xml/backup_rules.xml:3",
+        "app/src/main/res/xml/data_extraction_rules.xml:3"
+      ],
+      "role": "case",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 1,
+      "title": "Highly sensitive permissions (SMS, call, background location, QUERY_ALL_PACKAGES, accessibility) need Play declarations and may be rejected",
+      "where": [
+        "app/src/main/AndroidManifest.xml:13-15",
+        "app/src/main/AndroidManifest.xml:11",
+        "app/src/main/AndroidManifest.xml:20",
+        "app/src/main/AndroidManifest.xml:46",
+        "app/src/main/AndroidManifest.xml:39",
+        "app/src/main/AndroidManifest.xml:45"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 2,
+      "title": "AccessibilityService used for general agent automation needs Play policy approval and prominent disclosure",
+      "where": [
+        "app/src/main/res/xml/accessibility_service_config.xml:3",
+        "app/src/main/res/xml/accessibility_service_config.xml:5-7",
+        "app/src/main/AndroidManifest.xml:112-122"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 3,
+      "title": "Notification listener, SMS and contacts data sent to third-party LLM providers need disclosure (Data safety / privacy policy)",
+      "where": [
+        "app/src/main/AndroidManifest.xml:133-141",
+        "app/src/main/AndroidManifest.xml:8-9"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 4,
+      "title": "Exported BootReceiver and cleartext HTTP exceptions to local and emulator addresses",
+      "where": [
+        "app/src/main/AndroidManifest.xml:125-131",
+        "app/src/main/res/xml/network_security_config.xml:7-11"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 5,
+      "title": "Privileged root/Shizuku shell command execution",
+      "where": [
+        "app/src/main/java/com/opendroid/ai/core/service/PrivilegedCommandExecutor.kt:35",
+        "app/src/main/java/com/opendroid/ai/core/service/PrivilegedCommandExecutor.kt:54",
+        "app/src/main/AndroidManifest.xml:93-99"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 6,
+      "title": "R8 rules keep broad packages unobfuscated and shrinkResources is off",
+      "where": [
+        "app/proguard-rules.pro:6-13",
+        "app/proguard-rules.pro:37",
+        "app/proguard-rules.pro:65",
+        "app/build.gradle:62"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    }
+  ],
+  "citations": [
+    {
+      "finding": 0,
+      "id": "MASVS-STORAGE-2",
+      "exists": true,
+      "indexTitle": "The app prevents leakage of sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app prevents leakage of sensitive data.",
+      "label": "right"
+    },
+    {
+      "finding": 1,
+      "id": "MASVS-PRIVACY-1",
+      "exists": true,
+      "indexTitle": "The app minimizes access to sensitive data and resources.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app minimizes access to sensitive data and resources.",
+      "label": "right"
+    },
+    {
+      "finding": 2,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "wrong",
+      "proposedWhy": "Play policy disclosure, not IPC",
+      "label": "wrong"
+    },
+    {
+      "finding": 2,
+      "id": "MASVS-PRIVACY-1",
+      "exists": true,
+      "indexTitle": "The app minimizes access to sensitive data and resources.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app minimizes access to sensitive data and resources.",
+      "label": "right"
+    },
+    {
+      "finding": 3,
+      "id": "MASVS-PRIVACY-1",
+      "exists": true,
+      "indexTitle": "The app minimizes access to sensitive data and resources.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app minimizes access to sensitive data and resources.",
+      "label": "right"
+    },
+    {
+      "finding": 3,
+      "id": "MASVS-PRIVACY-3",
+      "exists": true,
+      "indexTitle": "The app is transparent about data collection and usage.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app is transparent about data collection and usage.",
+      "label": "right"
+    },
+    {
+      "finding": 4,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app uses IPC mechanisms securely.",
+      "label": "right"
+    },
+    {
+      "finding": 4,
+      "id": "MASVS-NETWORK-1",
+      "exists": true,
+      "indexTitle": "The app secures all network traffic according to the current best practices.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app secures all network traffic according to the current best practices.",
+      "label": "right"
+    },
+    {
+      "finding": 5,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app uses IPC mechanisms securely.",
+      "label": "right"
+    },
+    {
+      "finding": 5,
+      "id": "MASVS-CODE-4",
+      "exists": true,
+      "indexTitle": "The app validates and sanitizes all untrusted inputs.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app validates and sanitizes all untrusted inputs.",
+      "label": "right"
+    },
+    {
+      "finding": 6,
+      "id": "MASVS-RESILIENCE-3",
+      "exists": true,
+      "indexTitle": "The app implements anti-static analysis mechanisms.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app implements anti-static analysis mechanisms.",
+      "label": "right"
+    }
+  ]
+}

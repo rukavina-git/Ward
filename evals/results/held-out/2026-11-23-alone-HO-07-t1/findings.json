@@ -1,0 +1,199 @@
+{
+  "findings": [
+    {
+      "title": "Cleartext HTTP allowed and user-installed CAs trusted app-wide",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0050"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 10,
+          "endLine": 15
+        }
+      ],
+      "explanation": "The base-config sets cleartextTrafficPermitted=true and trusts user-added CAs for every domain. Chat content and credentials can go over plain HTTP, and a user-installed or malicious CA can intercept TLS. The Nextcloud server URL is user-supplied, so some leniency may be intended. Even so, restrict cleartext to a domain-config, or block it by default and warn the user. Limit user CAs to enterprise or debug builds."
+    },
+    {
+      "title": "Release build has code shrinking and obfuscation disabled",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-RESILIENCE-3"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/build.gradle.kts",
+          "line": 117
+        }
+      ],
+      "explanation": "isMinifyEnabled=false for release means no R8 shrinking or obfuscation. This makes reverse engineering easier and increases APK size. The ProGuard rules file is wired up but never used. Enable minification and test the keep rules."
+    },
+    {
+      "title": "Backup is enabled with an empty backup rules file",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-1"
+      ],
+      "maswe": [
+        "MASWE-0004"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 88,
+          "endLine": 89
+        },
+        {
+          "file": "app/src/gplay/AndroidManifest.xml",
+          "line": 14,
+          "endLine": 15
+        },
+        {
+          "file": "app/src/main/res/xml/backup_config.xml",
+          "line": 8,
+          "endLine": 10
+        }
+      ],
+      "explanation": "allowBackup=true with a fullBackupContent file that excludes nothing. The comment says it should exclude the push registration data. Shared preferences, databases, account data, tokens and cached chats are therefore uploaded to cloud backup and device transfer. No dataExtractionRules are defined for Android 12+. Exclude sensitive files and set explicit data-extraction rules, or disable backup."
+    },
+    {
+      "title": "Excessive sensitive permissions (contacts write, broad media, location, full-screen intent)",
+      "category": "play",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 43
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 47,
+          "endLine": 48
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 66,
+          "endLine": 68
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 76,
+          "endLine": 77
+        }
+      ],
+      "explanation": "The app declares READ/WRITE_CONTACTS, READ_MEDIA_IMAGES/VIDEO/AUDIO, fine and coarse location and USE_FULL_SCREEN_INTENT. Google Play restricts the media permissions and requires a declaration for full-screen intent. It also expects a justification in the Data safety form and a prominent in-app disclosure for contacts. Check each one is needed. Prefer the photo picker and a one-time location request. Complete the Play Console declarations. The legacy permissions (READ_PROFILE, MANAGE_ACCOUNTS, READ/WRITE_SYNC_SETTINGS, USE_FINGERPRINT) should be dropped if not needed."
+    },
+    {
+      "title": "Exported components accept external input",
+      "category": "security",
+      "severity": "low",
+      "verdict": "NEEDS DYNAMIC",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 109,
+          "endLine": 139
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 167,
+          "endLine": 192
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 346,
+          "endLine": 353
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 331,
+          "endLine": 344
+        }
+      ],
+      "explanation": "MainActivity handles VIEW on content/file URIs and the BROWSABLE nextcloudtalk scheme. ConversationsListActivity accepts SEND for */*. VoiceMessageMediaService and SyncService are exported. Intent extras and URIs from other apps must be validated, especially file: URIs and deep-link parameters. The exported services should be checked for caller verification. Test these at runtime."
+    },
+    {
+      "title": "Release build is versioned as an Alpha pre-release",
+      "category": "play",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/build.gradle.kts",
+          "line": 64,
+          "endLine": 65
+        }
+      ],
+      "explanation": "versionName is \"25.1.0 Alpha 10\". Confirm this is the intended production release. Otherwise publish a stable version, or use a testing track. Also confirm targetSdk (36) meets the current Play target-API requirement."
+    },
+    {
+      "title": "Deprecated legacy external storage opt-out in the main manifest",
+      "category": "play",
+      "severity": "low",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 94
+        }
+      ],
+      "explanation": "requestLegacyExternalStorage=true is ignored on targetSdk 30 and later. It is dead configuration and signals scoped-storage non-compliance. Remove it."
+    },
+    {
+      "title": "HTTP request and response bodies written to the app log at debug level",
+      "category": "privacy",
+      "severity": "low",
+      "verdict": "NEEDS DYNAMIC",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0001"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/api/LoggingHttpInterceptor.kt",
+          "line": 23,
+          "endLine": 40
+        }
+      ],
+      "explanation": "When the log level is DEBUG, the interceptor logs full BODY, covering chat messages and tokens in JSON. Only Authorization headers are redacted. These logs can be shared via a FileProvider (logs path). Confirm that the debug level can't be enabled in release builds, or redact bodies."
+    }
+  ],
+  "inspected": [
+    "app/build.gradle.kts",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/gplay/AndroidManifest.xml",
+    "app/src/main/res/xml/network_security_config.xml",
+    "app/src/main/res/xml/backup_config.xml",
+    "app/src/main/res/xml/file_provider_paths.xml",
+    "app/src/main/java/com/nextcloud/talk/utils/ssl/TrustManager.java",
+    "app/src/main/java/com/nextcloud/talk/api/LoggingHttpInterceptor.kt"
+  ]
+}

@@ -1,0 +1,478 @@
+{
+  "findings": [
+    {
+      "title": "Release build is debuggable",
+      "category": "security",
+      "severity": "high",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-RESILIENCE-2"
+      ],
+      "maswe": [
+        "MASWE-0067"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle.kts",
+          "line": 23
+        }
+      ],
+      "explanation": "isDebuggable = true in the release build type lets anyone attach a debugger, run-as into app data (tokens, saved credentials), and inspect memory. Google Play also rejects debuggable APKs/AABs."
+    },
+    {
+      "title": "Cleartext traffic permitted in release network security config",
+      "category": "security",
+      "severity": "high",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0050"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 3
+        },
+        {
+          "file": "sync/src/main/java/app/pennyjar/sync/Endpoints.kt",
+          "line": 6
+        }
+      ],
+      "explanation": "The main config sets cleartextTrafficPermitted=true for all domains; the debug-only override already restricts it, so release is the weak one. Receipt thumbnails are fetched over http:// (RECEIPT_IMAGE_BASE) with the Authorization bearer token attached by the interceptor, exposing the token and financial images to network attackers."
+    },
+    {
+      "title": "TLS validation disabled in UploadClient (trust-all + hostname verifier)",
+      "category": "security",
+      "severity": "high",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0052"
+      ],
+      "locations": [
+        {
+          "file": "sync/src/main/java/app/pennyjar/sync/UploadClient.kt",
+          "line": 17,
+          "endLine": 32
+        }
+      ],
+      "explanation": "A no-op X509TrustManager and hostnameVerifier { true } accept any certificate, so receipt images and the bearer token sent to upload.pennyjar.example can be intercepted via MITM."
+    },
+    {
+      "title": "Hardcoded static AES key with ECB mode for notes",
+      "category": "security",
+      "severity": "high",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CRYPTO-1",
+        "MASVS-CRYPTO-2"
+      ],
+      "maswe": [
+        "MASWE-0014",
+        "MASWE-0020"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/crypto/NoteKeys.kt",
+          "line": 8,
+          "endLine": 11
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/crypto/NoteCipher.kt",
+          "line": 9
+        }
+      ],
+      "explanation": "The note encryption key is embedded in the app and identical for all installs, so anyone can extract it and decrypt notes. AES/ECB leaks plaintext patterns and is unauthenticated. Use an Android Keystore key with AES-GCM (as TokenStore does)."
+    },
+    {
+      "title": "User password stored in plaintext SharedPreferences",
+      "category": "security",
+      "severity": "high",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-1"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/auth/CredentialStore.kt",
+          "line": 7,
+          "endLine": 14
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/auth/AuthRepository.kt",
+          "line": 20
+        }
+      ],
+      "explanation": "The email and password are saved unencrypted. With allowBackup=true and a debuggable build they are easy to extract. Store only a revocable token (Keystore-encrypted) instead of the password."
+    },
+    {
+      "title": "Hardcoded helpdesk API token in app",
+      "category": "security",
+      "severity": "high",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0005"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/support/SupportClient.kt",
+          "line": 35
+        }
+      ],
+      "explanation": "A bearer API token for the helpdesk is hardcoded and recoverable from the APK, letting anyone create/abuse tickets. Proxy through your own backend and rotate this token."
+    },
+    {
+      "title": "Exported ContentProvider without permissions and with SQL injection",
+      "category": "security",
+      "severity": "high",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-1",
+        "MASVS-CODE-4"
+      ],
+      "maswe": [
+        "MASWE-0064"
+      ],
+      "locations": [
+        {
+          "file": "sync/src/main/AndroidManifest.xml",
+          "line": 7,
+          "endLine": 10
+        },
+        {
+          "file": "sync/src/main/java/app/pennyjar/sync/ReceiptQueries.kt",
+          "line": 18,
+          "endLine": 22
+        },
+        {
+          "file": "sync/src/main/java/app/pennyjar/sync/ReceiptsProvider.kt",
+          "line": 47,
+          "endLine": 76
+        }
+      ],
+      "explanation": "ReceiptsProvider is exported with no readPermission/writePermission, so any app can read, insert, update, and delete all receipts. byMerchant concatenates the URI segment into raw SQL (injection). Make it non-exported or protect with signature permission, and use bound parameters."
+    },
+    {
+      "title": "WebView exposes session token to JS and loads attacker-controlled URL from exported activity",
+      "category": "security",
+      "severity": "high",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-2",
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [
+        "MASWE-0068",
+        "MASWE-0069"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 30,
+          "endLine": 42
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+          "line": 23,
+          "endLine": 43
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/help/HelpBridge.kt",
+          "line": 13,
+          "endLine": 14
+        }
+      ],
+      "explanation": "HelpActivity is exported and BROWSABLE; the page URL comes from the pennyjar://help?page= query or an intent extra with no allowlist, so any web page or app can load an arbitrary URL (including file:/javascript:) into a WebView with JS enabled. The PennyJar JS bridge returns the decrypted session token via sessionToken(), allowing account takeover. Validate URLs against an https help-host allowlist and remove the token from the bridge."
+    },
+    {
+      "title": "WebView remote debugging enabled unconditionally",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-RESILIENCE-4",
+        "MASVS-PLATFORM-2"
+      ],
+      "maswe": [
+        "MASWE-0067"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+          "line": 45
+        }
+      ],
+      "explanation": "WebView.setWebContentsDebuggingEnabled(true) runs in release, allowing inspection of WebView content (including the token bridge) via chrome://inspect."
+    },
+    {
+      "title": "HTTP BODY-level logging of requests including credentials and tokens",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0001"
+      ],
+      "locations": [
+        {
+          "file": "sync/src/main/java/app/pennyjar/sync/ApiClient.kt",
+          "line": 24,
+          "endLine": 26
+        }
+      ],
+      "explanation": "HttpLoggingInterceptor at Level.BODY is added after the auth interceptor and is not limited to debug builds, so login passwords, bearer tokens and expense data are written to logcat in release."
+    },
+    {
+      "title": "Analytics runs without honoring consent and sends email/merchant data",
+      "category": "privacy",
+      "severity": "high",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PRIVACY-3",
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0108"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+          "line": 51,
+          "endLine": 53
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+          "line": 13,
+          "endLine": 25
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/consent/ConsentStore.kt",
+          "line": 9
+        }
+      ],
+      "explanation": "Mixpanel is initialised and app_opened tracked on every launch before any consent screen, and the stored consent flag is never checked before tracking (including 'No thanks' or the settings toggle). Analytics also identifies users by email and sends merchant names. Gate all analytics on consent and avoid PII; the consent text also doesn't disclose these data types."
+    },
+    {
+      "title": "Background location permission declared without use or justification",
+      "category": "play",
+      "severity": "high",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 8
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/location/PlaceTagger.kt",
+          "line": 26,
+          "endLine": 27
+        }
+      ],
+      "explanation": "ACCESS_BACKGROUND_LOCATION is declared but the app only fetches a one-shot foreground city via NETWORK_PROVIDER. Google Play requires a permissions declaration and approval for background location; unneeded use will cause rejection. Remove it (and fine location if coarse suffices)."
+    },
+    {
+      "title": "Legacy storage permissions and backups written to public Documents folder",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0007"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 9
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 17
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/backup/AutoBackupWorker.kt",
+          "line": 21,
+          "endLine": 24
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/settings/SettingsScreen.kt",
+          "line": 91,
+          "endLine": 95
+        }
+      ],
+      "explanation": "Daily CSV of all expenses (with merchants/cities) is written unencrypted to shared external Documents, readable by other apps/users, and relies on WRITE_EXTERNAL_STORAGE/requestLegacyExternalStorage, which don't work on Android 11+ and conflict with scoped storage policy (on API 29+ the worker silently fails or leaks). Use SAF/MediaStore or app-private storage and add maxSdkVersion."
+    },
+    {
+      "title": "allowBackup enabled with sensitive data and no backup rules",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0004"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 13
+        }
+      ],
+      "explanation": "allowBackup=true with no dataExtractionRules/fullBackupContent lets plaintext credentials, receipts DB, and prefs be pulled via adb backup or cloud backup. Disable or exclude sensitive files."
+    },
+    {
+      "title": "targetSdk 34 is below Google Play's current requirement",
+      "category": "play",
+      "severity": "high",
+      "verdict": "FAIL",
+      "masvs": [],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/build.gradle.kts",
+          "line": 14
+        }
+      ],
+      "explanation": "With compileSdk 37, new apps/updates must target a recent API level (at least 35, and 36 after Aug 2026). targetSdk 34 will be blocked on upload."
+    },
+    {
+      "title": "Predictable PRNG for share-link tokens",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CRYPTO-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/share/ShareLinks.kt",
+          "line": 11,
+          "endLine": 15
+        }
+      ],
+      "explanation": "Share-link tokens that gate access to monthly expense reports are generated with java.util.Random, which is predictable. Use SecureRandom and a longer token."
+    },
+    {
+      "title": "Biometric gate is not cryptographically bound and allows bypass",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-2"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
+          "line": 37,
+          "endLine": 51
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/auth/TokenStore.kt",
+          "line": 16
+        }
+      ],
+      "explanation": "BiometricPrompt is used without a CryptoObject and the Keystore key doesn't require user authentication, so the gate is only a UI check. Enabling doesn't verify a biometric either, and 'unavailable' signs the user out rather than failing closed. Bind the token key to biometric auth."
+    },
+    {
+      "title": "Weak MD5 used and downloaded thumbnails fetched over HTTP into cache",
+      "category": "security",
+      "severity": "low",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CRYPTO-1"
+      ],
+      "maswe": [
+        "MASWE-0021"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/ui/ThumbnailCache.kt",
+          "line": 36,
+          "endLine": 38
+        }
+      ],
+      "explanation": "MD5 is used for cache file names; low impact by itself, but combined with unauthenticated HTTP downloads attacker-supplied images are cached and decoded. Switch to SHA-256 and HTTPS."
+    },
+    {
+      "title": "Outdated dependency with known issues (Gson 2.8.5)",
+      "category": "security",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0076"
+      ],
+      "locations": [
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 11
+        }
+      ],
+      "explanation": "Gson 2.8.5 is affected by a known deserialization DoS (CVE-2022-25647, fixed in 2.8.9). Upgrade to a current version."
+    }
+  ],
+  "inspected": [
+    "app/src/main/AndroidManifest.xml",
+    "app/build.gradle.kts",
+    "app/proguard-rules.pro",
+    "app/src/main/res/xml/network_security_config.xml",
+    "app/src/debug/res/xml/network_security_config.xml",
+    "app/src/main/res/xml/file_paths.xml",
+    "sync/src/main/AndroidManifest.xml",
+    "sync/build.gradle.kts",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptsProvider.kt",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptQueries.kt",
+    "sync/src/main/java/app/pennyjar/sync/ApiClient.kt",
+    "sync/src/main/java/app/pennyjar/sync/AuthInterceptor.kt",
+    "sync/src/main/java/app/pennyjar/sync/UploadClient.kt",
+    "sync/src/main/java/app/pennyjar/sync/Endpoints.kt",
+    "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+    "app/src/main/java/app/pennyjar/help/HelpBridge.kt",
+    "app/src/main/java/app/pennyjar/auth/TokenStore.kt",
+    "app/src/main/java/app/pennyjar/auth/CredentialStore.kt",
+    "app/src/main/java/app/pennyjar/auth/AuthRepository.kt",
+    "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
+    "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+    "app/src/main/java/app/pennyjar/crypto/NoteCipher.kt",
+    "app/src/main/java/app/pennyjar/crypto/NoteKeys.kt",
+    "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt",
+    "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+    "app/src/main/java/app/pennyjar/MainActivity.kt",
+    "app/src/main/java/app/pennyjar/consent/ConsentStore.kt",
+    "app/src/main/java/app/pennyjar/consent/ConsentScreen.kt",
+    "app/src/main/java/app/pennyjar/location/PlaceTagger.kt",
+    "app/src/main/java/app/pennyjar/backup/AutoBackupWorker.kt",
+    "app/src/main/java/app/pennyjar/support/SupportClient.kt",
+    "app/src/main/java/app/pennyjar/share/ShareLinks.kt",
+    "app/src/main/java/app/pennyjar/ui/ReceiptSharing.kt",
+    "app/src/main/java/app/pennyjar/ui/ThumbnailCache.kt",
+    "app/src/main/java/app/pennyjar/settings/SettingsScreen.kt",
+    "gradle/libs.versions.toml"
+  ]
+}

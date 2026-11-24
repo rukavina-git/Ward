@@ -1,0 +1,135 @@
+{
+  "findings": [
+    {
+      "title": "Background location permission needs Play Console declaration and justification",
+      "category": "play",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 20
+        }
+      ],
+      "explanation": "ACCESS_BACKGROUND_LOCATION is declared for location-based reminders. Google Play only approves it after a Permissions Declaration Form, an in-app prominent disclosure, and a demo video. Without these the release will be rejected. Confirm the disclosure exists and the form is filed. Also confirm that the privacy policy covers location use."
+    },
+    {
+      "title": "Calendar read/write and exact-alarm permissions are policy-sensitive",
+      "category": "play",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 33,
+          "endLine": 41
+        }
+      ],
+      "explanation": "READ_CALENDAR and WRITE_CALENDAR are sensitive permissions. SCHEDULE_EXACT_ALARM is restricted on Android 14 and later, and Play requires that the app's core function is alarm or calendar behaviour. Confirm the Data safety form and permission declarations cover these. Confirm they are requested at runtime only when the feature is used."
+    },
+    {
+      "title": "Auto Backup enabled with a custom backup agent",
+      "category": "privacy",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-1"
+      ],
+      "maswe": [
+        "MASWE-0004"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 163,
+          "endLine": 166
+        },
+        {
+          "file": "app/src/main/java/org/tasks/backup/TasksBackupAgent.kt",
+          "line": 9
+        }
+      ],
+      "explanation": "allowBackup is true and a BackupAgentHelper uploads backup files to Google's cloud. The manifest has no dataExtractionRules or fullBackupContent to exclude sensitive data such as account credentials or tokens. Check what TasksFileBackupHelper uploads. Add explicit exclusion rules, because the app targets Android 12+ and lint expects them. Reflect this in the Data safety form."
+    },
+    {
+      "title": "Exported provider and components without permission protection",
+      "category": "security",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [
+        "MASWE-0063"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 421,
+          "endLine": 426
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 223,
+          "endLine": 235
+        },
+        {
+          "file": "app/src/googleplay/AndroidManifest.xml",
+          "line": 30,
+          "endLine": 41
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 558,
+          "endLine": 582
+        }
+      ],
+      "explanation": "WidgetIconProvider is exported with grantUriPermissions and has no permission, and its lint check is suppressed. FilterSelectionActivity and IconPickerActivity are exported with no intent filter, so any app can launch them. WearDataService is exported without a permission, and its lint check is suppressed. The DashClock service is flagged worldReadable. Confirm none of these expose task data or accept untrusted input. Otherwise set exported=false or add permissions."
+    },
+    {
+      "title": "Third-party analytics and crash reporting need accurate Data safety disclosure",
+      "category": "privacy",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1",
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/googleplay/java/org/tasks/analytics/Firebase.kt",
+          "line": 38,
+          "endLine": 71
+        },
+        {
+          "file": "app/src/googleplay/AndroidManifest.xml",
+          "line": 7,
+          "endLine": 9
+        }
+      ],
+      "explanation": "Crashlytics, PostHog, Remote Config and FCM are included in the googleplay flavor. Collection is gated on the isTrackingEnabled opt-in, which is good. Preference-change events, the FCM token and the purchase order ID are still sent when enabled. Declare all of this in the Play Data safety form and the privacy policy. Verify at runtime that nothing is sent before consent."
+    }
+  ],
+  "inspected": [
+    "app/build.gradle.kts",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/googleplay/AndroidManifest.xml",
+    "app/src/googleplayRelease/res/values/keys.xml",
+    "app/src/googleplayRelease/res/raw/microsoft_config.json",
+    "app/src/googleplayRelease/res/raw/github_config.json",
+    "app/src/main/java/org/tasks/backup/TasksBackupAgent.kt",
+    "app/src/googleplay/java/org/tasks/analytics/Firebase.kt",
+    "app/google-services.json",
+    "gradle/libs.versions.toml",
+    "app/src/debug/res/xml/network_security_config.xml"
+  ]
+}

@@ -1,0 +1,392 @@
+{
+  "keyVersion": 2,
+  "runs": 18,
+  "models": [
+    "claude-sonnet-5-5"
+  ],
+  "claudeCodeVersions": [
+    "2.1.330 (Claude Code)"
+  ],
+  "cells": [
+    {
+      "setup": "alone",
+      "app": "planted",
+      "trials": 3,
+      "failed": 0,
+      "provisional": 0,
+      "issuesTotal": 23,
+      "found": {
+        "mean": 21.666666666666668,
+        "min": 21,
+        "max": 22,
+        "n": 3
+      },
+      "falsePassRate": {
+        "mean": 0.057971014492753624,
+        "min": 0.043478260869565216,
+        "max": 0.08695652173913043,
+        "n": 3
+      },
+      "precision": {
+        "mean": 0.9657894736842105,
+        "min": 0.9473684210526315,
+        "max": 1,
+        "n": 3
+      },
+      "falseAlarms": {
+        "mean": 0.6666666666666666,
+        "min": 0,
+        "max": 1,
+        "n": 3
+      },
+      "realUnplanted": {
+        "mean": 0,
+        "min": 0,
+        "max": 0,
+        "n": 3
+      },
+      "badCitationRate": {
+        "mean": 0,
+        "min": 0,
+        "max": 0,
+        "n": 3
+      },
+      "decoyHits": {
+        "EA-D1": 2
+      },
+      "missedBy": {
+        "EA-19": 2,
+        "EA-23": 2
+      },
+      "skillUsed": null,
+      "minutes": {
+        "mean": 1.1064999999999998,
+        "min": 1.0623666666666667,
+        "max": 1.1527166666666666,
+        "n": 3
+      },
+      "tokens": {
+        "mean": 145636,
+        "min": 139418,
+        "max": 155027,
+        "n": 3
+      },
+      "apiUsd": {
+        "mean": 0.2510362,
+        "min": 0.2399579,
+        "max": 0.2600258,
+        "n": 3
+      }
+    },
+    {
+      "setup": "alone",
+      "app": "clean",
+      "trials": 3,
+      "failed": 0,
+      "provisional": 0,
+      "issuesTotal": null,
+      "found": null,
+      "falsePassRate": null,
+      "precision": null,
+      "falseAlarms": {
+        "mean": 2,
+        "min": 1,
+        "max": 3,
+        "n": 3
+      },
+      "realUnplanted": {
+        "mean": 1,
+        "min": 1,
+        "max": 1,
+        "n": 3
+      },
+      "badCitationRate": {
+        "mean": 0.016666666666666666,
+        "min": 0,
+        "max": 0.05,
+        "n": 3
+      },
+      "decoyHits": {
+        "EA-D7": 3,
+        "EA-D8": 1,
+        "EA-D9": 1
+      },
+      "missedBy": {},
+      "skillUsed": null,
+      "minutes": {
+        "mean": 1.4049000000000003,
+        "min": 1.3483,
+        "max": 1.4995,
+        "n": 3
+      },
+      "tokens": {
+        "mean": 253045,
+        "min": 194915,
+        "max": 301747,
+        "n": 3
+      },
+      "apiUsd": {
+        "mean": 0.3373221,
+        "min": 0.31561900000000004,
+        "max": 0.36702519999999994,
+        "n": 3
+      }
+    },
+    {
+      "setup": "checklist",
+      "app": "planted",
+      "trials": 3,
+      "failed": 0,
+      "provisional": 0,
+      "issuesTotal": 23,
+      "found": {
+        "mean": 21,
+        "min": 18,
+        "max": 23,
+        "n": 3
+      },
+      "falsePassRate": {
+        "mean": 0.08695652173913043,
+        "min": 0,
+        "max": 0.21739130434782608,
+        "n": 3
+      },
+      "precision": {
+        "mean": 0.9841269841269842,
+        "min": 0.9523809523809523,
+        "max": 1,
+        "n": 3
+      },
+      "falseAlarms": {
+        "mean": 0.3333333333333333,
+        "min": 0,
+        "max": 1,
+        "n": 3
+      },
+      "realUnplanted": {
+        "mean": 0,
+        "min": 0,
+        "max": 0,
+        "n": 3
+      },
+      "badCitationRate": {
+        "mean": 0,
+        "min": 0,
+        "max": 0,
+        "n": 3
+      },
+      "decoyHits": {
+        "EA-D1": 1
+      },
+      "missedBy": {
+        "EA-08": 1,
+        "EA-09": 1,
+        "EA-11": 1,
+        "EA-19": 1,
+        "EA-23": 2
+      },
+      "skillUsed": 3,
+      "minutes": {
+        "mean": 1.0653944444444445,
+        "min": 0.8022166666666667,
+        "max": 1.1996333333333333,
+        "n": 3
+      },
+      "tokens": {
+        "mean": 153784.66666666666,
+        "min": 87708,
+        "max": 209278,
+        "n": 3
+      },
+      "apiUsd": {
+        "mean": 0.24825309999999998,
+        "min": 0.1932987,
+        "max": 0.28249179999999996,
+        "n": 3
+      }
+    },
+    {
+      "setup": "checklist",
+      "app": "clean",
+      "trials": 3,
+      "failed": 0,
+      "provisional": 0,
+      "issuesTotal": null,
+      "found": null,
+      "falsePassRate": null,
+      "precision": null,
+      "falseAlarms": {
+        "mean": 2.3333333333333335,
+        "min": 2,
+        "max": 3,
+        "n": 3
+      },
+      "realUnplanted": {
+        "mean": 0.6666666666666666,
+        "min": 0,
+        "max": 1,
+        "n": 3
+      },
+      "badCitationRate": {
+        "mean": 0,
+        "min": 0,
+        "max": 0,
+        "n": 3
+      },
+      "decoyHits": {
+        "EA-D7": 3,
+        "EA-D9": 2
+      },
+      "missedBy": {},
+      "skillUsed": 3,
+      "minutes": {
+        "mean": 1.3453111111111111,
+        "min": 1.2741,
+        "max": 1.4543833333333334,
+        "n": 3
+      },
+      "tokens": {
+        "mean": 224223.33333333334,
+        "min": 168013,
+        "max": 267384,
+        "n": 3
+      },
+      "apiUsd": {
+        "mean": 0.33168406666666667,
+        "min": 0.3073203,
+        "max": 0.35717960000000004,
+        "n": 3
+      }
+    },
+    {
+      "setup": "owasp",
+      "app": "planted",
+      "trials": 3,
+      "failed": 0,
+      "provisional": 0,
+      "issuesTotal": 23,
+      "found": {
+        "mean": 21.333333333333332,
+        "min": 20,
+        "max": 23,
+        "n": 3
+      },
+      "falsePassRate": {
+        "mean": 0.07246376811594203,
+        "min": 0,
+        "max": 0.13043478260869565,
+        "n": 3
+      },
+      "precision": {
+        "mean": 0.9833333333333334,
+        "min": 0.95,
+        "max": 1,
+        "n": 3
+      },
+      "falseAlarms": {
+        "mean": 0.3333333333333333,
+        "min": 0,
+        "max": 1,
+        "n": 3
+      },
+      "realUnplanted": {
+        "mean": 0,
+        "min": 0,
+        "max": 0,
+        "n": 3
+      },
+      "badCitationRate": {
+        "mean": 0.010101010101010102,
+        "min": 0,
+        "max": 0.030303030303030304,
+        "n": 3
+      },
+      "decoyHits": {
+        "EA-D1": 1
+      },
+      "missedBy": {
+        "EA-11": 1,
+        "EA-19": 2,
+        "EA-23": 2
+      },
+      "skillUsed": 0,
+      "minutes": {
+        "mean": 1.1552833333333332,
+        "min": 1.0349333333333333,
+        "max": 1.2478833333333332,
+        "n": 3
+      },
+      "tokens": {
+        "mean": 145501.33333333334,
+        "min": 140773,
+        "max": 152251,
+        "n": 3
+      },
+      "apiUsd": {
+        "mean": 0.2514798333333333,
+        "min": 0.2297794,
+        "max": 0.2729587,
+        "n": 3
+      }
+    },
+    {
+      "setup": "owasp",
+      "app": "clean",
+      "trials": 3,
+      "failed": 0,
+      "provisional": 0,
+      "issuesTotal": null,
+      "found": null,
+      "falsePassRate": null,
+      "precision": null,
+      "falseAlarms": {
+        "mean": 1.6666666666666667,
+        "min": 1,
+        "max": 2,
+        "n": 3
+      },
+      "realUnplanted": {
+        "mean": 0.6666666666666666,
+        "min": 0,
+        "max": 1,
+        "n": 3
+      },
+      "badCitationRate": {
+        "mean": 0,
+        "min": 0,
+        "max": 0,
+        "n": 3
+      },
+      "decoyHits": {
+        "EA-D7": 3,
+        "EA-D9": 1,
+        "EA-D8": 1
+      },
+      "missedBy": {},
+      "skillUsed": 0,
+      "minutes": {
+        "mean": 1.3721444444444444,
+        "min": 1.2831666666666666,
+        "max": 1.5082333333333333,
+        "n": 3
+      },
+      "tokens": {
+        "mean": 252810.66666666666,
+        "min": 215706,
+        "max": 290339,
+        "n": 3
+      },
+      "apiUsd": {
+        "mean": 0.3304916,
+        "min": 0.3119924,
+        "max": 0.3568683,
+        "n": 3
+      }
+    }
+  ],
+  "neverFound": [],
+  "revisit": {
+    "triggered": false,
+    "why": "alone found 21.7 on average (bar: 21), worst twin run 3 false alarms (bar: 1)"
+  }
+}

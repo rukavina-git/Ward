@@ -1,7 +1,20 @@
 node_modules/
 .next/
 dist/
+coverage/
+*.tsbuildinfo
 .env
 .env*.local
 .DS_Store
 *.log
+
+# Eval transcripts and stderr stay local until there is a trace viewer.
+evals/results/**/transcript.jsonl
+evals/results/**/stderr.txt
+
+# Third-party plugins for eval arms, fetched at a pinned tag; not vendored.
+evals/.cache/
+
+# OWASP sources cloned at pinned tags, and the ingest output (plan 3).
+packages/ingest/.cache/
+packages/ingest/out/

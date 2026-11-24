@@ -1,0 +1,375 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 87
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 158
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 184
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 205
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 227
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 249
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 273
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 297
+        }
+      ],
+      "explanation": "Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/AndroidManifest.xml:87: activity .tv.main.TvMainActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:158: activity .auth.ui.sessionfork.SessionForkConfirmationActivity; exported: yes (android:exported is set); deep link schemes: https, protonvpn\napp/src/main/AndroidManifest.xml:184: activity-alias ch.protonvpn.android.RoutingActivity; exported: yes (android:exported is set); deep link schemes: protonvpn\napp/src/main/AndroidManifest.xml:205: activity-alias ch.protonvpn.android.RoutingDark; exported: yes (android:exported is set); deep link schemes: protonvpn\napp/src/main/AndroidManifest.xml:227: activity-alias ch.protonvpn.android.RoutingRetro; exported: yes (android:exported is set); deep link schemes: protonvpn\napp/src/main/AndroidManifest.xml:249: activity-alias ch.protonvpn.android.RoutingWeather; exported: yes (android:exported is set); deep link schemes: protonvpn\napp/src/main/AndroidManifest.xml:273: activity-alias ch.protonvpn.android.RoutingNotes; exported: yes (android:exported is set); deep link schemes: protonvpn\napp/src/main/AndroidManifest.xml:297: activity-alias ch.protonvpn.android.RoutingCalculator; exported: yes (android:exported is set); deep link schemes: protonvpn"
+    },
+    {
+      "title": "MASTG-TEST-0366: Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 394
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 407
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 420
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 432
+        }
+      ],
+      "explanation": "Exported receivers without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/AndroidManifest.xml:394: receiver .widget.ProtonVpnWidgetReceiver; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:407: receiver .widget.ProtonVpnWidgetBigReceiver; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:420: receiver .widget.ProtonVpnWidgetMaterialReceiver; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:432: receiver .widget.ProtonVpnWidgetMaterialBigReceiver; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 80
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 781
+        },
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 53
+        },
+        {
+          "file": "shared-test-code/build.gradle",
+          "line": 143
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 813
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 814
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 815
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 816
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 817
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 818
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 827
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 829
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 962
+        },
+        {
+          "file": "baselineprofile/build.gradle.kts",
+          "line": 52
+        },
+        {
+          "file": "observability/tools/build.gradle.kts",
+          "line": 36
+        },
+        {
+          "file": "release_tests/build.gradle",
+          "line": 73
+        }
+      ],
+      "explanation": "io.sentry:sentry-android:7.22.5 is in the affected range of 1 OSV advisory: GHSA-7cjh-xx4r-qh3f. OSV Maven data downloaded 2026-11-23T09:56:12.549Z (published Fri, 20 Nov 2026 16:33:30 GMT). com.google.guava:guava:33.2.1-android is in the affected range of 1 OSV advisory: GHSA-xxph-c9ww-hj94/CVE-2026-102554. OSV Maven data downloaded 2026-11-23T09:56:12.549Z (published Fri, 20 Nov 2026 16:33:30 GMT). 160 of the other dependencies with exact versions match no OSV advisory, but 12 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-23T09:56:12.549Z (published Fri, 20 Nov 2026 16:33:30 GMT).\ngradle/libs.versions.toml:80: version 7.22.5\napp/build.gradle:781: implementation (catalog libs.sentry.android) in module app\ngradle/libs.versions.toml:53: version 33.2.1-android\nshared-test-code/build.gradle:143: implementation (catalog libs.google.guava) in module shared-test-code\napp/build.gradle:813: androidx.compose.animation:animation-android: no version (a BOM or constraint may set it)\napp/build.gradle:814: androidx.compose.material3:material3: no version (a BOM or constraint may set it)\napp/build.gradle:815: androidx.compose.material3:material3-window-size-class: no version (a BOM or constraint may set it)\napp/build.gradle:816: androidx.compose.runtime:runtime-livedata: no version (a BOM or constraint may set it)\napp/build.gradle:817: androidx.compose.ui:ui: no version (a BOM or constraint may set it)\napp/build.gradle:818: androidx.compose.ui:ui-viewbinding: no version (a BOM or constraint may set it)\napp/build.gradle:827: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\napp/build.gradle:829: androidx.compose.ui:ui-tooling: no version (a BOM or constraint may set it)\napp/build.gradle:962: unrecognised: Ward can't read this declaration: projects.observability.domain)\nbaselineprofile/build.gradle.kts:52: unrecognised: Ward can't read this declaration: projects.uiAutomatorTestUtil)\nobservability/tools/build.gradle.kts:36: unrecognised: Ward can't read this declaration: projects.observability.domain)\nrelease_tests/build.gradle:73: unrecognised: Ward can't read this declaration: projects.uiAutomatorTestUtil)"
+    },
+    {
+      "title": "MASTG-TEST-0309: References to Reused Initialization Vectors in Symmetric Encryption",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CRYPTO-1",
+        "MASVS-CRYPTO-2"
+      ],
+      "maswe": [
+        "MASWE-0007"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/protonvpn/android/utils/AssetManager.kt",
+          "line": 64
+        }
+      ],
+      "explanation": "AES-GCM decryption uses a constant all-zero 12-byte nonce. Reuse of nonce with a fixed key breaks GCM. Scope is the test-asset override path, which lowers impact.\napp/src/main/java/com/protonvpn/android/utils/AssetManager.kt:64: Static zero IV for GCM."
+    },
+    {
+      "title": "MASTG-TEST-0212: Use of Hardcoded Cryptographic Keys in Code",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CRYPTO-2",
+        "MASVS-STORAGE-1"
+      ],
+      "maswe": [
+        "MASWE-0003"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/protonvpn/android/vpn/ServerPing.kt",
+          "line": 48
+        }
+      ],
+      "explanation": "A fixed HMAC-SHA256 key is hardcoded in source and used to build a SecretKeySpec.\napp/src/main/java/com/protonvpn/android/vpn/ServerPing.kt:48: Hardcoded PING_KEY constant used as the HMAC key."
+    },
+    {
+      "title": "MASTG-TEST-0242: Missing Certificate Pinning in Network Security Configuration",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-NETWORK-2"
+      ],
+      "maswe": [
+        "MASWE-0028"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 54
+        }
+      ],
+      "explanation": "No pin-set in a network security config. Pinning may be done in code (OkHttp CertificatePinner, a custom TrustManager), which Ward doesn't read. MASVS L2 expects pinning; L1 doesn't.\napp/src/main/AndroidManifest.xml:54: networkSecurityConfig @xml/network_security_config"
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 29
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\napp/src/main/AndroidManifest.xml:29: android.permission.POST_NOTIFICATIONS"
+    },
+    {
+      "title": "MASTG-TEST-0224: Usage of Insecure APK Signature Version",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-RESILIENCE-2"
+      ],
+      "maswe": [
+        "MASWE-0056"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle",
+          "line": 338
+        }
+      ],
+      "explanation": "Signature scheme needs the built APK. Note the release build type is signed with the debug signing config.\napp/build.gradle:338: Release uses debug signing config."
+    },
+    {
+      "title": "MASTG-TEST-0288: Debugging Symbols in Native Binaries",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-RESILIENCE-3"
+      ],
+      "maswe": [
+        "MASWE-0061"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle",
+          "line": 414
+        }
+      ],
+      "explanation": "The build keeps debug symbols for native libraries; the binaries must be inspected to confirm.\napp/build.gradle:414: Debug symbols kept for all .so files."
+    },
+    {
+      "title": "MASTG-TEST-0368: Insufficient Obfuscation of Security-Relevant Java/Kotlin Code",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-RESILIENCE-3"
+      ],
+      "maswe": [
+        "MASWE-0059"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle",
+          "line": 337
+        }
+      ],
+      "explanation": "R8 minification is on for release, but whether the result is sufficient needs mapping and APK review.\napp/build.gradle:337: Release build type has minification enabled."
+    },
+    {
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "release_tests/src/main/AndroidManifest.xml",
+          "line": 24
+        }
+      ],
+      "explanation": "Backup is on (android:allowBackup=\"true\") and there are no backup rules (dataExtractionRules, fullBackupContent), so every app file goes into cloud backups and device transfers.\nrelease_tests/src/main/AndroidManifest.xml:24: android:allowBackup=\"true\""
+    },
+    {
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "release_tests/src/main/AndroidManifest.xml",
+          "line": 24
+        }
+      ],
+      "explanation": "Backup is on (android:allowBackup=\"true\") and there are no backup rules (dataExtractionRules, fullBackupContent), so every app file goes into cloud backups and device transfers.\nrelease_tests/src/main/AndroidManifest.xml:24: android:allowBackup=\"true\""
+    }
+  ],
+  "inspected": [
+    "app/build.gradle",
+    "app/src/google/AndroidManifest.xml",
+    "app/src/google/java/com/protonvpn/android/update/AppUpdateManagerImpl.kt",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/java/com/protonvpn/android/ProtonApplicationHilt.kt",
+    "app/src/main/java/com/protonvpn/android/components/QuickTileService.kt",
+    "app/src/main/java/com/protonvpn/android/di/AppModule.kt",
+    "app/src/main/java/com/protonvpn/android/logging/CurrentStateLogger.kt",
+    "app/src/main/java/com/protonvpn/android/notifications/NotificationHelper.kt",
+    "app/src/main/java/com/protonvpn/android/restrictonsupsell/StreamingUpsellRestrictionsNotificationTrigger.kt",
+    "app/src/main/java/com/protonvpn/android/third_party/ApacheStringUtils.java",
+    "app/src/main/java/com/protonvpn/android/ui/settings/OssLicensesActivity.kt",
+    "app/src/main/java/com/protonvpn/android/utils/AndroidUtils.kt",
+    "app/src/main/java/com/protonvpn/android/utils/AssetManager.kt",
+    "app/src/main/java/com/protonvpn/android/utils/Log.java",
+    "app/src/main/java/com/protonvpn/android/utils/SentryIntegration.kt",
+    "app/src/main/java/com/protonvpn/android/vpn/ServerPing.kt",
+    "app/src/main/java/com/protonvpn/android/vpn/VpnErrorUIManager.kt",
+    "app/src/main/java/com/protonvpn/android/widget/WidgetManager.kt",
+    "app/src/main/res/layout/content_report.xml",
+    "app/src/main/res/xml/network_security_config.xml",
+    "baselineprofile/build.gradle.kts",
+    "baselineprofile/src/main/AndroidManifest.xml",
+    "detekt-custom-rules/build.gradle.kts",
+    "detekt-gitlab-output-plugin/build.gradle.kts",
+    "gradle/libs.versions.toml",
+    "observability/domain/build.gradle.kts",
+    "observability/tools/build.gradle.kts",
+    "release_tests/build.gradle",
+    "release_tests/src/main/AndroidManifest.xml",
+    "release_tests/src/main/java/com/protonvpn/android/release_tests/helpers/TestApiClient.kt",
+    "shared-test-code/build.gradle",
+    "shared-test-code/src/main/AndroidManifest.xml",
+    "ui_automator_test_util/build.gradle.kts",
+    "ui_automator_test_util/src/main/AndroidManifest.xml"
+  ]
+}

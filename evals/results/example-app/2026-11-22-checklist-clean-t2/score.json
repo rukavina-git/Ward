@@ -1,0 +1,89 @@
+{
+  "run": "2026-11-22-checklist-clean-t2",
+  "setup": "checklist",
+  "trial": 2,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "clean",
+  "provisional": false,
+  "findings": 7,
+  "ungraded": 0,
+  "duplicates": 0,
+  "decoyHits": [
+    "EA-D7",
+    "EA-D9"
+  ],
+  "falseAlarms": 3,
+  "realUnplanted": 1,
+  "generic": 3,
+  "precision": null,
+  "citations": {
+    "locations": 17,
+    "bad": []
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "Auto-backup leaves receipts database and photos unprotected",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D7"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 1,
+      "title": "Bearer token is attached to every request, including arbitrary URLs and other hosts",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 2,
+      "title": "Biometric lock is UI-only and never re-locks",
+      "outcome": {
+        "kind": "real-unplanted",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 3,
+      "title": "Plaintext CSV of expenses written to app storage by auto-backup",
+      "outcome": {
+        "kind": "false-alarm",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 4,
+      "title": "Exported browsable HelpActivity takes an external page parameter",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D9"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 5,
+      "title": "Data collection (analytics, location, financial data, email) needs accurate Play Data Safety and consent flow",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 6,
+      "title": "Account deletion: Play also requires a web-accessible deletion path",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    }
+  ]
+}

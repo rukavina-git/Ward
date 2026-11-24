@@ -1,0 +1,146 @@
+{
+  "run": "2026-11-23-alone-HO-02-t1",
+  "case": "HO-02",
+  "kind": "config",
+  "found": {
+    "candidates": [],
+    "proposed": "missed",
+    "label": "missed"
+  },
+  "decoysFlagged": {
+    "candidates": [],
+    "proposed": 0,
+    "label": 0
+  },
+  "findings": [
+    {
+      "finding": 0,
+      "title": "Background location permission needs Play Console declaration and justification",
+      "where": [
+        "app/src/main/AndroidManifest.xml:20"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 1,
+      "title": "Calendar read/write and exact-alarm permissions are policy-sensitive",
+      "where": [
+        "app/src/main/AndroidManifest.xml:33-41"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 2,
+      "title": "Auto Backup enabled with a custom backup agent",
+      "where": [
+        "app/src/main/AndroidManifest.xml:163-166",
+        "app/src/main/java/org/tasks/backup/TasksBackupAgent.kt:9"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 3,
+      "title": "Exported provider and components without permission protection",
+      "where": [
+        "app/src/main/AndroidManifest.xml:421-426",
+        "app/src/main/AndroidManifest.xml:223-235",
+        "app/src/googleplay/AndroidManifest.xml:30-41",
+        "app/src/main/AndroidManifest.xml:558-582"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    },
+    {
+      "finding": 4,
+      "title": "Third-party analytics and crash reporting need accurate Data safety disclosure",
+      "where": [
+        "app/src/googleplay/java/org/tasks/analytics/Firebase.kt:38-71",
+        "app/src/googleplay/AndroidManifest.xml:7-9"
+      ],
+      "role": "other",
+      "proposed": null,
+      "label": null
+    }
+  ],
+  "citations": [
+    {
+      "finding": 0,
+      "id": "MASVS-PRIVACY-1",
+      "exists": true,
+      "indexTitle": "The app minimizes access to sensitive data and resources.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app minimizes access to sensitive data and resources.",
+      "label": "right"
+    },
+    {
+      "finding": 1,
+      "id": "MASVS-PRIVACY-1",
+      "exists": true,
+      "indexTitle": "The app minimizes access to sensitive data and resources.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app minimizes access to sensitive data and resources.",
+      "label": "right"
+    },
+    {
+      "finding": 2,
+      "id": "MASVS-STORAGE-1",
+      "exists": true,
+      "indexTitle": "The app securely stores sensitive data.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app securely stores sensitive data.",
+      "label": "right"
+    },
+    {
+      "finding": 2,
+      "id": "MASWE-0004",
+      "exists": true,
+      "indexTitle": "Sensitive Data Hardcoded in the App Package",
+      "proposed": "wrong",
+      "proposedWhy": "v1.0.0 0004 is hardcoded data; backup is MASWE-0006",
+      "label": "wrong"
+    },
+    {
+      "finding": 3,
+      "id": "MASVS-PLATFORM-1",
+      "exists": true,
+      "indexTitle": "The app uses IPC mechanisms securely.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app uses IPC mechanisms securely.",
+      "label": "right"
+    },
+    {
+      "finding": 3,
+      "id": "MASWE-0063",
+      "exists": true,
+      "indexTitle": "Debug Mechanisms Not Disabled",
+      "proposed": "wrong",
+      "proposedWhy": "0063 is debug mechanisms; not an exported-component weakness",
+      "label": "wrong"
+    },
+    {
+      "finding": 4,
+      "id": "MASVS-PRIVACY-1",
+      "exists": true,
+      "indexTitle": "The app minimizes access to sensitive data and resources.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app minimizes access to sensitive data and resources.",
+      "label": "right"
+    },
+    {
+      "finding": 4,
+      "id": "MASVS-PRIVACY-3",
+      "exists": true,
+      "indexTitle": "The app is transparent about data collection and usage.",
+      "proposed": "right",
+      "proposedWhy": "fits: The app is transparent about data collection and usage.",
+      "label": "right"
+    }
+  ]
+}

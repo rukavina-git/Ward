@@ -1,0 +1,61 @@
+{
+  "run": "2026-11-22-checklist-clean-t1",
+  "setup": "checklist",
+  "trial": 1,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "clean",
+  "provisional": false,
+  "findings": 4,
+  "ungraded": 0,
+  "duplicates": 0,
+  "decoyHits": [
+    "EA-D7"
+  ],
+  "falseAlarms": 2,
+  "realUnplanted": 1,
+  "generic": 1,
+  "precision": null,
+  "citations": {
+    "locations": 11,
+    "bad": []
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "Auto Backup is enabled and covers the receipts database, receipt photos and the plaintext CSV",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D7"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 1,
+      "title": "Automatic backup writes all expenses as an unencrypted CSV in app storage",
+      "outcome": {
+        "kind": "false-alarm",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 2,
+      "title": "Biometric lock is skipped after process death or recreation and is not re-applied on resume",
+      "outcome": {
+        "kind": "real-unplanted",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 3,
+      "title": "Personal and financial data collection must be declared (Data safety form and privacy policy); consent and deletion need manual verification",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    }
+  ]
+}

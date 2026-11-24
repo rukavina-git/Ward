@@ -1,0 +1,22 @@
+{
+  "grades": [
+    {
+      "finding": 0,
+      "title": "Analytics SDK starts and tracks before the user gives consent; user ID is sent regardless of choice",
+      "candidates": [
+        "EA-D5"
+      ],
+      "suggested": "false-alarm",
+      "label": "false-alarm",
+      "note": "Misreads getInstance(..., true, true): the third argument opts out by default, so nothing is tracked before consent."
+    },
+    {
+      "finding": 2,
+      "title": "Biometric unlock is only a UI gate and does not protect the session token or data",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": "real-unplanted",
+      "note": "The twin's EA-09 fix seals a secret nothing else uses, so the unlock protects no data (step 02 gotcha). Key candidate, or improve the twin."
+    }
+  ]
+}

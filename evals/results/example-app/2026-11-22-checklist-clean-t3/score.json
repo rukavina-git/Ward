@@ -1,0 +1,57 @@
+{
+  "run": "2026-11-22-checklist-clean-t3",
+  "setup": "checklist",
+  "trial": 3,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "clean",
+  "provisional": false,
+  "findings": 3,
+  "ungraded": 0,
+  "duplicates": 0,
+  "decoyHits": [
+    "EA-D7",
+    "EA-D9"
+  ],
+  "falseAlarms": 2,
+  "realUnplanted": 0,
+  "generic": 1,
+  "precision": null,
+  "citations": {
+    "locations": 13,
+    "bad": []
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "Auto Backup enabled; expense database, receipt photos and CSV backup are not excluded",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D7"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 1,
+      "title": "Exported deep-link WebView activity: host check can be bypassed and the page gets a JS bridge",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D9"
+        ],
+        "how": "hand"
+      }
+    },
+    {
+      "index": 2,
+      "title": "Play Data safety and privacy disclosures need review (location, financial data, analytics, account deletion)",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    }
+  ]
+}

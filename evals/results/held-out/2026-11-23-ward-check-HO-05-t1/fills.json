@@ -1,0 +1,18 @@
+{"fills":[
+{"check":"MASTG-TEST-0202","verdict":"FAIL","reason":"App writes backups and attachments to app-specific external storage (getExternalFilesDir), readable by other apps with storage access on older Android versions.","filesInspected":["app/src/main/java/org/tasks/preferences/Preferences.kt"],"evidence":[{"file":"app/src/main/java/org/tasks/preferences/Preferences.kt","line":648,"detail":"Default file location is the external files dir.","quote":"val baseDir = context.getExternalFilesDir(null) ?: context.filesDir"}]},
+{"check":"MASTG-TEST-0212","verdict":"NO FINDING","reason":"Searched resource and key files; the only values found are OAuth redirect scheme/path identifiers, not cryptographic keys. Not a full source scan.","filesInspected":["app/src/googleplayRelease/res/values/keys.xml"],"evidence":[]},
+{"check":"MASTG-TEST-0231","verdict":"MANUAL","reason":"App logs through Timber and Log in many files (347 occurrences). Whether a Timber tree is planted in release and whether logs carry task data needs a human review.","filesInspected":["app/src/main/java/org/tasks/TasksApplication.kt"],"evidence":[]},
+{"check":"MASTG-TEST-0250","verdict":"N/A","reason":"No WebView references found in any .kt, .java or .xml file.","filesInspected":[],"evidence":[]},
+{"check":"MASTG-TEST-0252","verdict":"N/A","reason":"No WebView references found in any .kt, .java or .xml file.","filesInspected":[],"evidence":[]},
+{"check":"MASTG-TEST-0334","verdict":"N/A","reason":"No WebView references found in any .kt, .java or .xml file.","filesInspected":[],"evidence":[]},
+{"check":"MASTG-TEST-0258","verdict":"MANUAL","reason":"Only a few text inputs found (styles.xml sets textNoSuggestions on one style). Whether any input holds sensitive data needs a human decision.","filesInspected":["app/src/main/res/values/styles.xml"],"evidence":[]},
+{"check":"MASTG-TEST-0291","verdict":"MANUAL","reason":"No FLAG_SECURE or setRecentsScreenshotEnabled found in main, generic or googleplay sources. Whether the task content counts as sensitive is a human call.","filesInspected":[],"evidence":[]},
+{"check":"MASTG-TEST-0315","verdict":"MANUAL","reason":"Notifications show task titles (NotificationManager.kt). Whether those are sensitive, and whether lock screen visibility is set, needs review.","filesInspected":["app/src/main/java/org/tasks/notifications/NotificationManager.kt"],"evidence":[]},
+{"check":"MASTG-TEST-0316","verdict":"MANUAL","reason":"No password inputs found by inputType search; login screens were not read in full.","filesInspected":[],"evidence":[]},
+{"check":"MASTG-TEST-0340","verdict":"MANUAL","reason":"Overlay protections (filterTouchesWhenObscured) were not searched.","filesInspected":[],"evidence":[]},
+{"check":"MASTG-TEST-0372","verdict":"MANUAL","reason":"Not reviewed: intent usage across the app is too broad for the grep pass done.","filesInspected":[],"evidence":[]},
+{"check":"MASTG-TEST-0374","verdict":"MANUAL","reason":"Not reviewed: implicit intent extras were not traced.","filesInspected":[],"evidence":[]},
+{"check":"MASTG-TEST-0381","verdict":"NO FINDING","reason":"All PendingIntent calls in NotificationManager.kt use FLAG_IMMUTABLE. Other files (TasksWidget, WorkManagerImpl, location services, ShortcutWidgetHelper) were listed but their flags not read.","filesInspected":["app/src/main/java/org/tasks/notifications/NotificationManager.kt"],"evidence":[]},
+{"check":"MASTG-TEST-0393","verdict":"MANUAL","reason":"Deep link intent filters and assetlinks verification were not reviewed.","filesInspected":[],"evidence":[]},
+{"check":"MASTG-TEST-0394","verdict":"MANUAL","reason":"UriHandler (exported, content scheme) input validation was not read.","filesInspected":[],"evidence":[]}
+]}

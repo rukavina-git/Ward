@@ -1,0 +1,149 @@
+{
+  "findings": [
+    {
+      "title": "Cleartext HTTP allowed globally and user-installed CAs trusted",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0050"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 5,
+          "endLine": 10
+        }
+      ],
+      "explanation": "The base-config sets cleartextTrafficPermitted=true and trusts user-added CAs for every domain. Auth tokens and Home Assistant traffic can be intercepted or modified on the network, and any user-installed or malicious CA can MITM TLS. The app needs to reach local HTTP servers, so a human should decide this. Options include scoping cleartext to local or private hosts with domain-config, dropping the user trust anchor outside debug builds, and warning users clearly."
+    },
+    {
+      "title": "Cloud backup and device transfer include all databases and shared preferences",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-1"
+      ],
+      "maswe": [
+        "MASWE-0004"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 93
+        },
+        {
+          "file": "app/src/main/res/xml/backup_rules.xml",
+          "line": 3,
+          "endLine": 5
+        },
+        {
+          "file": "app/src/main/res/xml/backup_rules_android12.xml",
+          "line": 4,
+          "endLine": 11
+        }
+      ],
+      "explanation": "allowBackup=true, and the rules include every database and shared-pref file. Only session_0.xml is excluded. Server URLs, device and webhook identifiers, location and sensor data, and any other credential-bearing prefs or DBs can be uploaded to cloud backup or extracted over adb. Switch to an allowlist of non-sensitive files and exclude secrets and tokens."
+    },
+    {
+      "title": "QUERY_ALL_PACKAGES permission needs Play policy justification",
+      "category": "play",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 33,
+          "endLine": 34
+        }
+      ],
+      "explanation": "Play restricts QUERY_ALL_PACKAGES and requires a Permissions Declaration with an approved core use case. Lint is suppressed with tools:ignore. Confirm the use case qualifies, or switch to targeted <queries> entries."
+    },
+    {
+      "title": "Sensitive background location, health, call, and usage permissions need Play declarations and a privacy policy",
+      "category": "play",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 23
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 25
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 47
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 53,
+          "endLine": 78
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 41
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 46
+        }
+      ],
+      "explanation": "The manifest declares ACCESS_BACKGROUND_LOCATION, CALL_PHONE, PACKAGE_USAGE_STATS, many Health Connect read permissions, SYSTEM_ALERT_WINDOW, SCHEDULE_EXACT_ALARM, and foreground-service types for location, microphone, and data sync. Play needs Permissions Declaration forms, in-app prominent disclosure for background location, Health Connect data-use approval, and foreground-service declarations. The Data safety form and privacy policy must match this data collection. Sentry crash reporting is also configured, so disclose it. Review each permission against what the app actually uses."
+    },
+    {
+      "title": "Exported components without permission protection (broadcast receivers and activities)",
+      "category": "security",
+      "severity": "low",
+      "verdict": "NEEDS DYNAMIC",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 163,
+          "endLine": 191
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 257,
+          "endLine": 273
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 282,
+          "endLine": 286
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 533,
+          "endLine": 540
+        }
+      ],
+      "explanation": "Receivers such as SensorReceiver, WebsocketBroadcastReceiver, and TemplateWidget are exported with custom actions like UPDATE_SENSORS and REQUEST_SENSORS_UPDATE. WidgetAuthenticationActivity, ShareActivity, and the widget configure activities are also exported. Any app can send these intents. Check their handlers for validation of intent extras and actions. This includes whether WidgetAuthenticationActivity can be abused to trigger authenticated actions. Add permissions or set exported=false where external access isn't needed."
+    }
+  ],
+  "inspected": [
+    "app/build.gradle.kts",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/res/xml/network_security_config.xml",
+    "app/src/main/res/xml/backup_rules.xml",
+    "app/src/main/res/xml/backup_rules_android12.xml"
+  ]
+}

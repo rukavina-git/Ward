@@ -1,0 +1,88 @@
+{
+  "run": "2026-11-22-alone-clean-t1",
+  "setup": "alone",
+  "trial": 1,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "clean",
+  "provisional": false,
+  "findings": 6,
+  "ungraded": 0,
+  "duplicates": 0,
+  "decoyHits": [
+    "EA-D7",
+    "EA-D8"
+  ],
+  "falseAlarms": 2,
+  "realUnplanted": 1,
+  "generic": 3,
+  "precision": null,
+  "citations": {
+    "locations": 20,
+    "bad": [
+      {
+        "finding": 3,
+        "file": "app/src/main/java/app/pennyjar/app/PennyJarApp.kt",
+        "line": 48,
+        "why": "no such file"
+      }
+    ]
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "Cloud backup / device transfer include the receipts database, receipt photos and plaintext CSV export",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D7"
+        ],
+        "how": "auto"
+      }
+    },
+    {
+      "index": 1,
+      "title": "Bearer auth token is attached to every request, including downloads from a different host",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 2,
+      "title": "Release build points at placeholder .example domains, including the privacy policy URL",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 3,
+      "title": "Play Data safety / permissions declarations need review (location, analytics, account deletion)",
+      "outcome": {
+        "kind": "generic",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 4,
+      "title": "Biometric lock is a UI-only gate and the sealed secret is never used",
+      "outcome": {
+        "kind": "real-unplanted",
+        "how": "hand"
+      }
+    },
+    {
+      "index": 5,
+      "title": "Exported HelpActivity exposes a JavaScript bridge and accepts an external page parameter",
+      "outcome": {
+        "kind": "decoy",
+        "items": [
+          "EA-D8"
+        ],
+        "how": "auto"
+      }
+    }
+  ]
+}

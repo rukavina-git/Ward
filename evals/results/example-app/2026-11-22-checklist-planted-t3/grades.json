@@ -1,0 +1,79 @@
+{
+  "grades": [
+    {
+      "finding": 4,
+      "title": "Help WebView exposes the session token to JavaScript and loads attacker-controlled URLs",
+      "candidates": [
+        "EA-15",
+        "EA-14",
+        "EA-D4",
+        "EA-D6"
+      ],
+      "suggested": null,
+      "label": "EA-14+EA-15",
+      "proposed": "EA-14+EA-15",
+      "proposedWhy": "deep link loads any URL and the JS bridge hands out the session token"
+    },
+    {
+      "finding": 10,
+      "title": "Analytics collected without consent and the user's email is sent to Mixpanel",
+      "candidates": [
+        "EA-20",
+        "EA-21"
+      ],
+      "suggested": "EA-20",
+      "label": "EA-20+EA-21",
+      "proposed": "EA-20+EA-21",
+      "proposedWhy": "tracking before consent, email as the user ID, merchant names sent"
+    },
+    {
+      "finding": 11,
+      "title": "Backup file written to public Documents with no protection; allowBackup enabled",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": null,
+      "label": "EA-02+EA-04",
+      "proposed": "EA-02+EA-04",
+      "proposedWhy": "CSV to public Documents, and allowBackup exposes plaintext credentials"
+    },
+    {
+      "finding": 12,
+      "title": "Background location permission requested without clear need",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-22",
+      "label": "EA-22",
+      "proposed": "EA-22",
+      "proposedWhy": "background and fine location for a one-off city lookup"
+    },
+    {
+      "finding": 14,
+      "title": "Weak MD5 / non-secure Random for tokens and cache names",
+      "candidates": [
+        "EA-08",
+        "EA-D1"
+      ],
+      "suggested": null,
+      "label": "EA-08",
+      "proposed": "EA-08",
+      "proposedWhy": "java.util.Random for share tokens; calls MD5 (decoy D1) low risk in passing"
+    },
+    {
+      "finding": 17,
+      "title": "Unsafe permission/redirect: no certificate pinning for own endpoints",
+      "candidates": [
+        "EA-10"
+      ],
+      "suggested": "EA-10",
+      "label": "generic",
+      "proposed": "generic",
+      "proposedWhy": "pinning advice"
+    }
+  ]
+}

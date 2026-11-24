@@ -1,0 +1,129 @@
+{
+  "findings": [
+    {
+      "title": "Auto-backup enabled with no data extraction rules; task data goes to cloud backup and device transfer",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 163,
+          "endLine": 166
+        }
+      ],
+      "explanation": "The app sets allowBackup=true with a custom TasksBackupAgent and has no dataExtractionRules or fullBackupContent. On Android 12+ this means no control over what is uploaded to Google Drive backup or copied in device-to-device transfer. The agent backs up a full task export, which can include sensitive notes and locations. Add data-extraction rules that exclude sensitive data and credentials, or disable backup. Also disclose it in the Data safety form."
+    },
+    {
+      "title": "Background location permission needs a Play declaration and review",
+      "category": "play",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 20
+        }
+      ],
+      "explanation": "ACCESS_BACKGROUND_LOCATION is declared for location-based reminders. Google Play requires a Permissions Declaration Form, a justification video, and an in-app prominent disclosure before the permission is requested. It also requires the Data safety form and privacy policy to cover location use. Without these, the release is likely to be rejected. Confirm the core feature really needs background access, and that a runtime disclosure exists."
+    },
+    {
+      "title": "Exported content providers and the exported Wear service expose task data to other apps",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "NEEDS DYNAMIC",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 381,
+          "endLine": 443
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 421,
+          "endLine": 426
+        },
+        {
+          "file": "app/src/googleplay/AndroidManifest.xml",
+          "line": 29,
+          "endLine": 40
+        }
+      ],
+      "explanation": "The task providers are exported. They are protected only by custom 'dangerous' permissions that any third-party app can request, and users may grant them without understanding the scope. WidgetIconProvider is exported with grantUriPermissions=true and no permission, and its lint check is suppressed. WearDataService is exported with a lint ignore and no permission. Verify at runtime that the providers don't leak or accept data from unauthorized callers (SQL injection, path traversal, URI grants). Also check that WearDataService only responds to the Wearable API."
+    },
+    {
+      "title": "Exported Tasker FireReceiver and AppFunction service accept external input",
+      "category": "security",
+      "severity": "low",
+      "verdict": "NEEDS DYNAMIC",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 654,
+          "endLine": 662
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 1066,
+          "endLine": 1080
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 519,
+          "endLine": 543
+        }
+      ],
+      "explanation": "FireReceiver is exported without a permission, so any app can send it a FIRE_SETTING intent that may create tasks or perform actions. Lint warnings for it are suppressed. The system-event receivers (SystemEventReceiver, ScheduleExactAlarmsPermissionReceiver, MyPackageReplacedReceiver) are also exported, with no sender check visible in the manifest. Check that each handler validates its inputs and ignores spoofed broadcasts."
+    },
+    {
+      "title": "Release signing and third-party keys depend on external Gradle properties, with silent fallbacks",
+      "category": "security",
+      "severity": "low",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-CODE-1"
+      ],
+      "maswe": [],
+      "locations": [
+        {
+          "file": "app/build.gradle.kts",
+          "line": 59,
+          "endLine": 70
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 96,
+          "endLine": 101
+        }
+      ],
+      "explanation": "The release signing config reads the keystore path and passwords from project properties, and falls back to file('none') when they are missing. Map, PostHog and Google API keys fall back to empty strings. A build with missing properties would fail or ship broken or unsigned, rather than failing fast. Confirm the release pipeline provides these values. Restrict the Maps API key by package name and SHA-1 in Google Cloud. Disclose the Crashlytics and PostHog analytics SDKs in the Data safety form."
+    }
+  ],
+  "inspected": [
+    "app/build.gradle.kts",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/googleplay/AndroidManifest.xml",
+    "app/src/debug/AndroidManifest.xml",
+    "app/src/googleplayRelease/res/values/keys.xml",
+    "app/src/googleplayRelease/res/raw/google_config.json",
+    "app/src/googleplayRelease/res/raw/microsoft_config.json",
+    "app/src/googleplayRelease/res/raw/github_config.json",
+    "app/src/main/java/org/tasks/backup/TasksBackupAgent.kt"
+  ]
+}

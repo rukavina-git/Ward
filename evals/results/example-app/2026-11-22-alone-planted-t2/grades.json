@@ -1,0 +1,104 @@
+{
+  "grades": [
+    {
+      "finding": 1,
+      "title": "Release network security config permits cleartext traffic",
+      "candidates": [
+        "EA-10",
+        "EA-D3"
+      ],
+      "suggested": null,
+      "label": "EA-10",
+      "proposed": "EA-10",
+      "proposedWhy": "release network config allows cleartext"
+    },
+    {
+      "finding": 5,
+      "title": "Hardcoded secrets in source (helpdesk API token, Mixpanel token)",
+      "candidates": [
+        "EA-05",
+        "EA-D5"
+      ],
+      "suggested": null,
+      "label": "EA-05",
+      "proposed": "EA-05",
+      "proposedWhy": "helpdesk token; the Mixpanel token is mentioned in passing (decoy D5)"
+    },
+    {
+      "finding": 10,
+      "title": "Exported HelpActivity loads attacker-controlled URL in WebView with JS bridge exposing session token",
+      "candidates": [
+        "EA-14",
+        "EA-D4",
+        "EA-D6",
+        "EA-15"
+      ],
+      "suggested": null,
+      "label": "EA-14+EA-15",
+      "proposed": "EA-14+EA-15",
+      "proposedWhy": "deep link loads any URL and the JS bridge hands out the session token"
+    },
+    {
+      "finding": 12,
+      "title": "Analytics collected before and regardless of consent; email used as identifier",
+      "candidates": [
+        "EA-20",
+        "EA-21"
+      ],
+      "suggested": null,
+      "label": "EA-20+EA-21",
+      "proposed": "EA-20+EA-21",
+      "proposedWhy": "tracking before consent, email as the user ID, merchant names sent"
+    },
+    {
+      "finding": 13,
+      "title": "Background location permission declared without justification; location-use disclosure missing",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-22",
+      "label": "EA-22",
+      "proposed": "EA-22",
+      "proposedWhy": "background and fine location for a one-off city lookup"
+    },
+    {
+      "finding": 14,
+      "title": "Backup CSV written to shared public Documents folder with legacy storage flags",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": null,
+      "label": "EA-02",
+      "proposed": "EA-02",
+      "proposedWhy": "CSV of all expenses to public Documents"
+    },
+    {
+      "finding": 15,
+      "title": "allowBackup enabled with no backup rules",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-02",
+      "label": "EA-04",
+      "proposed": "EA-04",
+      "proposedWhy": "allowBackup with no rules exposes saved credentials"
+    },
+    {
+      "finding": 16,
+      "title": "Target SDK 34 is below Google Play's current requirement",
+      "candidates": [
+        "EA-18"
+      ],
+      "suggested": "EA-18",
+      "label": "EA-18",
+      "proposed": "EA-18",
+      "proposedWhy": "targetSdk 34 below the Play requirement"
+    }
+  ]
+}
