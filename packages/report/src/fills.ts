@@ -47,7 +47,8 @@ export interface ApplyResult {
 }
 
 /**
- * Applies fills to a skeleton. A fill sets each matching pending row. On
+ * Applies fills to a skeleton. A NO FINDING without files read is
+ * rejected (ADR 0013: nothing found must say where it looked). A fill sets each matching pending row. On
  * a row prefilled from the index (`owasp`) only FAIL is taken: raising is
  * allowed, lowering is not. Analyzer rows are never changed. A row
  * answered once keeps its first answer.
@@ -77,6 +78,12 @@ export function applyFills(skeleton: Report, fills: Fills): ApplyResult {
           .filter((t) => t.id === fill.check)
           .map((t) => ({ control: c.id, row: t })),
       );
+    if (fill.verdict === "NO FINDING" && fill.filesInspected.length === 0) {
+      reject(
+        "NO FINDING needs filesInspected: list the files you read for this check.",
+      );
+      return;
+    }
     if (rows.length === 0) {
       reject(
         fill.control === undefined
@@ -199,20 +206,26 @@ export function summaryText(
     "Full report: .ward/report.json",
   );
 
-  // FAIL rows get the lines the rest leaves: header, rows, "… more".
-  const fails = report.controls.flatMap((c) =>
-    c.checks
-      .filter((x) => x.verdict === "FAIL")
-      .map((t) => {
-        const ev = t.evidence[0];
-        const where = ev ? `${ev.file}:${String(ev.line)}` : "no evidence";
-        return `  ${c.id}  ${t.id}  ${where}`;
-      }),
+  // One line per finding (first evidence file:line) with its checks, in
+  // report order. FAILs get the lines the rest leaves: header, rows, "…".
+  const findings = new Map<string, Set<string>>();
+  for (const c of report.controls) {
+    for (const t of c.checks) {
+      if (t.verdict !== "FAIL") continue;
+      const ev = t.evidence[0];
+      const where = ev ? `${ev.file}:${String(ev.line)}` : "no evidence";
+      const ids = findings.get(where) ?? new Set<string>();
+      ids.add(t.id);
+      findings.set(where, ids);
+    }
+  }
+  const fails = [...findings].map(
+    ([where, ids]) => `  ${where}  ${head([...ids], 4)}`,
   );
   if (fails.length > 0) {
     const room = SUMMARY_MAX_LINES - lines.length - tail.length - 2;
     const shown = fails.length > room ? Math.max(0, room - 1) : fails.length;
-    lines.push("", "FAIL", ...fails.slice(0, shown));
+    lines.push("", "FAIL (by finding)", ...fails.slice(0, shown));
     if (shown < fails.length) {
       lines.push(`  … ${String(fails.length - shown)} more in the report`);
     }

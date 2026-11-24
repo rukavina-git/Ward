@@ -7,7 +7,12 @@ import type { CallToolResult } from "@modelcontextprotocol/server";
 import { afterAll, describe, expect, it } from "vitest";
 import { MASVS_GROUPS } from "./checklist-tool.js";
 import { knowledgeBase } from "./knowledge.js";
-import { reportSkeletonTool } from "./report-skeleton-tool.js";
+import {
+  reportSkeletonTool,
+  TEST_TEXT_BUDGET,
+  testTextFor,
+} from "./report-skeleton-tool.js";
+import { resetServed, servedIds } from "./served.js";
 import { serverInfo } from "./server.js";
 
 // Fixtures copied without build/ (gitignored, absent in CI).
@@ -145,12 +150,78 @@ describe("report_skeleton", () => {
   });
 
   // Claude Code caps an MCP result at about 25k tokens; keep 20% headroom.
-  it("stays under 20k tokens for the full scope on both fixtures", async () => {
+  it("stays under 20k tokens for the full scope and per group, both fixtures", async () => {
     for (const projectRoot of [app, clean]) {
       const r = await reportSkeletonTool.handler({ projectRoot });
       expect(JSON.stringify(r.structuredContent).length / 4).toBeLessThan(
         20_000,
       );
+      for (const group of MASVS_GROUPS) {
+        const g = await reportSkeletonTool.handler({ projectRoot, group });
+        expect(
+          JSON.stringify(g.structuredContent).length / 4,
+          group,
+        ).toBeLessThan(20_000);
+      }
     }
+  });
+
+  it("serves each pending check's deciding text per group, and marks it served", async () => {
+    resetServed();
+    const full = await reportSkeletonTool.handler({ projectRoot: app });
+    expect(full.structuredContent).toHaveProperty("testTextHint");
+    expect(full.structuredContent).not.toHaveProperty("testText");
+    expect(servedIds().size).toBe(0);
+
+    const r = await reportSkeletonTool.handler({
+      projectRoot: app,
+      group: "MASVS-NETWORK",
+    });
+    const s = r.structuredContent as {
+      gaps: { pending: string[] };
+      testText: Record<
+        string,
+        { citation: { licence: string }; sections: { section: string }[] }
+      >;
+      testTextOmitted: string[];
+    };
+    const pending = [...new Set(s.gaps.pending)];
+    expect(pending.length).toBeGreaterThan(0);
+    expect(Object.keys(s.testText).sort()).toEqual(pending.sort());
+    expect(s.testTextOmitted).toEqual([]);
+    for (const [id, t] of Object.entries(s.testText)) {
+      expect(t.citation.licence, id).toBeTruthy();
+      const names = t.sections.map((x) => x.section.split(" > ")[0]);
+      expect(names, id).toContain("Overview");
+      for (const n of names) expect(["Overview", "Evaluation"]).toContain(n);
+    }
+    expect([...servedIds()].sort()).toEqual(pending.sort());
+    resetServed();
+  });
+
+  it("lists checks past the text budget as omitted, unserved", async () => {
+    resetServed();
+    const skel = report(await reportSkeletonTool.handler({ projectRoot: app }));
+    const many = {
+      ...skel,
+      gaps: {
+        ...skel.gaps,
+        pending: checks(skel)
+          .filter((c) => c.kind === "test")
+          .map((c) => c.id),
+      },
+    };
+    const out = testTextFor(many, "MASVS-STORAGE") as {
+      testText: Record<string, { sections: { text: string }[] }>;
+      testTextOmitted: string[];
+    };
+    const used = Object.values(out.testText)
+      .flatMap((t) => t.sections)
+      .reduce((n, x) => n + x.text.length, 0);
+    expect(used).toBeLessThanOrEqual(TEST_TEXT_BUDGET);
+    expect(out.testTextOmitted.length).toBeGreaterThan(0);
+    for (const id of out.testTextOmitted)
+      expect(servedIds().has(id)).toBe(false);
+    resetServed();
   });
 });

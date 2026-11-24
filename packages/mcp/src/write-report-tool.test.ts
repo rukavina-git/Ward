@@ -78,9 +78,19 @@ describe("write_report", () => {
         ],
         filesInspected: [manifest],
       },
-      { check: pending[1], verdict: "NO FINDING", reason: "Read it." },
+      {
+        check: pending[1],
+        verdict: "NO FINDING",
+        reason: "Read it.",
+        filesInspected: [manifest],
+      },
       { check: analyzerRow?.id, verdict: "N/A", reason: "Lowering." },
-      { check: owaspRow?.id, verdict: "NO FINDING", reason: "Lowering." },
+      {
+        check: owaspRow?.id,
+        verdict: "NO FINDING",
+        reason: "Lowering.",
+        filesInspected: [manifest],
+      },
     ]);
     const r = await writeReportTool.handler({ projectRoot: app });
     expect(r.isError).toBeFalsy();
@@ -121,8 +131,8 @@ describe("write_report", () => {
     getCheckTool.handler({ id: "MASTG-TEST-9999" });
     expect([...servedIds()]).toEqual([read]);
     writeFills([
-      { check: read, verdict: "NO FINDING", reason: "Read it." },
-      { check: title, verdict: "NO FINDING", reason: "Title only." },
+      { check: read, verdict: "N/A", reason: "Read it." },
+      { check: title, verdict: "N/A", reason: "Title only." },
     ]);
     const o = out(await writeReportTool.handler({ projectRoot: app }));
     const written = reportSchema.parse(

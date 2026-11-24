@@ -1,6 +1,6 @@
 {
   "name": "ward",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Pre-publish check for Android apps: OWASP MASVS checklist, static analyzers and a cited report via /ward:check. No LLM calls of its own.",
   "author": {
     "name": "Ivan Karlo Rukavina"

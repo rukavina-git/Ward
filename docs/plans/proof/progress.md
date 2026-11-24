@@ -1,7 +1,7 @@
 # Plan 6 progress
 
 - [x] 01 depth marking, proxy metrics, strict scoring (d6caeb1)
-- [ ] 02 skill v2 and dev runs until the proxy gate passes
+- [ ] 02 skill v2 and dev runs until the proxy gate passes (code and skill v2 done; dev runs pending, asked first)
 - [ ] 03 label held-out batch 2
 - [ ] 04 prompt-injection tests in code
 - [ ] 05 prompt-injection agent runs
@@ -16,6 +16,14 @@
   `strict.label`. `write_report`'s tool description now names the depth
   rule (tool text, not a prompts/ file). Server 0.10.0. The key schema
   keeps `mastg` (it was in the JSON, dropped by the parser).
+
+- Step 02: step file written this run. Text sections are Overview and
+  Evaluation (tests), Overview and Modes of Introduction (weaknesses);
+  Steps/Observation left out (they describe binary tooling). The
+  per-group text budget is 60k chars; the biggest group on the example
+  app (STORAGE) is about 62k chars of JSON in all, about 16k tokens.
+  `write_report` is called once for the whole scope, not per group.
+  Server 0.11.0.
 
 ## Gotchas
 Carried over: see docs/plans/the-check/progress.md.
@@ -38,3 +46,16 @@ Step 01:
 - Step 02 pushes test text into the skeleton: it must call
   `markServed` for each check whose text it returns, or depth stays
   "title only". Mind the 20k-token cap: one group per call.
+
+Step 02 (reviewer: no BLOCKER; not fixed):
+- SHOULD: FAILs with no evidence left (citation checker dropped it)
+  all share one summary line `no evidence  A, B, …`. Key them by
+  check ID instead, with a test.
+- NITs: no test for a weakness's testText sections; testText key and
+  markServed use `record.id`, not the pending ID (alias risk); a
+  NO FINDING without files on an unknown or owasp row gets the
+  "list the files" message instead of the real reason; one long doc
+  comment line in fills.ts.
+- Dev runs: `npm run eval:run -- --app planted --setup ward-check`
+  and `--app clean`, then `npm run eval:proxy -- <run dirs>`. Gate:
+  test-text share ≥ 80%. Record both in docs/measurements.md.

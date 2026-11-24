@@ -56,6 +56,7 @@ const fill = (check: string, verdict = "NO FINDING", control?: string) => ({
   check,
   verdict,
   reason: "read it",
+  filesInspected: verdict === "NO FINDING" ? ["app/x.kt"] : [],
   ...(control && { control }),
 });
 const fills = (...f: ReturnType<typeof fill>[]): Fills =>
@@ -179,9 +180,39 @@ describe("summaryText", () => {
       }),
     );
     const text = summaryText(report, [], []);
-    expect(text).toMatch(/C-1 {2}T-PENDING {2}app\/x\.kt:3/);
+    expect(text).toMatch(/app\/x\.kt:3 {2}T-PENDING/);
     expect(text).toMatch(/every ID, file:line and quote confirmed/);
     expect(text).toMatch(/Controls: FAIL 1 · pending 1/);
+  });
+});
+
+describe("NO FINDING and grouped FAILs", () => {
+  it("rejects a NO FINDING that lists no files read", () => {
+    const { rejected, report } = applyFills(
+      skeleton(),
+      fillsSchema.parse({
+        fills: [{ check: "T-PENDING", verdict: "NO FINDING", reason: "ok" }],
+      }),
+    );
+    expect(rejected[0]?.reason).toMatch(/needs filesInspected/);
+    expect(find(report, "C-1", "T-PENDING")?.verdict).toBeNull();
+  });
+
+  it("shows one line per finding with all its checks", () => {
+    const ev = [{ file: "app/x.kt", line: 3, detail: "d" }];
+    const { report } = applyFills(
+      skeleton(),
+      fillsSchema.parse({
+        fills: [
+          { ...fill("T-PENDING", "FAIL"), evidence: ev },
+          { ...fill("T-SHARED", "FAIL"), evidence: ev },
+        ],
+      }),
+    );
+    const text = summaryText(report, [], []);
+    expect(text).toMatch(
+      /FAIL \(by finding\)\n {2}app\/x\.kt:3 {2}T-PENDING, T-SHARED\n\n/,
+    );
   });
 });
 

@@ -28156,7 +28156,7 @@ var networkTool = {
 };
 
 // packages/mcp/src/version.ts
-var WARD_VERSION = "0.10.0";
+var WARD_VERSION = "0.11.0";
 
 // packages/mcp/src/report-skeleton-tool.ts
 var reportSkeletonInput = projectInput.extend({
@@ -28176,7 +28176,7 @@ var reportSkeletonTool = {
   name: "report_skeleton",
   config: {
     title: "Ward report skeleton",
-    description: "Start a Ward check here. Returns the report to fill: every MASVS control in scope with its MASTG tests (and MASWE weaknesses that have no test) nested under it, IDs and titles from the pinned OWASP index. Runs Ward's analyzers (manifest, network, build_config, dependencies, must_exist) and prefills their verdicts with evidence; placeholder tests and weaknesses without a test are MANUAL, dynamic-only tests NEEDS DYNAMIC. Checks with verdict null are yours to fill by reading the code. Control verdicts, counts and the coverage gaps are computed in code: worst check wins.",
+    description: "Start a Ward check here, one call per MASVS group. Returns the report to fill: every MASVS control in scope with its MASTG tests (and MASWE weaknesses that have no test) nested under it, IDs and titles from the pinned OWASP index. Runs Ward's analyzers (manifest, network, build_config, dependencies, must_exist) and prefills their verdicts with evidence; placeholder tests and weaknesses without a test are MANUAL, dynamic-only tests NEEDS DYNAMIC. Checks with verdict null are yours to fill by reading the code; with a group, `testText` gives each one's MASTG text (Overview, Evaluation) to judge it by, and `testTextOmitted` lists IDs to fetch with get_check. Control verdicts, counts and the coverage gaps are computed in code: worst check wins.",
     inputSchema: reportSkeletonInput,
     // Reads the app only, but the dependencies analyzer downloads OSV data.
     annotations: {
@@ -28188,12 +28188,51 @@ var reportSkeletonTool = {
   handler: async (input) => {
     const built = await buildReport(input);
     if ("error" in built) return error3(built.error);
+    const out = { ...built.report, ...testTextFor(built.report, input.group) };
     return {
-      content: [{ type: "text", text: JSON.stringify(built.report) }],
-      structuredContent: built.report
+      content: [{ type: "text", text: JSON.stringify(out) }],
+      structuredContent: out
     };
   }
 };
+var TEST_TEXT_BUDGET = 6e4;
+var DECIDING = {
+  test: ["Overview", "Evaluation"],
+  weakness: ["Overview", "Modes of Introduction"]
+};
+function testTextFor(report, group) {
+  if (group === void 0) {
+    return {
+      testTextHint: "No test text without a group. Call report_skeleton once per MASVS group to get each open check's MASTG text."
+    };
+  }
+  const kb2 = knowledgeBase();
+  const testText = {};
+  const omitted = [];
+  let used = 0;
+  for (const id2 of new Set(report.gaps.pending)) {
+    const found = kb2.get(id2);
+    const keep = DECIDING[found?.record.kind ?? ""];
+    if (!found || !keep) {
+      omitted.push(id2);
+      continue;
+    }
+    const sections = found.chunks.filter((c) => keep.includes(c.section[0] ?? "")).map((c) => ({
+      section: c.section.join(" > "),
+      url: c.url,
+      text: c.text
+    }));
+    const size = sections.reduce((n, x) => n + x.text.length, 0);
+    if (sections.length === 0 || used + size > TEST_TEXT_BUDGET) {
+      omitted.push(id2);
+      continue;
+    }
+    used += size;
+    testText[found.record.id] = { citation: citation(found.record), sections };
+    markServed(found.record.id);
+  }
+  return { testTextNotice: NOTICE, testText, testTextOmitted: omitted };
+}
 async function buildReport(input) {
   const { projectRoot, variant, group, profile } = reportSkeletonInput.parse(input);
   const analyzers = [];
