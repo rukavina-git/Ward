@@ -9,6 +9,29 @@ and results that look bad for Ward.
 "$" is the API-equivalent Claude Code reports. Runs are on Karlo's Pro
 plan, not billed (ADR 0007).
 
+## 2026-11-24 Skill v2 dev run, planted app (plan 6, step 02)
+
+- **Question:** does skill v2 (test text in the skeleton, NO FINDING
+  tied to files) make the agent judge checks by the MASTG text?
+- **Setup:** `/ward:check` on `fixtures/example-app`, Sonnet 5.5, one
+  run, ward-check arm. Clean twin not run yet.
+- **Numbers:** 199 s, 47 turns, $1.19 API-equivalent (plan, not
+  billed). Proxy: 57 agent answers, 56 after the test text (98%; v1
+  0%), gate passes. `report_skeleton` 8 calls (one per group),
+  `get_check` 1, `search` 0. 23 NO FINDING, all with files read.
+  Planted issue with a NO FINDING on its test: EA-03 (HTTP bodies and
+  auth headers logged, cross-file, MASTG-TEST-0231). Scorer
+  (provisional, 10 findings ungraded): 15 of 23 found, precision 95%,
+  1 false alarm; the ungraded findings touch 6 of the 8 misses (EA-02,
+  03, 04, 21, 22, 23), so recall is a lower bound. Checks: FAIL 44,
+  NO FINDING 47; depth: analyzer 31, index 117, test text 91, title
+  only 3.
+- **Plan usage:** Karlo's `/usage` before and after (to be filled in).
+- **What it means:** serving the text works: the agent now answers
+  from it nearly every time, at about v1's cost (+25%). Served is not
+  understood: EA-03 still got a NO FINDING with the text in hand.
+- **Raw data:** `evals/results/example-app/2026-11-24-ward-check-planted-t1/`.
+
 ## 2026-11-24 Skill v1 baseline: depth and strict scoring (plan 6, step 01)
 
 - **Question:** before skill v2, how deep did v1 look, and what is v1's

@@ -1,0 +1,101 @@
+{
+  "grades": [
+    {
+      "finding": 5,
+      "title": "MASTG-TEST-0392: References to Enforced Updating APIs",
+      "candidates": [
+        "EA-17",
+        "EA-18"
+      ],
+      "suggested": null,
+      "label": null
+    },
+    {
+      "finding": 18,
+      "title": "MASTG-TEST-0242: Missing Certificate Pinning in Network Security Configuration",
+      "candidates": [
+        "EA-04"
+      ],
+      "suggested": "EA-04",
+      "label": null
+    },
+    {
+      "finding": 22,
+      "title": "MASTG-TEST-0340: References to Overlay Attack Protections",
+      "candidates": [],
+      "suggested": null,
+      "label": null
+    },
+    {
+      "finding": 23,
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "candidates": [
+        "EA-02",
+        "EA-22",
+        "EA-04"
+      ],
+      "suggested": "EA-22",
+      "label": null
+    },
+    {
+      "finding": 24,
+      "title": "MASTG-TEST-0318: References to SDK APIs Known to Handle Sensitive User Data",
+      "candidates": [
+        "EA-21"
+      ],
+      "suggested": "EA-21",
+      "label": null
+    },
+    {
+      "finding": 25,
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "candidates": [
+        "EA-23"
+      ],
+      "suggested": "EA-23",
+      "label": null
+    },
+    {
+      "finding": 26,
+      "title": "MASWE-0076: Lack of Proper Data Management Controls",
+      "candidates": [
+        "EA-03"
+      ],
+      "suggested": null,
+      "label": null
+    },
+    {
+      "finding": 27,
+      "title": "MASTG-TEST-0202: References to APIs and Permissions for Accessing External Storage",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": null,
+      "label": null
+    },
+    {
+      "finding": 28,
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-04",
+      "label": null
+    },
+    {
+      "finding": 29,
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-04",
+      "label": null
+    }
+  ]
+}
