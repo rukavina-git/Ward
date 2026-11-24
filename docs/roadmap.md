@@ -91,12 +91,22 @@ Scope from the council of 2026-11-23
 
 ## Plan 6: proof
 Learn: end-to-end evals for agents, and AI security.
-- [ ] End-to-end eval: all four setups plus analyzers only, on the example
-      app and the held-out set, at least 3 trials, spread reported; false
-      passes next to false alarms, share of controls with a verdict
-- [ ] Prompt-injection suite: hostile comments and files in the checked app
-- [ ] Retrieval fixes driven by failures (reranking etc.), evals before
-      and after
+Scope from the council of 2026-11-24
+(docs/council/2026-11-24-plan6-scope.md, ADR 0013).
+- [ ] (me) Merge develop → main (after /code-review and
+      /security-review)
+- [ ] Depth marking ("test text read" vs "title only"), free proxy
+      metrics, strict scoring pre-registered
+- [ ] Skill v2: test text in the skeleton, NO FINDING tied to evidence;
+      dev runs on the example app until the proxy passes
+- [ ] Label held-out batch 2 (20 cases, frozen; Karlo spot-checks)
+- [ ] Prompt-injection tests in code: hostile text can't change IDs,
+      verdicts or the summary
+- [ ] Prompt-injection agent runs (1–3): canary next to a planted bug
+- [ ] Skill v2 on the held-out set (30 cases, strict and lenient), plus
+      the analyzers-only arm
+- Dropped: retrieval fixes (reranking); `search` is never called
+  (ADR 0013). Revisit if v2 traces show bad hits.
 
 ## Plan 7: privacy and GDPR module
 Learn: adding a knowledge domain, and where model judgement is needed.
@@ -113,6 +123,9 @@ Learn: local tools that are safe by design.
 - [ ] .ward/decisions.json; reruns show new or changed items; /ward:fix
 
 ## Plan 9: website and v1 release
+- [ ] Full end-to-end eval (moved from Plan 6, ADR 0013): all four
+      setups plus analyzers only, example app and held-out, at least 3
+      trials, spread reported
 - [ ] Static site: landing, demo video or slideshow of a real run,
       2-minute install guide, in-browser search, sample report, eval page
       with traces
