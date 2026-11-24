@@ -93,8 +93,8 @@ Scope from the council of 2026-11-23
 Learn: end-to-end evals for agents, and AI security.
 Scope from the council of 2026-11-24
 (docs/council/2026-11-24-plan6-scope.md, ADR 0013).
-- [ ] (me) Merge develop → main (after /code-review and
-      /security-review)
+- [x] (me) Merge develop → main (PR #1; branch reviews skipped,
+      owner's choice)
 - [ ] Depth marking ("test text read" vs "title only"), free proxy
       metrics, strict scoring pre-registered
 - [ ] Skill v2: test text in the skeleton, NO FINDING tied to evidence;
