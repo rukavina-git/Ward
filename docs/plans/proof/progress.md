@@ -71,3 +71,14 @@ Step 02 (reviewer: no BLOCKER; not fixed):
   failed isolation. Fixed; the planted v2 run rechecked to ok.
 - Planted v2 run: 10 findings ungraded (score is provisional); EA-03
   got a NO FINDING despite the test text.
+
+Step 02 additions (reviewer: no BLOCKER; SHOULDs fixed in d8b3a98):
+- Only manifest/network MANUALs are settleable; check_report rechecks
+  the hardening flag; list +0292-0294, -0022/0222/0223.
+- Not fixed (NITs): a hardening-only control with a FAIL and a pending
+  check reads MANUAL, not pending; the summary shows only hardening
+  FAILs, not their other verdicts; the step file doesn't describe these
+  additions (Deviations does). No new dev run: in the 0.13.0 runs the
+  agent left the must_exist and dependencies MANUALs alone and none of
+  0022/0222/0223 failed, so 0.13.1 wouldn't change those numbers.
+
