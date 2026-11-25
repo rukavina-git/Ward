@@ -9,6 +9,33 @@ and results that look bad for Ward.
 "$" is the API-equivalent Claude Code reports. Runs are on Karlo's Pro
 plan, not billed (ADR 0007).
 
+## 2026-11-25 Skill v2.1 + hardening apart: dev runs (plan 6, step 02)
+
+- **Question:** do the two fixes cut noise without losing planted bugs?
+  Fix 1 (skill v2.1, server 0.12.0): the agent may settle an analyzer
+  MANUAL. Fix 2 (ADR 0014, server 0.13.0): hardening checks reported
+  apart, and the eval no longer turns them into findings.
+- **Setup:** ward-check arm, Sonnet 5.5, one run each. Clean t2 on
+  0.12.0 (fix 1 only); planted t2 and clean t3 on 0.13.0 (both). A
+  planted run on 0.12.0 was stopped and deleted: it rebuilt Ward
+  mid-edit.
+- **Numbers, before → after:**
+  - Clean twin: findings 16 → 11 (fix 1) → 3 (both). Decoy false
+    alarms 3 → 0 → 0. Proxy 100% each. Left: Mixpanel FAIL (proposed
+    false alarm), 2 MANUAL (dependency versions, privacy policy).
+    253 s, $1.54.
+  - Planted: auto-matched 15/23 → 17/23; with the proposed labels
+    16 → 23/23 (t1 proposals reached 20). EA-03 (logging) and EA-05
+    (helpdesk token) now found. Precision 100%, 0 false alarms, 0 bad
+    citations of 59. Proxy 94% (59 of 63; t1 98%). 224 s, $1.42.
+    Report: 17 controls FAIL, 51 checks FAIL, 14 hardening FAILs listed
+    apart (clean t3: 2 controls FAIL, 2 checks FAIL, same 14 apart).
+- **What it means:** both fixes do what they should on one run each:
+  the twin's noise drops to one arguable finding, and nothing planted
+  is lost. Still one trial per app; the held-out run (step 06) is the
+  real test. Labels are proposals until Karlo confirms them.
+- **Raw data:** `evals/results/example-app/2026-11-25-ward-check-{clean-t2,planted-t2,clean-t3}/`.
+
 ## 2026-11-25 Skill v2 dev run, clean twin (plan 6, step 02)
 
 - **Question:** does skill v2 read the test text on the clean twin

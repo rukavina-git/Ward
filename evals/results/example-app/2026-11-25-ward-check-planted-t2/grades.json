@@ -1,0 +1,123 @@
+{
+  "grades": [
+    {
+      "finding": 2,
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "candidates": [
+        "EA-15"
+      ],
+      "suggested": "EA-15",
+      "label": null,
+      "proposed": "EA-15",
+      "proposedWhy": "Exported HelpActivity loads any URL into the WebView whose JS bridge returns the session token: EA-15 (with EA-14)."
+    },
+    {
+      "finding": 4,
+      "title": "MASWE-0024: Sensitive Data Accessible After Session Termination",
+      "candidates": [
+        "EA-02"
+      ],
+      "suggested": "EA-02",
+      "label": null,
+      "proposed": "EA-02",
+      "proposedWhy": "Plaintext CSV backup in public Documents survives sign-out: EA-02."
+    },
+    {
+      "finding": 23,
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-22",
+      "label": null,
+      "proposed": "EA-22",
+      "proposedWhy": "Background and fine location for a city tag: EA-22."
+    },
+    {
+      "finding": 24,
+      "title": "MASTG-TEST-0318: References to SDK APIs Known to Handle Sensitive User Data",
+      "candidates": [
+        "EA-21"
+      ],
+      "suggested": "EA-21",
+      "label": null,
+      "proposed": "EA-21",
+      "proposedWhy": "Email as the Mixpanel identity plus merchant names: EA-21."
+    },
+    {
+      "finding": 25,
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "candidates": [
+        "EA-23"
+      ],
+      "suggested": "EA-23",
+      "label": null,
+      "proposed": "generic",
+      "proposedWhy": "Privacy policy present; MANUAL review advice."
+    },
+    {
+      "finding": 26,
+      "title": "MASWE-0076: Lack of Proper Data Management Controls",
+      "candidates": [
+        "EA-03"
+      ],
+      "suggested": null,
+      "label": null,
+      "proposed": "EA-23",
+      "proposedWhy": "No in-app account deletion: EA-23 (candidate EA-03 from citing ApiClient.kt only)."
+    },
+    {
+      "finding": 27,
+      "title": "MASWE-0078: Inadequate or Ambiguous User Consent Mechanisms",
+      "candidates": [
+        "EA-20",
+        "EA-21"
+      ],
+      "suggested": "EA-20",
+      "label": null,
+      "proposed": "EA-20",
+      "proposedWhy": "Tracking starts at app open, ConsentStore never checked: EA-20."
+    },
+    {
+      "finding": 28,
+      "title": "MASTG-TEST-0202: References to APIs and Permissions for Accessing External Storage",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": null,
+      "label": null,
+      "proposed": "EA-02",
+      "proposedWhy": "Unencrypted CSV in public Documents with WRITE_EXTERNAL_STORAGE: EA-02."
+    },
+    {
+      "finding": 30,
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-04",
+      "label": null,
+      "proposed": "EA-04",
+      "proposedWhy": "allowBackup with no rules, credentials included: EA-04."
+    },
+    {
+      "finding": 32,
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "candidates": [
+        "EA-02",
+        "EA-04",
+        "EA-22"
+      ],
+      "suggested": "EA-04",
+      "label": null,
+      "proposed": "EA-04",
+      "proposedWhy": "Same as #30 under a second test: EA-04."
+    }
+  ]
+}

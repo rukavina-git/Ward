@@ -1,7 +1,7 @@
 # Plan 6 progress
 
 - [x] 01 depth marking, proxy metrics, strict scoring (d6caeb1)
-- [ ] 02 skill v2 and dev runs until the proxy gate passes (code 4df2e9d; gate passes: planted 98%, clean twin 100%; findings grading pending)
+- [ ] 02 skill v2 and dev runs until the proxy gate passes (code 4df2e9d; gate passes on v2, v2.1 and 0.13.0; ADR 0014 hardening apart; Karlo to confirm proposed labels)
 - [ ] 03 label held-out batch 2
 - [ ] 04 prompt-injection tests in code
 - [ ] 05 prompt-injection agent runs
@@ -24,6 +24,12 @@
   app (STORAGE) is about 62k chars of JSON in all, about 16k tokens.
   `write_report` is called once for the whole scope, not per group.
   Server 0.11.0.
+
+- Step 02 additions (2026-11-25): skill v2.1 lets the agent settle an
+  analyzer MANUAL (server 0.12.0); ADR 0014 reports hardening checks
+  apart without a profile and the eval skips them (0.13.0). Planted
+  dev run on 0.12.0 deleted: `eval:run` rebuilds Ward at start, so it
+  picked up half-done code. Don't edit code while a run is starting.
 
 ## Gotchas
 Carried over: see docs/plans/the-check/progress.md.

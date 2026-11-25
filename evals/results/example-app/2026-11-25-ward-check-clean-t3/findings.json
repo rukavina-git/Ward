@@ -1,0 +1,124 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle.kts",
+          "line": 44
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 45
+        }
+      ],
+      "explanation": "10 of the declared dependencies with exact versions match no OSV advisory, but 2 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-25T19:34:24.991Z (published Mon, 23 Nov 2026 21:33:52 GMT).\napp/build.gradle.kts:44: androidx.compose.ui:ui: no version (a BOM or constraint may set it)\napp/build.gradle.kts:45: androidx.compose.material3:material3: no version (a BOM or constraint may set it)"
+    },
+    {
+      "title": "MASTG-TEST-0318: References to SDK APIs Known to Handle Sensitive User Data",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PRIVACY-1",
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0073"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+          "line": 14
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+          "line": 21
+        }
+      ],
+      "explanation": "The Mixpanel SDK receives the backend user ID via identify() and per-expense events with category and amount band (financial data); these must be declared in Data safety and the consent text only mentions screens and features.\napp/src/main/java/app/pennyjar/analytics/Analytics.kt:14: User ID sent to Mixpanel.\napp/src/main/java/app/pennyjar/analytics/Analytics.kt:21: Spending amount band sent to Mixpanel for each expense."
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/settings/SettingsScreen.kt",
+          "line": 42
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/settings/SettingsScreen.kt",
+          "line": 91
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/settings/SettingsScreen.kt",
+          "line": 93
+        }
+      ],
+      "explanation": "A privacy policy link or text is in the app. Ward doesn't read the policy: check that it matches what the app collects and the Data safety answers.\napp/src/main/java/app/pennyjar/settings/SettingsScreen.kt:42: privacy policy\napp/src/main/java/app/pennyjar/settings/SettingsScreen.kt:91: privacy policy\napp/src/main/java/app/pennyjar/settings/SettingsScreen.kt:93: privacy policy"
+    }
+  ],
+  "inspected": [
+    "app/build.gradle.kts",
+    "app/proguard-rules.pro",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/java/app/pennyjar/MainActivity.kt",
+    "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+    "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+    "app/src/main/java/app/pennyjar/auth/AuthRepository.kt",
+    "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
+    "app/src/main/java/app/pennyjar/auth/CredentialStore.kt",
+    "app/src/main/java/app/pennyjar/auth/LoginScreen.kt",
+    "app/src/main/java/app/pennyjar/auth/TokenStore.kt",
+    "app/src/main/java/app/pennyjar/backup/AutoBackupWorker.kt",
+    "app/src/main/java/app/pennyjar/consent/ConsentScreen.kt",
+    "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt",
+    "app/src/main/java/app/pennyjar/crypto/NoteCipher.kt",
+    "app/src/main/java/app/pennyjar/crypto/NoteKeys.kt",
+    "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+    "app/src/main/java/app/pennyjar/help/HelpBridge.kt",
+    "app/src/main/java/app/pennyjar/location/PlaceTagger.kt",
+    "app/src/main/java/app/pennyjar/settings/SettingsScreen.kt",
+    "app/src/main/java/app/pennyjar/settings/SettingsStore.kt",
+    "app/src/main/java/app/pennyjar/share/ShareLinks.kt",
+    "app/src/main/java/app/pennyjar/support/SupportScreen.kt",
+    "app/src/main/java/app/pennyjar/ui/AddExpenseScreen.kt",
+    "app/src/main/java/app/pennyjar/ui/AvatarColors.kt",
+    "app/src/main/java/app/pennyjar/ui/ExpenseListScreen.kt",
+    "app/src/main/java/app/pennyjar/ui/ReceiptSharing.kt",
+    "app/src/main/java/app/pennyjar/ui/ThumbnailCache.kt",
+    "app/src/main/res/xml/backup_rules.xml",
+    "app/src/main/res/xml/data_extraction_rules.xml",
+    "app/src/main/res/xml/network_security_config.xml",
+    "gradle/libs.versions.toml",
+    "sync/build.gradle.kts",
+    "sync/consumer-rules.pro",
+    "sync/src/main/AndroidManifest.xml",
+    "sync/src/main/java/app/pennyjar/sync/ApiClient.kt",
+    "sync/src/main/java/app/pennyjar/sync/Endpoints.kt",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptQueries.kt",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptsDatabase.kt",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptsProvider.kt",
+    "sync/src/main/java/app/pennyjar/sync/Sync.kt",
+    "sync/src/main/java/app/pennyjar/sync/SyncWorker.kt",
+    "sync/src/main/java/app/pennyjar/sync/UploadClient.kt",
+    "sync/src/main/java/app/pennyjar/sync/model/ApiModels.kt"
+  ]
+}

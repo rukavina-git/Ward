@@ -1,0 +1,53 @@
+{
+  "run": "2026-11-25-ward-check-clean-t3",
+  "setup": "ward-check",
+  "trial": 3,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "clean",
+  "provisional": true,
+  "findings": 3,
+  "ungraded": 3,
+  "duplicates": 0,
+  "decoyHits": [],
+  "falseAlarms": 0,
+  "realUnplanted": 0,
+  "generic": 0,
+  "precision": null,
+  "citations": {
+    "locations": 7,
+    "bad": []
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [],
+        "suggested": "false-alarm"
+      }
+    },
+    {
+      "index": 1,
+      "title": "MASTG-TEST-0318: References to SDK APIs Known to Handle Sensitive User Data",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [
+          "EA-D5"
+        ],
+        "suggested": "false-alarm"
+      }
+    },
+    {
+      "index": 2,
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [],
+        "suggested": "false-alarm"
+      }
+    }
+  ]
+}
