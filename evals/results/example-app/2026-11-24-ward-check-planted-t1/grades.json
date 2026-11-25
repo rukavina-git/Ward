@@ -8,7 +8,9 @@
         "EA-18"
       ],
       "suggested": null,
-      "label": null
+      "label": null,
+      "proposed": "generic",
+      "proposedWhy": "No update enforcement is hardening advice, not EA-17 (debuggable) or EA-18 (targetSdk)."
     },
     {
       "finding": 18,
@@ -17,14 +19,18 @@
         "EA-04"
       ],
       "suggested": "EA-04",
-      "label": null
+      "label": null,
+      "proposed": "generic",
+      "proposedWhy": "No pin-set: MASVS L2 hardening, MANUAL canned text; not EA-04."
     },
     {
       "finding": 22,
       "title": "MASTG-TEST-0340: References to Overlay Attack Protections",
       "candidates": [],
       "suggested": null,
-      "label": null
+      "label": null,
+      "proposed": "generic",
+      "proposedWhy": "Missing overlay protection is hardening; nothing planted."
     },
     {
       "finding": 23,
@@ -35,7 +41,9 @@
         "EA-04"
       ],
       "suggested": "EA-22",
-      "label": null
+      "label": null,
+      "proposed": "EA-22",
+      "proposedWhy": "MANUAL row cites ACCESS_BACKGROUND_LOCATION and says fine/background may be too much; lenient only (MANUAL never counts strict)."
     },
     {
       "finding": 24,
@@ -44,7 +52,9 @@
         "EA-21"
       ],
       "suggested": "EA-21",
-      "label": null
+      "label": null,
+      "proposed": "EA-21",
+      "proposedWhy": "Email passed as the Mixpanel identity plus merchant names: exactly EA-21."
     },
     {
       "finding": 25,
@@ -53,7 +63,9 @@
         "EA-23"
       ],
       "suggested": "EA-23",
-      "label": null
+      "label": null,
+      "proposed": "generic",
+      "proposedWhy": "Privacy policy present; MANUAL review advice. EA-23 is account deletion, which #26 covers."
     },
     {
       "finding": 26,
@@ -62,7 +74,9 @@
         "EA-03"
       ],
       "suggested": null,
-      "label": null
+      "label": null,
+      "proposed": "EA-23",
+      "proposedWhy": "No in-app account deletion: EA-23. Candidate EA-03 came only from citing ApiClient.kt."
     },
     {
       "finding": 27,
@@ -73,7 +87,9 @@
         "EA-22"
       ],
       "suggested": null,
-      "label": null
+      "label": null,
+      "proposed": "EA-02",
+      "proposedWhy": "Receipts CSV written to public Documents with WRITE_EXTERNAL_STORAGE: EA-02."
     },
     {
       "finding": 28,
@@ -84,7 +100,9 @@
         "EA-22"
       ],
       "suggested": "EA-04",
-      "label": null
+      "label": null,
+      "proposed": "EA-04",
+      "proposedWhy": "allowBackup=true with no backup rules, so stored credentials go to backup: EA-04."
     },
     {
       "finding": 29,
@@ -95,7 +113,9 @@
         "EA-22"
       ],
       "suggested": "EA-04",
-      "label": null
+      "label": null,
+      "proposed": "EA-04",
+      "proposedWhy": "Same as #28 under a second test; EA-04 (a duplicate of #28)."
     }
   ]
 }

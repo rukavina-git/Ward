@@ -50,9 +50,25 @@ export interface ApplyResult {
  * Applies fills to a skeleton. A NO FINDING without files read is
  * rejected (ADR 0013: nothing found must say where it looked). A fill sets each matching pending row. On
  * a row prefilled from the index (`owasp`) only FAIL is taken: raising is
- * allowed, lowering is not. Analyzer rows are never changed. A row
+ * allowed, lowering is not. An analyzer row is changed only when it is
+ * MANUAL (the analyzer listed facts for a person to judge, see
+ * `settlesAnalyzerManual`); its FAIL, NO FINDING and N/A stay. A row
  * answered once keeps its first answer.
  */
+/**
+ * An analyzer row the agent may settle: MANUAL means the analyzer found
+ * facts (backup rules exist, an activity is exported) but can't judge
+ * them. The agent reads the deciding file and answers. Plan 6 step 02:
+ * the clean twin's backup rules were left MANUAL although
+ * `backup_rules.xml` settles them.
+ */
+export function settlesAnalyzerManual(row: {
+  by: string | null;
+  verdict: string | null;
+}): boolean {
+  return row.by === "analyzer" && row.verdict === "MANUAL";
+}
+
 export function applyFills(skeleton: Report, fills: Fills): ApplyResult {
   const controls = skeleton.controls.map((c) => ({
     ...c,
@@ -100,8 +116,10 @@ export function applyFills(skeleton: Report, fills: Fills): ApplyResult {
         why.push("already answered by an earlier fill");
         continue;
       }
-      if (row.by === "analyzer") {
-        why.push("set by Ward's analyzers, which agents can't change");
+      if (row.by === "analyzer" && !settlesAnalyzerManual(row)) {
+        why.push(
+          "set by Ward's analyzers; agents may only settle an analyzer MANUAL",
+        );
         continue;
       }
       if (row.by === "owasp" && fill.verdict !== "FAIL") {
@@ -110,7 +128,11 @@ export function applyFills(skeleton: Report, fills: Fills): ApplyResult {
         );
         continue;
       }
-      if (row.verdict !== null && row.by !== "owasp") {
+      if (
+        row.verdict !== null &&
+        row.by !== "owasp" &&
+        !settlesAnalyzerManual(row)
+      ) {
         why.push("already decided");
         continue;
       }

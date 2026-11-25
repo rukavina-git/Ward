@@ -44,6 +44,12 @@ function skeleton(): Report {
             by: "analyzer",
             reason: "y",
           }),
+          row("T-AMANUAL", {
+            verdict: "MANUAL",
+            by: "analyzer",
+            analyzer: "manifest",
+            reason: "check the backup rules",
+          }),
         ],
       },
       { id: "C-2", title: "two", verdict: null, checks: [row("T-SHARED")] },
@@ -110,6 +116,20 @@ describe("applyFills", () => {
     );
     expect(find(report, "C-1", "T-ANALYZER")?.verdict).toBe("NO FINDING");
     expect(rejected[0]?.reason).toMatch(/analyzers/);
+  });
+
+  it("lets the agent settle an analyzer MANUAL, keeping the analyzer name", () => {
+    const { report, rejected } = applyFills(
+      skeleton(),
+      fills(fill("T-AMANUAL", "NO FINDING")),
+    );
+    expect(rejected).toEqual([]);
+    expect(find(report, "C-1", "T-AMANUAL")).toMatchObject({
+      verdict: "NO FINDING",
+      by: "agent",
+      analyzer: "manifest",
+      filesInspected: ["app/x.kt"],
+    });
   });
 
   it("rejects unknown IDs, wrong controls and second answers", () => {
@@ -232,10 +252,10 @@ describe("markDepth", () => {
       "title only": 1,
       "test text": 1,
       index: 1,
-      analyzer: 1,
+      analyzer: 2,
     });
     expect(summaryText(r, [], [])).toMatch(
-      /Depth: +1 by Ward's code · 1 of 2 agent answers after reading the test text/,
+      /Depth: +2 by Ward's code · 1 of 2 agent answers after reading the test text/,
     );
   });
 

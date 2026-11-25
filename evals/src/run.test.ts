@@ -107,7 +107,7 @@ describe("buildArgs", () => {
       "Skill",
       ...ward.mcp.tools.map((t) => `mcp__ward__${t}`),
     ]);
-    expect(ward.mcp.tools).toHaveLength(7);
+    expect(ward.mcp.tools).toHaveLength(8);
     expect(() => buildArgs(ward, { model: "m", schema: "{}" })).toThrow();
     expect(() =>
       buildArgs(alone, { model: "m", schema: "{}", mcpConfig: config }),

@@ -65,7 +65,10 @@ export const checkSchema = z.object({
   /** null: not decided yet (pending). */
   verdict: verdictSchema.nullable(),
   by: z.enum(BY).nullable(),
-  /** Analyzer(s) whose verdict this is, when `by` is analyzer. */
+  /**
+   * Analyzer(s) whose verdict this is, when `by` is analyzer; kept when
+   * the agent settles an analyzer's MANUAL (`by` is then agent).
+   */
   analyzer: z.string().optional(),
   reason: z.string().max(4000).nullable(),
   evidence: z.array(evidenceSchema),

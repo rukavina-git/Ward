@@ -166,7 +166,7 @@ describe("report_skeleton", () => {
     }
   });
 
-  it("serves each pending check's deciding text per group, and marks it served", async () => {
+  it("serves each open check's deciding text per group, and marks it served", async () => {
     resetServed();
     const full = await reportSkeletonTool.handler({ projectRoot: app });
     expect(full.structuredContent).toHaveProperty("testTextHint");
@@ -178,6 +178,7 @@ describe("report_skeleton", () => {
       group: "MASVS-NETWORK",
     });
     const s = r.structuredContent as {
+      controls: { checks: { id: string; by: string; verdict: string }[] }[];
       gaps: { pending: string[] };
       testText: Record<
         string,
@@ -185,8 +186,12 @@ describe("report_skeleton", () => {
       >;
       testTextOmitted: string[];
     };
-    const pending = [...new Set(s.gaps.pending)];
-    expect(pending.length).toBeGreaterThan(0);
+    const analyzerManual = s.controls
+      .flatMap((c) => c.checks)
+      .filter((t) => t.by === "analyzer" && t.verdict === "MANUAL")
+      .map((t) => t.id);
+    const pending = [...new Set([...s.gaps.pending, ...analyzerManual])];
+    expect(s.gaps.pending.length).toBeGreaterThan(0);
     expect(Object.keys(s.testText).sort()).toEqual(pending.sort());
     expect(s.testTextOmitted).toEqual([]);
     for (const [id, t] of Object.entries(s.testText)) {
@@ -196,6 +201,24 @@ describe("report_skeleton", () => {
       for (const n of names) expect(["Overview", "Evaluation"]).toContain(n);
     }
     expect([...servedIds()].sort()).toEqual(pending.sort());
+    resetServed();
+  });
+
+  it("serves text for an analyzer MANUAL too (clean twin's backup rules)", async () => {
+    resetServed();
+    const r = await reportSkeletonTool.handler({
+      projectRoot: clean,
+      group: "MASVS-STORAGE",
+    });
+    const s = r.structuredContent as {
+      controls: { checks: { id: string; by: string; verdict: string }[] }[];
+      testText: Record<string, unknown>;
+    };
+    const backup = s.controls
+      .flatMap((c) => c.checks)
+      .find((t) => t.id === "MASTG-TEST-0216");
+    expect(backup).toMatchObject({ by: "analyzer", verdict: "MANUAL" });
+    expect(s.testText).toHaveProperty("MASTG-TEST-0216");
     resetServed();
   });
 

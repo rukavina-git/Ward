@@ -4,7 +4,7 @@ description: Pre-publish security check of an Android app against OWASP MASVS wi
 argument-hint: "[MASVS group, e.g. MASVS-NETWORK] [profile L1|L2|R|P] [variant, default release]"
 ---
 
-<!-- prompts/ward-check/SKILL.md, v2. plugin/skills/check/SKILL.md is a
+<!-- prompts/ward-check/SKILL.md, v2.1. plugin/skills/check/SKILL.md is a
 byte copy (npm run prompts:sync). Changing this file is a prompt change. -->
 
 # Ward check
@@ -62,7 +62,14 @@ profile, variant `release`. Pass the same profile and variant to every
    - **MANUAL**: it needs a human decision, or you couldn't check it.
      Say why. Better MANUAL than a guess.
    A check prefilled MANUAL or NEEDS DYNAMIC by `owasp` may be raised to
-   FAIL with evidence. Leave every other prefilled check alone.
+   FAIL with evidence.
+   A check prefilled MANUAL by an analyzer (`by: analyzer`) lists facts
+   for you to judge, and its `testText` is in the skeleton too. When the
+   file that decides it is in the project (backup rules XML, the
+   exported activity's code, the network security config), read it and
+   answer like a pending check. Leave it MANUAL only when the decision
+   needs something the code can't show. Leave every other prefilled
+   check alone.
 4. Write `.ward/fills.json` in projectRoot:
    ```json
    {"fills": [{"check": "MASTG-TEST-0000", "verdict": "FAIL",

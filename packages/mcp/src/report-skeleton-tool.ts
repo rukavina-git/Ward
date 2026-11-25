@@ -6,7 +6,12 @@ import {
   analyzeNetwork,
   ProjectRootError,
 } from "@ward/analyzers";
-import { buildSkeleton, type AnalyzerInput, type Report } from "@ward/report";
+import {
+  buildSkeleton,
+  settlesAnalyzerManual,
+  type AnalyzerInput,
+  type Report,
+} from "@ward/report";
 import type { CallToolResult } from "@modelcontextprotocol/server";
 import * as z from "zod/v4";
 import { mastgPin, projectInput, withMaswe } from "./app-tool.js";
@@ -46,7 +51,7 @@ export const reportSkeletonTool = {
   config: {
     title: "Ward report skeleton",
     description:
-      "Start a Ward check here, one call per MASVS group. Returns the report to fill: every MASVS control in scope with its MASTG tests (and MASWE weaknesses that have no test) nested under it, IDs and titles from the pinned OWASP index. Runs Ward's analyzers (manifest, network, build_config, dependencies, must_exist) and prefills their verdicts with evidence; placeholder tests and weaknesses without a test are MANUAL, dynamic-only tests NEEDS DYNAMIC. Checks with verdict null are yours to fill by reading the code; with a group, `testText` gives each one's MASTG text (Overview, Evaluation) to judge it by, and `testTextOmitted` lists IDs to fetch with get_check. Control verdicts, counts and the coverage gaps are computed in code: worst check wins.",
+      "Start a Ward check here, one call per MASVS group. Returns the report to fill: every MASVS control in scope with its MASTG tests (and MASWE weaknesses that have no test) nested under it, IDs and titles from the pinned OWASP index. Runs Ward's analyzers (manifest, network, build_config, dependencies, must_exist) and prefills their verdicts with evidence; placeholder tests and weaknesses without a test are MANUAL, dynamic-only tests NEEDS DYNAMIC. Checks with verdict null are yours to fill by reading the code, and so is an analyzer's MANUAL (by: analyzer): read the file that decides it and answer; with a group, `testText` gives each one's MASTG text (Overview, Evaluation) to judge it by, and `testTextOmitted` lists IDs to fetch with get_check. Control verdicts, counts and the coverage gaps are computed in code: worst check wins.",
     inputSchema: reportSkeletonInput,
     // Reads the app only, but the dependencies analyzer downloads OSV data.
     annotations: {
@@ -81,7 +86,8 @@ interface TestText {
 }
 
 /**
- * The MASTG/MASWE text of each pending check, so the agent judges by the
+ * The MASTG/MASWE text of each check open to the agent (pending, or an
+ * analyzer MANUAL it may settle), so the agent judges by the
  * test, not the title (ADR 0013). Only with a group: all eight groups'
  * text is too big for one result. Every ID returned is marked served, so
  * write_report sets its depth to "test text" in code. IDs past the budget
@@ -101,7 +107,10 @@ export function testTextFor(
   const testText: Record<string, TestText> = {};
   const omitted: string[] = [];
   let used = 0;
-  for (const id of new Set(report.gaps.pending)) {
+  const open = new Set(report.gaps.pending);
+  for (const c of report.controls)
+    for (const t of c.checks) if (settlesAnalyzerManual(t)) open.add(t.id);
+  for (const id of open) {
     const found = kb.get(id);
     const keep = DECIDING[found?.record.kind ?? ""];
     if (!found || !keep) {
