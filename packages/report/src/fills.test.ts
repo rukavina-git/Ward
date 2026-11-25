@@ -118,18 +118,54 @@ describe("applyFills", () => {
     expect(rejected[0]?.reason).toMatch(/analyzers/);
   });
 
-  it("lets the agent settle an analyzer MANUAL, keeping the analyzer name", () => {
+  it("lets the agent settle a manifest MANUAL, keeping the analyzer's words", () => {
     const { report, rejected } = applyFills(
       skeleton(),
       fills(fill("T-AMANUAL", "NO FINDING")),
     );
     expect(rejected).toEqual([]);
-    expect(find(report, "C-1", "T-AMANUAL")).toMatchObject({
+    const r = find(report, "C-1", "T-AMANUAL");
+    expect(r).toMatchObject({
       verdict: "NO FINDING",
       by: "agent",
       analyzer: "manifest",
       filesInspected: ["app/x.kt"],
     });
+    expect(r?.reason).toMatch(/read it Ward's analyzer said: check the backup/);
+  });
+
+  it("keeps a MANUAL from must_exist or dependencies, and every analyzer FAIL or N/A", () => {
+    const base = skeleton();
+    const c1 = base.controls[0];
+    c1?.checks.push(
+      row("T-MUST", {
+        verdict: "MANUAL",
+        by: "analyzer",
+        analyzer: "must_exist",
+        reason: "Play Console",
+      }),
+      row("T-MIXED", {
+        verdict: "MANUAL",
+        by: "analyzer",
+        analyzer: "manifest, dependencies",
+        reason: "x",
+      }),
+      row("T-NA", { verdict: "N/A", by: "analyzer", reason: "no x" }),
+    );
+    const { report, rejected } = applyFills(
+      base,
+      fills(
+        fill("T-MUST"),
+        fill("T-MIXED"),
+        fill("T-NA"),
+        fill("T-ANALYZER", "N/A"),
+      ),
+    );
+    expect(rejected).toHaveLength(4);
+    expect(find(report, "C-1", "T-MUST")?.verdict).toBe("MANUAL");
+    expect(find(report, "C-1", "T-MIXED")?.verdict).toBe("MANUAL");
+    expect(find(report, "C-1", "T-NA")?.verdict).toBe("N/A");
+    expect(find(report, "C-1", "T-ANALYZER")?.verdict).toBe("NO FINDING");
   });
 
   it("rejects unknown IDs, wrong controls and second answers", () => {

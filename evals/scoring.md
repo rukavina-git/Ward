@@ -46,3 +46,13 @@ on all 10 held-out runs; `get_check` and `search` were never called.
 Depth says Ward served the text, not that the agent understood it. One
 trial per case is noisy: on 30 cases, a difference of a few cases is
 not a result.
+
+## Hardening rows (ADR 0014, added 2026-11-25, before step 06)
+
+Ward's hardening rows (`hardening: true`) are not turned into findings.
+The `alone` arm has no such flag: its root-detection or pinning findings
+are still scored and labelled `generic` by hand, which keeps them out of
+precision. The held-out key has no hardening ID, so found counts are not
+biased; the risk is a planted problem filed only under a hardening test
+(HO-10 under 0352 instead of 0227). Step 06 checks Ward's dropped
+hardening rows against the held-out anchors by hand.

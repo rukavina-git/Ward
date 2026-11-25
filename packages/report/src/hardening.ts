@@ -11,7 +11,9 @@
  * stay out of it and keep failing: debuggable flag (0226), WebView
  * debugging (0227), APK signing (0224, 0225), expired pins (0243),
  * StrictMode in release (0263–0265), notifications (0315), key purposes
- * (0015, 0307, 0308), biometric use (0017, 0018, 0326–0330).
+ * (0015, 0307, 0308), biometric use (0017, 0018, 0326–0330), PIC and
+ * stack canaries turned off (0222, 0223: the NDK turns them on, so off
+ * is a choice), custom trust stores (0022: also covers wrong trust).
  * A test may join only if its profiles have neither L1 nor P (a unit
  * test checks this against the index).
  */
@@ -19,7 +21,6 @@ export const HARDENING_TESTS: ReadonlySet<string> = new Set(
   [
     "0010", // auto-generated screenshots (FLAG_SECURE)
     "0012", // device-access-security policy (screen lock required)
-    "0022", // custom certificate stores and pinning
     "0023", // Security Provider
     "0035", // overlay attacks
     "0036", // enforced updating
@@ -30,8 +31,6 @@ export const HARDENING_TESTS: ReadonlySet<string> = new Set(
     "0049", // emulator detection
     "0050", // runtime integrity checks
     "0051", // obfuscation
-    "0222", // PIC not enabled
-    "0223", // stack canaries not enabled
     "0242", // missing certificate pinning (NSC)
     "0245", // platform version APIs
     "0247", // secure screen lock detection APIs
@@ -39,6 +38,9 @@ export const HARDENING_TESTS: ReadonlySet<string> = new Set(
     "0258", // keyboard caching attributes
     "0289", // screenshots while backgrounded
     "0291", // screen capturing prevention APIs
+    "0292", // setRecentsScreenshotEnabled not used (placeholder)
+    "0293", // setSecure not used in SurfaceViews (placeholder)
+    "0294", // SecureOn not used in Compose dialogs (placeholder)
     "0295", // GMS Security Provider not updated
     "0324", // root detection mechanisms
     "0325", // runtime root detection

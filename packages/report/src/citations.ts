@@ -7,6 +7,7 @@
 import { lstat, readFile, realpath } from "node:fs/promises";
 import path from "node:path";
 import { idPattern, type KnowledgeBase } from "@ward/core";
+import { isHardening } from "./hardening.js";
 import { finalize } from "./rollup.js";
 import { reportSchema, type Report } from "./schema.js";
 
@@ -438,6 +439,19 @@ function rollupIssues(report: Report): CitationIssue[] {
       });
     }
   });
+  // The hardening flag follows from the ID and profile (ADR 0014); a
+  // report can't set it to hide a FAIL.
+  for (const c of report.controls)
+    for (const t of c.checks) {
+      const want = isHardening(t.id, report.scope.profile);
+      if ((t.hardening === true) !== want) {
+        out.push({
+          kind: "rollup-mismatch",
+          control: c.id,
+          message: `${t.id} is ${want ? "" : "not "}a hardening check in this scope; its hardening flag says otherwise.`,
+        });
+      }
+    }
   const same = (a: object, b: object): boolean =>
     JSON.stringify(sortKeys(a)) === JSON.stringify(sortKeys(b));
   if (!same(report.counts, want.counts)) {

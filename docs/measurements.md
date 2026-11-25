@@ -20,8 +20,9 @@ plan, not billed (ADR 0007).
   planted run on 0.12.0 was stopped and deleted: it rebuilt Ward
   mid-edit.
 - **Numbers, before → after:**
-  - Clean twin: findings 16 → 11 (fix 1) → 3 (both). Decoy false
-    alarms 3 → 0 → 0. Proxy 100% each. Left: Mixpanel FAIL (proposed
+  - Clean twin: findings 16 → 11 (fix 1, agent behaviour) → 3 (fix 2,
+    which is a report and scoring change: the 8 hardening rows are no
+    longer findings, not behaviour). Decoy false alarms 3 → 0 → 0. Proxy 100% each. Left: Mixpanel FAIL (proposed
     false alarm), 2 MANUAL (dependency versions, privacy policy).
     253 s, $1.54.
   - Planted: auto-matched 15/23 → 17/23; with the proposed labels

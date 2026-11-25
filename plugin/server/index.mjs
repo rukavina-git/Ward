@@ -27282,8 +27282,6 @@ var HARDENING_TESTS = new Set([
   // auto-generated screenshots (FLAG_SECURE)
   "0012",
   // device-access-security policy (screen lock required)
-  "0022",
-  // custom certificate stores and pinning
   "0023",
   // Security Provider
   "0035",
@@ -27304,10 +27302,6 @@ var HARDENING_TESTS = new Set([
   // runtime integrity checks
   "0051",
   // obfuscation
-  "0222",
-  // PIC not enabled
-  "0223",
-  // stack canaries not enabled
   "0242",
   // missing certificate pinning (NSC)
   "0245",
@@ -27322,6 +27316,12 @@ var HARDENING_TESTS = new Set([
   // screenshots while backgrounded
   "0291",
   // screen capturing prevention APIs
+  "0292",
+  // setRecentsScreenshotEnabled not used (placeholder)
+  "0293",
+  // setSecure not used in SurfaceViews (placeholder)
+  "0294",
+  // SecureOn not used in Compose dialogs (placeholder)
   "0295",
   // GMS Security Provider not updated
   "0324",
@@ -27792,6 +27792,17 @@ function rollupIssues(report) {
       });
     }
   });
+  for (const c of report.controls)
+    for (const t of c.checks) {
+      const want2 = isHardening(t.id, report.scope.profile);
+      if (t.hardening === true !== want2) {
+        out.push({
+          kind: "rollup-mismatch",
+          control: c.id,
+          message: `${t.id} is ${want2 ? "" : "not "}a hardening check in this scope; its hardening flag says otherwise.`
+        });
+      }
+    }
   const same = (a, b) => JSON.stringify(sortKeys(a)) === JSON.stringify(sortKeys(b));
   if (!same(report.counts, want.counts)) {
     out.push({
@@ -27831,8 +27842,15 @@ var fillSchema = object({
 var fillsSchema = object({
   fills: array(fillSchema).max(MAX_FILLS)
 });
+var SETTLEABLE_ANALYZERS = /* @__PURE__ */ new Set([
+  "manifest",
+  "network"
+]);
 function settlesAnalyzerManual(row) {
-  return row.by === "analyzer" && row.verdict === "MANUAL";
+  if (row.by !== "analyzer" || row.verdict !== "MANUAL")
+    return false;
+  const names = (row.analyzer ?? "").split(",").map((n) => n.trim());
+  return names.every((n) => SETTLEABLE_ANALYZERS.has(n));
 }
 function applyFills(skeleton, fills) {
   const controls = skeleton.controls.map((c) => ({
@@ -27869,7 +27887,7 @@ function applyFills(skeleton, fills) {
         continue;
       }
       if (row.by === "analyzer" && !settlesAnalyzerManual(row)) {
-        why.push("set by Ward's analyzers; agents may only settle an analyzer MANUAL");
+        why.push("set by Ward's analyzers; agents may only settle a MANUAL from manifest or network");
         continue;
       }
       if (row.by === "owasp" && fill.verdict !== "FAIL") {
@@ -27880,11 +27898,12 @@ function applyFills(skeleton, fills) {
         why.push("already decided");
         continue;
       }
+      const settled = settlesAnalyzerManual(row);
       Object.assign(row, {
         verdict: fill.verdict,
         by: "agent",
-        reason: fill.reason,
-        evidence: fill.evidence,
+        reason: settled ? `${fill.reason} Ward's analyzer said: ${row.reason ?? ""}`.slice(0, 4e3) : fill.reason,
+        evidence: settled ? [...fill.evidence, ...row.evidence] : fill.evidence,
         filesInspected: fill.filesInspected
       });
       answered.add(k);
@@ -28278,7 +28297,7 @@ var networkTool = {
 };
 
 // packages/mcp/src/version.ts
-var WARD_VERSION = "0.13.0";
+var WARD_VERSION = "0.13.1";
 
 // packages/mcp/src/report-skeleton-tool.ts
 var reportSkeletonInput = projectInput.extend({

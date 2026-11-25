@@ -172,6 +172,17 @@ describe("checkReport", () => {
     ]);
   });
 
+  it("flags a hardening flag the ID and profile don't give (ADR 0014)", async () => {
+    const r = base();
+    const t = r.controls[0]?.checks[0];
+    if (!t) throw new Error("fixture");
+    t.hardening = true;
+    const res = await checkReport(finalize(r), root, kb);
+    expect(res.issues.map((i) => i.message).join(" ")).toMatch(
+      /not a hardening check/,
+    );
+  });
+
   it("flags a stale MASTG pin and bad filesInspected", async () => {
     const r = base();
     r.stamps.mastg = { version: "v0", commit: "0" };
