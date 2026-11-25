@@ -1,0 +1,83 @@
+{
+  "grades": [
+    {
+      "finding": 0,
+      "title": "MASTG-TEST-0392: References to Enforced Updating APIs",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": null
+    },
+    {
+      "finding": 1,
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": null
+    },
+    {
+      "finding": 2,
+      "title": "MASTG-TEST-0338: References to Storage Integrity Check APIs",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": null
+    },
+    {
+      "finding": 3,
+      "title": "MASTG-TEST-0242: Missing Certificate Pinning in Network Security Configuration",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": null
+    },
+    {
+      "finding": 4,
+      "title": "MASTG-TEST-0258: References to Keyboard Caching Attributes in UI Elements",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": null
+    },
+    {
+      "finding": 5,
+      "title": "MASTG-TEST-0291: References to Screen Capturing Prevention APIs",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": null
+    },
+    {
+      "finding": 6,
+      "title": "MASTG-TEST-0340: References to Overlay Attack Protections",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": null
+    },
+    {
+      "finding": 7,
+      "title": "MASTG-TEST-0318: References to SDK APIs Known to Handle Sensitive User Data",
+      "candidates": [
+        "EA-D5"
+      ],
+      "suggested": "false-alarm",
+      "label": null
+    },
+    {
+      "finding": 8,
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": null
+    },
+    {
+      "finding": 9,
+      "title": "MASTG-TEST-0324: References to Root Detection Mechanisms",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": null
+    },
+    {
+      "finding": 10,
+      "title": "MASTG-TEST-0352: References to Debugging Detection APIs",
+      "candidates": [],
+      "suggested": "false-alarm",
+      "label": null
+    }
+  ]
+}

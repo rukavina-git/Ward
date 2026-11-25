@@ -3,6 +3,7 @@
  * prefilled where Ward already knows the answer. Pure: the caller loads
  * the checklist and runs the analyzers.
  */
+import { isHardening } from "./hardening.js";
 import type { ChecklistControl } from "@ward/core";
 import { finalize, worst } from "./rollup.js";
 import {
@@ -66,7 +67,9 @@ export function buildSkeleton(input: SkeletonInput): Report {
     id: control.id,
     title: control.title,
     verdict: null,
-    checks: checksOf(control),
+    checks: checksOf(control).map((c) =>
+      isHardening(c.id, input.scope.profile) ? { ...c, hardening: true } : c,
+    ),
     weaknesses: new Map(control.weaknesses.map((w) => [w.id, w.title])),
   }));
 

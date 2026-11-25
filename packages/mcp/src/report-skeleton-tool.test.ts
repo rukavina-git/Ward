@@ -222,6 +222,28 @@ describe("report_skeleton", () => {
     resetServed();
   });
 
+  it("marks hardening checks only without a profile (ADR 0014)", async () => {
+    const rows = async (profile?: "R") =>
+      (
+        (
+          await reportSkeletonTool.handler({
+            projectRoot: clean,
+            group: "MASVS-RESILIENCE",
+            ...(profile && { profile }),
+          })
+        ).structuredContent as {
+          controls: { checks: { id: string; hardening?: boolean }[] }[];
+        }
+      ).controls.flatMap((c) => c.checks);
+    const root = (await rows()).find((t) => t.id === "MASTG-TEST-0324");
+    expect(root?.hardening).toBe(true);
+    const debuggable = (await rows()).find((t) => t.id === "MASTG-TEST-0226");
+    expect(debuggable?.hardening).toBeUndefined();
+    const r = (await rows("R")).find((t) => t.id === "MASTG-TEST-0324");
+    expect(r?.hardening).toBeUndefined();
+    resetServed();
+  });
+
   it("lists checks past the text budget as omitted, unserved", async () => {
     resetServed();
     const skel = report(await reportSkeletonTool.handler({ projectRoot: app }));

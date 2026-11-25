@@ -1,0 +1,125 @@
+{
+  "run": "2026-11-25-ward-check-clean-t2",
+  "setup": "ward-check",
+  "trial": 2,
+  "model": "claude-sonnet-5-5",
+  "keyVersion": 2,
+  "lineWindow": 5,
+  "app": "clean",
+  "provisional": true,
+  "findings": 11,
+  "ungraded": 11,
+  "duplicates": 0,
+  "decoyHits": [],
+  "falseAlarms": 0,
+  "realUnplanted": 0,
+  "generic": 0,
+  "precision": null,
+  "citations": {
+    "locations": 16,
+    "bad": []
+  },
+  "perFinding": [
+    {
+      "index": 0,
+      "title": "MASTG-TEST-0392: References to Enforced Updating APIs",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [],
+        "suggested": "false-alarm"
+      }
+    },
+    {
+      "index": 1,
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [],
+        "suggested": "false-alarm"
+      }
+    },
+    {
+      "index": 2,
+      "title": "MASTG-TEST-0338: References to Storage Integrity Check APIs",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [],
+        "suggested": "false-alarm"
+      }
+    },
+    {
+      "index": 3,
+      "title": "MASTG-TEST-0242: Missing Certificate Pinning in Network Security Configuration",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [],
+        "suggested": "false-alarm"
+      }
+    },
+    {
+      "index": 4,
+      "title": "MASTG-TEST-0258: References to Keyboard Caching Attributes in UI Elements",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [],
+        "suggested": "false-alarm"
+      }
+    },
+    {
+      "index": 5,
+      "title": "MASTG-TEST-0291: References to Screen Capturing Prevention APIs",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [],
+        "suggested": "false-alarm"
+      }
+    },
+    {
+      "index": 6,
+      "title": "MASTG-TEST-0340: References to Overlay Attack Protections",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [],
+        "suggested": "false-alarm"
+      }
+    },
+    {
+      "index": 7,
+      "title": "MASTG-TEST-0318: References to SDK APIs Known to Handle Sensitive User Data",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [
+          "EA-D5"
+        ],
+        "suggested": "false-alarm"
+      }
+    },
+    {
+      "index": 8,
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [],
+        "suggested": "false-alarm"
+      }
+    },
+    {
+      "index": 9,
+      "title": "MASTG-TEST-0324: References to Root Detection Mechanisms",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [],
+        "suggested": "false-alarm"
+      }
+    },
+    {
+      "index": 10,
+      "title": "MASTG-TEST-0352: References to Debugging Detection APIs",
+      "outcome": {
+        "kind": "ungraded",
+        "candidates": [],
+        "suggested": "false-alarm"
+      }
+    }
+  ]
+}

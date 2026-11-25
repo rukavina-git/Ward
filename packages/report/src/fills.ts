@@ -196,6 +196,18 @@ export function summaryText(
   }
 
   const tail: string[] = [];
+  const hardening = new Set<string>();
+  for (const c of report.controls)
+    for (const t of c.checks)
+      if (t.hardening === true && t.verdict === "FAIL") hardening.add(t.id);
+  if (hardening.size > 0) {
+    tail.push(
+      "",
+      `Hardening not present (MASVS L2/R, not counted as FAIL): ${String(hardening.size)}`,
+      `  ${head([...hardening].sort(), 5)}`,
+      "  Run with profile L2 or R if your app needs these protections.",
+    );
+  }
   const g = report.gaps;
   tail.push(
     "",
@@ -233,7 +245,7 @@ export function summaryText(
   const findings = new Map<string, Set<string>>();
   for (const c of report.controls) {
     for (const t of c.checks) {
-      if (t.verdict !== "FAIL") continue;
+      if (t.verdict !== "FAIL" || t.hardening === true) continue;
       const ev = t.evidence[0];
       const where = ev ? `${ev.file}:${String(ev.line)}` : "no evidence";
       const ids = findings.get(where) ?? new Set<string>();

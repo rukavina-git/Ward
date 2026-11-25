@@ -43,7 +43,8 @@ export interface Converted {
 }
 
 /**
- * One finding per check ID whose rows carry evidence. A check under several
+ * One finding per check ID whose rows carry evidence. Hardening rows
+ * (ADR 0014) are left out: the report shows them apart, not as findings. A check under several
  * controls is one finding with every control in `masvs`. FAIL wins when its
  * rows differ. `prefix` turns project-relative paths into copy-relative ones.
  */
@@ -63,6 +64,8 @@ export function reportToFindings(report: Report, prefix = ""): Converted {
     for (const check of control.checks) {
       if (check.verdict === null || check.verdict === "NO FINDING") continue;
       if (check.verdict === "N/A") continue;
+      // Hardening rows (ADR 0014) are reported apart, not as findings.
+      if (check.hardening === true) continue;
       if (check.evidence.length === 0) {
         noEvidence.set(
           check.id,

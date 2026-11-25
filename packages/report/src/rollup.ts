@@ -26,13 +26,24 @@ export function worst(verdicts: readonly Verdict[]): Verdict | undefined {
  * A control's verdict. Any FAIL is FAIL. Otherwise a pending check leaves
  * the control pending (null): what's left could still fail. A control
  * with no checks is MANUAL, since Ward has nothing to check it with.
+ * Hardening checks (ADR 0014) don't count when the control has others;
+ * a control with only hardening checks rolls them up with FAIL read as
+ * MANUAL: a protection is missing, and whether the app needs it is the
+ * owner's call.
  */
 export function rollupControl(
   control: Pick<Control, "checks">,
 ): Verdict | null {
+  const base = control.checks.filter((c) => c.hardening !== true);
+  if (base.length === 0 && control.checks.length > 0) {
+    const v = rollupControl({
+      checks: control.checks.map((c) => ({ ...c, hardening: false })),
+    });
+    return v === "FAIL" ? "MANUAL" : v;
+  }
   const decided: Verdict[] = [];
   let pending = false;
-  for (const c of control.checks) {
+  for (const c of base) {
     if (c.verdict === null) pending = true;
     else decided.push(c.verdict);
   }
@@ -60,6 +71,7 @@ export function finalize(
   }));
   const counts: Report["counts"] = { controls: {}, checks: {} };
   const depth: Record<string, number> = {};
+  const hardening: Record<string, number> = {};
   const pending = new Set<string>();
   const manual = new Set<string>();
   const needsDynamic = new Set<string>();
@@ -68,7 +80,8 @@ export function finalize(
       (counts.controls[key(c.verdict)] ?? 0) + 1;
     if (c.checks.length === 0) manual.add(c.id);
     for (const t of c.checks) {
-      counts.checks[key(t.verdict)] = (counts.checks[key(t.verdict)] ?? 0) + 1;
+      const bucket = t.hardening === true ? hardening : counts.checks;
+      bucket[key(t.verdict)] = (bucket[key(t.verdict)] ?? 0) + 1;
       if (t.depth != null) depth[t.depth] = (depth[t.depth] ?? 0) + 1;
       if (t.verdict === null) pending.add(t.id);
       else if (t.verdict === "MANUAL") manual.add(t.id);
@@ -76,6 +89,7 @@ export function finalize(
     }
   }
   if (Object.keys(depth).length > 0) counts.depth = depth;
+  if (Object.keys(hardening).length > 0) counts.hardening = hardening;
   return {
     ...report,
     controls,

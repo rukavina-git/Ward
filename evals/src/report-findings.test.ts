@@ -114,6 +114,29 @@ describe("reportToFindings", () => {
   });
 });
 
+describe("reportToFindings and hardening", () => {
+  it("leaves hardening rows out of the findings", () => {
+    const r = report([
+      {
+        id: "MASVS-RESILIENCE-1",
+        title: "",
+        verdict: "MANUAL",
+        checks: [
+          check({
+            id: "MASTG-TEST-0324",
+            verdict: "FAIL",
+            by: "agent",
+            reason: "no root detection",
+            evidence: [ev("app/A.kt", 3)],
+            hardening: true,
+          }),
+        ],
+      },
+    ]);
+    expect(reportToFindings(r).findings.findings).toEqual([]);
+  });
+});
+
 describe("findReport", () => {
   const work = mkdtempSync(join(tmpdir(), "ward-find-report-"));
   afterAll(() => {

@@ -79,6 +79,12 @@ export const checkSchema = z.object({
   filesInspected: z.array(z.string()),
   /** null while pending; absent in reports from before Ward 0.10. */
   depth: depthSchema.nullable().optional(),
+  /**
+   * A hardening check reported apart (ADR 0014): no profile given and the
+   * test asks whether an L2/R protection is present. Its verdict stays out
+   * of the control verdict and `counts.checks`. Absent: false.
+   */
+  hardening: z.boolean().optional(),
 });
 export type Check = z.infer<typeof checkSchema>;
 
@@ -139,6 +145,8 @@ export const reportSchema = z.object({
     checks: countsSchema,
     /** Decided checks per depth; absent before Ward 0.10. */
     depth: countsSchema.optional(),
+    /** Hardening checks per verdict (ADR 0014); absent when there are none. */
+    hardening: countsSchema.optional(),
   }),
   gaps: gapsSchema,
 });
