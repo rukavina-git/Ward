@@ -1,0 +1,390 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 28
+        }
+      ],
+      "explanation": "Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/AndroidManifest.xml:28: activity .help.HelpActivity; exported: yes (android:exported is set); deep link schemes: pennyjar"
+    },
+    {
+      "title": "MASTG-TEST-0392: References to Enforced Updating APIs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-2"
+      ],
+      "maswe": [
+        "MASWE-0043"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/MainActivity.kt",
+          "line": 62
+        }
+      ],
+      "explanation": "No Play In-App Updates API and no backend minimum-version check: startup goes straight from session restore to the app's screens.\napp/src/main/java/app/pennyjar/MainActivity.kt:62: Startup flow has no update-enforcement check."
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle.kts",
+          "line": 44
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 45
+        }
+      ],
+      "explanation": "10 of the declared dependencies with exact versions match no OSV advisory, but 2 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-25T19:34:24.991Z (published Mon, 23 Nov 2026 21:33:52 GMT).\napp/build.gradle.kts:44: androidx.compose.ui:ui: no version (a BOM or constraint may set it)\napp/build.gradle.kts:45: androidx.compose.material3:material3: no version (a BOM or constraint may set it)"
+    },
+    {
+      "title": "MASTG-TEST-0338: References to Storage Integrity Check APIs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-4",
+        "MASVS-RESILIENCE-2"
+      ],
+      "maswe": [
+        "MASWE-0057"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/settings/SettingsStore.kt",
+          "line": 10
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/MainActivity.kt",
+          "line": 66
+        }
+      ],
+      "explanation": "Whether the biometric lock screen is shown depends only on a plain SharedPreferences boolean (settings.xml) with no HMAC or signature, and settings.xml is not excluded from backup, so flipping it skips the lock.\napp/src/main/java/app/pennyjar/settings/SettingsStore.kt:10: Biometric-lock flag read from SharedPreferences without integrity check.\napp/src/main/java/app/pennyjar/MainActivity.kt:66: The unverified flag decides whether the app locks."
+    },
+    {
+      "title": "MASTG-TEST-0295: GMS Security Provider Not Updated",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+          "line": 52
+        }
+      ],
+      "explanation": "The app never calls ProviderInstaller.installIfNeeded(Async) before making network connections; the OkHttp clients are built at application start without updating the security provider.\napp/src/main/java/app/pennyjar/PennyJarApp.kt:52: Network clients are created at startup without a prior security provider update."
+    },
+    {
+      "title": "MASTG-TEST-0242: Missing Certificate Pinning in Network Security Configuration",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-NETWORK-2"
+      ],
+      "maswe": [
+        "MASWE-0028"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 15
+        }
+      ],
+      "explanation": "No pin-set in a network security config. Pinning may be done in code (OkHttp CertificatePinner, a custom TrustManager), which Ward doesn't read. MASVS L2 expects pinning; L1 doesn't.\napp/src/main/AndroidManifest.xml:15: networkSecurityConfig @xml/network_security_config"
+    },
+    {
+      "title": "MASTG-TEST-0258: References to Keyboard Caching Attributes in UI Elements",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-3",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0036"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/ui/AddExpenseScreen.kt",
+          "line": 116
+        }
+      ],
+      "explanation": "The 'Private note' field, whose content the app treats as sensitive (it encrypts it with a Keystore key before storage), is a plain OutlinedTextField with no non-caching keyboard options, so the keyboard may learn it. The password uses OutlinedSecureTextField.\napp/src/main/java/app/pennyjar/ui/AddExpenseScreen.kt:116: Private note field uses default (caching) keyboard options."
+    },
+    {
+      "title": "MASTG-TEST-0291: References to Screen Capturing Prevention APIs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-3",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0038"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/MainActivity.kt",
+          "line": 43
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/ui/ExpenseListScreen.kt",
+          "line": 131
+        }
+      ],
+      "explanation": "No FLAG_SECURE or other screen-capture prevention anywhere; the app shows financial data and decrypted private notes on the expense list.\napp/src/main/java/app/pennyjar/MainActivity.kt:43: Content is set without window FLAG_SECURE.\napp/src/main/java/app/pennyjar/ui/ExpenseListScreen.kt:131: Decrypted private note shown on an unprotected screen."
+    },
+    {
+      "title": "MASTG-TEST-0340: References to Overlay Attack Protections",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-3",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0036"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/auth/LoginScreen.kt",
+          "line": 66
+        }
+      ],
+      "explanation": "No filterTouchesWhenObscured, onFilterTouchEventForSecurity, obscured-flag checks or setHideOverlayWindows anywhere, while the app has a login screen and a delete-account confirmation; targetSdk is 36.\napp/src/main/java/app/pennyjar/auth/LoginScreen.kt:66: Password entry has no overlay/tapjacking protection."
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 6
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\napp/src/main/AndroidManifest.xml:6: android.permission.ACCESS_COARSE_LOCATION"
+    },
+    {
+      "title": "MASTG-TEST-0318: References to SDK APIs Known to Handle Sensitive User Data",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PRIVACY-1",
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0073"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+          "line": 14
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+          "line": 24
+        }
+      ],
+      "explanation": "The app sends user data to the Mixpanel SDK: identify() with the account's user ID and an expense_added event with spending category, amount band and whether a photo/place was attached (financial info). Tracking is opted out until the user consents, but this still needs to be declared.\napp/src/main/java/app/pennyjar/analytics/Analytics.kt:14: User ID shared with Mixpanel.\napp/src/main/java/app/pennyjar/analytics/Analytics.kt:24: Expense category and amount band shared with Mixpanel."
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/settings/SettingsScreen.kt",
+          "line": 42
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/settings/SettingsScreen.kt",
+          "line": 91
+        },
+        {
+          "file": "app/src/main/java/app/pennyjar/settings/SettingsScreen.kt",
+          "line": 93
+        }
+      ],
+      "explanation": "A privacy policy link or text is in the app. Ward doesn't read the policy: check that it matches what the app collects and the Data safety answers.\napp/src/main/java/app/pennyjar/settings/SettingsScreen.kt:42: privacy policy\napp/src/main/java/app/pennyjar/settings/SettingsScreen.kt:91: privacy policy\napp/src/main/java/app/pennyjar/settings/SettingsScreen.kt:93: privacy policy"
+    },
+    {
+      "title": "MASTG-TEST-0324: References to Root Detection Mechanisms",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-RESILIENCE-1",
+        "MASVS-RESILIENCE-4"
+      ],
+      "maswe": [
+        "MASWE-0051"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+          "line": 42
+        }
+      ],
+      "explanation": "No root detection: no su/Magisk/test-keys checks, no root-detection library and no Play Integrity in code or dependencies.\napp/src/main/java/app/pennyjar/PennyJarApp.kt:42: App startup performs no root check."
+    },
+    {
+      "title": "MASTG-TEST-0352: References to Debugging Detection APIs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-RESILIENCE-4"
+      ],
+      "maswe": [
+        "MASWE-0064"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+          "line": 42
+        }
+      ],
+      "explanation": "No debugger detection: no Debug.isDebuggerConnected, TracerPid or ptrace checks in code, and no native code.\napp/src/main/java/app/pennyjar/PennyJarApp.kt:42: App startup performs no debugger check."
+    },
+    {
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 11
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 12
+        }
+      ],
+      "explanation": "Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/main/AndroidManifest.xml:11: rules file @xml/data_extraction_rules\napp/src/main/AndroidManifest.xml:12: rules file @xml/backup_rules"
+    },
+    {
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 11
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 12
+        }
+      ],
+      "explanation": "Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/main/AndroidManifest.xml:11: rules file @xml/data_extraction_rules\napp/src/main/AndroidManifest.xml:12: rules file @xml/backup_rules"
+    }
+  ],
+  "inspected": [
+    "app/build.gradle.kts",
+    "app/proguard-rules.pro",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/java/app/pennyjar/MainActivity.kt",
+    "app/src/main/java/app/pennyjar/PennyJarApp.kt",
+    "app/src/main/java/app/pennyjar/analytics/Analytics.kt",
+    "app/src/main/java/app/pennyjar/auth/AuthRepository.kt",
+    "app/src/main/java/app/pennyjar/auth/BiometricGate.kt",
+    "app/src/main/java/app/pennyjar/auth/LoginScreen.kt",
+    "app/src/main/java/app/pennyjar/auth/TokenStore.kt",
+    "app/src/main/java/app/pennyjar/backup/AutoBackupWorker.kt",
+    "app/src/main/java/app/pennyjar/consent/ConsentScreen.kt",
+    "app/src/main/java/app/pennyjar/crypto/KeystoreKeys.kt",
+    "app/src/main/java/app/pennyjar/crypto/NoteCipher.kt",
+    "app/src/main/java/app/pennyjar/crypto/NoteKeys.kt",
+    "app/src/main/java/app/pennyjar/help/HelpActivity.kt",
+    "app/src/main/java/app/pennyjar/help/HelpBridge.kt",
+    "app/src/main/java/app/pennyjar/settings/SettingsScreen.kt",
+    "app/src/main/java/app/pennyjar/settings/SettingsStore.kt",
+    "app/src/main/java/app/pennyjar/share/ShareLinks.kt",
+    "app/src/main/java/app/pennyjar/support/SupportScreen.kt",
+    "app/src/main/java/app/pennyjar/ui/AddExpenseScreen.kt",
+    "app/src/main/java/app/pennyjar/ui/AvatarColors.kt",
+    "app/src/main/java/app/pennyjar/ui/ExpenseListScreen.kt",
+    "app/src/main/java/app/pennyjar/ui/ReceiptSharing.kt",
+    "app/src/main/java/app/pennyjar/ui/ThumbnailCache.kt",
+    "app/src/main/res/xml/backup_rules.xml",
+    "app/src/main/res/xml/data_extraction_rules.xml",
+    "app/src/main/res/xml/network_security_config.xml",
+    "gradle/libs.versions.toml",
+    "sync/build.gradle.kts",
+    "sync/src/main/AndroidManifest.xml",
+    "sync/src/main/java/app/pennyjar/sync/ApiClient.kt",
+    "sync/src/main/java/app/pennyjar/sync/Endpoints.kt",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptQueries.kt",
+    "sync/src/main/java/app/pennyjar/sync/ReceiptsProvider.kt",
+    "sync/src/main/java/app/pennyjar/sync/Sync.kt",
+    "sync/src/main/java/app/pennyjar/sync/SyncWorker.kt",
+    "sync/src/main/java/app/pennyjar/sync/UploadClient.kt",
+    "sync/src/main/java/app/pennyjar/sync/model/ApiModels.kt"
+  ]
+}

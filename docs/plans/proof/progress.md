@@ -1,7 +1,7 @@
 # Plan 6 progress
 
 - [x] 01 depth marking, proxy metrics, strict scoring (d6caeb1)
-- [ ] 02 skill v2 and dev runs until the proxy gate passes (code 4df2e9d; planted dev run passes the gate at 98%; clean twin pending)
+- [ ] 02 skill v2 and dev runs until the proxy gate passes (code 4df2e9d; gate passes: planted 98%, clean twin 100%; findings grading pending)
 - [ ] 03 label held-out batch 2
 - [ ] 04 prompt-injection tests in code
 - [ ] 05 prompt-injection agent runs
@@ -56,8 +56,9 @@ Step 02 (reviewer: no BLOCKER; not fixed):
   NO FINDING without files on an unknown or owasp row gets the
   "list the files" message instead of the real reason; one long doc
   comment line in fills.ts.
-- Dev runs: `npm run eval:run -- --app planted --setup ward-check`
-  and `--app clean`, then `npm run eval:proxy -- <run dirs>`. Gate:
+- Dev runs: `npm run eval:run -- --app planted --setup ward-check
+  --model <id> --trial <n>` (both flags required) and `--app clean`,
+  then `npm run eval:proxy -- <run dirs>`. Gate:
   test-text share ≥ 80%. Record both in docs/measurements.md.
 - Runner fix: `must_exist` was missing from the ward and ward-check
   setups' expected tool lists, so every run since Plan 5 step 06

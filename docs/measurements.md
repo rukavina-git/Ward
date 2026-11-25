@@ -9,6 +9,33 @@ and results that look bad for Ward.
 "$" is the API-equivalent Claude Code reports. Runs are on Karlo's Pro
 plan, not billed (ADR 0007).
 
+## 2026-11-25 Skill v2 dev run, clean twin (plan 6, step 02)
+
+- **Question:** does skill v2 read the test text on the clean twin
+  too, and how much noise does it raise on an app with no planted bugs?
+- **Setup:** `/ward:check` on the clean twin, Sonnet 5.5, one run
+  (trial 1), ward-check arm, same as the planted run.
+- **Numbers:** 226 s, 75 turns, $1.42 API-equivalent (plan, not
+  billed). Proxy: 56 agent answers, 56 after the test text (100%),
+  gate passes. `report_skeleton` 8, `get_check` 3, `search` 0. 32 NO
+  FINDING, all with files read. Scorer (provisional, 13 of 16
+  ungraded): 16 findings, 3 auto false alarms on decoys (EA-D4 once,
+  EA-D7 twice), 0 bad citations of 24. The 3 are all MANUAL analyzer
+  rows the agent left open (exported HelpActivity; backup rules "check
+  that they exclude credentials"), not FAILs. FAILs on decoys: 0.
+  The 16: FAIL 9, MANUAL 7. Seven FAILs are missing hardening
+  (enforced updates, storage integrity, Security Provider, screen
+  capture, overlay, root, debugger detection); one is the keyboard
+  cache on the private note; one is user data sent to Mixpanel.
+- **What it means:** the gate holds on both apps. The decoy noise comes
+  from MANUAL rows: the agent didn't open `backup_rules.xml` to settle
+  EA-D7, although the file is one step away. The other noise is
+  MASVS-RESILIENCE: v2 FAILs every missing hardening control, which is
+  true to MASTG but noisy for an ordinary app. Baseline twin (Claude
+  alone): 1.7 to 2.3 false alarms; not yet comparable until the 13 are
+  graded.
+- **Raw data:** `evals/results/example-app/2026-11-25-ward-check-clean-t1/`.
+
 ## 2026-11-24 Skill v2 dev run, planted app (plan 6, step 02)
 
 - **Question:** does skill v2 (test text in the skeleton, NO FINDING
