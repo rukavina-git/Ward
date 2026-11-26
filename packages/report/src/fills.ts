@@ -194,9 +194,9 @@ export function summaryText(
   const scope =
     report.scope.groups.length === 8
       ? "all MASVS groups"
-      : report.scope.groups.join(", ");
+      : report.scope.groups.map((g) => clip(g, 40)).join(", ");
   lines.push(
-    `Ward check: ${String(report.controls.length)} MASVS controls (${scope}${report.scope.profile ? `, profile ${report.scope.profile}` : ""}, variant ${report.scope.variant})`,
+    `Ward check: ${String(report.controls.length)} MASVS controls (${scope}${report.scope.profile ? `, profile ${clip(report.scope.profile, 10)}` : ""}, variant ${clip(report.scope.variant, 40)})`,
   );
   const order = [...VERDICTS, "pending"];
   const counts = (r: Record<string, number>): string =>
@@ -251,7 +251,7 @@ export function summaryText(
   if (rejected.length > 0) {
     tail.push(`Rejected answers: ${String(rejected.length)}`);
     for (const r of rejected.slice(0, 3)) {
-      tail.push(`  ${r.check}: ${clip(r.reason, 100)}`);
+      tail.push(`  ${clip(r.check, 40)}: ${clip(r.reason, 100)}`);
     }
   }
   tail.push(
@@ -267,7 +267,9 @@ export function summaryText(
     for (const t of c.checks) {
       if (t.verdict !== "FAIL" || t.hardening === true) continue;
       const ev = t.evidence[0];
-      const where = ev ? `${ev.file}:${String(ev.line)}` : "no evidence";
+      const where = ev
+        ? `${clip(ev.file, 120)}:${String(ev.line)}`
+        : "no evidence";
       const ids = findings.get(where) ?? new Set<string>();
       ids.add(t.id);
       findings.set(where, ids);
@@ -289,12 +291,36 @@ export function summaryText(
 }
 
 function head(ids: readonly string[], n: number): string {
+  const shown = ids.slice(0, n).map((id) => clip(id, 40));
   return ids.length > n
-    ? `${ids.slice(0, n).join(", ")} … +${String(ids.length - n)}`
-    : ids.join(", ");
+    ? `${shown.join(", ")} … +${String(ids.length - n)}`
+    : shown.join(", ");
 }
 
 function clip(s: string, n: number): string {
-  const one = s.replace(/\s+/g, " ");
+  const one = displaySafe(s);
   return one.length > n ? `${one.slice(0, n - 1)}…` : one;
+}
+
+/**
+ * Text from the app or the agent, made safe for one line of the summary
+ * (plan 6 step 04). Line breaks become ⏎, so text can't start a line of
+ * its own ("Citation check: … confirmed"); other control characters
+ * (ANSI escapes included) and bidi overrides become �; backticks become
+ * ˋ, so nothing can close the code block the summary is shown in. Runs
+ * of spaces collapse to one.
+ */
+// Control characters (C0, DEL, C1) and bidi marks and overrides.
+const UNSAFE_CHARS = new RegExp(
+  // eslint-disable-next-line no-control-regex -- matching them is the point
+  "[\\u0000-\\u001f\\u007f-\\u009f\\u200e\\u200f\\u202a-\\u202e\\u2066-\\u2069]",
+  "g",
+);
+
+export function displaySafe(s: string): string {
+  return s
+    .replace(/\r\n|[\r\n\u2028\u2029\u0085]/g, "⏎")
+    .replace(UNSAFE_CHARS, "�")
+    .replace(/`/g, "ˋ")
+    .replace(/[ \t]+/g, " ");
 }

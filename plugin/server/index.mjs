@@ -27923,8 +27923,8 @@ function applyFills(skeleton, fills) {
 var SUMMARY_MAX_LINES = 40;
 function summaryText(report, issues, rejected) {
   const lines = [];
-  const scope = report.scope.groups.length === 8 ? "all MASVS groups" : report.scope.groups.join(", ");
-  lines.push(`Ward check: ${String(report.controls.length)} MASVS controls (${scope}${report.scope.profile ? `, profile ${report.scope.profile}` : ""}, variant ${report.scope.variant})`);
+  const scope = report.scope.groups.length === 8 ? "all MASVS groups" : report.scope.groups.map((g2) => clip2(g2, 40)).join(", ");
+  lines.push(`Ward check: ${String(report.controls.length)} MASVS controls (${scope}${report.scope.profile ? `, profile ${clip2(report.scope.profile, 10)}` : ""}, variant ${clip2(report.scope.variant, 40)})`);
   const order = [...VERDICTS, "pending"];
   const counts = (r) => order.filter((v) => (r[v] ?? 0) > 0).map((v) => `${v} ${String(r[v])}`).join(" \xB7 ");
   lines.push(`Controls: ${counts(report.counts.controls) || "none"}`);
@@ -27960,7 +27960,7 @@ function summaryText(report, issues, rejected) {
   if (rejected.length > 0) {
     tail.push(`Rejected answers: ${String(rejected.length)}`);
     for (const r of rejected.slice(0, 3)) {
-      tail.push(`  ${r.check}: ${clip2(r.reason, 100)}`);
+      tail.push(`  ${clip2(r.check, 40)}: ${clip2(r.reason, 100)}`);
     }
   }
   tail.push("", "NO FINDING means Ward found nothing, not that the app is safe.", "Full report: .ward/report.json");
@@ -27970,7 +27970,7 @@ function summaryText(report, issues, rejected) {
       if (t.verdict !== "FAIL" || t.hardening === true)
         continue;
       const ev = t.evidence[0];
-      const where = ev ? `${ev.file}:${String(ev.line)}` : "no evidence";
+      const where = ev ? `${clip2(ev.file, 120)}:${String(ev.line)}` : "no evidence";
       const ids = findings.get(where) ?? /* @__PURE__ */ new Set();
       ids.add(t.id);
       findings.set(where, ids);
@@ -27989,11 +27989,20 @@ function summaryText(report, issues, rejected) {
   return lines.slice(0, SUMMARY_MAX_LINES).join("\n");
 }
 function head(ids, n) {
-  return ids.length > n ? `${ids.slice(0, n).join(", ")} \u2026 +${String(ids.length - n)}` : ids.join(", ");
+  const shown = ids.slice(0, n).map((id2) => clip2(id2, 40));
+  return ids.length > n ? `${shown.join(", ")} \u2026 +${String(ids.length - n)}` : shown.join(", ");
 }
 function clip2(s, n) {
-  const one = s.replace(/\s+/g, " ");
+  const one = displaySafe(s);
   return one.length > n ? `${one.slice(0, n - 1)}\u2026` : one;
+}
+var UNSAFE_CHARS = new RegExp(
+  // eslint-disable-next-line no-control-regex -- matching them is the point
+  "[\\u0000-\\u001f\\u007f-\\u009f\\u200e\\u200f\\u202a-\\u202e\\u2066-\\u2069]",
+  "g"
+);
+function displaySafe(s) {
+  return s.replace(/\r\n|[\r\n\u2028\u2029\u0085]/g, "\u23CE").replace(UNSAFE_CHARS, "\uFFFD").replace(/`/g, "\u02CB").replace(/[ \t]+/g, " ");
 }
 
 // packages/mcp/src/project-path.ts
@@ -28297,7 +28306,7 @@ var networkTool = {
 };
 
 // packages/mcp/src/version.ts
-var WARD_VERSION = "0.13.1";
+var WARD_VERSION = "0.13.2";
 
 // packages/mcp/src/report-skeleton-tool.ts
 var reportSkeletonInput = projectInput.extend({

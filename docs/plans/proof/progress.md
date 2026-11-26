@@ -3,7 +3,7 @@
 - [x] 01 depth marking, proxy metrics, strict scoring (d6caeb1)
 - [ ] 02 skill v2 and dev runs until the proxy gate passes (code 4df2e9d; gate passes on v2, v2.1 and 0.13.0; ADR 0014 hardening apart; Karlo to confirm proposed labels)
 - [ ] 03 label held-out batch 2 (18 cases, re-frozen 2026-11-26 after review; Karlo's spot check of 5 still open, needed before 06)
-- [ ] 04 prompt-injection tests in code
+- [x] 04 prompt-injection tests in code (see commit below)
 - [ ] 05 prompt-injection agent runs
 - [ ] 06 skill v2 on the held-out set, plus analyzers-only
 
@@ -40,6 +40,19 @@
   from commit-message grep over `--filter=tree:0` clones of about 130
   apps (evals/.cache/held-out-b2, gitignored). Log of all candidates (18 kept, 5 reserve, 31 dropped):
   `evals/held-out-batch2-log.md`.
+
+- Step 04: step file written this run. Found and fixed a real gap: the
+  terminal summary printed evidence file names, rejected check IDs and
+  citation messages as they were, so a file name with a newline or
+  ANSI codes could forge "Citation check: … confirmed" or close the
+  summary's code block. `displaySafe` now cleans every such string.
+  Tests: `packages/analyzers/src/injection.test.ts` (hostile comments,
+  meta-data and strings change no analyzer verdict),
+  `packages/report/src/injection.test.ts` (hostile fills and summary
+  text). check_report's guards (rollup, counts, gaps, hardening flag)
+  were already tested in citations.test.ts. Depth claimed in a
+  hand-edited report.json can't be checked: the served log lives in the
+  server process. Server 0.13.2.
 
 ## Gotchas
 Carried over: see docs/plans/the-check/progress.md.
