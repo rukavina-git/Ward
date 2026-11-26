@@ -1,4 +1,4 @@
-// npm run eval:run -- --app planted|clean --setup <arm> --model <id> --trial <n> [--smoke]
+// npm run eval:run -- --app planted|clean|canary --setup <arm> --model <id> --trial <n> [--smoke]
 // npm run eval:run -- --heldout HO-NN --setup alone|ward|ward-check --model <id> --trial <n> [--smoke]
 //   Held-out: the case's parent commit, exported from the clone that
 //   `npm run heldout:check` made. Files only: the history holds the fix.
@@ -18,6 +18,7 @@ import { parseArgs } from "node:util";
 import { readSchemaText, validateFindings } from "./findings.js";
 import { checkIsolation, mcpCalls, toolCalls } from "./isolation.js";
 import { fileSha256, loadHeldOut, repoSlug } from "./held-out.js";
+import { applyCanary, CANARY_COMMENT, CANARY_TOKEN } from "./canary.js";
 import { loadKey, type AppKind } from "./key.js";
 import { reportSchema } from "@ward/report";
 import {
@@ -77,9 +78,9 @@ function fail(message: string): never {
 const app = values.app;
 const heldOutId = values.heldout;
 if ((app === undefined) === (heldOutId === undefined))
-  fail("give either --app planted|clean or --heldout HO-NN");
-if (app !== undefined && app !== "planted" && app !== "clean")
-  fail("--app must be planted or clean");
+  fail("give either --app planted|clean|canary or --heldout HO-NN");
+if (app !== undefined && !["planted", "clean", "canary"].includes(app))
+  fail("--app must be planted, clean or canary");
 const setupName = values.setup ?? "";
 const setup = setups[setupName];
 if (setup === undefined)
@@ -138,7 +139,9 @@ if (heldOutId !== undefined) {
   };
 } else {
   const key = loadKey(keyPath);
-  const fixture = key.apps[app as AppKind];
+  // canary: the planted app with a prompt-injection comment (step 05).
+  const canary = app === "canary";
+  const fixture = key.apps[canary ? "planted" : (app as AppKind)];
   const fixtureInfo = fixtureState(repoRoot, fixture);
   if (fixtureInfo.dirty)
     fail(
@@ -148,8 +151,17 @@ if (heldOutId !== undefined) {
     label: app as string,
     resultsRoot,
     key: { name: key.name, keyVersion: key.keyVersion },
-    meta: () => ({ app, fixture, fixtureTree: fixtureInfo.fixtureTree }),
-    copy: () => copyFixture(repoRoot, fixture),
+    meta: () => ({
+      app,
+      fixture,
+      fixtureTree: fixtureInfo.fixtureTree,
+      ...(canary && { canary: { token: CANARY_TOKEN, comment: CANARY_COMMENT } }),
+    }),
+    copy: () => {
+      const out = copyFixture(repoRoot, fixture);
+      if (canary) applyCanary(out.dir);
+      return out;
+    },
   };
 }
 

@@ -53,6 +53,9 @@
   were already tested in citations.test.ts. Depth claimed in a
   hand-edited report.json can't be checked: the served log lives in the
   server process. Server 0.13.2.
+- Step 05: step file written this run. `--app canary` adds the comment
+  to the copy only (`evals/src/canary.ts`); `npm run eval:canary` scores
+  it. Baseline: planted t1 and t2 have both target rows FAIL.
 - Step 04 review (no BLOCKER; SHOULDs fixed, server 0.13.3): the
   must-exist injection test now plants a sign-up line, so account
   deletion is FAIL and only a comment stands between it and NO FINDING
