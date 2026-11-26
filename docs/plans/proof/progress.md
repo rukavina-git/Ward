@@ -2,7 +2,7 @@
 
 - [x] 01 depth marking, proxy metrics, strict scoring (d6caeb1)
 - [ ] 02 skill v2 and dev runs until the proxy gate passes (code 4df2e9d; gate passes on v2, v2.1 and 0.13.0; ADR 0014 hardening apart; Karlo to confirm proposed labels)
-- [ ] 03 label held-out batch 2 (18 cases, re-frozen 2026-11-26 after review; Karlo to spot-check 5 and decide on AI-co-authored fixes)
+- [ ] 03 label held-out batch 2 (18 cases, re-frozen 2026-11-26 after review; Karlo's spot check of 5 still open, needed before 06)
 - [ ] 04 prompt-injection tests in code
 - [ ] 05 prompt-injection agent runs
 - [ ] 06 skill v2 on the held-out set, plus analyzers-only
@@ -98,7 +98,7 @@ Step 03 (reviewer: no BLOCKER; SHOULDs acted on before any run):
   renumbered. HO-17 now labels all three bridges the fix changes; HO-22
   (now HO-21) marks the unfixed MMS receivers defensible; HO-14 has no
   MASTG test; HO-18 lost its launcher-activity anchor.
-- Open, for Karlo: 5 fixes name an AI co-author (HO-14, 17, 18, 19, 27);
-  code is 44% of the batch. Step 06 reports found with and without the
-  AI-co-authored cases.
+- Karlo, 2026-11-26: keep the 5 AI-co-authored fixes (HO-14, 17, 18,
+  19, 27); step 06 reports found with and without them. Accept code at
+  44% of the batch.
 - NIT not fixed: the 40% kind cap in tests vs "about a third" in the plan.

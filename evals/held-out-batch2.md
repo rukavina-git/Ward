@@ -43,6 +43,5 @@ pre-registered bar for all 30 cases before its run.
 - Five fixes name an AI co-author in the commit: HO-14 (GPT), HO-17,
   HO-18, HO-19 (Claude Opus 5.5), HO-27 (Claude Sonnet 5). A co-author
   wrote the patch; whether an AI also found the issue is unknown. Karlo
-  decides whether to keep them, and step 06 reports found with and
-  without them.
+  kept them (2026-11-26); step 06 reports found with and without them.
 - Karlo spot-checks at least 5 cases before step 06.
