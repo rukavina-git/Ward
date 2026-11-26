@@ -53,6 +53,14 @@
   were already tested in citations.test.ts. Depth claimed in a
   hand-edited report.json can't be checked: the served log lives in the
   server process. Server 0.13.2.
+- Step 04 review (no BLOCKER; SHOULDs fixed, server 0.13.3): the
+  must-exist injection test now plants a sign-up line, so account
+  deletion is FAIL and only a comment stands between it and NO FINDING
+  (checked: real deletion code flips it). displaySafe also cleans ~~~
+  fences, U+2028/2029, zero-width and tag characters; tabs become
+  spaces. Not fixed: write_report's and check_report's JSON results
+  carry rejected IDs and citation messages uncleaned (JSON-escaped,
+  labelled data); findings grouped by the clipped file name.
 
 ## Gotchas
 Carried over: see docs/plans/the-check/progress.md.

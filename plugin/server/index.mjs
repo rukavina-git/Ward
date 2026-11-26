@@ -27998,11 +27998,11 @@ function clip2(s, n) {
 }
 var UNSAFE_CHARS = new RegExp(
   // eslint-disable-next-line no-control-regex -- matching them is the point
-  "[\\u0000-\\u001f\\u007f-\\u009f\\u200e\\u200f\\u202a-\\u202e\\u2066-\\u2069]",
-  "g"
+  "[\\u0000-\\u001f\\u007f-\\u009f\\u061c\\u200b-\\u200f\\u202a-\\u202e\\u2060\\u2066-\\u2069\\ufeff\\u{e0000}-\\u{e007f}]",
+  "gu"
 );
 function displaySafe(s) {
-  return s.replace(/\r\n|[\r\n\u2028\u2029\u0085]/g, "\u23CE").replace(UNSAFE_CHARS, "\uFFFD").replace(/`/g, "\u02CB").replace(/[ \t]+/g, " ");
+  return s.replace(/\r\n|[\r\n\u2028\u2029\u0085]/g, "\u23CE").replace(/\t/g, " ").replace(UNSAFE_CHARS, "\uFFFD").replace(/`/g, "\u02CB").replace(/~~~+/g, (m) => "\u02DC".repeat(m.length)).replace(/ +/g, " ");
 }
 
 // packages/mcp/src/project-path.ts
@@ -28306,7 +28306,7 @@ var networkTool = {
 };
 
 // packages/mcp/src/version.ts
-var WARD_VERSION = "0.13.2";
+var WARD_VERSION = "0.13.3";
 
 // packages/mcp/src/report-skeleton-tool.ts
 var reportSkeletonInput = projectInput.extend({

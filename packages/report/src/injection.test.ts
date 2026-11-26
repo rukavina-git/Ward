@@ -192,5 +192,7 @@ describe("hostile text in the summary", () => {
   it("displaySafe keeps ordinary text as it is", () => {
     expect(displaySafe("app/src/Main.kt")).toBe("app/src/Main.kt");
     expect(displaySafe("a\nb")).toBe("a⏎b");
+    expect(displaySafe("a\tb  c")).toBe("a b c");
+    expect(displaySafe("~~~ fence")).toBe("˜˜˜ fence");
   });
 });

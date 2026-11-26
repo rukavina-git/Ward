@@ -306,21 +306,24 @@ function clip(s: string, n: number): string {
  * Text from the app or the agent, made safe for one line of the summary
  * (plan 6 step 04). Line breaks become ⏎, so text can't start a line of
  * its own ("Citation check: … confirmed"); other control characters
- * (ANSI escapes included) and bidi overrides become �; backticks become
- * ˋ, so nothing can close the code block the summary is shown in. Runs
- * of spaces collapse to one.
+ * (ANSI escapes included), bidi marks, zero-width and tag characters
+ * become �; backticks become ˋ and runs of ~ become ˜, so nothing can
+ * close the code block the summary is shown in (``` or ~~~). Tabs and
+ * runs of spaces collapse to one space.
  */
 // Control characters (C0, DEL, C1) and bidi marks and overrides.
 const UNSAFE_CHARS = new RegExp(
   // eslint-disable-next-line no-control-regex -- matching them is the point
-  "[\\u0000-\\u001f\\u007f-\\u009f\\u200e\\u200f\\u202a-\\u202e\\u2066-\\u2069]",
-  "g",
+  "[\\u0000-\\u001f\\u007f-\\u009f\\u061c\\u200b-\\u200f\\u202a-\\u202e\\u2060\\u2066-\\u2069\\ufeff\\u{e0000}-\\u{e007f}]",
+  "gu",
 );
 
 export function displaySafe(s: string): string {
   return s
     .replace(/\r\n|[\r\n\u2028\u2029\u0085]/g, "⏎")
+    .replace(/\t/g, " ")
     .replace(UNSAFE_CHARS, "�")
     .replace(/`/g, "ˋ")
-    .replace(/[ \t]+/g, " ");
+    .replace(/~~~+/g, (m) => "˜".repeat(m.length))
+    .replace(/ +/g, " ");
 }
