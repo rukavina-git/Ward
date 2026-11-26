@@ -1,0 +1,875 @@
+{
+  "name": "held-out",
+  "keyVersion": 1,
+  "created": "2026-11-26",
+  "frozen": "2026-11-26",
+  "batch": 2,
+  "sources": [
+    {
+      "name": "OWASP MASVS",
+      "version": "v2.1.0",
+      "url": "https://github.com/OWASP/masvs/releases/tag/v2.1.0",
+      "licence": "CC-BY-SA-4.0"
+    },
+    {
+      "name": "OWASP MASWE",
+      "version": "v1.0.0",
+      "url": "https://github.com/OWASP/maswe/releases/tag/v1.0.0",
+      "licence": "CC-BY-SA-4.0"
+    },
+    {
+      "name": "OWASP MASTG",
+      "version": "v2.0.0",
+      "url": "https://github.com/OWASP/mastg/releases/tag/v2.0.0",
+      "licence": "CC-BY-SA-4.0"
+    }
+  ],
+  "models": [
+    {
+      "id": "claude-sonnet-5-5",
+      "trainingCutoff": "2026-06",
+      "checked": "https://platform.claude.com/docs/en/about-claude/models/overview"
+    },
+    {
+      "id": "claude-opus-5-5",
+      "trainingCutoff": "2026-06",
+      "checked": "https://platform.claude.com/docs/en/about-claude/models/overview"
+    }
+  ],
+  "notes": [
+    "Batch 2, labelled by the agent (Claude Opus 5.5 in Claude Code) on 2026-11-26, before skill v2's held-out run (plan 6 step 06). Karlo spot-checks at least 5 cases before that run.",
+    "Every candidate looked at, kept or dropped, is in evals/held-out-batch2-log.md with a reason. Cases are kept or dropped by the rules in docs/plans/proof/steps/03-held-out-batch-2.md, never by whether Ward finds them.",
+    "Candidates came from the commit history of about 130 open-source Android apps (grep of commit messages from 2026-07-01), their published repository security advisories, library upgrades checked against OSV, and GitHub commit search.",
+    "Every fix is newer than both models' training cutoff (June 2026). Line numbers refer to the parent commit. No code from the repos is stored: only URLs, hashes, paths, lines, short anchors and our own words.",
+    "HO-29 and HO-30 come from one fix commit that changes two separate files; each is scored on its own anchor. The same commit also hardens JS bridges and an intent scheme, which are not labelled here.",
+    "Kinds: code 8, config 7, absence 2, dependency 3 (no kind over 40%). Absence cases are few: few fixes after the cutoff add a missing check that is visible statically.",
+    "Dependency advisories were confirmed with OSV queries on 2026-11-26 for the version in the parent commit."
+  ],
+  "cases": [
+    {
+      "id": "HO-11",
+      "repo": "https://github.com/2dust/v2rayNG",
+      "parent": "c73498b064aea47ffaec58930b0f9adb285c1078",
+      "fix": "e27941558eb8b06046a196be641febb3bab46964",
+      "fixDate": "2026-08-29",
+      "found": "Commit history grep ('path traversal'): https://github.com/2dust/v2rayNG/commit/e27941558eb8b06046a196be641febb3bab46964",
+      "title": "Backup restore extracts zip entries without a path check (zip slip)",
+      "kind": "code",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-CODE-4"
+      ],
+      "maswe": [
+        "MASWE-0050"
+      ],
+      "mastg": [],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "V2rayNG/app/src/main/java/com/v2ray/ang/util/ZipUtil.kt",
+          "lines": [
+            80,
+            116
+          ],
+          "anchor": "destDirectory + File.separator + entry.name"
+        }
+      ],
+      "fixSummary": "Extract through a checked helper that rejects entries resolving outside the target folder and caps sizes.",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-12",
+      "repo": "https://github.com/signalapp/Signal-Android",
+      "parent": "8bc31386a5d3ac0eed20cd8425a906bd603ba27d",
+      "fix": "b60f53f4df87e2c21be581fdbbf996578ee7e9e1",
+      "fixDate": "2026-07-15",
+      "found": "Batch 1 leftover candidate (key notes): https://github.com/signalapp/Signal-Android/commit/b60f53f4df87e2c21be581fdbbf996578ee7e9e1",
+      "title": "Plaintext export: a dot-only chat name escapes the export folder",
+      "kind": "code",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-CODE-4"
+      ],
+      "maswe": [
+        "MASWE-0050"
+      ],
+      "mastg": [],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/conversation/plaintext/PlaintextExportRepository.kt",
+          "lines": [
+            437,
+            439
+          ],
+          "anchor": "internal fun sanitizeFileName(name: String): String"
+        }
+      ],
+      "fixSummary": "Names that are empty or only dots after sanitising become a fixed name.",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-13",
+      "repo": "https://github.com/ankidroid/Anki-Android",
+      "parent": "ad536cb205b6e35a281d45be527acb1fa3c4566e",
+      "fix": "5bb5a826a878470ea521fb6195e783ff85058692",
+      "fixDate": "2026-09-02",
+      "found": "Commit history grep; advisory GHSA-q29p-h3pp-mh3v named in the commit: https://github.com/ankidroid/Anki-Android/commit/5bb5a826a878470ea521fb6195e783ff85058692",
+      "title": "Shared file's DISPLAY_NAME used as a cache path (path traversal on import)",
+      "kind": "code",
+      "severity": "high",
+      "masvs": [
+        "MASVS-CODE-4",
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [
+        "MASWE-0050"
+      ],
+      "mastg": [],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "AnkiDroid/src/main/java/com/ichi2/utils/ImportUtils.kt",
+          "lines": [
+            171,
+            172
+          ],
+          "anchor": "val tempFile = File(context.cacheDir, filename)"
+        },
+        {
+          "file": "AnkiDroid/src/main/java/com/ichi2/utils/ImportUtils.kt",
+          "lines": [
+            242,
+            242
+          ],
+          "anchor": "Uri.fromFile(File(context.cacheDir, filename))"
+        }
+      ],
+      "fixSummary": "Keep only the last path segment of the provider's name and resolve it safely under the cache folder.",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-14",
+      "repo": "https://github.com/ankidroid/Anki-Android",
+      "parent": "559ab49ed3d5bd1a4e4ec38efbb76d718c02532a",
+      "fix": "1349d37aa02094b90628f1871c54c19ebb75d48f",
+      "fixDate": "2026-10-22",
+      "found": "Commit history grep ('logcat'): https://github.com/ankidroid/Anki-Android/commit/1349d37aa02094b90628f1871c54c19ebb75d48f",
+      "title": "Crash reports attach logcat even when the exception was sanitised for personal data",
+      "kind": "absence",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0005"
+      ],
+      "mastg": [
+        "MASTG-TEST-0231"
+      ],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "AnkiDroid/src/main/java/com/ichi2/anki/AcraCrashReporter.kt",
+          "lines": [
+            85,
+            112
+          ],
+          "anchor": "ReportField.LOGCAT"
+        }
+      ],
+      "fixSummary": "A last report collector replaces logcat with a placeholder for sanitised reports.",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-15",
+      "repo": "https://github.com/owncloud/android",
+      "parent": "79fcd3f9ae1d89448dcb852f085a69b07ed9bc05",
+      "fix": "11237285710a160e8a887e7474ff1a0b3f364045",
+      "fixDate": "2026-08-31",
+      "found": "Commit history grep ('bypass'): https://github.com/owncloud/android/commit/11237285710a160e8a887e7474ff1a0b3f364045",
+      "title": "Back gesture closes the passcode or pattern lock screen (app lock bypass)",
+      "kind": "code",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-AUTH-2"
+      ],
+      "maswe": [
+        "MASWE-0020"
+      ],
+      "mastg": [],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "owncloudApp/src/main/java/com/owncloud/android/presentation/security/passcode/PassCodeActivity.kt",
+          "lines": [
+            192,
+            195
+          ],
+          "anchor": "override fun onBackPressed()"
+        },
+        {
+          "file": "owncloudApp/src/main/java/com/owncloud/android/presentation/security/pattern/PatternActivity.kt",
+          "lines": [
+            164,
+            167
+          ],
+          "anchor": "override fun onBackPressed()"
+        }
+      ],
+      "fixSummary": "Back only leaves the lock screen when it was opened to create or remove a code, not to unlock.",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-16",
+      "repo": "https://github.com/ACINQ/phoenix",
+      "parent": "a772467d5d8c9dfac094b7e3bf19f85d8601e222",
+      "fix": "9e9ee07961a534d2dc3f953e25d7cb8f64d4a518",
+      "fixDate": "2026-09-23",
+      "found": "Commit history grep ('sanitize'): https://github.com/ACINQ/phoenix/commit/9e9ee07961a534d2dc3f953e25d7cb8f64d4a518",
+      "title": "Any incoming intent, extras included, goes to the navigation deep-link handler",
+      "kind": "code",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [
+        "MASWE-0029",
+        "MASWE-0032"
+      ],
+      "mastg": [
+        "MASTG-TEST-0394"
+      ],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "phoenix-android/src/main/kotlin/fr/acinq/phoenix/android/MainActivity.kt",
+          "lines": [
+            102,
+            126
+          ],
+          "anchor": "navController?.handleDeepLink(intent)"
+        }
+      ],
+      "fixSummary": "Only intents with a supported scheme are forwarded, as a fresh intent without extras.",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-17",
+      "repo": "https://github.com/duckduckgo/Android",
+      "parent": "bd7169f70515d2381d872aef32b01124f02032c5",
+      "fix": "6eff8db71b3e928163ea07f55fce042489a80f7d",
+      "fixDate": "2026-10-26",
+      "found": "Batch 1 leftover candidate (key notes): https://github.com/duckduckgo/Android/commit/6eff8db71b3e928163ea07f55fce042489a80f7d",
+      "title": "Email JS bridge trusts webView.url, which can be a pending navigation, not the calling page",
+      "kind": "code",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-PLATFORM-2"
+      ],
+      "maswe": [
+        "MASWE-0033"
+      ],
+      "mastg": [
+        "MASTG-TEST-0334"
+      ],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/src/main/java/com/duckduckgo/app/email/EmailJavascriptInterface.kt",
+          "lines": [
+            39,
+            48
+          ],
+          "anchor": "private fun isUrlFromDuckDuckGoEmail(): Boolean"
+        }
+      ],
+      "fixSummary": "Also require the committed back/forward entry to be a DuckDuckGo email URL.",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-18",
+      "repo": "https://github.com/mycelium-com/wallet-android",
+      "parent": "19e62940a7b2191ff85f244bbafe0975020c3d70",
+      "fix": "8e5a417fe9d1d815cc5621856b097085c0c09005",
+      "fixDate": "2026-11-18",
+      "found": "Commit history grep ('Intent Redirection'): https://github.com/mycelium-com/wallet-android/commit/8e5a417fe9d1d815cc5621856b097085c0c09005",
+      "title": "Exported StartupActivity starts an Intent taken from its own extras (intent redirection)",
+      "kind": "code",
+      "severity": "high",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [
+        "MASWE-0032"
+      ],
+      "mastg": [],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "mbw/src/main/java/com/mycelium/wallet/activity/StartupActivity.kt",
+          "lines": [
+            402,
+            411
+          ],
+          "anchor": "getIntent().getParcelableExtra<Intent>(EXTRA_REDIRECT_INTENT)"
+        },
+        {
+          "file": "mbw/src/main/AndroidManifest.xml",
+          "lines": [
+            97,
+            100
+          ],
+          "anchor": "android:name=\".activity.StartupActivity\""
+        }
+      ],
+      "fixSummary": "The redirect is handed over in memory; nothing is read from the launch intent.",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-19",
+      "repo": "https://github.com/vitorpamplona/amethyst",
+      "parent": "712136ee52e4b6f08da465be74ba0fb1eff11be6",
+      "fix": "c8caff1d6e941981063fc475fca1820bbdd1b231",
+      "fixDate": "2026-10-13",
+      "found": "Commit history grep ('security'): https://github.com/vitorpamplona/amethyst/commit/c8caff1d6e941981063fc475fca1820bbdd1b231",
+      "title": "Logged exception prints the nostrconnect:// address with its pairing secret",
+      "kind": "code",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0005"
+      ],
+      "mastg": [
+        "MASTG-TEST-0231"
+      ],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "amethyst/src/main/java/com/vitorpamplona/amethyst/ui/screen/loggedOff/login/NostrConnectHandoff.kt",
+          "lines": [
+            63,
+            64
+          ],
+          "anchor": "Log.w(\"NostrConnectHandoff\", \"No app took the nostrconnect address\", e)"
+        }
+      ],
+      "fixSummary": "Log only the exception's class, not the exception (whose message quotes the intent).",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-20",
+      "repo": "https://github.com/home-assistant/android",
+      "parent": "911975bcb13ef8bf323aacd91bc55587e7361c53",
+      "fix": "5eb016fa5bff4c482d8b391c99e679ce4da53a16",
+      "fixDate": "2026-10-08",
+      "found": "Commit history grep ('FileProvider'): https://github.com/home-assistant/android/commit/5eb016fa5bff4c482d8b391c99e679ce4da53a16",
+      "title": "FileProvider shares all of external storage (external-path \".\")",
+      "kind": "config",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "mastg": [
+        "MASTG-TEST-0357"
+      ],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/src/main/res/xml/provider_paths.xml",
+          "lines": [
+            3,
+            3
+          ],
+          "anchor": "<external-path name=\"external_files\" path=\".\"/>"
+        }
+      ],
+      "fixSummary": "Share only two subfolders of the external cache (notification images and logs).",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-21",
+      "repo": "https://github.com/woocommerce/woocommerce-android",
+      "parent": "5240bd4ad2ff78493c96d1d44c01ce46007abd4c",
+      "fix": "ac447837d34e46709cc85700948032f84373e81f",
+      "fixDate": "2026-07-30",
+      "found": "Commit history grep ('FileProvider'): https://github.com/woocommerce/woocommerce-android/commit/ac447837d34e46709cc85700948032f84373e81f",
+      "title": "FileProvider shares the whole internal cache (cache-path \".\")",
+      "kind": "config",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "mastg": [
+        "MASTG-TEST-0357"
+      ],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "WooCommerce/src/main/res/xml/provider_paths.xml",
+          "lines": [
+            9,
+            11
+          ],
+          "anchor": "name=\"internal_cache\""
+        }
+      ],
+      "fixSummary": "The cache path is limited to the logs folder.",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-22",
+      "repo": "https://github.com/FossifyOrg/Messages",
+      "parent": "2303e65517bcb04c7cc029eafbc4ccb350dddb8d",
+      "fix": "1cc05f0d71b71035654efefb532004b4f43d3845",
+      "fixDate": "2026-08-09",
+      "found": "Commit history grep ('receiver'): https://github.com/FossifyOrg/Messages/commit/1cc05f0d71b71035654efefb532004b4f43d3845",
+      "title": "Exported receivers let any app mark read, reply to, or delete SMS",
+      "kind": "config",
+      "severity": "high",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "mastg": [
+        "MASTG-TEST-0366"
+      ],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "lines": [
+            215,
+            221
+          ],
+          "anchor": ".receivers.MarkAsReadReceiver"
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "lines": [
+            224,
+            230
+          ],
+          "anchor": ".receivers.DirectReplyReceiver"
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "lines": [
+            233,
+            239
+          ],
+          "anchor": ".receivers.DeleteSmsReceiver"
+        }
+      ],
+      "fixSummary": "The three notification-action receivers are no longer exported and are called by explicit intents.",
+      "decoys": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "lines": [
+            184,
+            187
+          ],
+          "anchor": ".receivers.SmsReceiver\"",
+          "why": "SmsReceiver must be exported to receive SMS_DELIVER, and it requires the system-only BROADCAST_SMS permission."
+        }
+      ],
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      }
+    },
+    {
+      "id": "HO-23",
+      "repo": "https://github.com/guardianproject/orbot",
+      "parent": "69d2f1a39d92cfb11c183efe60dad193ba4af559",
+      "fix": "e2a935547c6ae78d35dd59d7de11f5d43c5addda",
+      "fixDate": "2026-09-03",
+      "found": "Commit history grep ('ORB-02', a public audit's finding IDs): https://github.com/guardianproject/orbot/commit/e2a935547c6ae78d35dd59d7de11f5d43c5addda",
+      "title": "Exported StartTorReceiver lets any app start Tor, allowed by default",
+      "kind": "config",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "mastg": [
+        "MASTG-TEST-0366"
+      ],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "lines": [
+            95,
+            102
+          ],
+          "anchor": ".service.StartTorReceiver"
+        },
+        {
+          "file": "app/src/main/java/org/torproject/android/util/Prefs.kt",
+          "lines": [
+            200,
+            202
+          ],
+          "anchor": "getPrefBoolean(PREF_ALLOW_BACKGROUND_STARTS) ?: true"
+        },
+        {
+          "file": "app/src/main/res/xml/preferences.xml",
+          "lines": [
+            25,
+            29
+          ],
+          "anchor": "android:key=\"pref_allow_background_starts\""
+        }
+      ],
+      "fixSummary": "Starts from other apps are off by default; the user has to allow them.",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-24",
+      "repo": "https://github.com/protonpass/android-pass",
+      "parent": "e17cd26167cb04cc48f7c9f99ec593553bff0230",
+      "fix": "893ed8979b11fbd0a55b1faa573188f4e498eb18",
+      "fixDate": "2026-07-31",
+      "found": "Commit history grep ('exported'): https://github.com/protonpass/android-pass/commit/893ed8979b11fbd0a55b1faa573188f4e498eb18",
+      "title": "Exported ShortcutActivity shares diagnostic logs on any app's intent, without confirmation",
+      "kind": "absence",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-PLATFORM-1"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "mastg": [
+        "MASTG-TEST-0364"
+      ],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "lines": [
+            145,
+            149
+          ],
+          "anchor": "android:name=\".ui.shortcuts.ShortcutActivity\""
+        },
+        {
+          "file": "app/src/main/java/proton/android/pass/ui/shortcuts/ShortcutActivity.kt",
+          "lines": [
+            43,
+            44
+          ],
+          "anchor": "\"sharelogs\" -> {"
+        }
+      ],
+      "fixSummary": "Sharing logs from the shortcut now always asks the user first.",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-25",
+      "repo": "https://github.com/M66B/FairEmail",
+      "parent": "f65a340cb9d6d4809a1f32986ac5780fe930d090",
+      "fix": "9b126853b12b84f12896d992e02a6cdd99c69531",
+      "fixDate": "2026-08-19",
+      "found": "Library upgrades checked against OSV on 2026-11-26: https://github.com/M66B/FairEmail/commit/9b126853b12b84f12896d992e02a6cdd99c69531",
+      "title": "jsoup 1.18.3 with known advisories (GHSA-pmhh-3w7g-xqp8, GHSA-65r4-943x-97jj)",
+      "kind": "dependency",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "mastg": [
+        "MASTG-TEST-0272"
+      ],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/build.gradle",
+          "lines": [
+            552,
+            552
+          ],
+          "anchor": "def jsoup_version = \"1.18.3\""
+        }
+      ],
+      "fixSummary": "Upgrade jsoup to 1.23.1.",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-26",
+      "repo": "https://github.com/element-hq/element-x-android",
+      "parent": "07ca468847009342d711aba77162f647ff36c398",
+      "fix": "df925c29e4005213355e671eef52e5b1556016dd",
+      "fixDate": "2026-08-07",
+      "found": "Library upgrades checked against OSV on 2026-11-26: https://github.com/element-hq/element-x-android/commit/df925c29e4005213355e671eef52e5b1556016dd",
+      "title": "jsoup 1.22.2 with a known advisory (GHSA-pmhh-3w7g-xqp8)",
+      "kind": "dependency",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "mastg": [
+        "MASTG-TEST-0272"
+      ],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "gradle/libs.versions.toml",
+          "lines": [
+            202,
+            202
+          ],
+          "anchor": "jsoup = \"org.jsoup:jsoup:1.22.2\""
+        }
+      ],
+      "fixSummary": "Upgrade jsoup to 1.23.1.",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-27",
+      "repo": "https://github.com/Catfriend1/syncthing-android",
+      "parent": "9f63078dba119924805154695ede32bf3a7deffc",
+      "fix": "8c04bf37c5677ad7da423166f7bfbbabaaab0b55",
+      "fixDate": "2026-11-03",
+      "found": "Library upgrades checked against OSV on 2026-11-26: https://github.com/Catfriend1/syncthing-android/commit/8c04bf37c5677ad7da423166f7bfbbabaaab0b55",
+      "title": "guava 33.7.1-android with a known advisory (GHSA-xxph-c9ww-hj94)",
+      "kind": "dependency",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "mastg": [
+        "MASTG-TEST-0272"
+      ],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "gradle/libs.versions.toml",
+          "lines": [
+            31,
+            31
+          ],
+          "anchor": "guava = \"33.7.1-android\""
+        }
+      ],
+      "fixSummary": "Upgrade guava to 33.7.2-android.",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-28",
+      "repo": "https://github.com/ThanchaPloy/PP68-SalesTrackingApp",
+      "parent": "30d9e61830b62cb7ffe29ae8880914583aa242f5",
+      "fix": "8be86149cc7bd59003ff61d14e9221c2f88ede01",
+      "fixDate": "2026-11-09",
+      "found": "GitHub commit search ('allowBackup', after 2026-06-30): https://github.com/ThanchaPloy/PP68-SalesTrackingApp/commit/8be86149cc7bd59003ff61d14e9221c2f88ede01",
+      "title": "Backup on with template rules while the JWT sits in plain SharedPreferences",
+      "kind": "config",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "mastg": [
+        "MASTG-TEST-0262"
+      ],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "lines": [
+            30,
+            32
+          ],
+          "anchor": "android:allowBackup=\"true\""
+        },
+        {
+          "file": "app/src/main/java/com/example/pp68_salestrackingapp/di/TokenManager.kt",
+          "lines": [
+            55,
+            56
+          ],
+          "anchor": "putString(\"jwt_token\", token)"
+        }
+      ],
+      "fixSummary": "Backup is turned off and the template rule files are removed.",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    },
+    {
+      "id": "HO-29",
+      "repo": "https://github.com/abidhasansojib/onyx-browser",
+      "parent": "fba219ecd4abbfcddfde26760a28bc0ac8c94a9f",
+      "fix": "42803653ec5d3551028c0987acae9eacf7399809",
+      "fixDate": "2026-10-05",
+      "found": "GitHub commit search ('setWebContentsDebuggingEnabled', after 2026-06-30): https://github.com/abidhasansojib/onyx-browser/commit/42803653ec5d3551028c0987acae9eacf7399809",
+      "title": "Release network config trusts user-installed CAs",
+      "kind": "config",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "mastg": [
+        "MASTG-TEST-0286"
+      ],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "lines": [
+            4,
+            7
+          ],
+          "anchor": "<certificates src=\"user\" />"
+        }
+      ],
+      "fixSummary": "User CAs are trusted only in debug-overrides.",
+      "decoys": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "lines": [
+            3,
+            3
+          ],
+          "anchor": "cleartextTrafficPermitted=\"true\"",
+          "why": "A general web browser has to load http:// sites, so cleartext is allowed by design."
+        }
+      ],
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      }
+    },
+    {
+      "id": "HO-30",
+      "repo": "https://github.com/abidhasansojib/onyx-browser",
+      "parent": "fba219ecd4abbfcddfde26760a28bc0ac8c94a9f",
+      "fix": "42803653ec5d3551028c0987acae9eacf7399809",
+      "fixDate": "2026-10-05",
+      "found": "Same fix commit as HO-29, a separate change in another file: https://github.com/abidhasansojib/onyx-browser/commit/42803653ec5d3551028c0987acae9eacf7399809",
+      "title": "WebView contents debugging enabled in release builds",
+      "kind": "config",
+      "severity": "medium",
+      "masvs": [
+        "MASVS-PLATFORM-2",
+        "MASVS-RESILIENCE-4"
+      ],
+      "maswe": [
+        "MASWE-0063"
+      ],
+      "mastg": [
+        "MASTG-TEST-0227"
+      ],
+      "verdict": "FAIL",
+      "anchors": [
+        {
+          "file": "app/src/main/java/com/onyx/browser/OnyxApplication.kt",
+          "lines": [
+            75,
+            78
+          ],
+          "anchor": "WebView.setWebContentsDebuggingEnabled(true)"
+        }
+      ],
+      "fixSummary": "Debugging is enabled only when BuildConfig.DEBUG is true.",
+      "afterCutoff": {
+        "claude-sonnet-5-5": true,
+        "claude-opus-5-5": true
+      },
+      "decoys": []
+    }
+  ]
+}

@@ -11,6 +11,12 @@ export const repoRoot = resolve(
 export const keyPath = join(repoRoot, "evals/answer-keys/example-app.json");
 export const heldOutKeyPath = join(repoRoot, "evals/answer-keys/held-out.json");
 export const heldOutBarPath = join(repoRoot, "evals/held-out-bar.md");
+/** Batch 2 (plan 6 step 03): its own file, so batch 1's pinned hash stays. */
+export const heldOutKey2Path = join(
+  repoRoot,
+  "evals/answer-keys/held-out-2.json",
+);
+export const heldOutBatch2Path = join(repoRoot, "evals/held-out-batch2.md");
 export const taskPromptPath = join(repoRoot, "prompts/eval-task.md");
 export const findingsSchemaPath = join(
   repoRoot,

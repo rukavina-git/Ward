@@ -9,7 +9,12 @@ import {
   offlineProblems,
   parseHeldOut,
 } from "./held-out.js";
-import { heldOutBarPath, heldOutKeyPath } from "./paths.js";
+import {
+  heldOutBarPath,
+  heldOutBatch2Path,
+  heldOutKey2Path,
+  heldOutKeyPath,
+} from "./paths.js";
 
 describe("locationProblem", () => {
   const text = "a\nb\nanchor here\nc\nd";
@@ -90,5 +95,48 @@ describe("the held-out answer key", () => {
     expect(() =>
       parseHeldOut({ ...key, cases: [{ ...first, parent: "abc123" }] }),
     ).toThrow(/40-hex/);
+  });
+});
+
+describe("held-out batch 2", () => {
+  const key = loadHeldOut(heldOutKey2Path);
+  const batch1 = loadHeldOut(heldOutKeyPath);
+  const kb = new KnowledgeBase(loadIndex());
+
+  it("has no offline problems", () => {
+    expect(key.batch).toBe(2);
+    expect(offlineProblems(key, kb)).toEqual([]);
+  });
+
+  it("numbers on from batch 1 (HO-11 …), in order", () => {
+    const ids = key.cases.map((c) => c.id);
+    const start = batch1.cases.length + 1;
+    expect(ids).toEqual(
+      ids.map((_, i) => `HO-${String(start + i).padStart(2, "0")}`),
+    );
+  });
+
+  it("shares no case ID or issue with batch 1, and keeps 3 per repo across both", () => {
+    const one = new Set(batch1.cases.map((c) => c.id));
+    for (const c of key.cases) expect(one.has(c.id), c.id).toBe(false);
+    // One fix commit may hold two issues (HO-29, HO-30), but never one from batch 1.
+    const fixes1 = new Set(batch1.cases.map((c) => c.fix));
+    for (const c of key.cases) expect(fixes1.has(c.fix), c.id).toBe(false);
+    const both = parseHeldOut({ ...key, cases: [...batch1.cases, ...key.cases] });
+    expect(
+      offlineProblems(both, kb).filter((p) => /cases \(max/.test(p)),
+    ).toEqual([]);
+  });
+
+  it("keeps any one kind to at most 40% of the batch", () => {
+    for (const kind of heldOutKinds) {
+      const n = key.cases.filter((c) => c.kind === kind).length;
+      expect(n, kind).toBeLessThanOrEqual(Math.ceil(key.cases.length * 0.4));
+    }
+  });
+
+  it("is pinned by its freeze note, written before any run on it", () => {
+    const note = readFileSync(heldOutBatch2Path, "utf8");
+    expect(note).toContain(fileSha256(heldOutKey2Path));
   });
 });

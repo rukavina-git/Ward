@@ -1,4 +1,4 @@
-// npm run heldout:check
+// npm run heldout:check [key path]   (default: batch 1's key)
 // Verifies the held-out answer key against GitHub: every repo and commit
 // exists, the fix's parent is the stated parent, and every anchor sits on
 // its lines in the parent commit. Needs the network; not run in CI.
@@ -59,7 +59,7 @@ function ensureCommit(dir: string, sha: string): void {
   }
 }
 
-const key = loadHeldOut(heldOutKeyPath);
+const key = loadHeldOut(process.argv[2] ?? heldOutKeyPath);
 const problems = offlineProblems(key, new KnowledgeBase(loadIndex()));
 
 for (const c of key.cases) {

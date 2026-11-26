@@ -2,7 +2,7 @@
 
 - [x] 01 depth marking, proxy metrics, strict scoring (d6caeb1)
 - [ ] 02 skill v2 and dev runs until the proxy gate passes (code 4df2e9d; gate passes on v2, v2.1 and 0.13.0; ADR 0014 hardening apart; Karlo to confirm proposed labels)
-- [ ] 03 label held-out batch 2
+- [ ] 03 label held-out batch 2 (20 cases frozen 2026-11-26; Karlo to spot-check 5)
 - [ ] 04 prompt-injection tests in code
 - [ ] 05 prompt-injection agent runs
 - [ ] 06 skill v2 on the held-out set, plus analyzers-only
@@ -30,6 +30,16 @@
   apart without a profile and the eval skips them (0.13.0). Planted
   dev run on 0.12.0 deleted: `eval:run` rebuilds Ward at start, so it
   picked up half-done code. Don't edit code while a run is starting.
+
+- Step 03: step file written this run. Batch 2 is its own key
+  (`evals/answer-keys/held-out-2.json`, HO-11 to HO-30) pinned by
+  `evals/held-out-batch2.md`, so batch 1's hash stays. `heldout:check`
+  takes a key path. Counts: code 8, config 7, absence 2, dependency 3;
+  18 repos; fixes 2026-07-15 to 2026-11-18. One labelling session.
+  GitHub commit search hit its rate limit, so candidates came mostly
+  from commit-message grep over `--filter=tree:0` clones of about 130
+  apps (evals/.cache/held-out-b2, gitignored). Log of all 53 candidates (19 kept as 20 cases, 5 reserve, 29 dropped):
+  `evals/held-out-batch2-log.md`.
 
 ## Gotchas
 Carried over: see docs/plans/the-check/progress.md.
