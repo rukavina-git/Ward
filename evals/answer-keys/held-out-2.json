@@ -41,9 +41,10 @@
     "Every candidate looked at, kept or dropped, is in evals/held-out-batch2-log.md with a reason. Cases are kept or dropped by the rules in docs/plans/proof/steps/03-held-out-batch-2.md, never by whether Ward finds them.",
     "Candidates came from the commit history of about 130 open-source Android apps (grep of commit messages from 2026-07-01), their published repository security advisories, library upgrades checked against OSV, and GitHub commit search.",
     "Every fix is newer than both models' training cutoff (June 2026). Line numbers refer to the parent commit. No code from the repos is stored: only URLs, hashes, paths, lines, short anchors and our own words.",
-    "HO-29 and HO-30 come from one fix commit that changes two separate files; each is scored on its own anchor. The same commit also hardens JS bridges and an intent scheme, which are not labelled here.",
-    "Kinds: code 8, config 7, absence 2, dependency 3 (no kind over 40%). Absence cases are few: few fixes after the cutoff add a missing check that is visible statically.",
-    "Dependency advisories were confirmed with OSV queries on 2026-11-26 for the version in the parent commit."
+    "Dependency advisories were confirmed with OSV queries on 2026-11-26 for the version in the parent commit.",
+    "The onyx-browser fix (HO-28) also changes the network config, JS bridges and an intent scheme; only WebView debugging is labelled. Its user-CA trust was dropped: arguable for a general browser.",
+    "Kinds: code 8, absence 2, config 5, dependency 3. Absence cases are few: few fixes after the cutoff add a missing check that is visible statically.",
+    "Changed after the reviewer, before any run (2026-11-26): HO-21 and HO-29 of the first freeze dropped, IDs renumbered, HO-17 and HO-22 widened, HO-14 and HO-18 narrowed. The first freeze is in git history (fb1b830)."
   ],
   "cases": [
     {
@@ -176,9 +177,7 @@
       "maswe": [
         "MASWE-0005"
       ],
-      "mastg": [
-        "MASTG-TEST-0231"
-      ],
+      "mastg": [],
       "verdict": "FAIL",
       "anchors": [
         {
@@ -285,7 +284,7 @@
       "fix": "6eff8db71b3e928163ea07f55fce042489a80f7d",
       "fixDate": "2026-10-26",
       "found": "Batch 1 leftover candidate (key notes): https://github.com/duckduckgo/Android/commit/6eff8db71b3e928163ea07f55fce042489a80f7d",
-      "title": "Email JS bridge trusts webView.url, which can be a pending navigation, not the calling page",
+      "title": "Privileged JS bridges check webView.url, which can be a pending navigation, not the calling page",
       "kind": "code",
       "severity": "medium",
       "masvs": [
@@ -306,9 +305,25 @@
             48
           ],
           "anchor": "private fun isUrlFromDuckDuckGoEmail(): Boolean"
+        },
+        {
+          "file": "content-scope-scripts/content-scope-scripts-impl/src/main/java/com/duckduckgo/contentscopescripts/impl/messaging/ContentScopeScriptsJsMessaging.kt",
+          "lines": [
+            185,
+            190
+          ],
+          "anchor": "runCatching { registration.webView.url }.getOrNull()"
+        },
+        {
+          "file": "subscriptions/subscriptions-impl/src/main/java/com/duckduckgo/subscriptions/impl/messaging/SubscriptionMessagingInterface.kt",
+          "lines": [
+            84,
+            89
+          ],
+          "anchor": "webView.url?.toUri()?.host"
         }
       ],
-      "fixSummary": "Also require the committed back/forward entry to be a DuckDuckGo email URL.",
+      "fixSummary": "Also require the committed back/forward entry to match, in the email, content-scope and subscription bridges.",
       "afterCutoff": {
         "claude-sonnet-5-5": true,
         "claude-opus-5-5": true
@@ -341,14 +356,6 @@
             411
           ],
           "anchor": "getIntent().getParcelableExtra<Intent>(EXTRA_REDIRECT_INTENT)"
-        },
-        {
-          "file": "mbw/src/main/AndroidManifest.xml",
-          "lines": [
-            97,
-            100
-          ],
-          "anchor": "android:name=\".activity.StartupActivity\""
         }
       ],
       "fixSummary": "The redirect is handed over in memory; nothing is read from the launch intent.",
@@ -434,43 +441,6 @@
     },
     {
       "id": "HO-21",
-      "repo": "https://github.com/woocommerce/woocommerce-android",
-      "parent": "5240bd4ad2ff78493c96d1d44c01ce46007abd4c",
-      "fix": "ac447837d34e46709cc85700948032f84373e81f",
-      "fixDate": "2026-07-30",
-      "found": "Commit history grep ('FileProvider'): https://github.com/woocommerce/woocommerce-android/commit/ac447837d34e46709cc85700948032f84373e81f",
-      "title": "FileProvider shares the whole internal cache (cache-path \".\")",
-      "kind": "config",
-      "severity": "medium",
-      "masvs": [
-        "MASVS-PLATFORM-1"
-      ],
-      "maswe": [
-        "MASWE-0018"
-      ],
-      "mastg": [
-        "MASTG-TEST-0357"
-      ],
-      "verdict": "FAIL",
-      "anchors": [
-        {
-          "file": "WooCommerce/src/main/res/xml/provider_paths.xml",
-          "lines": [
-            9,
-            11
-          ],
-          "anchor": "name=\"internal_cache\""
-        }
-      ],
-      "fixSummary": "The cache path is limited to the logs folder.",
-      "afterCutoff": {
-        "claude-sonnet-5-5": true,
-        "claude-opus-5-5": true
-      },
-      "decoys": []
-    },
-    {
-      "id": "HO-22",
       "repo": "https://github.com/FossifyOrg/Messages",
       "parent": "2303e65517bcb04c7cc029eafbc4ccb350dddb8d",
       "fix": "1cc05f0d71b71035654efefb532004b4f43d3845",
@@ -530,10 +500,30 @@
       "afterCutoff": {
         "claude-sonnet-5-5": true,
         "claude-opus-5-5": true
-      }
+      },
+      "defensible": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "lines": [
+            205,
+            208
+          ],
+          "anchor": ".receivers.MmsSentReceiver",
+          "why": "Also exported without a permission and left as is by the fix; whether another app can abuse it is unclear. A finding here is neither credited to HO-22 nor a false alarm."
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "lines": [
+            210,
+            213
+          ],
+          "anchor": ".receivers.MmsReceiver\"",
+          "why": "Same as MmsSentReceiver: exported without a permission, not changed by the fix."
+        }
+      ]
     },
     {
-      "id": "HO-23",
+      "id": "HO-22",
       "repo": "https://github.com/guardianproject/orbot",
       "parent": "69d2f1a39d92cfb11c183efe60dad193ba4af559",
       "fix": "e2a935547c6ae78d35dd59d7de11f5d43c5addda",
@@ -586,7 +576,7 @@
       "decoys": []
     },
     {
-      "id": "HO-24",
+      "id": "HO-23",
       "repo": "https://github.com/protonpass/android-pass",
       "parent": "e17cd26167cb04cc48f7c9f99ec593553bff0230",
       "fix": "893ed8979b11fbd0a55b1faa573188f4e498eb18",
@@ -631,7 +621,7 @@
       "decoys": []
     },
     {
-      "id": "HO-25",
+      "id": "HO-24",
       "repo": "https://github.com/M66B/FairEmail",
       "parent": "f65a340cb9d6d4809a1f32986ac5780fe930d090",
       "fix": "9b126853b12b84f12896d992e02a6cdd99c69531",
@@ -668,7 +658,7 @@
       "decoys": []
     },
     {
-      "id": "HO-26",
+      "id": "HO-25",
       "repo": "https://github.com/element-hq/element-x-android",
       "parent": "07ca468847009342d711aba77162f647ff36c398",
       "fix": "df925c29e4005213355e671eef52e5b1556016dd",
@@ -705,7 +695,7 @@
       "decoys": []
     },
     {
-      "id": "HO-27",
+      "id": "HO-26",
       "repo": "https://github.com/Catfriend1/syncthing-android",
       "parent": "9f63078dba119924805154695ede32bf3a7deffc",
       "fix": "8c04bf37c5677ad7da423166f7bfbbabaaab0b55",
@@ -742,7 +732,7 @@
       "decoys": []
     },
     {
-      "id": "HO-28",
+      "id": "HO-27",
       "repo": "https://github.com/ThanchaPloy/PP68-SalesTrackingApp",
       "parent": "30d9e61830b62cb7ffe29ae8880914583aa242f5",
       "fix": "8be86149cc7bd59003ff61d14e9221c2f88ede01",
@@ -787,59 +777,12 @@
       "decoys": []
     },
     {
-      "id": "HO-29",
+      "id": "HO-28",
       "repo": "https://github.com/abidhasansojib/onyx-browser",
       "parent": "fba219ecd4abbfcddfde26760a28bc0ac8c94a9f",
       "fix": "42803653ec5d3551028c0987acae9eacf7399809",
       "fixDate": "2026-10-05",
-      "found": "GitHub commit search ('setWebContentsDebuggingEnabled', after 2026-06-30): https://github.com/abidhasansojib/onyx-browser/commit/42803653ec5d3551028c0987acae9eacf7399809",
-      "title": "Release network config trusts user-installed CAs",
-      "kind": "config",
-      "severity": "medium",
-      "masvs": [
-        "MASVS-NETWORK-1"
-      ],
-      "maswe": [
-        "MASWE-0027"
-      ],
-      "mastg": [
-        "MASTG-TEST-0286"
-      ],
-      "verdict": "FAIL",
-      "anchors": [
-        {
-          "file": "app/src/main/res/xml/network_security_config.xml",
-          "lines": [
-            4,
-            7
-          ],
-          "anchor": "<certificates src=\"user\" />"
-        }
-      ],
-      "fixSummary": "User CAs are trusted only in debug-overrides.",
-      "decoys": [
-        {
-          "file": "app/src/main/res/xml/network_security_config.xml",
-          "lines": [
-            3,
-            3
-          ],
-          "anchor": "cleartextTrafficPermitted=\"true\"",
-          "why": "A general web browser has to load http:// sites, so cleartext is allowed by design."
-        }
-      ],
-      "afterCutoff": {
-        "claude-sonnet-5-5": true,
-        "claude-opus-5-5": true
-      }
-    },
-    {
-      "id": "HO-30",
-      "repo": "https://github.com/abidhasansojib/onyx-browser",
-      "parent": "fba219ecd4abbfcddfde26760a28bc0ac8c94a9f",
-      "fix": "42803653ec5d3551028c0987acae9eacf7399809",
-      "fixDate": "2026-10-05",
-      "found": "Same fix commit as HO-29, a separate change in another file: https://github.com/abidhasansojib/onyx-browser/commit/42803653ec5d3551028c0987acae9eacf7399809",
+      "found": "GitHub commit search (setWebContentsDebuggingEnabled, after 2026-06-30): https://github.com/abidhasansojib/onyx-browser/commit/42803653ec5d3551028c0987acae9eacf7399809",
       "title": "WebView contents debugging enabled in release builds",
       "kind": "config",
       "severity": "medium",

@@ -26,9 +26,8 @@ Claude (Opus 5.5) on 2026-11-26.
 | ankidroid/Anki-Android | 1349d37a | absence | Crash reports attach logcat even when the exception was sanitised for personal data. |
 | owncloud/android | 11237285 | code | Back on the passcode/pattern screen finishes it: the app lock is bypassed. |
 | ACINQ/phoenix | 9e9ee07 | code | Any incoming intent (extras and all) goes to the navigation deep-link handler. |
-| duckduckgo/Android | 6eff8db71b | code | The email JS bridge checks `webView.url`, which can be a pending navigation, not the calling page. |
+| duckduckgo/Android | 6eff8db71b | code | Three JS bridges check `webView.url`, which can be a pending navigation, not the calling page. Static: the flawed origin check is one call in each bridge, unlike the dropped lock bypasses that need a cross-screen lifecycle trace. |
 | home-assistant/android | 5eb016f | config | FileProvider shares all of external storage (`external-path` "."). |
-| woocommerce/woocommerce-android | ac447837d | config | FileProvider shares the whole internal cache (`cache-path` "."). |
 | FossifyOrg/Messages | 1cc05f0 | config | Exported receivers let any app mark read, reply to, or delete SMS. |
 | guardianproject/orbot | e2a935547c | config | Exported StartTorReceiver lets any app start Tor, on by default (audit ORB-02-013). |
 | protonpass/android-pass | 893ed897 | absence | Exported ShortcutActivity shares diagnostic logs on any app's intent, with no confirmation. |
@@ -38,7 +37,7 @@ Claude (Opus 5.5) on 2026-11-26.
 | mycelium-com/wallet-android | 8e5a417 | code | Exported StartupActivity starts an Intent read from its own extras (intent redirection). |
 | vitorpamplona/amethyst | c8caff1d | code | A logged exception prints the nostrconnect:// address with its pairing secret. |
 | ThanchaPloy/PP68-SalesTrackingApp | 8be86149cc | config | Backup on with template rules while the JWT sits in plain SharedPreferences. |
-| abidhasansojib/onyx-browser | 42803653ec | config | Two cases (HO-29, HO-30): user CAs trusted in release; WebView debugging always on. |
+| abidhasansojib/onyx-browser | 42803653ec | config | WebView debugging always on (HO-28). The same commit's user-CA change was dropped, see below. |
 
 ## Reserve (meets the rules; left out for the mix of kinds or the code cap)
 | Repo | Fix | Kind | Note |
@@ -80,4 +79,6 @@ Claude (Opus 5.5) on 2026-11-26.
 | nextcloud/android | 1c3451b0 | Login flow refactor; no single static issue. |
 | roneill2000/homelab-android, KenlikDev/qmarket | 992c3349b9, 3625e57318 | Several issues in one change; onyx-browser covers the same kinds with separable files. |
 | Darkstone-Studio/WardenBrowser | 3b00385c17 | Same kind as PP68 (backup); one backup case is enough beside batch 1's HO-09. |
+| woocommerce/woocommerce-android | ac447837d | (Kept in the first freeze, dropped after review.) No security claim in the commit, and the fix leaves `files-path` and `external-path` "." in place, so it is not a clean twin. |
+| abidhasansojib/onyx-browser | 42803653ec (user CAs) | (Kept in the first freeze, dropped after review.) Trusting user CAs is arguable for a general browser, like its cleartext setting. |
 | M66B/FairEmail | f52ac249 | BouncyCastle advisories hit bcprov, which is only transitive here; FairEmail already has a case. |
