@@ -57,3 +57,17 @@ cost per run; proxy depth share.
   are Plan 9 (ADR 0013).
 - Batch 2 was labelled by the session that built Ward; see
   `evals/held-out-batch2.md` for how that was guarded.
+
+## Change, 2026-11-27 (before any v2 result was scored or read)
+Karlo's call: score on the 20 cases whose code could be exported. The
+other 8 (HO-11, 12, 16, 21, 22, 26, 27, 28) failed to download: GitHub
+served this machine at about 1 to 2 KB/s while other hosts ran at 6 to
+8 MB/s. They are left out for that reason only, not because of any
+result. Thresholds scale with the case count:
+- Rule 1 (batch 1, 10 cases): unchanged.
+- Rule 2: v2 strict found at least analyzers-only strict found plus 3.
+- Rule 3: at least 10 of 20 (half) to carry on as is; 6 or fewer
+  (30%) means rethink the agent part.
+- Rule 4: unchanged (decoys), wrong citations at most 2 in 20 runs.
+With 20 cases a found rate is uncertain by about ±22 points. The 8 can
+be run later if GitHub recovers; they would be reported apart.
