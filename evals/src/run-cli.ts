@@ -17,7 +17,12 @@ import { dirname, join } from "node:path";
 import { parseArgs } from "node:util";
 import { readSchemaText, validateFindings } from "./findings.js";
 import { checkIsolation, mcpCalls, toolCalls } from "./isolation.js";
-import { fileSha256, loadHeldOut, repoSlug } from "./held-out.js";
+import {
+  fileSha256,
+  heldOutCases,
+  loadHeldOut,
+  repoSlug,
+} from "./held-out.js";
 import { applyCanary, CANARY_COMMENT, CANARY_TOKEN } from "./canary.js";
 import { loadKey, type AppKind } from "./key.js";
 import { reportSchema } from "@ward/report";
@@ -29,9 +34,9 @@ import {
 import {
   cacheRoot,
   heldOutBarPath,
+  heldOutBatch2Path,
   heldOutCacheRoot,
   heldOutFolderName,
-  heldOutKeyPath,
   heldOutResultsRoot,
   keyPath,
   repoRoot,
@@ -110,10 +115,12 @@ let target: {
 if (heldOutId !== undefined) {
   if (!["alone", "ward", "ward-check"].includes(setupName))
     fail("held-out runs use --setup alone, ward or ward-check");
-  const key = loadHeldOut(heldOutKeyPath);
   const c =
-    key.cases.find((x) => x.id === heldOutId) ??
-    fail(`no case ${heldOutId} in the held-out key`);
+    heldOutCases().find((x) => x.id === heldOutId) ??
+    fail(`no case ${heldOutId} in the held-out keys`);
+  const key = loadHeldOut(c.keyPath);
+  // Batch 1 is pinned by the bar, batch 2 by its freeze note.
+  const pinPath = c.batch === 1 ? heldOutBarPath : heldOutBatch2Path;
   const gitDir = join(heldOutCacheRoot, repoSlug(c.repo).replace("/", "__"));
   if (!existsSync(gitDir))
     fail(`no clone at ${gitDir}. Run npm run heldout:check first.`);
@@ -127,8 +134,9 @@ if (heldOutId !== undefined) {
       repo: c.repo,
       commit: c.parent,
       commitRole: "parent",
-      barSha256: fileSha256(heldOutBarPath),
-      keySha256: fileSha256(heldOutKeyPath),
+      batch: c.batch,
+      barSha256: fileSha256(pinPath),
+      keySha256: fileSha256(c.keyPath),
       symlinksRemoved,
     }),
     copy: () => {

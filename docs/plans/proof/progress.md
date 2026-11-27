@@ -65,6 +65,13 @@
   carry rejected IDs and citation messages uncleaned (JSON-escaped,
   labelled data); findings grouped by the clipped file name.
 
+- Step 06: step file and bar (`evals/held-out-v2-bar.md`) written
+  before any run. Analyzers-only arm is `eval:analyzers-heldout` (imports
+  `buildReport` from @ward/mcp's dist, evals now depends on @ward/mcp).
+  Two trial analyzer runs (HO-10, HO-20) made while building it were
+  deleted unscored before the bar was committed. Scorer re-run: v1
+  tables' numbers unchanged.
+
 ## Gotchas
 Carried over: see docs/plans/the-check/progress.md.
 

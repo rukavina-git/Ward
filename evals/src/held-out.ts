@@ -2,6 +2,9 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import type { KnowledgeBase } from "@ward/core";
 import { z } from "zod";
+import { heldOutKey2Path, heldOutKeyPath } from "./paths.js";
+
+const HELD_OUT_KEYS = [heldOutKeyPath, heldOutKey2Path];
 
 // The held-out set (plan 4, step 01): real security fixes in open-source
 // Android apps. The parent commit is the flawed app, the fix commit its
@@ -147,4 +150,17 @@ export function locationProblem(
   if (line < loc.lines[0] || line > loc.lines[1])
     return `anchor is on line ${String(line)}, outside ${loc.lines.join("-")}`;
   return null;
+}
+
+/**
+ * Every frozen held-out case, batch 1 then batch 2, each with the key it
+ * comes from. Batches stay separate files so each keeps its pinned hash.
+ */
+export function heldOutCases(
+  paths: readonly string[] = HELD_OUT_KEYS,
+): (HeldOutCase & { batch: number; keyPath: string })[] {
+  return paths.flatMap((p) => {
+    const key = loadHeldOut(p);
+    return key.cases.map((c) => ({ ...c, batch: key.batch, keyPath: p }));
+  });
 }

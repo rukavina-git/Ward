@@ -1,7 +1,7 @@
-# Held-out, arm `ward-check` (batch 1)
+# Held-out, arm `ward-check`
 
 <!-- gate:start (written by npm run eval:score-heldout) -->
-Runs: 10 of 10 cases. Model: claude-sonnet-5-5. Key v1.
+Runs: 10 of 28 cases (batch 1: 10, batch 2: 0). Model: claude-sonnet-5-5.
 
 All labels set.
 
@@ -9,11 +9,13 @@ All labels set.
 | --- | --- | --- |
 | Found (lenient) | 5 of 10 (HO-01, HO-02, HO-04, HO-09, HO-10) | room ≤ 7, rethink ≥ 9 |
 | Found (strict: a FAIL on the case) | 2 of 10 (HO-04, HO-10) | main number from Plan 6 (evals/scoring.md) |
+| Strict, batch 1 / batch 2 | 2 of 10 / 0 of 0 | |
+| Strict, without AI-co-authored fixes | 2 of 10 | |
 | Harder kinds missed | 2 (HO-03, HO-08) | room ≥ 2, rethink 0 |
 | Decoys flagged | 0 | rethink ≤ 1 |
 | Wrong citations | 0 of 243 (0 ungraded) | room ≥ 2, rethink ≤ 1 |
 
-**Outcome: room** (found 5 of 10 (7 or fewer); missed 2 harder-kind cases (2 or more)).
+**Batch 1 bar outcome: room** (found 5 of 10 (7 or fewer); missed 2 harder-kind cases (2 or more)). The Plan 6 bar for all cases is in evals/held-out-v2-bar.md.
 
 Other findings: 0 real, 0 defensible, 0 wrong, 88 ungraded.
 
