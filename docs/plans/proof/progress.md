@@ -2,7 +2,7 @@
 
 - [x] 01 depth marking, proxy metrics, strict scoring (d6caeb1)
 - [ ] 02 skill v2 and dev runs until the proxy gate passes (code 4df2e9d; gate passes on v2, v2.1 and 0.13.0; ADR 0014 hardening apart; Karlo to confirm proposed labels)
-- [ ] 03 label held-out batch 2 (18 cases, re-frozen 2026-11-26 after review; Karlo's spot check of 5 still open, needed before 06)
+- [x] 03 label held-out batch 2 (18 cases, re-frozen 2026-11-26 after review; Karlo's spot check of 5 passed 2026-11-27)
 - [x] 04 prompt-injection tests in code (see commit below)
 - [x] 05 prompt-injection agent runs (3 of 3 held; t3 rerun after a plan-limit stop)
 - [ ] 06 skill v2 on the held-out set, plus analyzers-only
