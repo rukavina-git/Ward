@@ -1,0 +1,341 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 200
+        },
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 363
+        },
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 392
+        },
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 416
+        },
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 434
+        },
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 457
+        },
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 481
+        },
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 499
+        }
+      ],
+      "explanation": "Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\namethyst/src/main/AndroidManifest.xml:200: activity .ui.MainActivity; exported: yes (android:exported is set); deep link schemes: nostr, amethyst, nostr, nostrwalletconnect, nostr+walletconnect, amethyst+walletconnect, nostrconnect, https, https, https, https, https, https, https, https, https\namethyst/src/main/AndroidManifest.xml:363: activity-alias .ui.ShareAsDMAlias; exported: yes (android:exported is set)\namethyst/src/main/AndroidManifest.xml:392: activity-alias .ui.ShareAsPictureAlias; exported: yes (android:exported is set)\namethyst/src/main/AndroidManifest.xml:416: activity-alias .ui.ScanQrCodeAlias; exported: yes (android:exported is set)\namethyst/src/main/AndroidManifest.xml:434: activity-alias .ui.ShareAsShortVideoAlias; exported: yes (android:exported is set)\namethyst/src/main/AndroidManifest.xml:457: activity-alias .ui.ShareAsVideoAlias; exported: yes (android:exported is set)\namethyst/src/main/AndroidManifest.xml:481: activity-alias .ui.ShareAsHighlightAlias; exported: yes (android:exported is set)\namethyst/src/main/AndroidManifest.xml:499: activity .ui.screen.loggedIn.workouts.health.HealthConnectRationaleActivity; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0365: Exported And Unprotected Services That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 558
+        },
+        {
+          "file": "amethyst/src/play/AndroidManifest.xml",
+          "line": 15
+        }
+      ],
+      "explanation": "Exported services without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\namethyst/src/main/AndroidManifest.xml:558: service .service.playback.service.PlaybackService; exported: yes (android:exported is set)\namethyst/src/play/AndroidManifest.xml:15: service .service.notifications.PushNotificationReceiverService; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0366: Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "amethyst/src/fdroid/AndroidManifest.xml",
+          "line": 7
+        },
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 667
+        }
+      ],
+      "explanation": "Exported receivers without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\namethyst/src/fdroid/AndroidManifest.xml:7: receiver .service.notifications.PushMessageReceiver; exported: yes (android:exported is set)\namethyst/src/main/AndroidManifest.xml:667: receiver .service.notifications.PokeyReceiver; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 712
+        },
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 715
+        },
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 718
+        },
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 719
+        },
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 720
+        },
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 724
+        },
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 727
+        },
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 728
+        },
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 731
+        },
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 736
+        },
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 743
+        },
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 744
+        },
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 613
+        },
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 614
+        },
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 615
+        },
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 621
+        },
+        {
+          "file": "amethyst/build.gradle.kts",
+          "line": 624
+        },
+        {
+          "file": "quartz/build.gradle.kts",
+          "line": 377
+        },
+        {
+          "file": "commonsUI/build.gradle.kts",
+          "line": 169
+        },
+        {
+          "file": "commonsUI/build.gradle.kts",
+          "line": 213
+        },
+        {
+          "file": "commonsUI/build.gradle.kts",
+          "line": 226
+        },
+        {
+          "file": "desktopApp/build.gradle.kts",
+          "line": 35
+        }
+      ],
+      "explanation": "121 of the declared dependencies with exact versions match no OSV advisory, but 22 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT).\namethyst/build.gradle.kts:712: unrecognised: Ward can't read this declaration form: \"playImplementation\"(libs.google.mlkit.language.id)\namethyst/build.gradle.kts:715: unrecognised: Ward can't read this declaration form: \"playImplementation\"(libs.google.mlkit.translate)\namethyst/build.gradle.kts:718: unrecognised: Ward can't read this declaration form: \"playImplementation\"(libs.google.mlkit.genai.proofreading)\namethyst/build.gradle.kts:719: unrecognised: Ward can't read this declaration form: \"playImplementation\"(libs.google.mlkit.genai.prompt)\namethyst/build.gradle.kts:720: unrecognised: Ward can't read this declaration form: \"playImplementation\"(libs.google.mlkit.genai.rewriting)\namethyst/build.gradle.kts:724: unrecognised: Ward can't read this declaration form: \"playImplementation\"(libs.google.mlkit.genai.image.description)\namethyst/build.gradle.kts:727: unrecognised: Ward can't read this declaration form: \"playImplementation\"(platform(libs.firebase.bom))\namethyst/build.gradle.kts:728: unrecognised: Ward can't read this declaration form: \"playImplementation\"(libs.firebase.messaging)\namethyst/build.gradle.kts:731: unrecognised: Ward can't read this declaration form: \"fdroidImplementation\"(libs.unifiedpush)\namethyst/build.gradle.kts:736: unrecognised: Ward can't read this declaration form: \"playImplementation\"(libs.play.services.cast.framework)\namethyst/build.gradle.kts:743: unrecognised: Ward can't read this declaration form: \"playImplementation\"(libs.androidx.appfunctions)\namethyst/build.gradle.kts:744: unrecognised: Ward can't read this declaration form: \"playImplementation\"(libs.androidx.appfunctions.service)\namethyst/build.gradle.kts:613: androidx.compose.ui:ui: no version (a BOM or constraint may set it)\namethyst/build.gradle.kts:614: androidx.compose.ui:ui-graphics: no version (a BOM or constraint may set it)\namethyst/build.gradle.kts:615: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\namethyst/build.gradle.kts:621: androidx.compose.material3:material3: no version (a BOM or constraint may set it)\namethyst/build.gradle.kts:624: androidx.compose.material3:material3-window-size-class: no version (a BOM or constraint may set it)\nquartz/build.gradle.kts:377: unrecognised: Ward can't read this declaration form: \"jvmAndroidTestImplementation\"(testFixtures(project(\":geode\")))\ncommonsUI/build.gradle.kts:169: unrecognised: Ward can't read this declaration: compose.desktop.currentOs)\ncommonsUI/build.gradle.kts:213: unrecognised: Ward can't read this declaration: compose.desktop.currentOs)\ncommonsUI/build.gradle.kts:226: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\ndesktopApp/build.gradle.kts:35: unrecognised: Ward can't read this declaration: compose.desktop.currentOs)"
+    },
+    {
+      "title": "MASTG-TEST-0235: Android App Configurations Allowing Cleartext Traffic",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0026"
+      ],
+      "locations": [
+        {
+          "file": "amethyst/src/main/res/xml/network_security_config.xml",
+          "line": 11
+        }
+      ],
+      "explanation": "The network security config's base-config permits cleartext traffic for every domain.\namethyst/src/main/res/xml/network_security_config.xml:11: base-config cleartextTrafficPermitted=\"true\""
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 115
+        },
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 119
+        },
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 122
+        },
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 151
+        },
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 163
+        },
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 166
+        },
+        {
+          "file": "amethyst/src/main/AndroidManifest.xml",
+          "line": 179
+        },
+        {
+          "file": "amethyst/src/play/AndroidManifest.xml",
+          "line": 10
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\namethyst/src/main/AndroidManifest.xml:115: android.permission.READ_EXTERNAL_STORAGE\namethyst/src/main/AndroidManifest.xml:119: android.permission.CAMERA\namethyst/src/main/AndroidManifest.xml:122: android.permission.RECORD_AUDIO\namethyst/src/main/AndroidManifest.xml:151: android.permission.BLUETOOTH_CONNECT\namethyst/src/main/AndroidManifest.xml:163: android.permission.POST_NOTIFICATIONS\namethyst/src/main/AndroidManifest.xml:166: android.permission.ACCESS_COARSE_LOCATION\namethyst/src/main/AndroidManifest.xml:179: android.permission.WRITE_EXTERNAL_STORAGE\namethyst/src/play/AndroidManifest.xml:10: android.permission.ACCESS_LOCAL_NETWORK"
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "amethyst/src/main/java/com/vitorpamplona/amethyst/ui/screen/loggedIn/workouts/health/HealthConnectRationaleActivity.kt",
+          "line": 48
+        },
+        {
+          "file": "amethyst/src/main/java/com/vitorpamplona/amethyst/ui/screen/loggedIn/workouts/health/HealthConnectRationaleActivity.kt",
+          "line": 58
+        },
+        {
+          "file": "amethyst/src/main/java/com/vitorpamplona/amethyst/ui/screen/loggedIn/workouts/health/HealthConnectRationaleActivity.kt",
+          "line": 59
+        },
+        {
+          "file": "amethyst/src/play/java/com/vitorpamplona/amethyst/ui/screen/loggedIn/settings/LegalSettingsSection.kt",
+          "line": 29
+        },
+        {
+          "file": "amethyst/src/play/java/com/vitorpamplona/amethyst/ui/screen/loggedIn/settings/LegalSettingsSection.kt",
+          "line": 30
+        }
+      ],
+      "explanation": "A privacy policy link or text is in the app. Ward doesn't read the policy: check that it matches what the app collects and the Data safety answers.\namethyst/src/main/java/com/vitorpamplona/amethyst/ui/screen/loggedIn/workouts/health/HealthConnectRationaleActivity.kt:48: privacy policy\namethyst/src/main/java/com/vitorpamplona/amethyst/ui/screen/loggedIn/workouts/health/HealthConnectRationaleActivity.kt:58: privacy policy\namethyst/src/main/java/com/vitorpamplona/amethyst/ui/screen/loggedIn/workouts/health/HealthConnectRationaleActivity.kt:59: privacy policy\namethyst/src/play/java/com/vitorpamplona/amethyst/ui/screen/loggedIn/settings/LegalSettingsSection.kt:29: privacy policy\namethyst/src/play/java/com/vitorpamplona/amethyst/ui/screen/loggedIn/settings/LegalSettingsSection.kt:30: privacy policy"
+    }
+  ],
+  "inspected": [
+    "amethyst/build.gradle.kts",
+    "amethyst/src/fdroid/AndroidManifest.xml",
+    "amethyst/src/main/AndroidManifest.xml",
+    "amethyst/src/main/java/com/vitorpamplona/amethyst/AccountSecretsStore.kt",
+    "amethyst/src/main/java/com/vitorpamplona/amethyst/LocalPreferences.kt",
+    "amethyst/src/main/java/com/vitorpamplona/amethyst/service/notifications/RegisterAccounts.kt",
+    "amethyst/src/main/java/com/vitorpamplona/amethyst/ui/screen/loggedIn/workouts/health/HealthConnectRationaleActivity.kt",
+    "amethyst/src/main/res/xml/network_security_config.xml",
+    "amethyst/src/play/AndroidManifest.xml",
+    "amethyst/src/play/java/com/vitorpamplona/amethyst/ui/screen/loggedIn/settings/LegalSettingsSection.kt",
+    "baselineprofile/build.gradle.kts",
+    "benchmark/build.gradle.kts",
+    "benchmark/src/main/AndroidManifest.xml",
+    "cli/build.gradle.kts",
+    "cli/src/main/kotlin/com/vitorpamplona/amethyst/cli/Main.kt",
+    "commons/build.gradle.kts",
+    "commons/src/androidMain/AndroidManifest.xml",
+    "commonsUI/build.gradle.kts",
+    "commonsUI/src/androidMain/AndroidManifest.xml",
+    "desktopApp/build.gradle.kts",
+    "geode/build.gradle.kts",
+    "gradle/libs.versions.toml",
+    "marmotBench/build.gradle.kts",
+    "marmotQuic/build.gradle.kts",
+    "nappletHost/build.gradle.kts",
+    "nappletHost/src/main/AndroidManifest.xml",
+    "nestsClient/build.gradle.kts",
+    "quartz/build.gradle.kts",
+    "quartz/src/androidDeviceTest/AndroidManifest.xml",
+    "quartz/src/androidMain/AndroidManifest.xml",
+    "quic/build.gradle.kts",
+    "relayBench/build.gradle.kts"
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0231: References to Logging APIs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0005"
+      ],
+      "locations": [
+        {
+          "file": "src/itkach/aard2/Clipboard.java",
+          "line": 34
+        }
+      ],
+      "explanation": "Clipboard.peek logs the full clipboard text when it matches the email, phone-number or URL patterns, so personal data (emails, phone numbers) goes to logcat. No minification or log stripping is set up in build.gradle, so these Log.d calls stay in release builds.\nsrc/itkach/aard2/Clipboard.java:34: Clipboard text matching EMAIL_ADDRESS/PHONE/WEB_URL patterns is written to logcat verbatim."
+    },
+    {
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "AndroidManifest.xml",
+          "line": 20
+        }
+      ],
+      "explanation": "The root AndroidManifest.xml sets android:allowBackup=\"true\" and declares neither fullBackupContent nor dataExtractionRules, so all app data is backed up: the dictionary list, bookmarks, lookup history, prefs and user styles. Whether lookup history counts as sensitive is for a person to decide. Ward's analyzer said: Ward found no readable AndroidManifest.xml for this variant under the project root.\nAndroidManifest.xml:20: Backup enabled with no backup or data-extraction rules."
+    },
+    {
+      "title": "MASTG-TEST-0393: Use of Unverified App Links",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0029"
+      ],
+      "locations": [
+        {
+          "file": "AndroidManifest.xml",
+          "line": 187
+        }
+      ],
+      "explanation": "ExternalArticleActivity's activity-aliases declare VIEW/BROWSABLE intent-filters for http/https *.wikipedia.org and *.wiktionary.org links without android:autoVerify. Application enables them at run time to match installed dictionaries. This is by design, since the app can't verify domains it doesn't own, and the links only open offline lookups, so the impact is low.\nAndroidManifest.xml:187: http/https deep link to en.m.wikipedia.org declared without android:autoVerify (same pattern for all wiki aliases)."
+    }
+  ],
+  "inspected": [
+    "AndroidManifest.xml",
+    "build.gradle",
+    "res/layout/search_field.xml",
+    "src/itkach/aard2/Application.java",
+    "src/itkach/aard2/ArticleCollectionActivity.java",
+    "src/itkach/aard2/ArticleWebView.java",
+    "src/itkach/aard2/BlobDescriptorListFragment.java",
+    "src/itkach/aard2/Clipboard.java",
+    "src/itkach/aard2/DescriptorStore.java",
+    "src/itkach/aard2/DictionariesFragment.java",
+    "src/itkach/aard2/DictionaryListAdapter.java",
+    "src/itkach/aard2/ExternalArticleActivity.java",
+    "src/itkach/aard2/LookupFragment.java",
+    "src/itkach/aard2/MainActivity.java",
+    "src/itkach/aard2/SearchField.java",
+    "src/itkach/aard2/SettingsFragment.java",
+    "src/itkach/aard2/Util.java"
+  ]
+}

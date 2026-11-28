@@ -1,0 +1,421 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0355: References to Unauthorized Database Access through Content Providers",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 708
+        }
+      ],
+      "explanation": "A content provider is exported with no permission: any installed app can query it. If it is public by design, accept it with a reason.\nAnkiDroid/src/main/AndroidManifest.xml:708: provider .provider.CardContentProvider; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0357: References to Oversharing of File-Based Content Providers",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 708
+        }
+      ],
+      "explanation": "A content provider is exported with no permission: any installed app can query it. If it is public by design, accept it with a reason.\nAnkiDroid/src/main/AndroidManifest.xml:708: provider .provider.CardContentProvider; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 108
+        },
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 111
+        },
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 308
+        },
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 328
+        },
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 370
+        },
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 407
+        },
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 419
+        },
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 691
+        }
+      ],
+      "explanation": "Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\nAnkiDroid/src/main/AndroidManifest.xml:108: activity com.ichi2.anki.ui.windows.managespace.ManageSpaceActivity; exported: yes (android:exported is set)\nAnkiDroid/src/main/AndroidManifest.xml:111: activity com.ichi2.anki.IntentHandler; exported: yes (android:exported is set); deep link schemes: http, https, content, file, http, https, content, file, http, https, content, file, http, https, content, file, http, https, content, file\nAnkiDroid/src/main/AndroidManifest.xml:308: activity-alias com.ichi2.anki.CardBrowserContextMenuAction; exported: yes (android:exported is set)\nAnkiDroid/src/main/AndroidManifest.xml:328: activity-alias com.ichi2.anki.CardBrowserDeepLink; exported: yes (android:exported is set); deep link schemes: anki\nAnkiDroid/src/main/AndroidManifest.xml:370: activity com.ichi2.anki.Reviewer; exported: yes (android:exported is set)\nAnkiDroid/src/main/AndroidManifest.xml:407: activity-alias com.ichi2.anki.AnkiCardContextMenuAction; exported: yes (android:exported is set)\nAnkiDroid/src/main/AndroidManifest.xml:419: activity com.ichi2.anki.IntentHandler2; exported: yes (android:exported is set)\nAnkiDroid/src/main/AndroidManifest.xml:691: activity com.ichi2.anki.instantnoteeditor.InstantNoteEditorActivity; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0366: Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 518
+        },
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 539
+        },
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 624
+        }
+      ],
+      "explanation": "Exported receivers without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\nAnkiDroid/src/main/AndroidManifest.xml:518: receiver com.ichi2.widget.AnkiDroidWidgetSmall; exported: yes (android:exported is set)\nAnkiDroid/src/main/AndroidManifest.xml:539: receiver com.ichi2.widget.AddNoteWidget; exported: yes (android:exported is set)\nAnkiDroid/src/main/AndroidManifest.xml:624: receiver com.ichi2.anki.receiver.SdCardReceiver; exported: yes (android:exported is set); deep link schemes: file, file"
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 97
+        },
+        {
+          "file": "AnkiDroid/build.gradle",
+          "line": 559
+        },
+        {
+          "file": "anki-common/build.gradle.kts",
+          "line": 31
+        },
+        {
+          "file": "api/build.gradle.kts",
+          "line": 56
+        },
+        {
+          "file": "AnkiDroid/build.gradle",
+          "line": 500
+        },
+        {
+          "file": "AnkiDroid/build.gradle",
+          "line": 501
+        },
+        {
+          "file": "AnkiDroid/build.gradle",
+          "line": 502
+        },
+        {
+          "file": "AnkiDroid/build.gradle",
+          "line": 543
+        },
+        {
+          "file": "AnkiDroid/build.gradle",
+          "line": 548
+        },
+        {
+          "file": "AnkiDroid/build.gradle",
+          "line": 549
+        },
+        {
+          "file": "AnkiDroid/build.gradle",
+          "line": 550
+        },
+        {
+          "file": "AnkiDroid/build.gradle",
+          "line": 551
+        },
+        {
+          "file": "AnkiDroid/build.gradle",
+          "line": 563
+        },
+        {
+          "file": "AnkiDroid/build.gradle",
+          "line": 564
+        },
+        {
+          "file": "baselineprofile/build.gradle.kts",
+          "line": 69
+        },
+        {
+          "file": "common/android/build.gradle.kts",
+          "line": 25
+        },
+        {
+          "file": "libanki/build.gradle.kts",
+          "line": 23
+        },
+        {
+          "file": "widgets/build.gradle.kts",
+          "line": 25
+        }
+      ],
+      "explanation": "org.jsoup:jsoup:1.23.1 is in the affected range of 1 OSV advisory: GHSA-65r4-943x-97jj/CVE-2026-75140. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). 48 of the other dependencies with exact versions match no OSV advisory, but 16 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT).\ngradle/libs.versions.toml:97: version 1.23.1\nAnkiDroid/build.gradle:559: implementation (catalog libs.jsoup) in module AnkiDroid\nanki-common/build.gradle.kts:31: org.jetbrains.kotlinx:kotlinx-coroutines-core: version \"coroutines\" is a rich version or range\napi/build.gradle.kts:56: org.jetbrains.kotlin:kotlin-stdlib: version \"kotlin\" is a rich version or range\nAnkiDroid/build.gradle:500: androidx.compose.ui:ui: no version (a BOM or constraint may set it)\nAnkiDroid/build.gradle:501: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\nAnkiDroid/build.gradle:502: androidx.compose.material3:material3: no version (a BOM or constraint may set it)\nAnkiDroid/build.gradle:543: io.github.david-allison:anki-android-backend: version \"ankiBackend\" is a rich version or range\nAnkiDroid/build.gradle:548: ch.acra:acra-limiter: version \"acra\" is a rich version or range\nAnkiDroid/build.gradle:549: ch.acra:acra-toast: version \"acra\" is a rich version or range\nAnkiDroid/build.gradle:550: ch.acra:acra-dialog: version \"acra\" is a rich version or range\nAnkiDroid/build.gradle:551: ch.acra:acra-http: version \"acra\" is a rich version or range\nAnkiDroid/build.gradle:563: org.jetbrains.kotlin:kotlin-reflect: version \"kotlin\" is a rich version or range\nAnkiDroid/build.gradle:564: org.jetbrains.kotlin:kotlin-test: version \"kotlin\" is a rich version or range\nbaselineprofile/build.gradle.kts:69: androidx.test.espresso:espresso-core: version \"espresso\" is a rich version or range\ncommon/android/build.gradle.kts:25: org.jetbrains.kotlinx:kotlinx-coroutines-core: version \"coroutines\" is a rich version or range\nlibanki/build.gradle.kts:23: org.jetbrains.kotlinx:kotlinx-coroutines-core: version \"coroutines\" is a rich version or range\nwidgets/build.gradle.kts:25: org.jetbrains.kotlinx:kotlinx-coroutines-core: version \"coroutines\" is a rich version or range"
+    },
+    {
+      "title": "MASTG-TEST-0235: Android App Configurations Allowing Cleartext Traffic",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0026"
+      ],
+      "locations": [
+        {
+          "file": "AnkiDroid/src/main/res/xml/network_security_config.xml",
+          "line": 3
+        }
+      ],
+      "explanation": "The network security config's base-config permits cleartext traffic for every domain.\nAnkiDroid/src/main/res/xml/network_security_config.xml:3: base-config cleartextTrafficPermitted=\"true\""
+    },
+    {
+      "title": "MASTG-TEST-0285: Outdated Android Version Allowing Trust in User-Provided CAs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "AnkiDroid/src/main/res/xml/network_security_config.xml",
+          "line": 11
+        }
+      ],
+      "explanation": "The network security config trusts user-installed CAs outside debug-overrides, so anyone who can install a certificate on the device can read the app's TLS traffic.\nAnkiDroid/src/main/res/xml/network_security_config.xml:11: base-config trusts user-installed CAs"
+    },
+    {
+      "title": "MASTG-TEST-0286: Network Security Configuration Allowing Trust in User-Provided CAs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "AnkiDroid/src/main/res/xml/network_security_config.xml",
+          "line": 11
+        }
+      ],
+      "explanation": "The network security config trusts user-installed CAs outside debug-overrides, so anyone who can install a certificate on the device can read the app's TLS traffic.\nAnkiDroid/src/main/res/xml/network_security_config.xml:11: base-config trusts user-installed CAs"
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 29
+        },
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 33
+        },
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 41
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\nAnkiDroid/src/main/AndroidManifest.xml:29: android.permission.WRITE_EXTERNAL_STORAGE\nAnkiDroid/src/main/AndroidManifest.xml:33: android.permission.RECORD_AUDIO\nAnkiDroid/src/main/AndroidManifest.xml:41: android.permission.POST_NOTIFICATIONS"
+    },
+    {
+      "title": "MASWE-0073: Inadequate Data Collection Declarations",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1",
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0073"
+      ],
+      "locations": [
+        {
+          "file": "AnkiDroid/src/main/res/values/constants.xml",
+          "line": 132
+        }
+      ],
+      "explanation": "The app has account creation, so the Data safety form in Play Console needs a working web link where users can request account deletion without the app. That field lives in Play Console, which Ward can't see.\nAnkiDroid/src/main/res/values/constants.xml:132: deletion URL in the app"
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "AnkiDroid/src/main/java/com/ichi2/anki/account/LoggedInFragment.kt",
+          "line": 70
+        },
+        {
+          "file": "AnkiDroid/src/main/java/com/ichi2/anki/account/LoggedInFragment.kt",
+          "line": 99
+        },
+        {
+          "file": "AnkiDroid/src/main/java/com/ichi2/anki/account/LoggedInFragment.kt",
+          "line": 100
+        },
+        {
+          "file": "AnkiDroid/src/main/java/com/ichi2/anki/account/LoggedInFragment.kt",
+          "line": 101
+        },
+        {
+          "file": "AnkiDroid/src/main/java/com/ichi2/anki/account/LoginFragment.kt",
+          "line": 194
+        }
+      ],
+      "explanation": "A privacy policy link or text is in the app. Ward doesn't read the policy: check that it matches what the app collects and the Data safety answers.\nAnkiDroid/src/main/java/com/ichi2/anki/account/LoggedInFragment.kt:70: privacy policy\nAnkiDroid/src/main/java/com/ichi2/anki/account/LoggedInFragment.kt:99: privacy policy\nAnkiDroid/src/main/java/com/ichi2/anki/account/LoggedInFragment.kt:100: privacy policy\nAnkiDroid/src/main/java/com/ichi2/anki/account/LoggedInFragment.kt:101: privacy policy\nAnkiDroid/src/main/java/com/ichi2/anki/account/LoginFragment.kt:194: privacy policy"
+    },
+    {
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 90
+        }
+      ],
+      "explanation": "Backup is on (android:allowBackup=\"true\") and there are no backup rules (dataExtractionRules, fullBackupContent), so every app file goes into cloud backups and device transfers.\nAnkiDroid/src/main/AndroidManifest.xml:90: android:allowBackup=\"true\""
+    },
+    {
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "AnkiDroid/src/main/AndroidManifest.xml",
+          "line": 90
+        }
+      ],
+      "explanation": "Backup is on (android:allowBackup=\"true\") and there are no backup rules (dataExtractionRules, fullBackupContent), so every app file goes into cloud backups and device transfers.\nAnkiDroid/src/main/AndroidManifest.xml:90: android:allowBackup=\"true\""
+    }
+  ],
+  "inspected": [
+    "AnkiDroid/build.gradle",
+    "AnkiDroid/src/amazon/AndroidManifest.xml",
+    "AnkiDroid/src/benchmark/AndroidManifest.xml",
+    "AnkiDroid/src/main/AndroidManifest.xml",
+    "AnkiDroid/src/main/java/com/ichi2/anki/SharedDecksActivity.kt",
+    "AnkiDroid/src/main/java/com/ichi2/anki/account/LoggedInFragment.kt",
+    "AnkiDroid/src/main/java/com/ichi2/anki/account/LoginFragment.kt",
+    "AnkiDroid/src/main/java/com/ichi2/anki/pages/RemoveAccountFragment.kt",
+    "AnkiDroid/src/main/res/layout/fragment_my_account.xml",
+    "AnkiDroid/src/main/res/values/constants.xml",
+    "AnkiDroid/src/main/res/xml/network_security_config.xml",
+    "AnkiDroid/src/play/AndroidManifest.xml",
+    "anki-common/build.gradle.kts",
+    "anki-common/src/main/AndroidManifest.xml",
+    "api/build.gradle.kts",
+    "api/src/main/AndroidManifest.xml",
+    "baselineprofile/build.gradle.kts",
+    "baselineprofile/src/main/AndroidManifest.xml",
+    "common/android/build.gradle.kts",
+    "common/android/src/main/AndroidManifest.xml",
+    "common/build.gradle.kts",
+    "common/src/main/AndroidManifest.xml",
+    "compat/build.gradle.kts",
+    "compat/src/main/AndroidManifest.xml",
+    "gradle/libs.versions.toml",
+    "libanki/build.gradle.kts",
+    "lint-rules/build.gradle.kts",
+    "vbpd/build.gradle.kts",
+    "vbpd/src/main/AndroidManifest.xml",
+    "widgets/build.gradle.kts",
+    "widgets/src/main/AndroidManifest.xml"
+  ]
+}

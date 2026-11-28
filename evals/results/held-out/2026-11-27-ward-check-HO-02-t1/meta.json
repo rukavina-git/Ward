@@ -1,0 +1,465 @@
+{
+  "name": "2026-11-27-ward-check-HO-02-t1",
+  "date": "2026-11-27T15:32:03.281Z",
+  "smoke": false,
+  "setup": "ward-check",
+  "setupDescription": "Claude Code + Ward's plugin (skill /ward:check) and MCP server, plus Write for .ward/ only. Prompt /ward:check; Ward's report is turned into findings in code.",
+  "plugin": {
+    "name": "ward",
+    "source": {
+      "kind": "local",
+      "path": "plugin"
+    },
+    "commit": null,
+    "sha256": "c35b903a5ef08583b1eca48f5418012780cbdadee92b97e6046fb8626f4b8259"
+  },
+  "mcp": {
+    "name": "ward",
+    "entry": "packages/mcp/dist/index.js",
+    "distSha256": "ddec70102210d93ec93f980b9dc828e187cca719fe0d1c0db956bd7f04d74f3f"
+  },
+  "case": "HO-02",
+  "repo": "https://github.com/tasks/tasks",
+  "commit": "88fd53cd79ce038054a6dca5535e003ae4b74e9c",
+  "commitRole": "parent",
+  "batch": 1,
+  "barSha256": "82b98999930da9d8c811ef5d9b71df8b006409539b19a55b7ecf2a7f05594314",
+  "keySha256": "a422b14efae8755765f1121c0cb1220a4b46cc90fb1256903ff6613e4f04ee86",
+  "symlinksRemoved": 4,
+  "trial": 1,
+  "modelRequested": "claude-sonnet-5-5",
+  "modelReported": "claude-sonnet-5-5",
+  "claudeCodeVersion": "2.1.332 (Claude Code)",
+  "key": {
+    "name": "held-out",
+    "keyVersion": 1
+  },
+  "repoCommit": "45a1818bb91c9a6002af41ce0d00db84ecc0bdbf",
+  "promptSha256": "9d1d89ea9afa21a7ca6a8508f4a08240149e58b3a86936f81a85ac79fba99a6e",
+  "transcriptSha256": "133cd0253b3add01184c9a87f9b0bac6262124e66bda78c3a164ceec264713fd",
+  "schemaSha256": "bb61ae0b7ad3ac279b563942f1cbefaf22786da19ff2cc8cd280d6d4a24c7d69",
+  "flags": [
+    "-p",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--model",
+    "claude-sonnet-5-5",
+    "--tools",
+    "Read,Grep,Glob,Skill,Write",
+    "--allowedTools",
+    "Read,Grep,Glob,Skill,Write,mcp__ward__checklist,mcp__ward__get_check,mcp__ward__search,mcp__ward__manifest,mcp__ward__network,mcp__ward__build_config,mcp__ward__dependencies,mcp__ward__must_exist,mcp__ward__report_skeleton,mcp__ward__check_report,mcp__ward__write_report",
+    "--disallowedTools",
+    "WebFetch,WebSearch",
+    "--permission-mode",
+    "dontAsk",
+    "--no-session-persistence",
+    "--setting-sources",
+    "",
+    "--strict-mcp-config",
+    "--settings",
+    "{\"autoMemoryEnabled\":false}",
+    "--restricted",
+    "--plugin-dir",
+    "<tmp>/plugins/ward",
+    "--add-dir",
+    "<tmp>/plugins/ward",
+    "--mcp-config",
+    "{\"mcpServers\":{\"ward\":{\"command\":\"node\",\"args\":[\"~/Dev/ward/packages/mcp/dist/index.js\"]}}}"
+  ],
+  "report": {
+    "projectPrefix": "",
+    "counts": {
+      "controls": {
+        "FAIL": 8,
+        "MANUAL": 14,
+        "NEEDS DYNAMIC": 2
+      },
+      "checks": {
+        "FAIL": 24,
+        "NEEDS DYNAMIC": 39,
+        "NO FINDING": 37,
+        "MANUAL": 81,
+        "N/A": 27
+      },
+      "depth": {
+        "analyzer": 21,
+        "index": 118,
+        "test text": 101,
+        "title only": 2
+      },
+      "hardening": {
+        "NO FINDING": 3,
+        "NEEDS DYNAMIC": 10,
+        "FAIL": 14,
+        "MANUAL": 6,
+        "N/A": 1
+      }
+    },
+    "pending": 0,
+    "skippedNoEvidence": {
+      "fail": 0,
+      "other": 71
+    }
+  },
+  "status": "ok",
+  "failures": [],
+  "exitCode": 0,
+  "timedOut": false,
+  "wallMs": 421744,
+  "findings": 18,
+  "skillsInvoked": [],
+  "wardCalls": [
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-STORAGE"
+      },
+      "isError": false
+    },
+    {
+      "tool": "build_config",
+      "input": {
+        "projectRoot": "<tmp>/app"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-CRYPTO"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-AUTH"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-NETWORK"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-PLATFORM"
+      },
+      "isError": false
+    },
+    {
+      "tool": "get_check",
+      "input": {
+        "id": "MASTG-TEST-0227"
+      },
+      "isError": false
+    },
+    {
+      "tool": "get_check",
+      "input": {
+        "id": "MASTG-TEST-0398"
+      },
+      "isError": false
+    },
+    {
+      "tool": "get_check",
+      "input": {
+        "id": "MASTG-TEST-0399"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-CODE"
+      },
+      "isError": false
+    },
+    {
+      "tool": "get_check",
+      "input": {
+        "id": "MASTG-TEST-0222"
+      },
+      "isError": false
+    },
+    {
+      "tool": "get_check",
+      "input": {
+        "id": "MASTG-TEST-0223"
+      },
+      "isError": false
+    },
+    {
+      "tool": "get_check",
+      "input": {
+        "id": "MASTG-TEST-0245"
+      },
+      "isError": false
+    },
+    {
+      "tool": "get_check",
+      "input": {
+        "id": "MASTG-TEST-0274"
+      },
+      "isError": false
+    },
+    {
+      "tool": "get_check",
+      "input": {
+        "id": "MASTG-TEST-0337"
+      },
+      "isError": false
+    },
+    {
+      "tool": "get_check",
+      "input": {
+        "id": "MASTG-TEST-0338"
+      },
+      "isError": false
+    },
+    {
+      "tool": "get_check",
+      "input": {
+        "id": "MASTG-TEST-0339"
+      },
+      "isError": false
+    },
+    {
+      "tool": "get_check",
+      "input": {
+        "id": "MASTG-TEST-0392"
+      },
+      "isError": false
+    },
+    {
+      "tool": "dependencies",
+      "input": {
+        "projectRoot": "<tmp>/app"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-RESILIENCE"
+      },
+      "isError": false
+    },
+    {
+      "tool": "report_skeleton",
+      "input": {
+        "projectRoot": "<tmp>/app",
+        "group": "MASVS-PRIVACY"
+      },
+      "isError": false
+    },
+    {
+      "tool": "write_report",
+      "input": {
+        "projectRoot": "<tmp>/app"
+      },
+      "isError": false
+    }
+  ],
+  "searchQueries": [],
+  "outsideBlocked": 0,
+  "init": {
+    "model": "claude-sonnet-5-5",
+    "claude_code_version": "2.1.332",
+    "permissionMode": "dontAsk",
+    "apiKeySource": "none",
+    "tools": [
+      "Glob",
+      "Grep",
+      "Read",
+      "Skill",
+      "Write",
+      "mcp__ward__build_config",
+      "mcp__ward__check_report",
+      "mcp__ward__checklist",
+      "mcp__ward__dependencies",
+      "mcp__ward__get_check",
+      "mcp__ward__manifest",
+      "mcp__ward__must_exist",
+      "mcp__ward__network",
+      "mcp__ward__report_skeleton",
+      "mcp__ward__search",
+      "mcp__ward__write_report"
+    ],
+    "mcp_servers": [
+      {
+        "name": "ward",
+        "status": "connected",
+        "source": "dynamic"
+      }
+    ],
+    "slash_commands": [
+      "ward:check",
+      "design",
+      "design-sync",
+      "dataviz",
+      "update-config",
+      "verify",
+      "debug",
+      "code-review",
+      "simplify",
+      "batch",
+      "fewer-permission-prompts",
+      "doctor",
+      "claude-approvals",
+      "loop",
+      "schedule",
+      "claude-api",
+      "run",
+      "run-skill-generator",
+      "plugin-authoring",
+      "advisor",
+      "agents",
+      "auto-mode-setup",
+      "autocompact",
+      "clear",
+      "color",
+      "compact",
+      "config",
+      "output-style",
+      "context",
+      "effort",
+      "fast",
+      "focus",
+      "heapdump",
+      "init",
+      "mcp",
+      "import",
+      "model",
+      "__remote-workflow",
+      "workflow-launch-exec",
+      "reload-plugins",
+      "reload-skills",
+      "rename",
+      "ultrareview",
+      "security-review",
+      "usage-credits",
+      "extra-usage",
+      "usage",
+      "insights",
+      "recap",
+      "skill-doctor",
+      "goal",
+      "design-consent",
+      "design-revoke",
+      "list-agents",
+      "team-onboarding"
+    ],
+    "skills": [
+      "ward:check",
+      "design",
+      "design-sync",
+      "dataviz",
+      "update-config",
+      "verify",
+      "debug",
+      "code-review",
+      "simplify",
+      "batch",
+      "fewer-permission-prompts",
+      "doctor",
+      "claude-approvals",
+      "loop",
+      "schedule",
+      "claude-api",
+      "run",
+      "run-skill-generator",
+      "plugin-authoring"
+    ],
+    "agents": [
+      "claude",
+      "Explore",
+      "general-purpose",
+      "Plan",
+      "statusline-setup",
+      "web-fetch"
+    ],
+    "output_style": "default",
+    "plugins": [
+      "ward@inline",
+      "cc-plugin-agents-md@builtin",
+      "cc-plugin-telemetry@builtin",
+      "cc-plugin-privacy@builtin",
+      "cc-plugin-plugin-authoring@builtin",
+      "cc-plugin-easel@builtin"
+    ]
+  },
+  "result": {
+    "subtype": "success",
+    "is_error": false,
+    "num_turns": 126,
+    "duration_ms": 421060,
+    "duration_api_ms": 415392,
+    "total_cost_usd": 2.8349492000000005,
+    "usage": {
+      "input_tokens": 156,
+      "cache_creation_input_tokens": 288718,
+      "cache_read_input_tokens": 11844352,
+      "output_tokens": 49533,
+      "output_tokens_details": {
+        "thinking_tokens": 14749
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 288718,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "global",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 1353,
+          "cache_read_input_tokens": 296766,
+          "cache_creation_input_tokens": 2381,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2381
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard",
+      "fallback_credit": null
+    },
+    "modelUsage": {
+      "claude-sonnet-5-5": {
+        "inputTokens": 156,
+        "outputTokens": 49533,
+        "cacheReadInputTokens": 11844352,
+        "cacheCreationInputTokens": 288718,
+        "webSearchRequests": 0,
+        "costUSD": 2.8349492000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 14749,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 288718,
+        "canonicalModel": "claude-sonnet-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "permission_denials": 0
+  }
+}

@@ -1,0 +1,329 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/protonvpn/android/redesign/app/ui/MainActivity.kt",
+          "line": 325
+        },
+        {
+          "file": "app/src/main/java/com/protonvpn/android/widget/WidgetActionHandler.kt",
+          "line": 72
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 87
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 158
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 184
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 205
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 227
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 249
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 273
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 297
+        }
+      ],
+      "explanation": "TvMainActivity and the launcher aliases are normal entry points; SessionForkConfirmation requires user confirmation. However the exported MainActivity aliases accept an explicit intent with a glance-action data URI plus extras and start a VPN connection to a recent entry without user interaction. Whether letting any app change the VPN connection counts as sensitive is a human call. Ward's analyzer said: Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/java/com/protonvpn/android/redesign/app/ui/MainActivity.kt:325: Exported activity routes any intent with the glance-action scheme to the widget action handler.\napp/src/main/java/com/protonvpn/android/widget/WidgetActionHandler.kt:72: Handler connects the VPN based on intent extras.\napp/src/main/AndroidManifest.xml:87: activity .tv.main.TvMainActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:158: activity .auth.ui.sessionfork.SessionForkConfirmationActivity; exported: yes (android:exported is set); deep link schemes: https, protonvpn\napp/src/main/AndroidManifest.xml:184: activity-alias ch.protonvpn.android.RoutingActivity; exported: yes (android:exported is set); deep link schemes: protonvpn\napp/src/main/AndroidManifest.xml:205: activity-alias ch.protonvpn.android.RoutingDark; exported: yes (android:exported is set); deep link schemes: protonvpn\napp/src/main/AndroidManifest.xml:227: activity-alias ch.protonvpn.android.RoutingRetro; exported: yes (android:exported is set); deep link schemes: protonvpn\napp/src/main/AndroidManifest.xml:249: activity-alias ch.protonvpn.android.RoutingWeather; exported: yes (android:exported is set); deep link schemes: protonvpn\napp/src/main/AndroidManifest.xml:273: activity-alias ch.protonvpn.android.RoutingNotes; exported: yes (android:exported is set); deep link schemes: protonvpn\napp/src/main/AndroidManifest.xml:297: activity-alias ch.protonvpn.android.RoutingCalculator; exported: yes (android:exported is set); deep link schemes: protonvpn"
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 80
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 781
+        },
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 53
+        },
+        {
+          "file": "shared-test-code/build.gradle",
+          "line": 143
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 813
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 814
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 815
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 816
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 817
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 818
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 827
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 829
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 962
+        },
+        {
+          "file": "baselineprofile/build.gradle.kts",
+          "line": 52
+        },
+        {
+          "file": "observability/tools/build.gradle.kts",
+          "line": 36
+        },
+        {
+          "file": "release_tests/build.gradle",
+          "line": 73
+        }
+      ],
+      "explanation": "io.sentry:sentry-android:7.22.5 is in the affected range of 1 OSV advisory: GHSA-7cjh-xx4r-qh3f. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). com.google.guava:guava:33.2.1-android is in the affected range of 1 OSV advisory: GHSA-xxph-c9ww-hj94/CVE-2026-102554. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). 160 of the other dependencies with exact versions match no OSV advisory, but 12 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT).\ngradle/libs.versions.toml:80: version 7.22.5\napp/build.gradle:781: implementation (catalog libs.sentry.android) in module app\ngradle/libs.versions.toml:53: version 33.2.1-android\nshared-test-code/build.gradle:143: implementation (catalog libs.google.guava) in module shared-test-code\napp/build.gradle:813: androidx.compose.animation:animation-android: no version (a BOM or constraint may set it)\napp/build.gradle:814: androidx.compose.material3:material3: no version (a BOM or constraint may set it)\napp/build.gradle:815: androidx.compose.material3:material3-window-size-class: no version (a BOM or constraint may set it)\napp/build.gradle:816: androidx.compose.runtime:runtime-livedata: no version (a BOM or constraint may set it)\napp/build.gradle:817: androidx.compose.ui:ui: no version (a BOM or constraint may set it)\napp/build.gradle:818: androidx.compose.ui:ui-viewbinding: no version (a BOM or constraint may set it)\napp/build.gradle:827: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\napp/build.gradle:829: androidx.compose.ui:ui-tooling: no version (a BOM or constraint may set it)\napp/build.gradle:962: unrecognised: Ward can't read this declaration: projects.observability.domain)\nbaselineprofile/build.gradle.kts:52: unrecognised: Ward can't read this declaration: projects.uiAutomatorTestUtil)\nobservability/tools/build.gradle.kts:36: unrecognised: Ward can't read this declaration: projects.observability.domain)\nrelease_tests/build.gradle:73: unrecognised: Ward can't read this declaration: projects.uiAutomatorTestUtil)"
+    },
+    {
+      "title": "MASTG-TEST-0212: Use of Hardcoded Cryptographic Keys in Code",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CRYPTO-2",
+        "MASVS-STORAGE-1"
+      ],
+      "maswe": [
+        "MASWE-0003"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/protonvpn/android/vpn/ServerPing.kt",
+          "line": 48
+        },
+        {
+          "file": "app/src/main/java/com/protonvpn/android/vpn/ServerPing.kt",
+          "line": 60
+        }
+      ],
+      "explanation": "A hardcoded secret string is used as the HMAC-SHA256 key that authenticates UDP/TCP ping packets sent to VPN servers; anyone extracting it from the APK can forge authenticated pings.\napp/src/main/java/com/protonvpn/android/vpn/ServerPing.kt:48: HMAC key hardcoded as a string constant.\napp/src/main/java/com/protonvpn/android/vpn/ServerPing.kt:60: The constant is turned into the HMAC key used to sign ping data."
+    },
+    {
+      "title": "MASTG-TEST-0318: References to SDK APIs Known to Handle Sensitive User Data",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PRIVACY-1",
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0073"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/protonvpn/android/utils/SentryIntegration.kt",
+          "line": 98
+        }
+      ],
+      "explanation": "The app passes a persistent installation ID to the Sentry SDK as the user ID (crash reporting is on by default, opt-out). This identifier must be declared in the Data safety form.\napp/src/main/java/com/protonvpn/android/utils/SentryIntegration.kt:98: Installation ID sent to Sentry as the user identifier."
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 42
+        }
+      ],
+      "explanation": "Ward found no privacy policy link or text in the scanned files. Google Play requires every app to have a privacy policy link or text inside the app, as well as in Play Console (rule checked 2026-11-23, https://support.google.com/googleplay/android-developer/answer/10144311).\napp/src/main/AndroidManifest.xml:42: The app's manifest: no privacy policy link anywhere in the app."
+    },
+    {
+      "title": "MASTG-TEST-0225: Usage of Insecure APK Signature Key Size",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-RESILIENCE-2"
+      ],
+      "maswe": [
+        "MASWE-0056"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle",
+          "line": 338
+        }
+      ],
+      "explanation": "Key size can only be read from the signed APK. Note: the release build type in source is signed with signingConfigs.debug (androiddebugkey); confirm that production builds are re-signed with the real release key.\napp/build.gradle:338: Release build type uses the debug signing config."
+    },
+    {
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "release_tests/src/main/AndroidManifest.xml",
+          "line": 24
+        }
+      ],
+      "explanation": "Backup is on (android:allowBackup=\"true\") and there are no backup rules (dataExtractionRules, fullBackupContent), so every app file goes into cloud backups and device transfers.\nrelease_tests/src/main/AndroidManifest.xml:24: android:allowBackup=\"true\""
+    },
+    {
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "release_tests/src/main/AndroidManifest.xml",
+          "line": 24
+        }
+      ],
+      "explanation": "Backup is on (android:allowBackup=\"true\") and there are no backup rules (dataExtractionRules, fullBackupContent), so every app file goes into cloud backups and device transfers.\nrelease_tests/src/main/AndroidManifest.xml:24: android:allowBackup=\"true\""
+    }
+  ],
+  "inspected": [
+    "app/build.gradle",
+    "app/src/google/AndroidManifest.xml",
+    "app/src/google/java/com/protonvpn/android/update/UpdatePromptForStaleVersion.kt",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/assets/oss_licenses/generated_licenses.js",
+    "app/src/main/java/com/protonvpn/android/ProtonApplication.kt",
+    "app/src/main/java/com/protonvpn/android/ProtonApplicationHilt.kt",
+    "app/src/main/java/com/protonvpn/android/api/VpnApiClient.kt",
+    "app/src/main/java/com/protonvpn/android/appconfig/usecase/LargeMetricsSampler.kt",
+    "app/src/main/java/com/protonvpn/android/auth/AuthFlowStartHelper.kt",
+    "app/src/main/java/com/protonvpn/android/auth/ui/AccountViewModel.kt",
+    "app/src/main/java/com/protonvpn/android/auth/ui/sessionfork/SessionForkConfirmationActivity.kt",
+    "app/src/main/java/com/protonvpn/android/auth/ui/sessionfork/SessionForkConfirmationViewModel.kt",
+    "app/src/main/java/com/protonvpn/android/auth/usecase/LogoutOnForceUpdate.kt",
+    "app/src/main/java/com/protonvpn/android/bugreport/ui/steps/form/BugReportForm.kt",
+    "app/src/main/java/com/protonvpn/android/components/QuickTileService.kt",
+    "app/src/main/java/com/protonvpn/android/di/AppModule.kt",
+    "app/src/main/java/com/protonvpn/android/logging/CurrentStateLogger.kt",
+    "app/src/main/java/com/protonvpn/android/managed/ManagedConfig.kt",
+    "app/src/main/java/com/protonvpn/android/notifications/NotificationActionReceiver.kt",
+    "app/src/main/java/com/protonvpn/android/notifications/NotificationHelper.kt",
+    "app/src/main/java/com/protonvpn/android/profiles/ui/ProfileCreateModals.kt",
+    "app/src/main/java/com/protonvpn/android/redesign/app/ui/CreateLaunchIntent.kt",
+    "app/src/main/java/com/protonvpn/android/redesign/app/ui/MainActivity.kt",
+    "app/src/main/java/com/protonvpn/android/redesign/base/ui/ProtonTextField.kt",
+    "app/src/main/java/com/protonvpn/android/redesign/settings/ui/SubSettings.kt",
+    "app/src/main/java/com/protonvpn/android/redesign/settings/ui/customdns/AddNewDns.kt",
+    "app/src/main/java/com/protonvpn/android/restrictonsupsell/StreamingUpsellRestrictionsNotificationTrigger.kt",
+    "app/src/main/java/com/protonvpn/android/ui/deeplinks/DeepLinkHandler.kt",
+    "app/src/main/java/com/protonvpn/android/ui/main/MainActivityHelper.kt",
+    "app/src/main/java/com/protonvpn/android/ui/settings/OssLicensesActivity.kt",
+    "app/src/main/java/com/protonvpn/android/utils/AndroidUtils.kt",
+    "app/src/main/java/com/protonvpn/android/utils/AssetManager.kt",
+    "app/src/main/java/com/protonvpn/android/utils/CollectionTools.kt",
+    "app/src/main/java/com/protonvpn/android/utils/Constants.kt",
+    "app/src/main/java/com/protonvpn/android/utils/Log.java",
+    "app/src/main/java/com/protonvpn/android/utils/NetUtils.kt",
+    "app/src/main/java/com/protonvpn/android/utils/ProtonPreferences.java",
+    "app/src/main/java/com/protonvpn/android/utils/SentryIntegration.kt",
+    "app/src/main/java/com/protonvpn/android/vpn/CurrentVpnServiceProvider.kt",
+    "app/src/main/java/com/protonvpn/android/vpn/PrepareForConnection.kt",
+    "app/src/main/java/com/protonvpn/android/vpn/ServerPing.kt",
+    "app/src/main/java/com/protonvpn/android/vpn/VpnErrorUIManager.kt",
+    "app/src/main/java/com/protonvpn/android/widget/ProtonVpnWidgetReceiver.kt",
+    "app/src/main/java/com/protonvpn/android/widget/WidgetActionBroadcastReceiver.kt",
+    "app/src/main/java/com/protonvpn/android/widget/WidgetActionHandler.kt",
+    "app/src/main/java/com/protonvpn/android/widget/WidgetManager.kt",
+    "app/src/main/res/values/strings.xml",
+    "app/src/main/res/xml/network_security_config.xml",
+    "baselineprofile/build.gradle.kts",
+    "baselineprofile/src/main/AndroidManifest.xml",
+    "build-logic/src/main/java/com/protonvpn/android/build/logic/domain/config/AndroidConfig.kt",
+    "build-logic/src/main/java/com/protonvpn/android/build/logic/domain/plugins/AndroidApplicationConventionPlugin.kt",
+    "build.gradle",
+    "detekt-custom-rules/build.gradle.kts",
+    "detekt-gitlab-output-plugin/build.gradle.kts",
+    "gradle/libs.versions.toml",
+    "observability/domain/build.gradle.kts",
+    "observability/tools/build.gradle.kts",
+    "release_tests/build.gradle",
+    "release_tests/src/main/AndroidManifest.xml",
+    "release_tests/src/main/java/com/protonvpn/android/release_tests/helpers/TestApiClient.kt",
+    "release_tests/src/main/java/com/protonvpn/android/release_tests/rules/ScreenshotTakingRule.kt",
+    "shared-test-code/build.gradle",
+    "shared-test-code/src/main/AndroidManifest.xml",
+    "ui_automator_test_util/build.gradle.kts",
+    "ui_automator_test_util/src/main/AndroidManifest.xml"
+  ]
+}

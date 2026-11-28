@@ -1,0 +1,358 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0355: References to Unauthorized Database Access through Content Providers",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 93
+        }
+      ],
+      "explanation": "Exported providers are protected by permissions. Check those permissions' protection level (signature).\napp/src/main/AndroidManifest.xml:93: provider rikka.shizuku.ShizukuProvider; exported: yes (android:exported is set); permissions: android.permission.INTERACT_ACROSS_USERS_FULL"
+    },
+    {
+      "title": "MASTG-TEST-0357: References to Oversharing of File-Based Content Providers",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 93
+        }
+      ],
+      "explanation": "Exported providers are protected by permissions. Check those permissions' protection level (signature).\napp/src/main/AndroidManifest.xml:93: provider rikka.shizuku.ShizukuProvider; exported: yes (android:exported is set); permissions: android.permission.INTERACT_ACROSS_USERS_FULL"
+    },
+    {
+      "title": "MASTG-TEST-0366: Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 125
+        }
+      ],
+      "explanation": "Exported receivers without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/AndroidManifest.xml:125: receiver .core.service.BootReceiver; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle",
+          "line": 209
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 210
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 211
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 212
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 213
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 240
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 241
+        }
+      ],
+      "explanation": "23 of the declared dependencies with exact versions match no OSV advisory, but 7 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT).\napp/build.gradle:209: androidx.compose.ui:ui: no version (a BOM or constraint may set it)\napp/build.gradle:210: androidx.compose.ui:ui-graphics: no version (a BOM or constraint may set it)\napp/build.gradle:211: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\napp/build.gradle:212: androidx.compose.material3:material3: no version (a BOM or constraint may set it)\napp/build.gradle:213: androidx.compose.material:material-icons-extended: no version (a BOM or constraint may set it)\napp/build.gradle:240: com.squareup.okhttp3:okhttp: no version (a BOM or constraint may set it)\napp/build.gradle:241: com.squareup.okhttp3:logging-interceptor: no version (a BOM or constraint may set it)"
+    },
+    {
+      "title": "MASTG-TEST-0235: Android App Configurations Allowing Cleartext Traffic",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0026"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 8
+        },
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 9
+        },
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 10
+        }
+      ],
+      "explanation": "Cleartext is blocked by default but permitted for some domains. Check that nothing sensitive goes to them.\napp/src/main/res/xml/network_security_config.xml:8: cleartext permitted: localhost\napp/src/main/res/xml/network_security_config.xml:9: cleartext permitted: 127.0.0.1\napp/src/main/res/xml/network_security_config.xml:10: cleartext permitted: 10.0.2.2"
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 7
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 8
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 9
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 10
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 11
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 12
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 13
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 14
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 15
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 16
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 18
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 19
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 20
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 27
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 28
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 41
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 42
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 43
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\napp/src/main/AndroidManifest.xml:7: android.permission.RECORD_AUDIO\napp/src/main/AndroidManifest.xml:8: android.permission.READ_CONTACTS\napp/src/main/AndroidManifest.xml:9: android.permission.WRITE_CONTACTS\napp/src/main/AndroidManifest.xml:10: android.permission.READ_CALENDAR\napp/src/main/AndroidManifest.xml:11: android.permission.CALL_PHONE\napp/src/main/AndroidManifest.xml:12: android.permission.READ_PHONE_STATE\napp/src/main/AndroidManifest.xml:13: android.permission.SEND_SMS\napp/src/main/AndroidManifest.xml:14: android.permission.READ_SMS\napp/src/main/AndroidManifest.xml:15: android.permission.RECEIVE_SMS\napp/src/main/AndroidManifest.xml:16: android.permission.CAMERA\napp/src/main/AndroidManifest.xml:18: android.permission.ACCESS_FINE_LOCATION\napp/src/main/AndroidManifest.xml:19: android.permission.ACCESS_COARSE_LOCATION\napp/src/main/AndroidManifest.xml:20: android.permission.ACCESS_BACKGROUND_LOCATION\napp/src/main/AndroidManifest.xml:27: android.permission.BLUETOOTH_CONNECT\napp/src/main/AndroidManifest.xml:28: android.permission.BLUETOOTH_SCAN\napp/src/main/AndroidManifest.xml:41: android.permission.POST_NOTIFICATIONS\napp/src/main/AndroidManifest.xml:42: android.permission.READ_EXTERNAL_STORAGE\napp/src/main/AndroidManifest.xml:43: android.permission.WRITE_EXTERNAL_STORAGE"
+    },
+    {
+      "title": "MASWE-0073: Inadequate Data Collection Declarations",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1",
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0073"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/opendroid/ai/social/core/adapter/TelegramAdapter.kt",
+          "line": 99
+        }
+      ],
+      "explanation": "If users can create an account, the Data safety form in Play Console needs a web link where they can request account deletion. That field lives in Play Console, which Ward can't see.\napp/src/main/java/com/opendroid/ai/social/core/adapter/TelegramAdapter.kt:99: deletion URL in the app"
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/opendroid/ai/core/llm/prompts/PlanningPrompts.kt",
+          "line": 169
+        },
+        {
+          "file": "app/src/main/java/com/opendroid/ai/ui/Navigation.kt",
+          "line": 48
+        },
+        {
+          "file": "app/src/main/java/com/opendroid/ai/ui/Navigation.kt",
+          "line": 144
+        },
+        {
+          "file": "app/src/main/java/com/opendroid/ai/ui/Navigation.kt",
+          "line": 145
+        },
+        {
+          "file": "app/src/main/java/com/opendroid/ai/ui/Navigation.kt",
+          "line": 187
+        }
+      ],
+      "explanation": "A privacy policy link or text is in the app. Ward doesn't read the policy: check that it matches what the app collects and the Data safety answers.\napp/src/main/java/com/opendroid/ai/core/llm/prompts/PlanningPrompts.kt:169: privacy policy\napp/src/main/java/com/opendroid/ai/ui/Navigation.kt:48: privacy policy\napp/src/main/java/com/opendroid/ai/ui/Navigation.kt:144: privacy policy\napp/src/main/java/com/opendroid/ai/ui/Navigation.kt:145: privacy policy\napp/src/main/java/com/opendroid/ai/ui/Navigation.kt:187: privacy policy"
+    },
+    {
+      "title": "MASWE-0076: Lack of Proper Data Management Controls",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-4"
+      ],
+      "maswe": [
+        "MASWE-0076"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/opendroid/ai/data/repository/SocialRepository.kt",
+          "line": 52
+        },
+        {
+          "file": "app/src/main/java/com/opendroid/ai/social/core/SocialManager.kt",
+          "line": 161
+        }
+      ],
+      "explanation": "Ward found no sign-up code. If users can create an account in the app (including through a third-party sign-in your backend turns into an account), Google Play requires an in-app path to delete it.\napp/src/main/java/com/opendroid/ai/data/repository/SocialRepository.kt:52: deletion signal\napp/src/main/java/com/opendroid/ai/social/core/SocialManager.kt:161: deletion signal"
+    },
+    {
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 67
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 68
+        }
+      ],
+      "explanation": "Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/main/AndroidManifest.xml:67: rules file @xml/data_extraction_rules\napp/src/main/AndroidManifest.xml:68: rules file @xml/backup_rules"
+    },
+    {
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 67
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 68
+        }
+      ],
+      "explanation": "Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/main/AndroidManifest.xml:67: rules file @xml/data_extraction_rules\napp/src/main/AndroidManifest.xml:68: rules file @xml/backup_rules"
+    }
+  ],
+  "inspected": [
+    "app/build.gradle",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/java/com/opendroid/ai/core/llm/prompts/PlanningPrompts.kt",
+    "app/src/main/java/com/opendroid/ai/data/repository/SocialRepository.kt",
+    "app/src/main/java/com/opendroid/ai/social/core/SocialManager.kt",
+    "app/src/main/java/com/opendroid/ai/social/core/adapter/TelegramAdapter.kt",
+    "app/src/main/java/com/opendroid/ai/ui/Navigation.kt",
+    "app/src/main/res/xml/network_security_config.xml"
+  ]
+}

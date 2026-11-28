@@ -1,0 +1,547 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 159
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 239
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 249
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 259
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 276
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 303
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 320
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 357
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 408
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 445
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 468
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 498
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 549
+        }
+      ],
+      "explanation": "Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/play/AndroidManifest.xml:159: activity .ActivityMain; exported: yes (android:exported is set); deep link schemes: message, message, https\napp/src/play/AndroidManifest.xml:239: activity .ActivityWidget; exported: yes (android:exported is set)\napp/src/play/AndroidManifest.xml:249: activity .ActivityWidgetSync; exported: yes (android:exported is set)\napp/src/play/AndroidManifest.xml:259: activity .ActivityWidgetUnified; exported: yes (android:exported is set)\napp/src/play/AndroidManifest.xml:276: activity .ActivitySearch; exported: yes (android:exported is set); deep link schemes: ${namespace}.search\napp/src/play/AndroidManifest.xml:303: activity .ActivityAnswer; exported: yes (android:exported is set)\napp/src/play/AndroidManifest.xml:320: activity .ActivityCompose; exported: yes (android:exported is set); deep link schemes: mailto, mailto\napp/src/play/AndroidManifest.xml:357: activity .ActivitySendSelf; exported: yes (android:exported is set); deep link schemes: mailto, mailto\napp/src/play/AndroidManifest.xml:408: activity .ActivityEML; exported: yes (android:exported is set); deep link schemes: content, content\napp/src/play/AndroidManifest.xml:445: activity .ActivityDSN; exported: yes (android:exported is set); deep link schemes: content\napp/src/play/AndroidManifest.xml:468: activity .ActivityAMP; exported: yes (android:exported is set); deep link schemes: content\napp/src/play/AndroidManifest.xml:498: activity .ActivityDMARC; exported: yes (android:exported is set); deep link schemes: content\napp/src/play/AndroidManifest.xml:549: activity net.openid.appauth.RedirectUriReceiverActivity; exported: yes (android:exported is set); deep link schemes: https, ${namespace}, msauth.${namespace}, msauth"
+    },
+    {
+      "title": "MASTG-TEST-0365: Exported And Unprotected Services That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/large/AndroidManifest.xml",
+          "line": 654
+        }
+      ],
+      "explanation": "Exported services without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/large/AndroidManifest.xml:654: service .ServiceExternal; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0366: Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 712
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 726
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 740
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 754
+        }
+      ],
+      "explanation": "Exported receivers without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/play/AndroidManifest.xml:712: receiver .Widget; exported: yes (android:exported is set)\napp/src/play/AndroidManifest.xml:726: receiver .WidgetUnified; exported: yes (android:exported is set)\napp/src/play/AndroidManifest.xml:740: receiver .WidgetSync; exported: yes (android:exported is set)\napp/src/play/AndroidManifest.xml:754: receiver .ReceiverAutoStart; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle",
+          "line": 692
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 586
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 589
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 594
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 597
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 600
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 606
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 607
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 608
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 609
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 612
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 613
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 617
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 621
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 625
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 628
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 638
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 641
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 644
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 647
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 650
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 657
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 658
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 659
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 660
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 664
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 667
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 668
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 684
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 689
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 695
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 699
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 704
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 707
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 708
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 709
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 713
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 726
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 729
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 733
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 737
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 741
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 743
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 744
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 745
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 754
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 758
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 766
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 777
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 778
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 779
+        }
+      ],
+      "explanation": "com.google.guava:guava:33.1.0-android is in the affected range of 1 OSV advisory: GHSA-xxph-c9ww-hj94/CVE-2026-102554. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). 2 of the other dependencies with exact versions match no OSV advisory, but 75 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT).\napp/build.gradle:692: implementation (string notation) in module app\napp/build.gradle:586: com.android.tools:desugar_jdk_libs: version is a variable, range or dynamic\napp/build.gradle:589: androidx.startup:startup-runtime: version is a variable, range or dynamic\napp/build.gradle:594: androidx.annotation:annotation-experimental: version is a variable, range or dynamic\napp/build.gradle:597: androidx.core:core: version is a variable, range or dynamic\napp/build.gradle:600: androidx.core:core-remoteviews: version is a variable, range or dynamic\napp/build.gradle:606: androidx.appcompat:appcompat: version is a variable, range or dynamic\napp/build.gradle:607: androidx.activity:activity: version is a variable, range or dynamic\napp/build.gradle:608: androidx.fragment:fragment: version is a variable, range or dynamic\napp/build.gradle:609: androidx.window:window-java: version is a variable, range or dynamic\napp/build.gradle:612: androidx.emoji2:emoji2: version is a variable, range or dynamic\napp/build.gradle:613: com.google.flatbuffers:flatbuffers-java: version is a variable, range or dynamic\napp/build.gradle:617: androidx.webkit:webkit: version is a variable, range or dynamic\napp/build.gradle:621: androidx.recyclerview:recyclerview: version is a variable, range or dynamic\napp/build.gradle:625: androidx.coordinatorlayout:coordinatorlayout: version is a variable, range or dynamic\napp/build.gradle:628: androidx.constraintlayout:constraintlayout: version is a variable, range or dynamic\napp/build.gradle:638: com.google.android.material:material: version is a variable, range or dynamic\napp/build.gradle:641: androidx.browser:browser: version is a variable, range or dynamic\napp/build.gradle:644: androidx.localbroadcastmanager:localbroadcastmanager: version is a variable, range or dynamic\napp/build.gradle:647: androidx.swiperefreshlayout:swiperefreshlayout: version is a variable, range or dynamic\napp/build.gradle:650: androidx.documentfile:documentfile: version is a variable, range or dynamic\napp/build.gradle:657: androidx.lifecycle:lifecycle-runtime: version is a variable, range or dynamic\napp/build.gradle:658: androidx.lifecycle:lifecycle-livedata: version is a variable, range or dynamic\napp/build.gradle:659: androidx.lifecycle:lifecycle-livedata-core: version is a variable, range or dynamic\napp/build.gradle:660: androidx.lifecycle:lifecycle-viewmodel-savedstate: version is a variable, range or dynamic\napp/build.gradle:664: androidx.lifecycle:lifecycle-extensions: version is a variable, range or dynamic\napp/build.gradle:667: androidx.room:room-runtime: version is a variable, range or dynamic\napp/build.gradle:668: androidx.room:room-common: version is a variable, range or dynamic\napp/build.gradle:684: androidx.preference:preference: version is a variable, range or dynamic\napp/build.gradle:689: androidx.work:work-runtime: version is a variable, range or dynamic\napp/build.gradle:695: androidx.exifinterface:exifinterface: version is a variable, range or dynamic\napp/build.gradle:699: androidx.biometric:biometric: version is a variable, range or dynamic\napp/build.gradle:704: com.android.billingclient:billing: version is a variable, range or dynamic\napp/build.gradle:707: com.google.android.gms:play-services-basement: version is a variable, range or dynamic\napp/build.gradle:708: com.google.android.gms:play-services-basement: version is a variable, range or dynamic\napp/build.gradle:709: com.google.android.gms:play-services-basement: version is a variable, range or dynamic\napp/build.gradle:713: com.appmattus.certificatetransparency:certificatetransparency-android: version is a variable, range or dynamic\napp/build.gradle:726: org.jsoup:jsoup: version is a variable, range or dynamic\napp/build.gradle:729: com.jayway.jsonpath:json-path: version is a variable, range or dynamic\napp/build.gradle:733: net.sourceforge.cssparser:cssparser: version is a variable, range or dynamic\napp/build.gradle:737: org.w3c:dom: version is a variable, range or dynamic\napp/build.gradle:741: org.minidns:minidns-hla: version is a variable, range or dynamic\napp/build.gradle:743: org.minidns:minidns-client: version is a variable, range or dynamic\napp/build.gradle:744: org.minidns:minidns-core: version is a variable, range or dynamic\napp/build.gradle:745: org.minidns:minidns-iterative-resolver: version is a variable, range or dynamic\napp/build.gradle:754: me.leolin:ShortcutBadger: version is a variable, range or dynamic\napp/build.gradle:758: net.sf.biweekly:biweekly: version is a variable, range or dynamic\napp/build.gradle:766: com.googlecode.ez-vcard:ez-vcard: version is a variable, range or dynamic\napp/build.gradle:777: io.noties.markwon:core: version is a variable, range or dynamic\napp/build.gradle:778: io.noties.markwon:html: version is a variable, range or dynamic\napp/build.gradle:779: io.noties.markwon:editor: version is a variable, range or dynamic"
+    },
+    {
+      "title": "MASTG-TEST-0235: Android App Configurations Allowing Cleartext Traffic",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0026"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 5
+        }
+      ],
+      "explanation": "The network security config's base-config permits cleartext traffic for every domain.\napp/src/main/res/xml/network_security_config.xml:5: base-config cleartextTrafficPermitted=\"true\""
+    },
+    {
+      "title": "MASTG-TEST-0285: Outdated Android Version Allowing Trust in User-Provided CAs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 8
+        }
+      ],
+      "explanation": "The network security config trusts user-installed CAs outside debug-overrides, so anyone who can install a certificate on the device can read the app's TLS traffic.\napp/src/main/res/xml/network_security_config.xml:8: base-config trusts user-installed CAs"
+    },
+    {
+      "title": "MASTG-TEST-0286: Network Security Configuration Allowing Trust in User-Provided CAs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 8
+        }
+      ],
+      "explanation": "The network security config trusts user-installed CAs outside debug-overrides, so anyone who can install a certificate on the device can read the app's TLS traffic.\napp/src/main/res/xml/network_security_config.xml:8: base-config trusts user-installed CAs"
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 9
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 10
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 16
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 22
+        },
+        {
+          "file": "app/src/amazon/AndroidManifest.xml",
+          "line": 7
+        },
+        {
+          "file": "app/src/fdroid/AndroidManifest.xml",
+          "line": 24
+        },
+        {
+          "file": "app/src/fdroid/AndroidManifest.xml",
+          "line": 25
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\napp/src/main/AndroidManifest.xml:9: android.permission.READ_CONTACTS\napp/src/main/AndroidManifest.xml:10: android.permission.READ_EXTERNAL_STORAGE\napp/src/main/AndroidManifest.xml:16: android.permission.POST_NOTIFICATIONS\napp/src/main/AndroidManifest.xml:22: android.permission.GET_ACCOUNTS\napp/src/amazon/AndroidManifest.xml:7: android.permission.ACCESS_LOCAL_NETWORK\napp/src/fdroid/AndroidManifest.xml:24: android.permission.READ_CALENDAR\napp/src/fdroid/AndroidManifest.xml:25: android.permission.WRITE_CALENDAR"
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "app/src/extra/java/eu/faircode/email/Avatar.java",
+          "line": 32
+        },
+        {
+          "file": "app/src/extra/java/eu/faircode/email/Avatar.java",
+          "line": 33
+        },
+        {
+          "file": "app/src/extra/java/eu/faircode/email/Avatar.java",
+          "line": 35
+        },
+        {
+          "file": "app/src/extra/java/eu/faircode/email/VirusTotal.java",
+          "line": 52
+        },
+        {
+          "file": "app/src/main/java/eu/faircode/email/DeepL.java",
+          "line": 79
+        }
+      ],
+      "explanation": "A privacy policy link or text is in the app. Ward doesn't read the policy: check that it matches what the app collects and the Data safety answers.\napp/src/extra/java/eu/faircode/email/Avatar.java:32: privacy policy\napp/src/extra/java/eu/faircode/email/Avatar.java:33: privacy policy\napp/src/extra/java/eu/faircode/email/Avatar.java:35: privacy policy\napp/src/extra/java/eu/faircode/email/VirusTotal.java:52: privacy policy\napp/src/main/java/eu/faircode/email/DeepL.java:79: privacy policy"
+    },
+    {
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 115
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 118
+        }
+      ],
+      "explanation": "Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/play/AndroidManifest.xml:115: rules file @xml/data_extraction_rules\napp/src/play/AndroidManifest.xml:118: rules file false"
+    },
+    {
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 115
+        },
+        {
+          "file": "app/src/play/AndroidManifest.xml",
+          "line": 118
+        }
+      ],
+      "explanation": "Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/play/AndroidManifest.xml:115: rules file @xml/data_extraction_rules\napp/src/play/AndroidManifest.xml:118: rules file false"
+    }
+  ],
+  "inspected": [
+    "app/build.gradle",
+    "app/src/amazon/AndroidManifest.xml",
+    "app/src/extra/java/eu/faircode/email/Avatar.java",
+    "app/src/extra/java/eu/faircode/email/VirusTotal.java",
+    "app/src/fdroid/AndroidManifest.xml",
+    "app/src/github/AndroidManifest.xml",
+    "app/src/large/AndroidManifest.xml",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/java/eu/faircode/email/AdapterAccount.java",
+    "app/src/main/java/eu/faircode/email/DaoAccount.java",
+    "app/src/main/java/eu/faircode/email/DeepL.java",
+    "app/src/main/java/eu/faircode/email/FragmentAccount.java",
+    "app/src/main/res/xml/network_security_config.xml",
+    "app/src/main/res/xml/providers.xml",
+    "app/src/play/AndroidManifest.xml",
+    "colorpicker/build.gradle",
+    "colorpicker/src/main/AndroidManifest.xml",
+    "openpgp-api/src/main/AndroidManifest.xml"
+  ]
+}

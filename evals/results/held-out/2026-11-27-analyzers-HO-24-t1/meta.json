@@ -1,0 +1,11 @@
+{
+  "setup": "analyzers",
+  "case": "HO-24",
+  "smoke": false,
+  "modelReported": null,
+  "result": null,
+  "commit": "f65a340cb9d6d4809a1f32986ac5780fe930d090",
+  "status": "ok",
+  "wallMs": 6395,
+  "wardVersion": "0.13.3"
+}

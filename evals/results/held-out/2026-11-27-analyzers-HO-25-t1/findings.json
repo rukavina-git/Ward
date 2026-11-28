@@ -1,0 +1,487 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 54
+        }
+      ],
+      "explanation": "Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/AndroidManifest.xml:54: activity .MainActivity; exported: yes (android:exported is set); deep link schemes: elementx, @string/login_redirect_scheme, https, https, matrix, element"
+    },
+    {
+      "title": "MASTG-TEST-0366: Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "libraries/pushproviders/unifiedpush/src/main/AndroidManifest.xml",
+          "line": 11
+        }
+      ],
+      "explanation": "Exported receivers without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\nlibraries/pushproviders/unifiedpush/src/main/AndroidManifest.xml:11: receiver .VectorUnifiedPushMessagingReceiver; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 202
+        },
+        {
+          "file": "features/messages/impl/build.gradle.kts",
+          "line": 71
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 274
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 261
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 263
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 264
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 267
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 268
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 269
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 270
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 271
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 277
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 292
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 27
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 29
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 30
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 31
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 32
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 33
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 34
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 35
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 36
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 37
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 38
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 39
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 40
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 41
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 42
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 43
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 44
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 45
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 46
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 47
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 51
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 52
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 53
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 54
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 56
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 57
+        },
+        {
+          "file": "appnav/build.gradle.kts",
+          "line": 58
+        },
+        {
+          "file": "appconfig/build.gradle.kts",
+          "line": 54
+        },
+        {
+          "file": "tests/uitests/build.gradle.kts",
+          "line": 48
+        },
+        {
+          "file": "tests/uitests/build.gradle.kts",
+          "line": 52
+        },
+        {
+          "file": "tests/uitests/build.gradle.kts",
+          "line": 53
+        },
+        {
+          "file": "tests/testutils/build.gradle.kts",
+          "line": 25
+        },
+        {
+          "file": "tests/testutils/build.gradle.kts",
+          "line": 26
+        },
+        {
+          "file": "tests/testutils/build.gradle.kts",
+          "line": 27
+        },
+        {
+          "file": "tests/testutils/build.gradle.kts",
+          "line": 28
+        },
+        {
+          "file": "tests/testutils/build.gradle.kts",
+          "line": 29
+        },
+        {
+          "file": "tests/testutils/build.gradle.kts",
+          "line": 30
+        },
+        {
+          "file": "tests/testutils/build.gradle.kts",
+          "line": 33
+        },
+        {
+          "file": "codegen/build.gradle.kts",
+          "line": 14
+        }
+      ],
+      "explanation": "org.jsoup:jsoup:1.22.2 is in the affected range of 2 OSV advisories: GHSA-65r4-943x-97jj/CVE-2026-75140, GHSA-pmhh-3w7g-xqp8/CVE-2026-71497. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). 62 of the other dependencies with exact versions match no OSV advisory, but 304 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT).\ngradle/libs.versions.toml:202: version 1.22.2\nfeatures/messages/impl/build.gradle.kts:71: implementation (catalog libs.jsoup) in module features/messages/impl\napp/build.gradle.kts:274: unrecognised: Ward can't read this declaration form: \"gplayImplementation\"(projects.libraries.pushproviders.firebase)\napp/build.gradle.kts:261: unrecognised: Ward can't read this declaration: projects.appicon.enterprise)\napp/build.gradle.kts:263: unrecognised: Ward can't read this declaration: projects.features.enterprise.implFoss)\napp/build.gradle.kts:264: unrecognised: Ward can't read this declaration: projects.appicon.element)\napp/build.gradle.kts:267: unrecognised: Ward can't read this declaration: projects.features.migration.api)\napp/build.gradle.kts:268: unrecognised: Ward can't read this declaration: projects.appnav)\napp/build.gradle.kts:269: unrecognised: Ward can't read this declaration: projects.appconfig)\napp/build.gradle.kts:270: unrecognised: Ward can't read this declaration: projects.libraries.uiStrings)\napp/build.gradle.kts:271: unrecognised: Ward can't read this declaration: projects.services.analytics.compose)\napp/build.gradle.kts:277: unrecognised: Ward can't read this declaration: projects.libraries.pushproviders.unifiedpush)\napp/build.gradle.kts:292: com.squareup.okhttp3:logging-interceptor: no version (a BOM or constraint may set it)\nappnav/build.gradle.kts:27: unrecognised: Ward can't read this declaration: project)\nappnav/build.gradle.kts:29: unrecognised: Ward can't read this declaration: projects.libraries.core)\nappnav/build.gradle.kts:30: unrecognised: Ward can't read this declaration: projects.libraries.accountselect.api)\nappnav/build.gradle.kts:31: unrecognised: Ward can't read this declaration: projects.libraries.androidutils)\nappnav/build.gradle.kts:32: unrecognised: Ward can't read this declaration: projects.libraries.architecture)\nappnav/build.gradle.kts:33: unrecognised: Ward can't read this declaration: projects.libraries.deeplink.api)\nappnav/build.gradle.kts:34: unrecognised: Ward can't read this declaration: projects.libraries.featureflag.api)\nappnav/build.gradle.kts:35: unrecognised: Ward can't read this declaration: projects.libraries.matrix.api)\nappnav/build.gradle.kts:36: unrecognised: Ward can't read this declaration: projects.libraries.oauth.api)\nappnav/build.gradle.kts:37: unrecognised: Ward can't read this declaration: projects.libraries.permissions.api)\nappnav/build.gradle.kts:38: unrecognised: Ward can't read this declaration: projects.libraries.preferences.api)\nappnav/build.gradle.kts:39: unrecognised: Ward can't read this declaration: projects.libraries.push.api)\nappnav/build.gradle.kts:40: unrecognised: Ward can't read this declaration: projects.libraries.pushproviders.api)\nappnav/build.gradle.kts:41: unrecognised: Ward can't read this declaration: projects.libraries.designsystem)\nappnav/build.gradle.kts:42: unrecognised: Ward can't read this declaration: projects.libraries.matrixui)\nappnav/build.gradle.kts:43: unrecognised: Ward can't read this declaration: projects.libraries.matrixmedia.api)\nappnav/build.gradle.kts:44: unrecognised: Ward can't read this declaration: projects.libraries.sessionStorage.api)\nappnav/build.gradle.kts:45: unrecognised: Ward can't read this declaration: projects.libraries.uiCommon)\nappnav/build.gradle.kts:46: unrecognised: Ward can't read this declaration: projects.libraries.uiStrings)\nappnav/build.gradle.kts:47: unrecognised: Ward can't read this declaration: projects.features.login.api)\nappnav/build.gradle.kts:51: unrecognised: Ward can't read this declaration: projects.features.announcement.api)\nappnav/build.gradle.kts:52: unrecognised: Ward can't read this declaration: projects.features.ftue.api)\nappnav/build.gradle.kts:53: unrecognised: Ward can't read this declaration: projects.features.linknewdevice.api)\nappnav/build.gradle.kts:54: unrecognised: Ward can't read this declaration: projects.features.share.api)\nappnav/build.gradle.kts:56: unrecognised: Ward can't read this declaration: projects.services.apperror.api)\nappnav/build.gradle.kts:57: unrecognised: Ward can't read this declaration: projects.services.appnavstate.api)\nappnav/build.gradle.kts:58: unrecognised: Ward can't read this declaration: projects.services.analytics.api)\nappconfig/build.gradle.kts:54: unrecognised: Ward can't read this declaration: projects.libraries.matrix.api)\ntests/uitests/build.gradle.kts:48: unrecognised: Ward can't read this declaration: projects.appnav)\ntests/uitests/build.gradle.kts:52: unrecognised: Ward can't read this declaration: projects.appicon.element)\ntests/uitests/build.gradle.kts:53: unrecognised: Ward can't read this declaration: projects.appicon.enterprise)\ntests/testutils/build.gradle.kts:25: unrecognised: Ward can't read this declaration: projects.libraries.androidutils)\ntests/testutils/build.gradle.kts:26: unrecognised: Ward can't read this declaration: projects.libraries.architecture)\ntests/testutils/build.gradle.kts:27: unrecognised: Ward can't read this declaration: projects.libraries.core)\ntests/testutils/build.gradle.kts:28: unrecognised: Ward can't read this declaration: projects.libraries.designsystem)\ntests/testutils/build.gradle.kts:29: unrecognised: Ward can't read this declaration: projects.libraries.uiStrings)\ntests/testutils/build.gradle.kts:30: unrecognised: Ward can't read this declaration: projects.services.toolbox.api)\ntests/testutils/build.gradle.kts:33: androidx.compose.ui:ui-test-junit4-android: no version (a BOM or constraint may set it)\ncodegen/build.gradle.kts:14: unrecognised: Ward can't read this declaration: projects.annotations)"
+    },
+    {
+      "title": "MASTG-TEST-0235: Android App Configurations Allowing Cleartext Traffic",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0026"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 17
+        },
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 18
+        },
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 20
+        },
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 22
+        },
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 26
+        },
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 27
+        },
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 28
+        },
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 30
+        },
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 31
+        },
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 32
+        }
+      ],
+      "explanation": "Cleartext is blocked by default but permitted for some domains. Check that nothing sensitive goes to them.\napp/src/main/res/xml/network_security_config.xml:17: cleartext permitted: localhost\napp/src/main/res/xml/network_security_config.xml:18: cleartext permitted: 127.0.0.1\napp/src/main/res/xml/network_security_config.xml:20: cleartext permitted: 10.0.2.2\napp/src/main/res/xml/network_security_config.xml:22: cleartext permitted: onion\napp/src/main/res/xml/network_security_config.xml:26: cleartext permitted: home.arpa\napp/src/main/res/xml/network_security_config.xml:27: cleartext permitted: local\napp/src/main/res/xml/network_security_config.xml:28: cleartext permitted: test\napp/src/main/res/xml/network_security_config.xml:30: cleartext permitted: home\napp/src/main/res/xml/network_security_config.xml:31: cleartext permitted: lan\napp/src/main/res/xml/network_security_config.xml:32: cleartext permitted: localdomain"
+    },
+    {
+      "title": "MASTG-TEST-0285: Outdated Android Version Allowing Trust in User-Provided CAs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 8
+        }
+      ],
+      "explanation": "The network security config trusts user-installed CAs outside debug-overrides, so anyone who can install a certificate on the device can read the app's TLS traffic.\napp/src/main/res/xml/network_security_config.xml:8: base-config trusts user-installed CAs"
+    },
+    {
+      "title": "MASTG-TEST-0286: Network Security Configuration Allowing Trust in User-Provided CAs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 8
+        }
+      ],
+      "explanation": "The network security config trusts user-installed CAs outside debug-overrides, so anyone who can install a certificate on the device can read the app's TLS traffic.\napp/src/main/res/xml/network_security_config.xml:8: base-config trusts user-installed CAs"
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "features/call/impl/src/main/AndroidManifest.xml",
+          "line": 18
+        },
+        {
+          "file": "features/call/impl/src/main/AndroidManifest.xml",
+          "line": 19
+        },
+        {
+          "file": "features/call/impl/src/main/AndroidManifest.xml",
+          "line": 20
+        },
+        {
+          "file": "features/location/impl/src/main/AndroidManifest.xml",
+          "line": 12
+        },
+        {
+          "file": "features/location/impl/src/main/AndroidManifest.xml",
+          "line": 13
+        },
+        {
+          "file": "libraries/androidutils/src/main/AndroidManifest.xml",
+          "line": 11
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\nfeatures/call/impl/src/main/AndroidManifest.xml:18: android.permission.POST_NOTIFICATIONS\nfeatures/call/impl/src/main/AndroidManifest.xml:19: android.permission.RECORD_AUDIO\nfeatures/call/impl/src/main/AndroidManifest.xml:20: android.permission.CAMERA\nfeatures/location/impl/src/main/AndroidManifest.xml:12: android.permission.ACCESS_COARSE_LOCATION\nfeatures/location/impl/src/main/AndroidManifest.xml:13: android.permission.ACCESS_FINE_LOCATION\nlibraries/androidutils/src/main/AndroidManifest.xml:11: android.permission.ACCESS_LOCAL_NETWORK"
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "features/preferences/impl/src/main/kotlin/io/element/android/features/preferences/impl/about/ElementLegal.kt",
+          "line": 19
+        },
+        {
+          "file": "features/preferences/impl/src/main/kotlin/io/element/android/features/preferences/impl/about/ElementLegal.kt",
+          "line": 27
+        },
+        {
+          "file": "features/preferences/impl/src/main/kotlin/io/element/android/features/preferences/impl/about/ElementLegal.kt",
+          "line": 34
+        },
+        {
+          "file": "libraries/ui-strings/src/main/res/values-be/translations.xml",
+          "line": 245
+        },
+        {
+          "file": "libraries/ui-strings/src/main/res/values-bg/translations.xml",
+          "line": 217
+        }
+      ],
+      "explanation": "A privacy policy link or text is in the app. Ward doesn't read the policy: check that it matches what the app collects and the Data safety answers.\nfeatures/preferences/impl/src/main/kotlin/io/element/android/features/preferences/impl/about/ElementLegal.kt:19: privacy policy\nfeatures/preferences/impl/src/main/kotlin/io/element/android/features/preferences/impl/about/ElementLegal.kt:27: privacy policy\nfeatures/preferences/impl/src/main/kotlin/io/element/android/features/preferences/impl/about/ElementLegal.kt:34: privacy policy\nlibraries/ui-strings/src/main/res/values-be/translations.xml:245: privacy policy\nlibraries/ui-strings/src/main/res/values-bg/translations.xml:217: privacy policy"
+    }
+  ],
+  "inspected": [
+    "app/build.gradle.kts",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/res/xml/network_security_config.xml",
+    "appconfig/build.gradle.kts",
+    "appnav/build.gradle.kts",
+    "codegen/build.gradle.kts",
+    "features/call/impl/build.gradle.kts",
+    "features/call/impl/src/main/AndroidManifest.xml",
+    "features/deactivation/impl/src/main/res/values/localazy.xml",
+    "features/linknewdevice/impl/build.gradle.kts",
+    "features/linknewdevice/impl/src/main/AndroidManifest.xml",
+    "features/location/impl/build.gradle.kts",
+    "features/location/impl/src/main/AndroidManifest.xml",
+    "features/lockscreen/impl/build.gradle.kts",
+    "features/lockscreen/impl/src/main/AndroidManifest.xml",
+    "features/login/impl/build.gradle.kts",
+    "features/login/impl/src/main/AndroidManifest.xml",
+    "features/login/impl/src/main/kotlin/io/element/android/features/login/impl/LoginFlowNode.kt",
+    "features/messages/impl/build.gradle.kts",
+    "features/messages/impl/src/main/AndroidManifest.xml",
+    "features/networkmonitor/impl/build.gradle.kts",
+    "features/networkmonitor/impl/src/main/AndroidManifest.xml",
+    "features/preferences/impl/src/main/kotlin/io/element/android/features/preferences/impl/about/ElementLegal.kt",
+    "gradle/libs.versions.toml",
+    "libraries/androidutils/build.gradle.kts",
+    "libraries/androidutils/src/main/AndroidManifest.xml",
+    "libraries/matrix/impl/build.gradle.kts",
+    "libraries/matrix/impl/src/main/AndroidManifest.xml",
+    "libraries/matrix/test/build.gradle.kts",
+    "libraries/matrix/test/src/main/AndroidManifest.xml",
+    "libraries/mediaviewer/impl/build.gradle.kts",
+    "libraries/mediaviewer/impl/src/main/AndroidManifest.xml",
+    "libraries/push/impl/build.gradle.kts",
+    "libraries/push/impl/src/main/AndroidManifest.xml",
+    "libraries/pushproviders/firebase/build.gradle.kts",
+    "libraries/pushproviders/firebase/src/main/AndroidManifest.xml",
+    "libraries/pushproviders/unifiedpush/build.gradle.kts",
+    "libraries/pushproviders/unifiedpush/src/main/AndroidManifest.xml",
+    "libraries/ui-strings/src/main/res/values-be/translations.xml",
+    "libraries/ui-strings/src/main/res/values-bg/translations.xml",
+    "libraries/ui-strings/src/main/res/values/localazy.xml",
+    "libraries/voicerecorder/impl/build.gradle.kts",
+    "libraries/voicerecorder/impl/src/main/AndroidManifest.xml",
+    "services/analyticsproviders/sentry/build.gradle.kts",
+    "services/analyticsproviders/sentry/src/main/AndroidManifest.xml",
+    "tests/detekt-rules/build.gradle.kts",
+    "tests/konsist/build.gradle.kts",
+    "tests/testutils/build.gradle.kts",
+    "tests/uitests/build.gradle.kts"
+  ]
+}

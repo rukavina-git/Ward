@@ -1,0 +1,872 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 114
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 137
+        },
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "line": 191
+        },
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "line": 198
+        },
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "line": 203
+        },
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "line": 210
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 301
+        },
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "line": 217
+        },
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "line": 224
+        },
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "line": 307
+        },
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "line": 348
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 461
+        },
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "line": 393
+        },
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "line": 434
+        },
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "line": 476
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 555
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 565
+        },
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "line": 291
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 73
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 87
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 96
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 138
+        },
+        {
+          "file": "automotive/src/full/AndroidManifest.xml",
+          "line": 20
+        }
+      ],
+      "explanation": "Read the key exported activities. LinkActivity validates its input; WidgetAuthenticationActivity requires device auth. But ShareActivity lets any app silently fire a 'mobile_app.share' event with attacker text to the user's server (it can trigger automations), and AssistActivity, exported without a permission, shows over the keyguard and takes server/pipeline from extras. Whether these are intended capabilities is a product decision. Ward's analyzer said: Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/AndroidManifest.xml:114: activity io.homeassistant.companion.android.launch.LaunchActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:137: activity-alias io.homeassistant.companion.android.launch.LauncherAlias; exported: yes (android:exported is set)\nautomotive/src/main/AndroidManifest.xml:191: activity .widgets.button.ButtonWidgetConfigureActivity; exported: yes (android:exported is set)\nautomotive/src/main/AndroidManifest.xml:198: activity .widgets.common.WidgetAuthenticationActivity; exported: yes (android:exported is set)\nautomotive/src/main/AndroidManifest.xml:203: activity .widgets.camera.CameraWidgetConfigureActivity; exported: yes (android:exported is set)\nautomotive/src/main/AndroidManifest.xml:210: activity .widgets.entity.EntityWidgetConfigureActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:301: activity .widgets.todo.TodoWidgetConfigureActivity; exported: yes (android:exported is set)\nautomotive/src/main/AndroidManifest.xml:217: activity .widgets.mediaplayer.MediaPlayerControlsWidgetConfigureActivity; exported: yes (android:exported is set)\nautomotive/src/main/AndroidManifest.xml:224: activity .widgets.template.TemplateWidgetConfigureActivity; exported: yes (android:exported is set)\nautomotive/src/main/AndroidManifest.xml:307: activity .launch.link.LinkActivity; exported: yes (android:exported is set); deep link schemes: https, https, homeassistant\nautomotive/src/main/AndroidManifest.xml:348: activity .settings.wear.SettingsWearActivity; exported: yes (android:exported is set); deep link schemes: homeassistant\napp/src/main/AndroidManifest.xml:461: activity .settings.sensor.HealthConnectPermissionActivity; exported: yes (android:exported is set)\nautomotive/src/main/AndroidManifest.xml:393: activity .nfc.TagReaderActivity; exported: yes (android:exported is set); deep link schemes: https\nautomotive/src/main/AndroidManifest.xml:434: activity .share.ShareActivity; exported: yes (android:exported is set)\nautomotive/src/main/AndroidManifest.xml:476: activity .assist.AssistActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:555: activity-alias .assist.VoiceCommandIntentActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:565: activity .widgets.assist.AssistShortcutActivity; exported: yes (android:exported is set)\nautomotive/src/main/AndroidManifest.xml:291: activity .launch.LaunchActivity; exported: yes (android:exported is set); deep link schemes: homeassistant\nwear/src/main/AndroidManifest.xml:73: activity .home.HomeActivity; exported: yes (android:exported is set)\nwear/src/main/AndroidManifest.xml:87: activity .complications.ComplicationConfigActivity; exported: yes (android:exported is set)\nwear/src/main/AndroidManifest.xml:96: activity .tiles.OpenTileSettingsActivity; exported: yes (android:exported is set)\nwear/src/main/AndroidManifest.xml:138: activity-alias .conversation.AssistantActivity; exported: yes (android:exported is set)\nautomotive/src/full/AndroidManifest.xml:20: activity .matter.MatterCommissioningActivity; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0365: Exported And Unprotected Services That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "line": 371
+        },
+        {
+          "file": "app/src/full/AndroidManifest.xml",
+          "line": 79
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 294
+        },
+        {
+          "file": "automotive/src/full/AndroidManifest.xml",
+          "line": 49
+        },
+        {
+          "file": "app/src/full/AndroidManifest.xml",
+          "line": 104
+        }
+      ],
+      "explanation": "Wearable listeners (WearOnboardingListener, WearDnsRequestListener, PhoneSettingsListener) are only delivered by Play services from paired nodes, and HaCarAppService uses a HostValidator allowlist in release. MatterCommissioningService returns its binder to any caller and relies on unverified GMS-side signature checks (per the manifest comment), which can't be confirmed from code. Ward's analyzer said: Exported services without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\nautomotive/src/main/AndroidManifest.xml:371: service .onboarding.WearOnboardingListener; exported: yes (android:exported is set); deep link schemes: wear\napp/src/full/AndroidManifest.xml:79: service .vehicle.HaCarAppService; exported: yes (android:exported is set)\nwear/src/main/AndroidManifest.xml:294: service .phone.PhoneSettingsListener; exported: yes (android:exported is set); deep link schemes: wear, wear, wear, wear\nautomotive/src/full/AndroidManifest.xml:49: service .matter.MatterCommissioningService; exported: yes (android:exported is set)\napp/src/full/AndroidManifest.xml:104: service .data.wear.WearDnsRequestListener; exported: yes (android:exported is set); deep link schemes: wear"
+    },
+    {
+      "title": "MASTG-TEST-0366: Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 257
+        },
+        {
+          "file": "app/src/main/kotlin/io/homeassistant/companion/android/widgets/template/TemplateWidget.kt",
+          "line": 117
+        },
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "line": 90
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 50
+        },
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "line": 173
+        },
+        {
+          "file": "automotive/src/main/AndroidManifest.xml",
+          "line": 260
+        }
+      ],
+      "explanation": "TemplateWidget is exported only to get boot broadcasts, yet its onReceive accepts ACTION_APPWIDGET_CREATED from any caller and writes an attacker-supplied serialized TemplateWidgetEntity (a template the server renders with the user's token) into the DB for any widget id. Ward's analyzer said: Exported receivers without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/AndroidManifest.xml:257: TemplateWidget receiver declared exported with no permission.\napp/src/main/kotlin/io/homeassistant/companion/android/widgets/template/TemplateWidget.kt:117: Intent-supplied widget entity is persisted without checking the caller.\nautomotive/src/main/AndroidManifest.xml:90: receiver .websocket.WebsocketBroadcastReceiver; exported: yes (android:exported is set)\nwear/src/main/AndroidManifest.xml:50: receiver .sensors.SensorReceiver; exported: yes (android:exported is set)\nautomotive/src/main/AndroidManifest.xml:173: receiver .widgets.template.TemplateWidget; exported: yes (android:exported is set)\nautomotive/src/main/AndroidManifest.xml:260: receiver .sensors.RequestAccurateLocationReceiver; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0326: References to APIs Allowing Fallback to Non-Biometric Authentication",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-2"
+      ],
+      "maswe": [
+        "MASWE-0021"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/kotlin/io/homeassistant/companion/android/authenticator/Authenticator.kt",
+          "line": 17
+        }
+      ],
+      "explanation": "The app lock and authenticated widget/notification actions (which can control the home) use BiometricPrompt with DEVICE_CREDENTIAL allowed alongside BIOMETRIC_WEAK.\napp/src/main/kotlin/io/homeassistant/companion/android/authenticator/Authenticator.kt:17: Allowed authenticators include device credential fallback and weak biometrics."
+    },
+    {
+      "title": "MASTG-TEST-0327: References to APIs for Event-Bound Biometric Authentication",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-2",
+        "MASVS-CRYPTO-2"
+      ],
+      "maswe": [
+        "MASWE-0020"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/kotlin/io/homeassistant/companion/android/authenticator/Authenticator.kt",
+          "line": 52
+        }
+      ],
+      "explanation": "App lock and authenticated widget actions rely only on onAuthenticationSucceeded: authenticate() is called without a CryptoObject, and no key is created with setUserAuthenticationRequired.\napp/src/main/kotlin/io/homeassistant/companion/android/authenticator/Authenticator.kt:52: Event-bound BiometricPrompt call without a CryptoObject."
+    },
+    {
+      "title": "MASTG-TEST-0329: References to APIs Enforcing Authentication without Explicit User Action",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-2",
+        "MASVS-CRYPTO-2"
+      ],
+      "maswe": [
+        "MASWE-0020"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/kotlin/io/homeassistant/companion/android/authenticator/Authenticator.kt",
+          "line": 48
+        }
+      ],
+      "explanation": "setConfirmationRequired(false) is used for the single Authenticator that gates the app lock and 'require authentication' widget/notification actions (e.g. door controls), which are sensitive operations needing explicit authorization.\napp/src/main/kotlin/io/homeassistant/companion/android/authenticator/Authenticator.kt:48: Passive biometrics accepted without explicit user confirmation."
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 46
+        },
+        {
+          "file": "wear/build.gradle.kts",
+          "line": 51
+        },
+        {
+          "file": "common/build.gradle.kts",
+          "line": 54
+        },
+        {
+          "file": "common/build.gradle.kts",
+          "line": 55
+        },
+        {
+          "file": "common/build.gradle.kts",
+          "line": 57
+        },
+        {
+          "file": "common/build.gradle.kts",
+          "line": 58
+        },
+        {
+          "file": "common/build.gradle.kts",
+          "line": 71
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 45
+        },
+        {
+          "file": "wear/build.gradle.kts",
+          "line": 40
+        },
+        {
+          "file": "wear/build.gradle.kts",
+          "line": 59
+        },
+        {
+          "file": "testing-unit/build.gradle.kts",
+          "line": 32
+        },
+        {
+          "file": "testing-unit/build.gradle.kts",
+          "line": 33
+        },
+        {
+          "file": "testing-unit/build.gradle.kts",
+          "line": 34
+        },
+        {
+          "file": "testing-unit/build.gradle.kts",
+          "line": 37
+        }
+      ],
+      "explanation": "com.google.guava:guava:33.4.6-android is in the affected range of 1 OSV advisory: GHSA-xxph-c9ww-hj94/CVE-2026-102554. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). 53 of the other dependencies with exact versions match no OSV advisory, but 13 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT).\ngradle/libs.versions.toml:46: version 33.4.6-android\nwear/build.gradle.kts:51: implementation (catalog libs.guava) in module wear\ncommon/build.gradle.kts:54: com.squareup.retrofit2:retrofit: no version (a BOM or constraint may set it)\ncommon/build.gradle.kts:55: com.squareup.retrofit2:converter-kotlinx-serialization: no version (a BOM or constraint may set it)\ncommon/build.gradle.kts:57: com.squareup.okhttp3:okhttp-android: no version (a BOM or constraint may set it)\ncommon/build.gradle.kts:58: com.squareup.okhttp3:logging-interceptor: no version (a BOM or constraint may set it)\ncommon/build.gradle.kts:71: androidx.compose.material3:material3-android: no version (a BOM or constraint may set it)\napp/build.gradle.kts:45: unrecognised: Ward can't read this declaration form: \"fullImplementation\"(libs.car.projected)\nwear/build.gradle.kts:40: com.squareup.okhttp3:okhttp-android: no version (a BOM or constraint may set it)\nwear/build.gradle.kts:59: com.google.firebase:firebase-messaging: no version (a BOM or constraint may set it)\ntesting-unit/build.gradle.kts:32: org.junit.jupiter:junit-jupiter: no version (a BOM or constraint may set it)\ntesting-unit/build.gradle.kts:33: org.junit.platform:junit-platform-launcher: no version (a BOM or constraint may set it)\ntesting-unit/build.gradle.kts:34: org.junit.vintage:junit-vintage-engine: no version (a BOM or constraint may set it)\ntesting-unit/build.gradle.kts:37: androidx.compose.ui:ui-test-junit4: no version (a BOM or constraint may set it)\ntesting-unit/build.gradle.kts:37: androidx.compose.ui:ui-test-manifest: no version (a BOM or constraint may set it)"
+    },
+    {
+      "title": "MASTG-TEST-0337: References to Object Deserialization of Untrusted Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-4"
+      ],
+      "maswe": [
+        "MASWE-0050"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/kotlin/io/homeassistant/companion/android/widgets/template/TemplateWidget.kt",
+          "line": 110
+        }
+      ],
+      "explanation": "The exported TemplateWidget receiver deserializes a Serializable from extras supplied by any app. Below API 33, BundleCompat.getSerializable deserializes before the type check, so there is no class filtering.\napp/src/main/kotlin/io/homeassistant/companion/android/widgets/template/TemplateWidget.kt:110: Serializable read from an externally reachable intent."
+    },
+    {
+      "title": "MASTG-TEST-0304: References to Sensitive Data Unencrypted via Android Room Database",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CRYPTO-2",
+        "MASVS-STORAGE-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0001"
+      ],
+      "locations": [
+        {
+          "file": "common/src/main/kotlin/io/homeassistant/companion/android/database/DatabaseModule.kt",
+          "line": 40
+        },
+        {
+          "file": "common/src/main/kotlin/io/homeassistant/companion/android/database/server/Server.kt",
+          "line": 30
+        },
+        {
+          "file": "common/src/main/kotlin/io/homeassistant/companion/android/database/server/ServerSessionInfo.kt",
+          "line": 12
+        },
+        {
+          "file": "common/src/main/kotlin/io/homeassistant/companion/android/database/authentication/Authentication.kt",
+          "line": 16
+        }
+      ],
+      "explanation": "The Room database is built without encryption (no SQLCipher/openHelperFactory) and stores the server access/refresh tokens and saved HTTP basic-auth usernames/passwords in plaintext columns.\ncommon/src/main/kotlin/io/homeassistant/companion/android/database/DatabaseModule.kt:40: Plain Room database, no encrypted open-helper factory.\ncommon/src/main/kotlin/io/homeassistant/companion/android/database/server/Server.kt:30: Session (tokens) embedded into the servers table.\ncommon/src/main/kotlin/io/homeassistant/companion/android/database/server/ServerSessionInfo.kt:12: Refresh token stored as plaintext column.\ncommon/src/main/kotlin/io/homeassistant/companion/android/database/authentication/Authentication.kt:16: HTTP basic-auth password stored as plaintext column."
+    },
+    {
+      "title": "MASTG-TEST-0306: References to Sensitive Data Stored Unencrypted via Android Room DB",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CRYPTO-2",
+        "MASVS-STORAGE-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0001"
+      ],
+      "locations": [
+        {
+          "file": "common/src/main/kotlin/io/homeassistant/companion/android/database/DatabaseModule.kt",
+          "line": 40
+        },
+        {
+          "file": "common/src/main/kotlin/io/homeassistant/companion/android/database/server/ServerSessionInfo.kt",
+          "line": 12
+        },
+        {
+          "file": "common/src/main/kotlin/io/homeassistant/companion/android/database/authentication/Authentication.kt",
+          "line": 16
+        }
+      ],
+      "explanation": "Same finding: unencrypted Room DB holds refresh/access tokens and HTTP auth passwords in plaintext.\ncommon/src/main/kotlin/io/homeassistant/companion/android/database/DatabaseModule.kt:40: Plain Room database, no encrypted open-helper factory.\ncommon/src/main/kotlin/io/homeassistant/companion/android/database/server/ServerSessionInfo.kt:12: Refresh token stored as plaintext column.\ncommon/src/main/kotlin/io/homeassistant/companion/android/database/authentication/Authentication.kt:16: HTTP basic-auth password stored as plaintext column."
+    },
+    {
+      "title": "MASTG-TEST-0235: Android App Configurations Allowing Cleartext Traffic",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0026"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 5
+        }
+      ],
+      "explanation": "The network security config's base-config permits cleartext traffic for every domain.\napp/src/main/res/xml/network_security_config.xml:5: base-config cleartextTrafficPermitted=\"true\""
+    },
+    {
+      "title": "MASTG-TEST-0282: Unsafe Custom Trust Evaluation",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "common/src/main/kotlin/io/homeassistant/companion/android/common/data/CompositeX509ExtendedTrustManager.kt",
+          "line": 46
+        },
+        {
+          "file": "common/src/main/kotlin/io/homeassistant/companion/android/common/data/TLSHelper.kt",
+          "line": 77
+        }
+      ],
+      "explanation": "A custom X509ExtendedTrustManager is installed in OkHttp that, when platform validation fails, retries against a trust manager built from user-installed CAs. This explicitly loosens trust and duplicates what the NSC already allows.\ncommon/src/main/kotlin/io/homeassistant/companion/android/common/data/CompositeX509ExtendedTrustManager.kt:46: Rejected server chains are retried against the user-CA fallback.\ncommon/src/main/kotlin/io/homeassistant/companion/android/common/data/TLSHelper.kt:77: User-installed CA trust manager wired into the handshake."
+    },
+    {
+      "title": "MASTG-TEST-0285: Outdated Android Version Allowing Trust in User-Provided CAs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 10
+        }
+      ],
+      "explanation": "The network security config trusts user-installed CAs outside debug-overrides, so anyone who can install a certificate on the device can read the app's TLS traffic.\napp/src/main/res/xml/network_security_config.xml:10: base-config trusts user-installed CAs"
+    },
+    {
+      "title": "MASTG-TEST-0286: Network Security Configuration Allowing Trust in User-Provided CAs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 10
+        }
+      ],
+      "explanation": "The network security config trusts user-installed CAs outside debug-overrides, so anyone who can install a certificate on the device can read the app's TLS traffic.\napp/src/main/res/xml/network_security_config.xml:10: base-config trusts user-installed CAs"
+    },
+    {
+      "title": "MASTG-TEST-0381: References to Insecure PendingIntent Creation",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0032"
+      ],
+      "locations": [
+        {
+          "file": "app/src/full/kotlin/io/homeassistant/companion/android/location/HighAccuracyLocationService.kt",
+          "line": 149
+        },
+        {
+          "file": "app/src/main/kotlin/io/homeassistant/companion/android/controls/HaControl.kt",
+          "line": 43
+        },
+        {
+          "file": "common/src/main/kotlin/io/homeassistant/companion/android/common/bluetooth/ble/MonitoringManager.kt",
+          "line": 92
+        }
+      ],
+      "explanation": "With minSdk 23, several PendingIntents for plain notification actions and device controls are created with FLAG_MUTABLE, although nothing needs to fill them in (location/activity-recognition and widget-config ones have a valid need).\napp/src/full/kotlin/io/homeassistant/companion/android/location/HighAccuracyLocationService.kt:149: Notification 'disable' action PendingIntent is mutable without need.\napp/src/main/kotlin/io/homeassistant/companion/android/controls/HaControl.kt:43: Device-controls launch PendingIntent is mutable without need.\ncommon/src/main/kotlin/io/homeassistant/companion/android/common/bluetooth/ble/MonitoringManager.kt:92: Beacon 'stop scanning' notification action is mutable without need."
+    },
+    {
+      "title": "MASTG-TEST-0227: Debugging Enabled for WebViews",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-2",
+        "MASVS-RESILIENCE-4"
+      ],
+      "maswe": [
+        "MASWE-0063"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/kotlin/io/homeassistant/companion/android/settings/developer/DeveloperSettingsPresenterImpl.kt",
+          "line": 58
+        },
+        {
+          "file": "app/src/main/kotlin/io/homeassistant/companion/android/HomeAssistantApplication.kt",
+          "line": 388
+        }
+      ],
+      "explanation": "WebView contents debugging can be turned on in release builds through a developer setting, without checking ApplicationInfo.FLAG_DEBUGGABLE.\napp/src/main/kotlin/io/homeassistant/companion/android/settings/developer/DeveloperSettingsPresenterImpl.kt:58: User preference enables WebView debugging in non-debuggable builds.\napp/src/main/kotlin/io/homeassistant/companion/android/HomeAssistantApplication.kt:388: Applied at startup from the stored preference."
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "common/src/main/AndroidManifest.xml",
+          "line": 6
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 9
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 15
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 16
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 17
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 21
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 22
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 23
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 24
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 25
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 26
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 30
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 43
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 49
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 13
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 17
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\ncommon/src/main/AndroidManifest.xml:6: android.permission.READ_PHONE_STATE\napp/src/main/AndroidManifest.xml:9: android.permission.ACCESS_LOCAL_NETWORK\napp/src/main/AndroidManifest.xml:15: android.permission.BLUETOOTH_ADVERTISE\napp/src/main/AndroidManifest.xml:16: android.permission.BLUETOOTH_CONNECT\napp/src/main/AndroidManifest.xml:17: android.permission.BLUETOOTH_SCAN\napp/src/main/AndroidManifest.xml:21: android.permission.ACCESS_FINE_LOCATION\napp/src/main/AndroidManifest.xml:22: android.permission.ACCESS_COARSE_LOCATION\napp/src/main/AndroidManifest.xml:23: android.permission.ACCESS_BACKGROUND_LOCATION\napp/src/main/AndroidManifest.xml:24: android.permission.CAMERA\napp/src/main/AndroidManifest.xml:25: android.permission.CALL_PHONE\napp/src/main/AndroidManifest.xml:26: android.permission.RECORD_AUDIO\napp/src/main/AndroidManifest.xml:30: android.permission.ACTIVITY_RECOGNITION\napp/src/main/AndroidManifest.xml:43: android.permission.WRITE_EXTERNAL_STORAGE\napp/src/main/AndroidManifest.xml:49: android.permission.POST_NOTIFICATIONS\nwear/src/main/AndroidManifest.xml:13: android.permission.BODY_SENSORS\nwear/src/main/AndroidManifest.xml:17: android.permission.BODY_SENSORS_BACKGROUND"
+    },
+    {
+      "title": "MASWE-0073: Inadequate Data Collection Declarations",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1",
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0073"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/kotlin/io/homeassistant/companion/android/sensors/NotificationListenerSensorManager.kt",
+          "line": 73
+        }
+      ],
+      "explanation": "If users can create an account, the Data safety form in Play Console needs a web link where they can request account deletion. That field lives in Play Console, which Ward can't see.\napp/src/main/kotlin/io/homeassistant/companion/android/sensors/NotificationListenerSensorManager.kt:73: deletion URL in the app"
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/kotlin/io/homeassistant/companion/android/settings/SettingsFragment.kt",
+          "line": 386
+        },
+        {
+          "file": "app/src/main/kotlin/io/homeassistant/companion/android/settings/sensor/HealthConnectPermissionActivity.kt",
+          "line": 18
+        },
+        {
+          "file": "app/src/main/res/xml/preferences.xml",
+          "line": 255
+        },
+        {
+          "file": "app/src/main/res/xml/preferences.xml",
+          "line": 256
+        },
+        {
+          "file": "common/src/main/res/values/strings.xml",
+          "line": 573
+        }
+      ],
+      "explanation": "A privacy policy link or text is in the app. Ward doesn't read the policy: check that it matches what the app collects and the Data safety answers.\napp/src/main/kotlin/io/homeassistant/companion/android/settings/SettingsFragment.kt:386: privacy policy\napp/src/main/kotlin/io/homeassistant/companion/android/settings/sensor/HealthConnectPermissionActivity.kt:18: privacy policy\napp/src/main/res/xml/preferences.xml:255: privacy policy\napp/src/main/res/xml/preferences.xml:256: privacy policy\ncommon/src/main/res/values/strings.xml:573: privacy policy"
+    },
+    {
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/backup_rules.xml",
+          "line": 3
+        },
+        {
+          "file": "app/src/main/res/xml/backup_rules_android12.xml",
+          "line": 4
+        },
+        {
+          "file": "app/src/main/res/xml/backup_rules_android12.xml",
+          "line": 9
+        },
+        {
+          "file": "wear/src/main/res/xml/backup_rules.xml",
+          "line": 3
+        },
+        {
+          "file": "common/src/main/kotlin/io/homeassistant/companion/android/database/server/ServerSessionInfo.kt",
+          "line": 12
+        },
+        {
+          "file": "common/src/main/kotlin/io/homeassistant/companion/android/database/authentication/Authentication.kt",
+          "line": 16
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 48
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 47
+        }
+      ],
+      "explanation": "Backup rules include the whole database domain, and the Room DB holds the plaintext access/refresh tokens and saved HTTP basic-auth passwords; only session_0.xml (legacy prefs) is excluded. Ward's analyzer said: Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/main/res/xml/backup_rules.xml:3: Entire database domain included in backup.\napp/src/main/res/xml/backup_rules_android12.xml:4: Database included in cloud backup (Android 12+).\napp/src/main/res/xml/backup_rules_android12.xml:9: Database included in device transfer.\nwear/src/main/res/xml/backup_rules.xml:3: Wear app also backs up the database.\ncommon/src/main/kotlin/io/homeassistant/companion/android/database/server/ServerSessionInfo.kt:12: Refresh token is a plain column in that database.\ncommon/src/main/kotlin/io/homeassistant/companion/android/database/authentication/Authentication.kt:16: HTTP basic-auth password is a plain column in that database.\nwear/src/main/AndroidManifest.xml:48: rules file @xml/backup_rules_android12\nwear/src/main/AndroidManifest.xml:47: rules file @xml/backup_rules"
+    },
+    {
+      "title": "MASTG-TEST-0231: References to Logging APIs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0005"
+      ],
+      "locations": [
+        {
+          "file": "app/src/full/kotlin/io/homeassistant/companion/android/notifications/FirebaseCloudMessagingService.kt",
+          "line": 43
+        },
+        {
+          "file": "wear/src/main/kotlin/io/homeassistant/companion/android/notifications/FirebaseCloudMessagingService.kt",
+          "line": 43
+        },
+        {
+          "file": "app/src/main/kotlin/io/homeassistant/companion/android/HomeAssistantApplication.kt",
+          "line": 91
+        }
+      ],
+      "explanation": "Timber.DebugTree is planted unconditionally (also in release, no R8 log stripping), and the FCM push registration token is logged in plain text in both phone and Wear apps.\napp/src/full/kotlin/io/homeassistant/companion/android/notifications/FirebaseCloudMessagingService.kt:43: FCM registration token written to logcat in release builds.\nwear/src/main/kotlin/io/homeassistant/companion/android/notifications/FirebaseCloudMessagingService.kt:43: Same FCM token log in the Wear app.\napp/src/main/kotlin/io/homeassistant/companion/android/HomeAssistantApplication.kt:91: DebugTree planted without a BuildConfig.DEBUG guard, so all Timber logs reach logcat in release."
+    },
+    {
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/backup_rules.xml",
+          "line": 3
+        },
+        {
+          "file": "app/src/main/res/xml/backup_rules_android12.xml",
+          "line": 4
+        },
+        {
+          "file": "wear/src/main/res/xml/backup_rules_android12.xml",
+          "line": 4
+        },
+        {
+          "file": "common/src/main/kotlin/io/homeassistant/companion/android/database/server/ServerSessionInfo.kt",
+          "line": 12
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 48
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 47
+        }
+      ],
+      "explanation": "allowBackup is true and both fullBackupContent and dataExtractionRules include the whole database domain, which stores refresh/access tokens and HTTP auth passwords unencrypted; the rules don't exclude HomeAssistantDB. Ward's analyzer said: Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/main/res/xml/backup_rules.xml:3: Entire database domain included in backup.\napp/src/main/res/xml/backup_rules_android12.xml:4: Database included in cloud backup (Android 12+).\nwear/src/main/res/xml/backup_rules_android12.xml:4: Wear app database included in cloud backup.\ncommon/src/main/kotlin/io/homeassistant/companion/android/database/server/ServerSessionInfo.kt:12: Refresh token stored in that database.\nwear/src/main/AndroidManifest.xml:48: rules file @xml/backup_rules_android12\nwear/src/main/AndroidManifest.xml:47: rules file @xml/backup_rules"
+    }
+  ],
+  "inspected": [
+    "app/build.gradle.kts",
+    "app/src/full/AndroidManifest.xml",
+    "app/src/full/kotlin/io/homeassistant/companion/android/CrashHandling.kt",
+    "app/src/full/kotlin/io/homeassistant/companion/android/location/HighAccuracyLocationService.kt",
+    "app/src/full/kotlin/io/homeassistant/companion/android/matter/MatterCommissioningService.kt",
+    "app/src/full/kotlin/io/homeassistant/companion/android/notifications/FirebaseCloudMessagingService.kt",
+    "app/src/full/kotlin/io/homeassistant/companion/android/onboarding/WearOnboardingListener.kt",
+    "app/src/full/kotlin/io/homeassistant/companion/android/sensors/LocationSensorManager.kt",
+    "app/src/full/kotlin/io/homeassistant/companion/android/settings/wear/SettingsWearActivity.kt",
+    "app/src/full/kotlin/io/homeassistant/companion/android/settings/wear/SettingsWearViewModel.kt",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/kotlin/io/homeassistant/companion/android/HomeAssistantApplication.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/applock/AppLockStateManager.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/assist/AssistActivity.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/assist/service/AssistVoiceInteractionService.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/authenticator/Authenticator.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/controls/HaControl.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/frontend/FrontendViewModel.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/frontend/auth/FrontendHttpAuthHandler.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/frontend/dialog/HttpAuthDialog.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/frontend/improv/ui/ImprovSheet.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/frontend/js/FrontendJsBridge.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/frontend/url/FrontendUrlManager.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/launch/link/LinkHandler.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/nfc/NfcViewModel.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/notifications/MessagingManager.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/onboarding/connection/ConnectionViewModel.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/onboarding/manualserver/ManualServerScreen.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/onboarding/serverdiscovery/ServerDiscoveryScreen.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/onboarding/wearmtls/WearMTLSScreen.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/onboarding/wearmtls/WearMTLSViewModel.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/sensors/NotificationListenerSensorManager.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/sensors/RequestAccurateLocationReceiver.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/sensors/SensorReceiver.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/settings/SettingsActivity.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/settings/SettingsFragment.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/settings/developer/DeveloperSettingsPresenterImpl.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/settings/sensor/HealthConnectPermissionActivity.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/settings/server/ServerSettingsFragment.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/share/ShareActivity.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/util/DataUriDownloadManager.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/util/HAWebViewClient.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/util/compose/webview/HAWebView.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/vehicle/HaCarAppService.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/widgets/common/WidgetAuthenticationActivity.kt",
+    "app/src/main/kotlin/io/homeassistant/companion/android/widgets/template/TemplateWidget.kt",
+    "app/src/main/res/xml/backup_rules.xml",
+    "app/src/main/res/xml/backup_rules_android12.xml",
+    "app/src/main/res/xml/network_security_config.xml",
+    "app/src/main/res/xml/preferences.xml",
+    "automotive/build.gradle.kts",
+    "automotive/src/full/AndroidManifest.xml",
+    "automotive/src/main/AndroidManifest.xml",
+    "build-logic/convention/src/main/kotlin/AndroidApplicationConventionPlugin.kt",
+    "common/build.gradle.kts",
+    "common/src/main/AndroidManifest.xml",
+    "common/src/main/kotlin/io/homeassistant/companion/android/common/bluetooth/ble/MonitoringManager.kt",
+    "common/src/main/kotlin/io/homeassistant/companion/android/common/data/CompositeX509ExtendedTrustManager.kt",
+    "common/src/main/kotlin/io/homeassistant/companion/android/common/data/TLSHelper.kt",
+    "common/src/main/kotlin/io/homeassistant/companion/android/common/data/authentication/impl/AuthenticationRepositoryImpl.kt",
+    "common/src/main/kotlin/io/homeassistant/companion/android/common/data/integration/impl/IntegrationRepositoryImpl.kt",
+    "common/src/main/kotlin/io/homeassistant/companion/android/common/data/keychain/KeyStoreRepositoryImpl.kt",
+    "common/src/main/kotlin/io/homeassistant/companion/android/common/notifications/DeviceCommands.kt",
+    "common/src/main/kotlin/io/homeassistant/companion/android/common/notifications/NotificationFunctions.kt",
+    "common/src/main/kotlin/io/homeassistant/companion/android/common/sensors/KeyguardSensorManager.kt",
+    "common/src/main/kotlin/io/homeassistant/companion/android/common/sensors/SensorReceiverBase.kt",
+    "common/src/main/kotlin/io/homeassistant/companion/android/common/sensors/StorageSensorManager.kt",
+    "common/src/main/kotlin/io/homeassistant/companion/android/common/util/HAStrictMode.kt",
+    "common/src/main/kotlin/io/homeassistant/companion/android/database/DatabaseModule.kt",
+    "common/src/main/kotlin/io/homeassistant/companion/android/database/authentication/Authentication.kt",
+    "common/src/main/kotlin/io/homeassistant/companion/android/database/server/ServerSessionInfo.kt",
+    "common/src/main/kotlin/io/homeassistant/companion/android/di/DataModule.kt",
+    "common/src/main/kotlin/io/homeassistant/companion/android/util/StringUtils.kt",
+    "common/src/main/res/values/strings.xml",
+    "gradle/libs.versions.toml",
+    "lint/build.gradle.kts",
+    "microwakeword/build.gradle.kts",
+    "microwakeword/src/main/AndroidManifest.xml",
+    "microwakeword/src/main/cpp/CMakeLists.txt",
+    "provides-sensor-processor/build.gradle.kts",
+    "testing-unit/build.gradle.kts",
+    "wear/build.gradle.kts",
+    "wear/src/main/AndroidManifest.xml",
+    "wear/src/main/kotlin/io/homeassistant/companion/android/HomeAssistantApplication.kt",
+    "wear/src/main/kotlin/io/homeassistant/companion/android/notifications/FirebaseCloudMessagingService.kt",
+    "wear/src/main/kotlin/io/homeassistant/companion/android/phone/PhoneSettingsListener.kt",
+    "wear/src/main/kotlin/io/homeassistant/companion/android/tiles/ShortcutsTile.kt",
+    "wear/src/main/res/xml/backup_rules.xml",
+    "wear/src/main/res/xml/backup_rules_android12.xml"
+  ]
+}

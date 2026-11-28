@@ -1,0 +1,761 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0365: Exported And Unprotected Services That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/chat/data/io/VoiceMessageMediaService.kt",
+          "line": 26
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 331
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 346
+        }
+      ],
+      "explanation": "VoiceMessageMediaService is exported without a permission and onGetSession returns the session to every controller, so any app can connect, read the current voice-message media item and control playback. SyncService is a standard SyncAdapter binding. Ward's analyzer said: Exported services without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/java/com/nextcloud/talk/chat/data/io/VoiceMessageMediaService.kt:26: Session handed to any controller without checking the caller.\napp/src/main/AndroidManifest.xml:331: service .utils.SyncService; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:346: service .chat.data.io.VoiceMessageMediaService; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0327: References to APIs for Event-Bound Biometric Authentication",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-2",
+        "MASVS-CRYPTO-2"
+      ],
+      "maswe": [
+        "MASWE-0020"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/lock/LockedActivity.kt",
+          "line": 121
+        },
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/lock/LockedActivity.kt",
+          "line": 102
+        }
+      ],
+      "explanation": "The app lock is event-bound: unlock happens in onAuthenticationSucceeded by writing a timestamp and finishing, without using the result's CryptoObject, and the prompt falls back to authenticate() with no CryptoObject.\napp/src/main/java/com/nextcloud/talk/lock/LockedActivity.kt:121: Biometric prompt without a CryptoObject.\napp/src/main/java/com/nextcloud/talk/lock/LockedActivity.kt:102: Unlock decided solely by the success callback."
+    },
+    {
+      "title": "MASTG-TEST-0330: References to APIs for Keys used in Biometric Authentication with Extended Validity Duration",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-2",
+        "MASVS-CRYPTO-2"
+      ],
+      "maswe": [
+        "MASWE-0020"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/utils/SecurityUtils.java",
+          "line": 97
+        }
+      ],
+      "explanation": "The Keystore key uses setUserAuthenticationValidityDurationSeconds with the user-chosen lock timeout (0, 30, 60, 300 or 600 s). It encrypts no data and only implements the inactivity window, so whether up to 10 minutes is acceptable is a product decision.\napp/src/main/java/com/nextcloud/talk/utils/SecurityUtils.java:97: Key validity duration equals the configurable lock timeout."
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle.kts",
+          "line": 257
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 316
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 347
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 348
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 351
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 202
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 217
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 218
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 223
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 224
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 225
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 226
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 227
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 228
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 229
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 240
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 241
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 242
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 243
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 244
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 245
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 252
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 253
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 254
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 260
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 261
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 262
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 265
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 275
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 276
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 278
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 280
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 284
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 285
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 286
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 287
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 290
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 291
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 293
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 294
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 295
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 296
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 300
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 301
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 302
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 303
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 308
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 309
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 310
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 311
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 355
+        }
+      ],
+      "explanation": "com.fasterxml.jackson.core:jackson-core:2.20.1 is in the affected range of 4 OSV advisories: GHSA-72hv-8253-57qq/CVE-2026-18401, GHSA-7hhh-6rmp-j9qf/CVE-2026-89425, GHSA-p6pp-m3f8-5c89/CVE-2026-89407, GHSA-r7wm-3cxj-wff9/CVE-2026-68494. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). 50 of the other dependencies with exact versions match no OSV advisory, but 52 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT).\napp/build.gradle.kts:257: implementation (string notation) in module app\napp/build.gradle.kts:316: unrecognised: Ward can't read this declaration form: \"gplayImplementation\"(\"com.google.mediapipe:tasks-vision:0.10.26\")\napp/build.gradle.kts:347: unrecognised: Ward can't read this declaration form: \"gplayImplementation\"(\"com.google.android.gms:play-services-base:18.10.1\")\napp/build.gradle.kts:348: unrecognised: Ward can't read this declaration form: \"gplayImplementation\"(\"com.google.firebase:firebase-messaging:25.1.2\")\napp/build.gradle.kts:351: unrecognised: Ward can't read this declaration form: \"genericImplementation\"(\"org.unifiedpush.android:embedded-fcm-distributor:3.1.0\")\napp/build.gradle.kts:202: androidx.room:room-testing-android: version is a variable, range or dynamic\napp/build.gradle.kts:217: org.jetbrains.kotlinx:kotlinx-coroutines-core: version is a variable, range or dynamic\napp/build.gradle.kts:218: org.jetbrains.kotlinx:kotlinx-coroutines-android: version is a variable, range or dynamic\napp/build.gradle.kts:223: androidx.emoji2:emoji2: version is a variable, range or dynamic\napp/build.gradle.kts:224: androidx.emoji2:emoji2-bundled: version is a variable, range or dynamic\napp/build.gradle.kts:225: androidx.emoji2:emoji2-views: version is a variable, range or dynamic\napp/build.gradle.kts:226: androidx.emoji2:emoji2-views-helper: version is a variable, range or dynamic\napp/build.gradle.kts:227: androidx.emoji2:emoji2-emojipicker: version is a variable, range or dynamic\napp/build.gradle.kts:228: androidx.work:work-runtime: version is a variable, range or dynamic\napp/build.gradle.kts:229: androidx.work:work-rxjava2: version is a variable, range or dynamic\napp/build.gradle.kts:240: androidx.lifecycle:lifecycle-runtime-ktx: version is a variable, range or dynamic\napp/build.gradle.kts:241: androidx.lifecycle:lifecycle-livedata-ktx: version is a variable, range or dynamic\napp/build.gradle.kts:242: androidx.lifecycle:lifecycle-viewmodel-ktx: version is a variable, range or dynamic\napp/build.gradle.kts:243: androidx.lifecycle:lifecycle-process: version is a variable, range or dynamic\napp/build.gradle.kts:244: androidx.lifecycle:lifecycle-common: version is a variable, range or dynamic\napp/build.gradle.kts:245: androidx.lifecycle:lifecycle-viewmodel-compose: version is a variable, range or dynamic\napp/build.gradle.kts:252: com.squareup.okhttp3:okhttp: version is a variable, range or dynamic\napp/build.gradle.kts:253: com.squareup.okhttp3:okhttp-urlconnection: version is a variable, range or dynamic\napp/build.gradle.kts:254: com.squareup.okhttp3:logging-interceptor: version is a variable, range or dynamic\napp/build.gradle.kts:260: com.squareup.retrofit2:retrofit: version is a variable, range or dynamic\napp/build.gradle.kts:261: com.squareup.retrofit2:adapter-rxjava2: version is a variable, range or dynamic\napp/build.gradle.kts:262: com.squareup.retrofit2:converter-gson: version is a variable, range or dynamic\napp/build.gradle.kts:265: com.google.dagger:dagger: version is a variable, range or dynamic\napp/build.gradle.kts:275: androidx.room:room-runtime: version is a variable, range or dynamic\napp/build.gradle.kts:276: androidx.room:room-rxjava2: version is a variable, range or dynamic\napp/build.gradle.kts:278: androidx.room:room-ktx: version is a variable, range or dynamic\napp/build.gradle.kts:280: org.parceler:parceler-api: version is a variable, range or dynamic\napp/build.gradle.kts:284: io.coil-kt:coil: version is a variable, range or dynamic\napp/build.gradle.kts:285: io.coil-kt:coil-gif: version is a variable, range or dynamic\napp/build.gradle.kts:286: io.coil-kt:coil-svg: version is a variable, range or dynamic\napp/build.gradle.kts:287: io.coil-kt:coil-compose: version is a variable, range or dynamic\napp/build.gradle.kts:290: com.github.nextcloud-deps.hwsecurity:hwsecurity-fido: version is a variable, range or dynamic\napp/build.gradle.kts:291: com.github.nextcloud-deps.hwsecurity:hwsecurity-fido2: version is a variable, range or dynamic\napp/build.gradle.kts:293: com.afollestad.material-dialogs:core: version is a variable, range or dynamic\napp/build.gradle.kts:294: com.afollestad.material-dialogs:datetime: version is a variable, range or dynamic\napp/build.gradle.kts:295: com.afollestad.material-dialogs:bottomsheets: version is a variable, range or dynamic\napp/build.gradle.kts:296: com.afollestad.material-dialogs:lifecycle: version is a variable, range or dynamic\napp/build.gradle.kts:300: androidx.media3:media3-exoplayer: version is a variable, range or dynamic\napp/build.gradle.kts:301: androidx.media3:media3-ui: version is a variable, range or dynamic\napp/build.gradle.kts:302: androidx.media3:media3-transformer: version is a variable, range or dynamic\napp/build.gradle.kts:303: androidx.media3:media3-effect: version is a variable, range or dynamic\napp/build.gradle.kts:308: io.noties.markwon:core: version is a variable, range or dynamic\napp/build.gradle.kts:309: io.noties.markwon:ext-strikethrough: version is a variable, range or dynamic\napp/build.gradle.kts:310: io.noties.markwon:ext-tasklist: version is a variable, range or dynamic\napp/build.gradle.kts:311: io.noties.markwon:ext-tables: version is a variable, range or dynamic\napp/build.gradle.kts:355: androidx.compose.ui:ui: no version (a BOM or constraint may set it)"
+    },
+    {
+      "title": "MASTG-TEST-0212: Use of Hardcoded Cryptographic Keys in Code",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CRYPTO-2",
+        "MASVS-STORAGE-1"
+      ],
+      "maswe": [
+        "MASWE-0003"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/data/source/local/TalkDatabase.kt",
+          "line": 147
+        },
+        {
+          "file": "app/src/main/res/values/setup.xml",
+          "line": 11
+        }
+      ],
+      "explanation": "The SQLCipher passphrase for the Room database (which holds account tokens and messages) is a hardcoded string resource shipped in every APK, so anyone with the APK can decrypt the database.\napp/src/main/java/com/nextcloud/talk/data/source/local/TalkDatabase.kt:147: Database encryption passphrase is read from a static string resource.\napp/src/main/res/values/setup.xml:11: The hardcoded SQLCipher key is defined in resources."
+    },
+    {
+      "title": "MASTG-TEST-0233: Hardcoded HTTP URLs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0026"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/account/ServerSelectionActivity.kt",
+          "line": 264
+        }
+      ],
+      "explanation": "During server selection, if the HTTPS status request fails for any reason the app silently retries the same server over plain http://, and cleartext is allowed globally, so an attacker who blocks HTTPS can downgrade the login connection.\napp/src/main/java/com/nextcloud/talk/account/ServerSelectionActivity.kt:264: Automatic HTTPS-to-HTTP fallback on error."
+    },
+    {
+      "title": "MASTG-TEST-0235: Android App Configurations Allowing Cleartext Traffic",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0026"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 10
+        }
+      ],
+      "explanation": "The network security config's base-config permits cleartext traffic for every domain.\napp/src/main/res/xml/network_security_config.xml:10: base-config cleartextTrafficPermitted=\"true\""
+    },
+    {
+      "title": "MASTG-TEST-0282: Unsafe Custom Trust Evaluation",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/utils/ssl/TrustManager.java",
+          "line": 98
+        }
+      ],
+      "explanation": "checkServerTrusted delegates to the system TrustManager and, on failure, accepts a certificate after the user approves it in a dialog (trust on first use, stored in an app keystore). This deliberately loosens trust for self-hosted servers, so whether to keep it is a product decision.\napp/src/main/java/com/nextcloud/talk/utils/ssl/TrustManager.java:98: Untrusted certificate triggers a user approval dialog instead of rejection."
+    },
+    {
+      "title": "MASTG-TEST-0283: Incorrect Implementation of Server Hostname Verification",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/utils/ssl/TrustManager.java",
+          "line": 180
+        }
+      ],
+      "explanation": "The custom HostnameVerifier accepts any hostname when the presented certificate is in the user-approved store, so a certificate trusted once for one server is accepted for every host.\napp/src/main/java/com/nextcloud/talk/utils/ssl/TrustManager.java:180: Hostname mismatch bypassed for user-trusted certificates."
+    },
+    {
+      "title": "MASTG-TEST-0285: Outdated Android Version Allowing Trust in User-Provided CAs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 14
+        }
+      ],
+      "explanation": "The network security config trusts user-installed CAs outside debug-overrides, so anyone who can install a certificate on the device can read the app's TLS traffic.\napp/src/main/res/xml/network_security_config.xml:14: base-config trusts user-installed CAs"
+    },
+    {
+      "title": "MASTG-TEST-0286: Network Security Configuration Allowing Trust in User-Provided CAs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/network_security_config.xml",
+          "line": 14
+        }
+      ],
+      "explanation": "The network security config trusts user-installed CAs outside debug-overrides, so anyone who can install a certificate on the device can read the app's TLS traffic.\napp/src/main/res/xml/network_security_config.xml:14: base-config trusts user-installed CAs"
+    },
+    {
+      "title": "MASTG-TEST-0372: Implicit Intents Used for Internal App Communication",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0032"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/activities/CallActivity.kt",
+          "line": 3453
+        }
+      ],
+      "explanation": "The Picture-in-Picture mute/unmute action broadcasts an implicit intent (custom action string, no package or component), so any app registering that action can receive it; the internal receiver is permission-protected but the sender is not constrained.\napp/src/main/java/com/nextcloud/talk/activities/CallActivity.kt:3453: Implicit internal broadcast intent with no package set."
+    },
+    {
+      "title": "MASTG-TEST-0381: References to Insecure PendingIntent Creation",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0032"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/activities/CallActivity.kt",
+          "line": 3450
+        },
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/activities/CallActivity.kt",
+          "line": 3453
+        }
+      ],
+      "explanation": "The PiP PendingIntent wraps an implicit base intent and passes flag 0 (mutable) below Android 12 while minSdk is 26; other PendingIntents use explicit components.\napp/src/main/java/com/nextcloud/talk/activities/CallActivity.kt:3450: PendingIntent created without FLAG_IMMUTABLE on API < 31.\napp/src/main/java/com/nextcloud/talk/activities/CallActivity.kt:3453: Base intent is implicit (action only)."
+    },
+    {
+      "title": "MASTG-TEST-0315: Sensitive Data Exposed via Notifications",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PLATFORM-3",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0037"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/jobs/NotificationWorker.kt",
+          "line": 760
+        }
+      ],
+      "explanation": "Message notifications show sender and message text (minSdk 26, POST_NOTIFICATIONS declared) with default lock-screen visibility; whether chat content counts as sensitive data that must be hidden is a product decision.\napp/src/main/java/com/nextcloud/talk/jobs/NotificationWorker.kt:760: Message text is shown as notification content."
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 28
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 30
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 31
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 34
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 47
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 48
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 59
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 63
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 66
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 67
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 68
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 76
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 77
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 79
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\napp/src/main/AndroidManifest.xml:28: android.permission.BLUETOOTH_CONNECT\napp/src/main/AndroidManifest.xml:30: android.permission.CAMERA\napp/src/main/AndroidManifest.xml:31: android.permission.GET_ACCOUNTS\napp/src/main/AndroidManifest.xml:34: android.permission.RECORD_AUDIO\napp/src/main/AndroidManifest.xml:47: android.permission.READ_CONTACTS\napp/src/main/AndroidManifest.xml:48: android.permission.WRITE_CONTACTS\napp/src/main/AndroidManifest.xml:59: android.permission.WRITE_EXTERNAL_STORAGE\napp/src/main/AndroidManifest.xml:63: android.permission.READ_EXTERNAL_STORAGE\napp/src/main/AndroidManifest.xml:66: android.permission.READ_MEDIA_IMAGES\napp/src/main/AndroidManifest.xml:67: android.permission.READ_MEDIA_VIDEO\napp/src/main/AndroidManifest.xml:68: android.permission.READ_MEDIA_AUDIO\napp/src/main/AndroidManifest.xml:76: android.permission.ACCESS_FINE_LOCATION\napp/src/main/AndroidManifest.xml:77: android.permission.ACCESS_COARSE_LOCATION\napp/src/main/AndroidManifest.xml:79: android.permission.POST_NOTIFICATIONS"
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/settings/SettingsActivity.kt",
+          "line": 201
+        },
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/settings/SettingsActivity.kt",
+          "line": 214
+        },
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/settings/SettingsActivity.kt",
+          "line": 714
+        },
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/settings/SettingsActivity.kt",
+          "line": 715
+        },
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/settings/SettingsActivity.kt",
+          "line": 721
+        }
+      ],
+      "explanation": "A privacy policy link or text is in the app. Ward doesn't read the policy: check that it matches what the app collects and the Data safety answers.\napp/src/main/java/com/nextcloud/talk/settings/SettingsActivity.kt:201: privacy policy\napp/src/main/java/com/nextcloud/talk/settings/SettingsActivity.kt:214: privacy policy\napp/src/main/java/com/nextcloud/talk/settings/SettingsActivity.kt:714: privacy policy\napp/src/main/java/com/nextcloud/talk/settings/SettingsActivity.kt:715: privacy policy\napp/src/main/java/com/nextcloud/talk/settings/SettingsActivity.kt:721: privacy policy"
+    },
+    {
+      "title": "MASWE-0004: Sensitive Data Hardcoded in the App Package",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-1"
+      ],
+      "maswe": [
+        "MASWE-0004"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/values/setup.xml",
+          "line": 11
+        }
+      ],
+      "explanation": "The database encryption key is hardcoded in the app package (string resource), shipped identically to all users.\napp/src/main/res/values/setup.xml:11: Hardcoded secret (SQLCipher passphrase) in app resources."
+    },
+    {
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/res/xml/backup_config.xml",
+          "line": 8
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 88
+        },
+        {
+          "file": "app/src/gplay/AndroidManifest.xml",
+          "line": 15
+        }
+      ],
+      "explanation": "The backup rules file has no exclusions, so sensitive files (encrypted DB with token column, push_key.priv, preferences) will be included in backups and restored. Ward's analyzer said: Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/main/res/xml/backup_config.xml:8: Backup rules contain no <exclude> entries.\napp/src/main/AndroidManifest.xml:88: Backup is enabled.\napp/src/gplay/AndroidManifest.xml:15: rules file @xml/backup_config"
+    },
+    {
+      "title": "MASTG-TEST-0231: References to Logging APIs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0005"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/utils/PushUtils.kt",
+          "line": 195
+        },
+        {
+          "file": "app/src/main/java/com/nextcloud/talk/api/LoggingHttpInterceptor.kt",
+          "line": 37
+        }
+      ],
+      "explanation": "The FCM push token is written to logcat with an unconditional Log.d (no R8 log stripping; minify is off), and when advanced logging is enabled the HTTP interceptor logs full response bodies, which include the appPassword returned by the login flow, to the shareable log file.\napp/src/main/java/com/nextcloud/talk/utils/PushUtils.kt:195: Push token logged in plain text to logcat.\napp/src/main/java/com/nextcloud/talk/api/LoggingHttpInterceptor.kt:37: Full HTTP bodies (including login appPassword responses) are logged when debug logging is on."
+    },
+    {
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 88
+        },
+        {
+          "file": "app/src/main/res/xml/backup_config.xml",
+          "line": 8
+        },
+        {
+          "file": "app/src/gplay/AndroidManifest.xml",
+          "line": 15
+        }
+      ],
+      "explanation": "allowBackup is true and the fullBackupContent rules file excludes nothing, and no dataExtractionRules exist, so the database (account tokens, decryptable with the hardcoded key), shared preferences and push private key file are all backed up. Ward's analyzer said: Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/main/AndroidManifest.xml:88: Backup is enabled.\napp/src/main/res/xml/backup_config.xml:8: Backup rules contain no <exclude> entries.\napp/src/gplay/AndroidManifest.xml:15: rules file @xml/backup_config"
+    }
+  ],
+  "inspected": [
+    "app/build.gradle.kts",
+    "app/proguard-rules.pro",
+    "app/src/gplay/AndroidManifest.xml",
+    "app/src/gplay/java/com/nextcloud/talk/utils/ClosedInterfaceImpl.kt",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/java/com/nextcloud/talk/account/BrowserLoginActivity.kt",
+    "app/src/main/java/com/nextcloud/talk/account/ServerSelectionActivity.kt",
+    "app/src/main/java/com/nextcloud/talk/account/data/LoginRepository.kt",
+    "app/src/main/java/com/nextcloud/talk/account/data/network/NetworkLoginDataSource.kt",
+    "app/src/main/java/com/nextcloud/talk/activities/BaseActivity.kt",
+    "app/src/main/java/com/nextcloud/talk/activities/CallActivity.kt",
+    "app/src/main/java/com/nextcloud/talk/activities/MainActivity.kt",
+    "app/src/main/java/com/nextcloud/talk/api/LoggingHttpInterceptor.kt",
+    "app/src/main/java/com/nextcloud/talk/application/NextcloudTalkApplication.kt",
+    "app/src/main/java/com/nextcloud/talk/chat/ChatActivity.kt",
+    "app/src/main/java/com/nextcloud/talk/chat/data/io/VoiceMessageMediaService.kt",
+    "app/src/main/java/com/nextcloud/talk/conversationcreation/ConversationCreationActivity.kt",
+    "app/src/main/java/com/nextcloud/talk/conversationinfo/ConversationInfoActivity.kt",
+    "app/src/main/java/com/nextcloud/talk/conversationlist/ConversationsListActivity.kt",
+    "app/src/main/java/com/nextcloud/talk/dagger/modules/RestModule.java",
+    "app/src/main/java/com/nextcloud/talk/data/source/local/TalkDatabase.kt",
+    "app/src/main/java/com/nextcloud/talk/data/user/UsersDao.kt",
+    "app/src/main/java/com/nextcloud/talk/data/user/UsersRepository.kt",
+    "app/src/main/java/com/nextcloud/talk/data/user/UsersRepositoryImpl.kt",
+    "app/src/main/java/com/nextcloud/talk/data/user/model/UserEntity.kt",
+    "app/src/main/java/com/nextcloud/talk/errorhandling/ShareLogsUtils.kt",
+    "app/src/main/java/com/nextcloud/talk/events/CertificateEvent.java",
+    "app/src/main/java/com/nextcloud/talk/extensions/ParcelableExtensions.kt",
+    "app/src/main/java/com/nextcloud/talk/jobs/AccountRemovalWorker.java",
+    "app/src/main/java/com/nextcloud/talk/jobs/NotificationWorker.kt",
+    "app/src/main/java/com/nextcloud/talk/jobs/SaveFileToStorageWorker.kt",
+    "app/src/main/java/com/nextcloud/talk/lock/LockedActivity.kt",
+    "app/src/main/java/com/nextcloud/talk/logger/LoggerImpl.kt",
+    "app/src/main/java/com/nextcloud/talk/mediaviewer/activities/MediaViewerActivity.kt",
+    "app/src/main/java/com/nextcloud/talk/passwordpolicy/PasswordGenerator.kt",
+    "app/src/main/java/com/nextcloud/talk/passwordpolicy/PasswordPolicyField.kt",
+    "app/src/main/java/com/nextcloud/talk/receivers/EndCallReceiver.kt",
+    "app/src/main/java/com/nextcloud/talk/services/CallForegroundService.kt",
+    "app/src/main/java/com/nextcloud/talk/settings/SettingsActivity.kt",
+    "app/src/main/java/com/nextcloud/talk/ui/ComposeWaveformSeekbar.kt",
+    "app/src/main/java/com/nextcloud/talk/ui/chat/Shimmer.kt",
+    "app/src/main/java/com/nextcloud/talk/users/UserManager.kt",
+    "app/src/main/java/com/nextcloud/talk/utils/DeepLinkHandler.kt",
+    "app/src/main/java/com/nextcloud/talk/utils/FileViewerUtils.kt",
+    "app/src/main/java/com/nextcloud/talk/utils/PickImage.kt",
+    "app/src/main/java/com/nextcloud/talk/utils/PushUtils.kt",
+    "app/src/main/java/com/nextcloud/talk/utils/RemoteWipeInterceptor.kt",
+    "app/src/main/java/com/nextcloud/talk/utils/SecurityUtils.java",
+    "app/src/main/java/com/nextcloud/talk/utils/ShortcutManagerHelper.kt",
+    "app/src/main/java/com/nextcloud/talk/utils/SyncService.java",
+    "app/src/main/java/com/nextcloud/talk/utils/message/SendMessageUtils.kt",
+    "app/src/main/java/com/nextcloud/talk/utils/ssl/KeyManager.java",
+    "app/src/main/java/com/nextcloud/talk/utils/ssl/SSLSocketFactoryCompat.kt",
+    "app/src/main/java/com/nextcloud/talk/utils/ssl/TrustManager.java",
+    "app/src/main/res/layout/activity_settings.xml",
+    "app/src/main/res/values/arrays.xml",
+    "app/src/main/res/values/setup.xml",
+    "app/src/main/res/xml/backup_config.xml",
+    "app/src/main/res/xml/network_security_config.xml"
+  ]
+}

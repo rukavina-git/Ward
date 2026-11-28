@@ -1,0 +1,896 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 140
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 171
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 208
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 241
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 513
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 712
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 835
+        },
+        {
+          "file": "app/src/benchmarkShared/AndroidManifest.xml",
+          "line": 10
+        }
+      ],
+      "explanation": "Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/AndroidManifest.xml:140: activity .DeviceProvisioningActivity; exported: yes (android:exported is set); deep link schemes: tsdevice, sgnl\napp/src/main/AndroidManifest.xml:171: activity .sharing.v2.ShareActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:208: activity .stickers.preview.StickerPackPreviewActivity; exported: yes (android:exported is set); deep link schemes: sgnl, https\napp/src/main/AndroidManifest.xml:241: activity .deeplinks.DeepLinkEntryActivity; exported: yes (android:exported is set); deep link schemes: sgnl, https, https, sgnl, https, sgnl, https, sgnl, https, sgnl, sgnl\napp/src/main/AndroidManifest.xml:513: activity .components.settings.app.AppSettingsActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:712: activity .SystemContactsEntrypointActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:835: activity .ShortcutLauncherActivity; exported: yes (android:exported is set)\napp/src/benchmarkShared/AndroidManifest.xml:10: activity org.signal.benchmark.BenchmarkSetupActivity; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0365: Exported And Unprotected Services That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "demo/contacts/src/main/AndroidManifest.xml",
+          "line": 29
+        },
+        {
+          "file": "demo/contacts/src/main/AndroidManifest.xml",
+          "line": 40
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 1309
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 1327
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 1338
+        }
+      ],
+      "explanation": "Exported services without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\ndemo/contacts/src/main/AndroidManifest.xml:29: service .AccountAuthenticatorService; exported: yes (android:exported is set)\ndemo/contacts/src/main/AndroidManifest.xml:40: service .ContactsSyncAdapterService; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:1309: service .components.voice.VoiceNotePlaybackService; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:1327: service .service.AccountAuthenticatorService; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:1338: service .service.ContactsSyncAdapterService; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0366: Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 1319
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 1576
+        },
+        {
+          "file": "app/src/benchmarkShared/AndroidManifest.xml",
+          "line": 18
+        },
+        {
+          "file": "app/src/website/AndroidManifest.xml",
+          "line": 14
+        }
+      ],
+      "explanation": "Exported receivers without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/AndroidManifest.xml:1319: receiver androidx.media.session.MediaButtonReceiver; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:1576: receiver .service.PanicResponderListener; exported: yes (android:exported is set)\napp/src/benchmarkShared/AndroidManifest.xml:18: receiver org.signal.benchmark.BenchmarkCommandReceiver; exported: yes (android:exported is set)\napp/src/website/AndroidManifest.xml:14: receiver .apkupdate.ApkUpdateDownloadManagerReceiver; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0326: References to APIs Allowing Fallback to Non-Biometric Authentication",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-2"
+      ],
+      "maswe": [
+        "MASWE-0021"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/BiometricDeviceAuthentication.kt",
+          "line": 29
+        }
+      ],
+      "explanation": "The shared BiometricDeviceAuthentication allows DEVICE_CREDENTIAL alongside biometrics. It gates screen lock, payment lock, payment confirmation, payments recovery phrase and device linking, so a device PIN is enough for those operations. MASTG treats this as a hardening weakness.\napp/src/main/java/org/thoughtcrime/securesms/BiometricDeviceAuthentication.kt:29: Allowed authenticators include DEVICE_CREDENTIAL."
+    },
+    {
+      "title": "MASTG-TEST-0327: References to APIs for Event-Bound Biometric Authentication",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-2",
+        "MASVS-CRYPTO-2"
+      ],
+      "maswe": [
+        "MASWE-0020"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/BiometricDeviceAuthentication.kt",
+          "line": 83
+        }
+      ],
+      "explanation": "BiometricPrompt.authenticate is called without a CryptoObject, and no Keystore key uses setUserAuthenticationRequired(true). Success depends only on the callback, for screen lock, payment confirmation and device linking.\napp/src/main/java/org/thoughtcrime/securesms/BiometricDeviceAuthentication.kt:83: Event-bound biometric prompt without a CryptoObject."
+    },
+    {
+      "title": "MASTG-TEST-0329: References to APIs Enforcing Authentication without Explicit User Action",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-2",
+        "MASVS-CRYPTO-2"
+      ],
+      "maswe": [
+        "MASWE-0020"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/payments/confirm/ConfirmPaymentFragment.java",
+          "line": 147
+        },
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/payments/backup/PaymentsRecoveryStartFragment.java",
+          "line": 73
+        }
+      ],
+      "explanation": "setConfirmationRequired(false) is set on the prompt that authorizes MobileCoin payments and the one that reveals the payments recovery phrase. Passive biometrics such as face unlock can then approve these without an explicit confirm tap.\napp/src/main/java/org/thoughtcrime/securesms/payments/confirm/ConfirmPaymentFragment.java:147: Payment confirmation prompt doesn't require explicit confirmation.\napp/src/main/java/org/thoughtcrime/securesms/payments/backup/PaymentsRecoveryStartFragment.java:73: Recovery-phrase prompt doesn't require explicit confirmation."
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 179
+        },
+        {
+          "file": "core/util/build.gradle.kts",
+          "line": 21
+        },
+        {
+          "file": "core/models/build.gradle.kts",
+          "line": 18
+        },
+        {
+          "file": "core/network/build.gradle.kts",
+          "line": 66
+        },
+        {
+          "file": "lib/libsignal-service/build.gradle.kts",
+          "line": 102
+        },
+        {
+          "file": "lib/donations/build.gradle.kts",
+          "line": 30
+        },
+        {
+          "file": "lib/debuglogs-viewer/build.gradle.kts",
+          "line": 20
+        },
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 162
+        },
+        {
+          "file": "lib/qr/build.gradle.kts",
+          "line": 19
+        },
+        {
+          "file": "lib/video/build.gradle.kts",
+          "line": 15
+        },
+        {
+          "file": "lib/archive/build.gradle.kts",
+          "line": 26
+        },
+        {
+          "file": "fast-lint/build.gradle.kts",
+          "line": 20
+        },
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 205
+        },
+        {
+          "file": "lib/spinner/build.gradle.kts",
+          "line": 12
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 814
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 816
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 847
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 723
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 784
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 785
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 786
+        },
+        {
+          "file": "core/ui/build.gradle.kts",
+          "line": 27
+        },
+        {
+          "file": "core/ui/build.gradle.kts",
+          "line": 28
+        },
+        {
+          "file": "core/ui/build.gradle.kts",
+          "line": 29
+        },
+        {
+          "file": "core/ui/build.gradle.kts",
+          "line": 30
+        },
+        {
+          "file": "core/ui/build.gradle.kts",
+          "line": 33
+        },
+        {
+          "file": "lib/glide/build.gradle.kts",
+          "line": 23
+        },
+        {
+          "file": "feature/registration/build.gradle.kts",
+          "line": 69
+        },
+        {
+          "file": "feature/registration/build.gradle.kts",
+          "line": 74
+        },
+        {
+          "file": "feature/registration/build.gradle.kts",
+          "line": 75
+        },
+        {
+          "file": "feature/registration/build.gradle.kts",
+          "line": 117
+        },
+        {
+          "file": "feature/registration/build.gradle.kts",
+          "line": 118
+        },
+        {
+          "file": "feature/registration/build.gradle.kts",
+          "line": 119
+        },
+        {
+          "file": "feature/camera/build.gradle.kts",
+          "line": 30
+        },
+        {
+          "file": "feature/camera/build.gradle.kts",
+          "line": 35
+        },
+        {
+          "file": "feature/camera/build.gradle.kts",
+          "line": 36
+        },
+        {
+          "file": "feature/media-send/build.gradle.kts",
+          "line": 42
+        },
+        {
+          "file": "feature/media-send/build.gradle.kts",
+          "line": 49
+        },
+        {
+          "file": "feature/media-send/build.gradle.kts",
+          "line": 50
+        },
+        {
+          "file": "demo/video/build.gradle.kts",
+          "line": 91
+        },
+        {
+          "file": "demo/video/build.gradle.kts",
+          "line": 99
+        },
+        {
+          "file": "demo/registration/build.gradle.kts",
+          "line": 97
+        },
+        {
+          "file": "demo/registration/build.gradle.kts",
+          "line": 101
+        },
+        {
+          "file": "demo/registration/build.gradle.kts",
+          "line": 102
+        },
+        {
+          "file": "demo/camera/build.gradle.kts",
+          "line": 64
+        },
+        {
+          "file": "demo/camera/build.gradle.kts",
+          "line": 69
+        },
+        {
+          "file": "demo/camera/build.gradle.kts",
+          "line": 70
+        },
+        {
+          "file": "fast-lint/build.gradle.kts",
+          "line": 18
+        },
+        {
+          "file": "fast-lint/build.gradle.kts",
+          "line": 19
+        },
+        {
+          "file": "benchmark/build.gradle.kts",
+          "line": 72
+        },
+        {
+          "file": "benchmark/build.gradle.kts",
+          "line": 73
+        },
+        {
+          "file": "benchmark/build.gradle.kts",
+          "line": 74
+        },
+        {
+          "file": "benchmark/build.gradle.kts",
+          "line": 75
+        },
+        {
+          "file": "baseline-profile/build.gradle.kts",
+          "line": 68
+        },
+        {
+          "file": "baseline-profile/build.gradle.kts",
+          "line": 69
+        },
+        {
+          "file": "baseline-profile/build.gradle.kts",
+          "line": 70
+        },
+        {
+          "file": "baseline-profile/build.gradle.kts",
+          "line": 71
+        }
+      ],
+      "explanation": "com.fasterxml.jackson.core:jackson-databind:2.12.0 is in the affected range of 15 OSV advisories: GHSA-3wrr-7qpf-2prh/CVE-2026-50193, GHSA-3x8x-79m2-3w2w/CVE-2021-46877, GHSA-57j2-w4cx-62h2/CVE-2020-36518, GHSA-5gvw-p9qm-jgwh/CVE-2026-59889, GHSA-5jmj-h7xm-6q6v/CVE-2026-54515, GHSA-cxp5-3px4-pw24/CVE-2026-91777, GHSA-gx83-3vf8-gh7j/CVE-2026-83557, GHSA-hgj6-7826-r7m5/CVE-2026-54514, GHSA-j3rv-43j4-c7qm/CVE-2026-54512, GHSA-jjjh-jjxp-wpff/CVE-2022-42003, GHSA-rgv9-q543-rqg4/CVE-2022-42004, GHSA-rmj7-2vxq-3g9f/CVE-2026-54513, GHSA-vvgp-rfg2-7rr6/CVE-2026-77310, GHSA-wjgm-6hv5-3cvf/CVE-2026-19032, GHSA-wv8q-qhhj-9h54/CVE-2026-91776. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). com.google.guava:guava:33.6.0-android is in the affected range of 1 OSV advisory: GHSA-xxph-c9ww-hj94/CVE-2026-102554. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). com.github.jknack:handlebars:4.0.7 is in the affected range of 1 OSV advisory: GHSA-r4gv-qr8j-p3pg/CVE-2026-55760. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). 113 of the other dependencies with exact versions match no OSV advisory, but 43 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT).\ngradle/libs.versions.toml:179: version 2.12.0\ncore/util/build.gradle.kts:21: implementation (catalog libs.jackson.core) in module core/util\ncore/models/build.gradle.kts:18: implementation (catalog libs.jackson.core) in module core/models\ncore/network/build.gradle.kts:66: api (catalog libs.jackson.core) in module core/network\nlib/libsignal-service/build.gradle.kts:102: api (catalog libs.jackson.core) in module lib/libsignal-service\nlib/donations/build.gradle.kts:30: implementation (catalog libs.jackson.core) in module lib/donations\nlib/debuglogs-viewer/build.gradle.kts:20: implementation (catalog libs.jackson.core) in module lib/debuglogs-viewer\ngradle/libs.versions.toml:162: version 33.6.0-android\nlib/qr/build.gradle.kts:19: implementation (catalog libs.google.guava.android) in module lib/qr\nlib/video/build.gradle.kts:15: implementation (catalog libs.google.guava.android) in module lib/video\nlib/archive/build.gradle.kts:26: implementation (catalog libs.google.guava.android) in module lib/archive\nfast-lint/build.gradle.kts:20: implementation (catalog libs.google.guava.android) in module fast-lint\ngradle/libs.versions.toml:205: version 4.0.7\nlib/spinner/build.gradle.kts:12: implementation (catalog libs.jknack.handlebars) in module lib/spinner\napp/build.gradle.kts:814: unrecognised: Ward can't read this declaration form: \"spinnerImplementation\"(project(\":lib:spinner\"))\napp/build.gradle.kts:816: unrecognised: Ward can't read this declaration form: \"canaryImplementation\"(libs.square.leakcanary)\napp/build.gradle.kts:847: unrecognised: Ward can't read this declaration form: \"perfImplementation\"(libs.androidx.compose.ui.test.manifest)\napp/build.gradle.kts:723: androidx.compose.runtime:runtime-livedata: no version (a BOM or constraint may set it)\napp/build.gradle.kts:784: unrecognised: Ward can't read this declaration: testLibs.compose.screenshot.validation.api)\napp/build.gradle.kts:785: androidx.compose.ui:ui-tooling: no version (a BOM or constraint may set it)\napp/build.gradle.kts:786: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\ncore/ui/build.gradle.kts:27: androidx.compose.material3:material3: no version (a BOM or constraint may set it)\ncore/ui/build.gradle.kts:28: androidx.compose.material3.adaptive:adaptive: no version (a BOM or constraint may set it)\ncore/ui/build.gradle.kts:29: androidx.compose.material3.adaptive:adaptive-layout: no version (a BOM or constraint may set it)\ncore/ui/build.gradle.kts:30: androidx.compose.material3.adaptive:adaptive-navigation: no version (a BOM or constraint may set it)\ncore/ui/build.gradle.kts:33: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\nlib/glide/build.gradle.kts:23: androidx.compose.material3:material3: no version (a BOM or constraint may set it)\nfeature/registration/build.gradle.kts:69: unrecognised: Ward can't read this declaration: composeBom)\nfeature/registration/build.gradle.kts:74: androidx.compose.material3:material3: no version (a BOM or constraint may set it)\nfeature/registration/build.gradle.kts:75: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\nfeature/registration/build.gradle.kts:117: unrecognised: Ward can't read this declaration: testLibs.compose.screenshot.validation.api)\nfeature/registration/build.gradle.kts:118: androidx.compose.ui:ui-tooling: no version (a BOM or constraint may set it)\nfeature/registration/build.gradle.kts:119: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\nfeature/camera/build.gradle.kts:30: unrecognised: Ward can't read this declaration: composeBom)\nfeature/camera/build.gradle.kts:35: androidx.compose.material3:material3: no version (a BOM or constraint may set it)\nfeature/camera/build.gradle.kts:36: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\nfeature/media-send/build.gradle.kts:42: unrecognised: Ward can't read this declaration: composeBom)\nfeature/media-send/build.gradle.kts:49: androidx.compose.material3:material3: no version (a BOM or constraint may set it)\nfeature/media-send/build.gradle.kts:50: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\ndemo/video/build.gradle.kts:91: androidx.compose.material3:material3: no version (a BOM or constraint may set it)\ndemo/video/build.gradle.kts:99: androidx.compose.ui:ui-tooling: no version (a BOM or constraint may set it)\ndemo/registration/build.gradle.kts:97: unrecognised: Ward can't read this declaration: composeBom)\ndemo/registration/build.gradle.kts:101: androidx.compose.material3:material3: no version (a BOM or constraint may set it)\ndemo/registration/build.gradle.kts:102: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\ndemo/camera/build.gradle.kts:64: unrecognised: Ward can't read this declaration: composeBom)\ndemo/camera/build.gradle.kts:69: androidx.compose.material3:material3: no version (a BOM or constraint may set it)\ndemo/camera/build.gradle.kts:70: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\nfast-lint/build.gradle.kts:18: unrecognised: Ward can't read this declaration: lintLibs.intellij.core)\nfast-lint/build.gradle.kts:19: unrecognised: Ward can't read this declaration: lintLibs.kotlin.compiler)\nbenchmark/build.gradle.kts:72: unrecognised: Ward can't read this declaration: benchmarkLibs.androidx.test.ext.junit)\nbenchmark/build.gradle.kts:73: unrecognised: Ward can't read this declaration: benchmarkLibs.espresso.core)\nbenchmark/build.gradle.kts:74: unrecognised: Ward can't read this declaration: benchmarkLibs.uiautomator)\nbenchmark/build.gradle.kts:75: unrecognised: Ward can't read this declaration: benchmarkLibs.androidx.benchmark.macro)\nbaseline-profile/build.gradle.kts:68: unrecognised: Ward can't read this declaration: benchmarkLibs.androidx.test.ext.junit)\nbaseline-profile/build.gradle.kts:69: unrecognised: Ward can't read this declaration: benchmarkLibs.espresso.core)\nbaseline-profile/build.gradle.kts:70: unrecognised: Ward can't read this declaration: benchmarkLibs.uiautomator)\nbaseline-profile/build.gradle.kts:71: unrecognised: Ward can't read this declaration: benchmarkLibs.androidx.benchmark.macro)"
+    },
+    {
+      "title": "MASTG-TEST-0208: Insufficient Key Sizes",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CRYPTO-2"
+      ],
+      "maswe": [
+        "MASWE-0013"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/crypto/MasterSecretUtil.java",
+          "line": 251
+        }
+      ],
+      "explanation": "The legacy local encryption key (MasterSecret) is generated as AES-128. The Keystore wrapping key in KeyStoreHelper doesn't set a key size, so it also defaults to 128-bit AES. MASTG counts 128-bit AES as insufficient against quantum attacks.\napp/src/main/java/org/thoughtcrime/securesms/crypto/MasterSecretUtil.java:251: MasterSecret encryption key generated with a 128-bit AES key size."
+    },
+    {
+      "title": "MASTG-TEST-0235: Android App Configurations Allowing Cleartext Traffic",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0026"
+      ],
+      "locations": [
+        {
+          "file": "app/src/nightlyStaging/AndroidManifest.xml",
+          "line": 6
+        }
+      ],
+      "explanation": "android:usesCleartextTraffic is true and no network security config limits it.\napp/src/nightlyStaging/AndroidManifest.xml:6: android:usesCleartextTraffic=\"true\""
+    },
+    {
+      "title": "MASTG-TEST-0285: Outdated Android Version Allowing Trust in User-Provided CAs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 9
+        }
+      ],
+      "explanation": "minSdk is 23 (< 24), so on Android 6 the default config trusts user-installed CAs. Signal's own service connections use dedicated TrustStores, which limits the impact; WebViews and third-party endpoints use the platform default. Ward's analyzer said: Whether user-installed CAs are trusted by default depends on targetSdk (trusted below 24), which Ward couldn't resolve.\ngradle/libs.versions.toml:9: minSdk below 24."
+    },
+    {
+      "title": "MASTG-TEST-0381: References to Insecure PendingIntent Creation",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0032"
+      ],
+      "locations": [
+        {
+          "file": "core/util/src/main/java/org/signal/core/util/PendingIntentFlags.kt",
+          "line": 40
+        },
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/gcm/FcmFetchManager.kt",
+          "line": 100
+        }
+      ],
+      "explanation": "minSdk is 23, and the shared PendingIntentFlags.mutable() helper returns FLAG_MUTABLE on API 31+ and 0 (mutable) below. It is used for dozens of notification content intents and alarms that don't need mutability. Base intents are mostly explicit, which reduces but doesn't remove the risk.\ncore/util/src/main/java/org/signal/core/util/PendingIntentFlags.kt:40: Default helper makes PendingIntents mutable on every API level.\napp/src/main/java/org/thoughtcrime/securesms/gcm/FcmFetchManager.kt:100: Notification content intent created mutable without need."
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "demo/camera/src/main/AndroidManifest.xml",
+          "line": 7
+        },
+        {
+          "file": "demo/camera/src/main/AndroidManifest.xml",
+          "line": 8
+        },
+        {
+          "file": "demo/camera/src/main/AndroidManifest.xml",
+          "line": 10
+        },
+        {
+          "file": "demo/camera/src/main/AndroidManifest.xml",
+          "line": 11
+        },
+        {
+          "file": "demo/camera/src/main/AndroidManifest.xml",
+          "line": 12
+        },
+        {
+          "file": "demo/camera/src/main/AndroidManifest.xml",
+          "line": 13
+        },
+        {
+          "file": "demo/image-editor/src/main/AndroidManifest.xml",
+          "line": 6
+        },
+        {
+          "file": "demo/registration/src/main/AndroidManifest.xml",
+          "line": 10
+        },
+        {
+          "file": "demo/registration/src/main/AndroidManifest.xml",
+          "line": 11
+        },
+        {
+          "file": "feature/registration/src/main/AndroidManifest.xml",
+          "line": 5
+        },
+        {
+          "file": "feature/registration/src/main/AndroidManifest.xml",
+          "line": 6
+        },
+        {
+          "file": "feature/registration/src/main/AndroidManifest.xml",
+          "line": 9
+        },
+        {
+          "file": "feature/registration/src/main/AndroidManifest.xml",
+          "line": 10
+        },
+        {
+          "file": "lib/contacts/src/main/AndroidManifest.xml",
+          "line": 5
+        },
+        {
+          "file": "lib/device-transfer/src/main/AndroidManifest.xml",
+          "line": 6
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 56
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\ndemo/camera/src/main/AndroidManifest.xml:7: android.permission.CAMERA\ndemo/camera/src/main/AndroidManifest.xml:8: android.permission.RECORD_AUDIO\ndemo/camera/src/main/AndroidManifest.xml:10: android.permission.READ_MEDIA_IMAGES\ndemo/camera/src/main/AndroidManifest.xml:11: android.permission.READ_MEDIA_VIDEO\ndemo/camera/src/main/AndroidManifest.xml:12: android.permission.POST_NOTIFICATIONS\ndemo/camera/src/main/AndroidManifest.xml:13: android.permission.READ_EXTERNAL_STORAGE\ndemo/image-editor/src/main/AndroidManifest.xml:6: android.permission.WRITE_EXTERNAL_STORAGE\ndemo/registration/src/main/AndroidManifest.xml:10: android.permission.ACCESS_FINE_LOCATION\ndemo/registration/src/main/AndroidManifest.xml:11: android.permission.NEARBY_WIFI_DEVICES\nfeature/registration/src/main/AndroidManifest.xml:5: android.permission.READ_CONTACTS\nfeature/registration/src/main/AndroidManifest.xml:6: android.permission.WRITE_CONTACTS\nfeature/registration/src/main/AndroidManifest.xml:9: android.permission.READ_PHONE_STATE\nfeature/registration/src/main/AndroidManifest.xml:10: android.permission.READ_PHONE_NUMBERS\nlib/contacts/src/main/AndroidManifest.xml:5: android.permission.GET_ACCOUNTS\nlib/device-transfer/src/main/AndroidManifest.xml:6: android.permission.ACCESS_COARSE_LOCATION\napp/src/main/AndroidManifest.xml:56: android.permission.READ_MEDIA_VISUAL_USER_SELECTED"
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/calls/quality/CallQualitySomethingElseScreen.kt",
+          "line": 72
+        },
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/components/settings/app/help/HelpSettingsFragment.kt",
+          "line": 107
+        },
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/components/settings/app/help/HelpSettingsFragment.kt",
+          "line": 110
+        },
+        {
+          "file": "app/src/main/res/values-af/strings.xml",
+          "line": 6062
+        },
+        {
+          "file": "app/src/main/res/values-af/strings.xml",
+          "line": 9803
+        }
+      ],
+      "explanation": "A privacy policy link or text is in the app. Ward doesn't read the policy: check that it matches what the app collects and the Data safety answers.\napp/src/main/java/org/thoughtcrime/securesms/calls/quality/CallQualitySomethingElseScreen.kt:72: privacy policy\napp/src/main/java/org/thoughtcrime/securesms/components/settings/app/help/HelpSettingsFragment.kt:107: privacy policy\napp/src/main/java/org/thoughtcrime/securesms/components/settings/app/help/HelpSettingsFragment.kt:110: privacy policy\napp/src/main/res/values-af/strings.xml:6062: privacy policy\napp/src/main/res/values-af/strings.xml:9803: privacy policy"
+    },
+    {
+      "title": "MASTG-TEST-0202: References to APIs and Permissions for Accessing External Storage",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0002"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/registration/data/QuickstartCredentialExporter.kt",
+          "line": 65
+        },
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/registration/data/QuickstartCredentialExporter.kt",
+          "line": 67
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 71
+        }
+      ],
+      "explanation": "The app declares WRITE_EXTERNAL_STORAGE (maxSdk 28, minSdk 23) and QuickstartCredentialExporter writes the account's identity private keys, service password, profile key and account entropy pool as plaintext JSON to getExternalFilesDir(), which other apps with storage permission can read on API 23-28. It is reached from the internal settings screen but compiled into the release source set. SaveAttachmentUtil's public-directory writes are user-initiated media exports.\napp/src/main/java/org/thoughtcrime/securesms/registration/data/QuickstartCredentialExporter.kt:65: Credential export targets app-specific external storage.\napp/src/main/java/org/thoughtcrime/securesms/registration/data/QuickstartCredentialExporter.kt:67: Private keys, service password and AEP are written unencrypted.\napp/src/main/AndroidManifest.xml:71: External storage write permission declared for API <= 28."
+    },
+    {
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 78
+        },
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/absbackup/backupables/SvrAuthTokens.kt",
+          "line": 20
+        },
+        {
+          "file": "demo/camera/src/main/AndroidManifest.xml",
+          "line": 19
+        },
+        {
+          "file": "demo/camera/src/main/AndroidManifest.xml",
+          "line": 20
+        }
+      ],
+      "explanation": "The release manifest enables backup with a key-value BackupAgent whose only item is SvrAuthTokens, so SVR2 authentication credentials are uploaded to and restored from Android Backup. This looks like an intentional choice so a PIN-based re-registration can skip SMS. The team should still confirm it accepts credentials in cloud backup. Ward's analyzer said: Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/main/AndroidManifest.xml:78: Custom key-value backup agent registered.\napp/src/main/java/org/thoughtcrime/securesms/absbackup/backupables/SvrAuthTokens.kt:20: SVR2 auth tokens are serialized into the backup payload.\ndemo/camera/src/main/AndroidManifest.xml:19: rules file @xml/data_extraction_rules\ndemo/camera/src/main/AndroidManifest.xml:20: rules file @xml/backup_rules"
+    },
+    {
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 77
+        },
+        {
+          "file": "app/src/main/java/org/thoughtcrime/securesms/absbackup/backupables/SvrAuthTokens.kt",
+          "line": 20
+        },
+        {
+          "file": "demo/camera/src/main/AndroidManifest.xml",
+          "line": 19
+        },
+        {
+          "file": "demo/camera/src/main/AndroidManifest.xml",
+          "line": 20
+        }
+      ],
+      "explanation": "android:allowBackup is true in the release manifest and SignalBackupAgent backs up SvrAuthTokens (SVR2 credentials) to Android Backup. These are credentials, not excluded data. The demo/camera rules files the analyzer cited belong to a demo module that isn't shipped. Ward's analyzer said: Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/main/AndroidManifest.xml:77: Backup enabled for the app.\napp/src/main/java/org/thoughtcrime/securesms/absbackup/backupables/SvrAuthTokens.kt:20: SVR2 auth tokens are included in backup data.\ndemo/camera/src/main/AndroidManifest.xml:19: rules file @xml/data_extraction_rules\ndemo/camera/src/main/AndroidManifest.xml:20: rules file @xml/backup_rules"
+    }
+  ],
+  "inspected": [
+    "app/build.gradle.kts",
+    "app/src/benchmarkShared/AndroidManifest.xml",
+    "app/src/canary/AndroidManifest.xml",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/java/org/conscrypt/ConscryptSignal.java",
+    "app/src/main/java/org/thoughtcrime/securesms/ApplicationContext.java",
+    "app/src/main/java/org/thoughtcrime/securesms/BiometricDeviceAuthentication.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/DeviceProvisioningActivity.java",
+    "app/src/main/java/org/thoughtcrime/securesms/MainActivity.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/PassphrasePromptActivity.java",
+    "app/src/main/java/org/thoughtcrime/securesms/ShortcutLauncherActivity.java",
+    "app/src/main/java/org/thoughtcrime/securesms/absbackup/SignalBackupAgent.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/absbackup/backupables/SvrAuthTokens.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/backup/BackupFrameOutputStream.java",
+    "app/src/main/java/org/thoughtcrime/securesms/backup/v2/ui/subscription/MessageBackupsKeyVerifyScreen.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/banner/banners/DeprecatedBuildBanner.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/calls/quality/CallQualitySomethingElseScreen.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/components/TemporaryScreenshotSecurity.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/components/settings/app/account/AccountSettingsFragment.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/components/settings/app/help/HelpSettingsFragment.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/components/settings/app/internal/InternalSettingsFragment.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/components/settings/app/privacy/PrivacySettingsFragment.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/components/settings/app/routes/AppSettingsRoute.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/components/settings/app/subscription/donate/paypal/PayPalConfirmationDialogFragment.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/components/settings/app/subscription/donate/stripe/Stripe3DSDialogFragment.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/contacts/sync/ContactDiscovery.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/conversation/v2/ConversationFragment.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/conversation/v2/ConversationViewModel.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/crypto/MasterCipher.java",
+    "app/src/main/java/org/thoughtcrime/securesms/crypto/MasterSecretUtil.java",
+    "app/src/main/java/org/thoughtcrime/securesms/crypto/SecurityEvent.java",
+    "app/src/main/java/org/thoughtcrime/securesms/database/RecipientTable.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/database/SignalDatabase.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/deeplinks/DeepLinkEntryActivity.java",
+    "app/src/main/java/org/thoughtcrime/securesms/delete/DeleteAccountFragment.java",
+    "app/src/main/java/org/thoughtcrime/securesms/delete/DeleteAccountRepository.java",
+    "app/src/main/java/org/thoughtcrime/securesms/dependencies/NetworkDependenciesModule.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/gcm/FcmFetchManager.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/glide/cache/EncryptedCoder.java",
+    "app/src/main/java/org/thoughtcrime/securesms/jobs/SyncSystemContactLinksJob.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/keyvalue/SettingsValues.java",
+    "app/src/main/java/org/thoughtcrime/securesms/linkdevice/LinkDeviceFragment.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/lock/v2/BaseSvrPinFragment.java",
+    "app/src/main/java/org/thoughtcrime/securesms/lock/v2/CreateSvrPinFragment.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/lock/v2/PinKeyboardType.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/logging/PersistentLogger.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/migrations/ContactLinkRebuildMigrationJob.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/notifications/RemoteReplyReceiver.java",
+    "app/src/main/java/org/thoughtcrime/securesms/payments/backup/PaymentsRecoveryStartFragment.java",
+    "app/src/main/java/org/thoughtcrime/securesms/payments/backup/confirm/PaymentsRecoveryPhraseConfirmViewModel.java",
+    "app/src/main/java/org/thoughtcrime/securesms/payments/confirm/ConfirmPaymentFragment.java",
+    "app/src/main/java/org/thoughtcrime/securesms/push/AccountManagerFactory.java",
+    "app/src/main/java/org/thoughtcrime/securesms/push/SignalServiceNetworkAccess.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/ratelimit/RecaptchaProofActivity.java",
+    "app/src/main/java/org/thoughtcrime/securesms/registration/data/QuickstartCredentialExporter.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/registration/ui/captcha/CaptchaFragment.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/registration/ui/restore/EnterBackupKeyScreen.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/service/KeyCachingService.java",
+    "app/src/main/java/org/thoughtcrime/securesms/service/TimedEventManager.java",
+    "app/src/main/java/org/thoughtcrime/securesms/stickers/StickerUrl.java",
+    "app/src/main/java/org/thoughtcrime/securesms/util/CommunicationActions.java",
+    "app/src/main/java/org/thoughtcrime/securesms/util/SaveAttachmentUtil.kt",
+    "app/src/main/java/org/thoughtcrime/securesms/util/TextSecurePreferences.java",
+    "app/src/main/java/org/thoughtcrime/securesms/webrtc/CallNotificationBuilder.java",
+    "app/src/main/res/layout/change_passphrase_activity.xml",
+    "app/src/main/res/layout/fragment_registration_enter_code.xml",
+    "app/src/main/res/layout/fragment_registration_lock.xml",
+    "app/src/main/res/layout/payments_recovery_entry_fragment.xml",
+    "app/src/main/res/layout/prompt_passphrase_activity.xml",
+    "app/src/main/res/values-af/strings.xml",
+    "app/src/nightlyStaging/AndroidManifest.xml",
+    "app/src/perf/AndroidManifest.xml",
+    "app/src/quickstart/AndroidManifest.xml",
+    "app/src/spinner/AndroidManifest.xml",
+    "app/src/website/AndroidManifest.xml",
+    "baseline-profile/build.gradle.kts",
+    "baseline-profile/src/main/AndroidManifest.xml",
+    "benchmark/build.gradle.kts",
+    "benchmark/src/main/AndroidManifest.xml",
+    "build-logic/plugins/src/main/java/signal-library.gradle.kts",
+    "build-logic/plugins/src/main/java/signal-sample-app.gradle.kts",
+    "core/models-jvm/build.gradle.kts",
+    "core/models-jvm/src/main/java/org/signal/core/models/MasterKey.kt",
+    "core/models/build.gradle.kts",
+    "core/models/src/main/AndroidManifest.xml",
+    "core/network/build.gradle.kts",
+    "core/network/src/main/java/org/signal/network/util/Tls12SocketFactory.java",
+    "core/network/src/main/java/org/signal/network/util/TlsProxySocketFactory.kt",
+    "core/serialization/build.gradle.kts",
+    "core/ui/build.gradle.kts",
+    "core/ui/src/main/AndroidManifest.xml",
+    "core/ui/src/main/java/org/signal/core/ui/WindowExtensions.kt",
+    "core/util-jvm/build.gradle.kts",
+    "core/util-jvm/src/main/java/org/signal/core/util/Linkifier.kt",
+    "core/util-jvm/src/main/java/org/signal/core/util/crypto/DeviceNameCipher.kt",
+    "core/util-jvm/src/main/java/org/signal/core/util/logging/Scrubber.kt",
+    "core/util/build.gradle.kts",
+    "core/util/src/main/AndroidManifest.xml",
+    "core/util/src/main/java/org/signal/core/util/PendingIntentFlags.kt",
+    "core/util/src/main/java/org/signal/core/util/Util.java",
+    "core/util/src/main/java/org/signal/core/util/concurrent/AnrDetector.kt",
+    "core/util/src/main/java/org/signal/core/util/crypto/KeyStoreHelper.java",
+    "core/util/src/main/java/org/signal/core/util/crypto/ModernEncryptingPartOutputStream.java",
+    "core/util/src/main/java/org/signal/core/util/logging/AndroidLogger.kt",
+    "demo/apng/src/main/AndroidManifest.xml",
+    "demo/camera/build.gradle.kts",
+    "demo/camera/src/main/AndroidManifest.xml",
+    "demo/contacts/src/main/AndroidManifest.xml",
+    "demo/debuglogs-viewer/src/main/AndroidManifest.xml",
+    "demo/device-transfer/src/main/AndroidManifest.xml",
+    "demo/donations/src/main/AndroidManifest.xml",
+    "demo/image-editor/build.gradle",
+    "demo/image-editor/src/main/AndroidManifest.xml",
+    "demo/paging/src/main/AndroidManifest.xml",
+    "demo/qr/build.gradle.kts",
+    "demo/qr/src/main/AndroidManifest.xml",
+    "demo/registration/build.gradle.kts",
+    "demo/registration/src/main/AndroidManifest.xml",
+    "demo/spinner/build.gradle.kts",
+    "demo/spinner/src/main/AndroidManifest.xml",
+    "demo/video/build.gradle.kts",
+    "demo/video/src/main/AndroidManifest.xml",
+    "fast-lint/build.gradle.kts",
+    "feature/camera/build.gradle.kts",
+    "feature/camera/src/main/AndroidManifest.xml",
+    "feature/media-send/build.gradle.kts",
+    "feature/media-send/src/main/AndroidManifest.xml",
+    "feature/registration/build.gradle.kts",
+    "feature/registration/src/main/AndroidManifest.xml",
+    "feature/registration/src/main/java/org/signal/registration/screens/PinVisualTransformation.kt",
+    "feature/registration/src/main/java/org/signal/registration/screens/captcha/CaptchaScreen.kt",
+    "gradle/libs.versions.toml",
+    "lib/apng/build.gradle.kts",
+    "lib/apng/src/main/AndroidManifest.xml",
+    "lib/archive/build.gradle.kts",
+    "lib/archive/src/main/java/org/signal/archive/stream/EncryptedBackupWriter.kt",
+    "lib/billing/build.gradle.kts",
+    "lib/billing/src/main/AndroidManifest.xml",
+    "lib/blurhash/src/main/AndroidManifest.xml",
+    "lib/contacts/src/main/AndroidManifest.xml",
+    "lib/debuglogs-viewer/build.gradle.kts",
+    "lib/debuglogs-viewer/src/main/AndroidManifest.xml",
+    "lib/debuglogs-viewer/src/main/java/org/signal/debuglogsviewer/DebugLogsViewer.kt",
+    "lib/device-transfer/build.gradle.kts",
+    "lib/device-transfer/src/main/AndroidManifest.xml",
+    "lib/device-transfer/src/main/java/org/signal/devicetransfer/DeviceToDeviceTransferService.java",
+    "lib/device-transfer/src/main/java/org/signal/devicetransfer/DeviceTransferAuthentication.java",
+    "lib/device-transfer/src/main/java/org/signal/devicetransfer/NetworkClientThread.java",
+    "lib/device-transfer/src/main/java/org/signal/devicetransfer/SelfSignedIdentity.java",
+    "lib/donations/build.gradle.kts",
+    "lib/donations/src/main/AndroidManifest.xml",
+    "lib/glide/build.gradle.kts",
+    "lib/glide/src/main/AndroidManifest.xml",
+    "lib/glide/src/main/java/org/signal/glide/common/decode/FrameSeqDecoder.java",
+    "lib/image-editor/src/main/AndroidManifest.xml",
+    "lib/libsignal-service/build.gradle.kts",
+    "lib/libsignal-service/src/main/java/org/whispersystems/signalservice/api/crypto/AttachmentCipherOutputStream.kt",
+    "lib/libsignal-service/src/main/java/org/whispersystems/signalservice/api/crypto/ProfileCipher.java",
+    "lib/libsignal-service/src/main/java/org/whispersystems/signalservice/api/subscriptions/IdempotencyKey.java",
+    "lib/libsignal-service/src/main/java/org/whispersystems/signalservice/api/subscriptions/SubscriberId.java",
+    "lib/libsignal-service/src/main/java/org/whispersystems/signalservice/internal/push/PushServiceSocket.java",
+    "lib/libsignal-service/src/main/java/org/whispersystems/signalservice/internal/util/BlacklistingTrustManager.java",
+    "lib/libsignal-service/src/main/java/org/whispersystems/signalservice/internal/websocket/OkHttpWebSocketConnection.java",
+    "lib/network/build.gradle.kts",
+    "lib/network/src/main/java/org/signal/network/rest/SignalRestClient.kt",
+    "lib/paging/build.gradle.kts",
+    "lib/paging/src/main/AndroidManifest.xml",
+    "lib/photoview/build.gradle.kts",
+    "lib/photoview/src/main/AndroidManifest.xml",
+    "lib/qr/build.gradle.kts",
+    "lib/qr/src/main/AndroidManifest.xml",
+    "lib/spinner/build.gradle.kts",
+    "lib/spinner/src/main/AndroidManifest.xml",
+    "lib/sticky-header-grid/build.gradle.kts",
+    "lib/sticky-header-grid/src/main/AndroidManifest.xml",
+    "lib/video/build.gradle.kts",
+    "lib/video/src/main/AndroidManifest.xml",
+    "lintchecks/build.gradle.kts",
+    "microbenchmark/build.gradle.kts",
+    "microbenchmark/src/main/AndroidManifest.xml"
+  ]
+}

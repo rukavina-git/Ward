@@ -1,0 +1,121 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 26
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 25
+        }
+      ],
+      "explanation": "Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/main/AndroidManifest.xml:26: rules file @xml/backup_rules\napp/src/main/AndroidManifest.xml:25: rules file @xml/backup_rules_old"
+    },
+    {
+      "title": "MASTG-TEST-0231: References to Logging APIs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0005"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/beemdevelopment/aegis/otp/GoogleAuthInfo.java",
+          "line": 71
+        },
+        {
+          "file": "app/src/main/java/com/beemdevelopment/aegis/ui/MainActivity.java",
+          "line": 495
+        },
+        {
+          "file": "app/src/main/java/com/beemdevelopment/aegis/ui/MainActivity.java",
+          "line": 875
+        }
+      ],
+      "explanation": "Most log calls only record file paths and exception types. But when an otpauth URI has a secret and no host, parseUri puts the whole URI (secret included) into the exception message. That exception is logged with Log.i when the URI comes from the clipboard, and with printStackTrace when it comes from a deep link, so the TOTP secret can end up in logcat.\napp/src/main/java/com/beemdevelopment/aegis/otp/GoogleAuthInfo.java:71: Exception message embeds the full otpauth URI, including the secret query parameter.\napp/src/main/java/com/beemdevelopment/aegis/ui/MainActivity.java:495: Clipboard parse failure is logged together with the exception, whose message can contain the secret.\napp/src/main/java/com/beemdevelopment/aegis/ui/MainActivity.java:875: Deep link parse failure prints the stack trace (with the URI-bearing message) to logcat."
+    },
+    {
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 26
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 25
+        }
+      ],
+      "explanation": "The backup rules include shared prefs and backup/aegis.json, a copy of the vault the BackupAgent writes. Cloud backup is skipped unless the user enables it, and that is only possible with an encrypted vault. Device-to-device transfer is allowed regardless, so a vault the user chose not to encrypt is transferred in plaintext. Whether that is acceptable is a product decision. Ward's analyzer said: Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/main/AndroidManifest.xml:26: rules file @xml/backup_rules\napp/src/main/AndroidManifest.xml:25: rules file @xml/backup_rules_old"
+    }
+  ],
+  "inspected": [
+    "app/build.gradle",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/java/com/beemdevelopment/aegis/AegisBackupAgent.java",
+    "app/src/main/java/com/beemdevelopment/aegis/Preferences.java",
+    "app/src/main/java/com/beemdevelopment/aegis/crypto/CryptoUtils.java",
+    "app/src/main/java/com/beemdevelopment/aegis/crypto/otp/HOTP.java",
+    "app/src/main/java/com/beemdevelopment/aegis/importers/AndOtpImporter.java",
+    "app/src/main/java/com/beemdevelopment/aegis/importers/AuthyImporter.java",
+    "app/src/main/java/com/beemdevelopment/aegis/importers/FreeOtpImporter.java",
+    "app/src/main/java/com/beemdevelopment/aegis/importers/TotpAuthenticatorImporter.java",
+    "app/src/main/java/com/beemdevelopment/aegis/importers/TwoFASImporter.java",
+    "app/src/main/java/com/beemdevelopment/aegis/otp/GoogleAuthInfo.java",
+    "app/src/main/java/com/beemdevelopment/aegis/otp/GoogleAuthInfoException.java",
+    "app/src/main/java/com/beemdevelopment/aegis/services/LaunchAppTileService.java",
+    "app/src/main/java/com/beemdevelopment/aegis/services/LaunchScannerTileService.java",
+    "app/src/main/java/com/beemdevelopment/aegis/services/NotificationService.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/AboutActivity.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/AegisActivity.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/AuthActivity.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/EditEntryActivity.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/MainActivity.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/PanicResponderActivity.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/dialogs/ChangelogDialog.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/dialogs/Dialogs.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/dialogs/LicenseDialog.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/dialogs/SimpleWebViewDialog.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/fragments/preferences/BackupsPreferencesFragment.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/fragments/preferences/ImportExportPreferencesFragment.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/fragments/preferences/SecurityPreferencesFragment.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/slides/SecuritySetupSlide.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/tasks/Argon2Task.java",
+    "app/src/main/java/com/beemdevelopment/aegis/ui/tasks/PBKDFTask.java",
+    "app/src/main/java/com/beemdevelopment/aegis/vault/VaultBackupManager.java",
+    "app/src/main/java/com/beemdevelopment/aegis/vault/slots/Slot.java",
+    "app/src/main/java/info/guardianproject/trustedintents/TrustedIntents.java",
+    "app/src/main/res/layout/activity_auth.xml",
+    "app/src/main/res/layout/activity_edit_entry.xml",
+    "app/src/main/res/layout/dialog_password.xml",
+    "app/src/main/res/layout/dialog_text_input.xml",
+    "app/src/main/res/layout/fragment_security_setup_slide.xml",
+    "app/src/main/res/xml/backup_rules.xml",
+    "app/src/main/res/xml/backup_rules_old.xml"
+  ]
+}

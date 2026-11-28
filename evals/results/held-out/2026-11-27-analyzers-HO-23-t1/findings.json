@@ -1,0 +1,603 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 145
+        },
+        {
+          "file": "pass/autofill/test-app/src/main/AndroidManifest.xml",
+          "line": 16
+        },
+        {
+          "file": "pass/autofill/test-app/src/main/AndroidManifest.xml",
+          "line": 20
+        },
+        {
+          "file": "pass/autofill/test-app/src/main/AndroidManifest.xml",
+          "line": 23
+        },
+        {
+          "file": "pass/autofill/test-app/src/main/AndroidManifest.xml",
+          "line": 26
+        },
+        {
+          "file": "pass/autofill/test-app/src/main/AndroidManifest.xml",
+          "line": 29
+        },
+        {
+          "file": "pass/autofill/test-app/src/main/AndroidManifest.xml",
+          "line": 32
+        },
+        {
+          "file": "pass/autofill/test-app/src/main/AndroidManifest.xml",
+          "line": 35
+        },
+        {
+          "file": "pass/autofill/test-app/src/main/AndroidManifest.xml",
+          "line": 38
+        },
+        {
+          "file": "pass/autofill/test-app/src/main/AndroidManifest.xml",
+          "line": 41
+        },
+        {
+          "file": "pass/autofill/test-app/src/main/AndroidManifest.xml",
+          "line": 44
+        },
+        {
+          "file": "pass/autofill/test-app/src/main/AndroidManifest.xml",
+          "line": 47
+        },
+        {
+          "file": "pass/autofill/test-app/src/main/AndroidManifest.xml",
+          "line": 50
+        },
+        {
+          "file": "pass/autofill/test-app/src/main/AndroidManifest.xml",
+          "line": 53
+        },
+        {
+          "file": "pass/autofill/test-app/src/main/AndroidManifest.xml",
+          "line": 56
+        },
+        {
+          "file": "app/src/quest/AndroidManifest.xml",
+          "line": 70
+        },
+        {
+          "file": "app/src/quest/AndroidManifest.xml",
+          "line": 88
+        }
+      ],
+      "explanation": "Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/AndroidManifest.xml:145: activity .ui.shortcuts.ShortcutActivity; exported: yes (android:exported is set)\npass/autofill/test-app/src/main/AndroidManifest.xml:16: activity proton.android.pass.autofill.sample.simplefragment.SimpleFragmentLoginActivity; exported: yes (android:exported is set)\npass/autofill/test-app/src/main/AndroidManifest.xml:20: activity proton.android.pass.autofill.sample.LoginResultActivity; exported: yes (android:exported is set)\npass/autofill/test-app/src/main/AndroidManifest.xml:23: activity proton.android.pass.autofill.sample.simplecompose.SimpleComposeLoginActivity; exported: yes (android:exported is set)\npass/autofill/test-app/src/main/AndroidManifest.xml:26: activity proton.android.pass.autofill.sample.simpleactivity.SimpleLoginActivity; exported: yes (android:exported is set)\npass/autofill/test-app/src/main/AndroidManifest.xml:29: activity proton.android.pass.autofill.sample.autofillmanageractivity.AutofillManagerLoginActivity; exported: yes (android:exported is set)\npass/autofill/test-app/src/main/AndroidManifest.xml:32: activity proton.android.pass.autofill.sample.webview.WebViewLoginActivity; exported: yes (android:exported is set)\npass/autofill/test-app/src/main/AndroidManifest.xml:35: activity proton.android.pass.autofill.sample.multistep.MultiStepFirstLoginActivity; exported: yes (android:exported is set)\npass/autofill/test-app/src/main/AndroidManifest.xml:38: activity proton.android.pass.autofill.sample.multistep.MultiStepSecondLoginActivity; exported: yes (android:exported is set)\npass/autofill/test-app/src/main/AndroidManifest.xml:41: activity proton.android.pass.autofill.sample.creditcardactivity.CreditCardActivity; exported: yes (android:exported is set)\npass/autofill/test-app/src/main/AndroidManifest.xml:44: activity proton.android.pass.autofill.sample.personalinfoactivity.PersonalInfoActivity; exported: yes (android:exported is set)\npass/autofill/test-app/src/main/AndroidManifest.xml:47: activity proton.android.pass.autofill.sample.changepassword.ChangePasswordActivity; exported: yes (android:exported is set)\npass/autofill/test-app/src/main/AndroidManifest.xml:50: activity proton.android.pass.autofill.sample.otp.OtpActivity; exported: yes (android:exported is set)\npass/autofill/test-app/src/main/AndroidManifest.xml:53: activity proton.android.pass.autofill.sample.passkeys.PasskeysActivity; exported: yes (android:exported is set)\npass/autofill/test-app/src/main/AndroidManifest.xml:56: activity proton.android.pass.autofill.sample.passwordcredentials.PasswordCredentialsActivity; exported: yes (android:exported is set)\napp/src/quest/AndroidManifest.xml:70: activity me.proton.core.auth.presentation.ui.LoginTwoStepActivity; exported: yes (android:exported is set); deep link schemes: @string/core_app_scheme\napp/src/quest/AndroidManifest.xml:88: activity me.proton.core.auth.presentation.ui.LoginSsoActivity; exported: yes (android:exported is set); deep link schemes: @string/core_app_scheme"
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 51
+        },
+        {
+          "file": "pass/preferences/impl/build.gradle.kts",
+          "line": 79
+        },
+        {
+          "file": "pass/protos/build.gradle.kts",
+          "line": 46
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 570
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 571
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 345
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 412
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 426
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 427
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 428
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 429
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 430
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 431
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 432
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 433
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 434
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 435
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 436
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 437
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 438
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 439
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 440
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 441
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 442
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 443
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 444
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 445
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 446
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 447
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 448
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 450
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 460
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 470
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 480
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 481
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 482
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 483
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 484
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 485
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 486
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 487
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 488
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 489
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 490
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 491
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 492
+        }
+      ],
+      "explanation": "com.google.protobuf:protobuf-kotlin-lite:3.21.12 is in the affected range of 1 OSV advisory: GHSA-735f-pc8j-v9w8/CVE-2024-7254. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). 130 of the other dependencies with exact versions match no OSV advisory, but 1200 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT).\ngradle/libs.versions.toml:51: version 3.21.12\npass/preferences/impl/build.gradle.kts:79: implementation (catalog libs.google.protobuf.kotlin.lite) in module pass/preferences/impl\npass/protos/build.gradle.kts:46: api (catalog libs.google.protobuf.kotlin.lite) in module pass/protos\napp/build.gradle.kts:570: unrecognised: Ward can't read this declaration form: \"questImplementation\"(libs.meta.horizon.sdk)\napp/build.gradle.kts:571: unrecognised: Ward can't read this declaration form: \"questImplementation\"(libs.meta.horizon.billing)\napp/build.gradle.kts:345: androidx.compose.foundation:foundation: no version (a BOM or constraint may set it)\napp/build.gradle.kts:345: androidx.compose.foundation:foundation-layout: no version (a BOM or constraint may set it)\napp/build.gradle.kts:345: androidx.compose.material:material: no version (a BOM or constraint may set it)\napp/build.gradle.kts:345: androidx.compose.material3:material3: no version (a BOM or constraint may set it)\napp/build.gradle.kts:345: androidx.compose.material:material-icons-core: no version (a BOM or constraint may set it)\napp/build.gradle.kts:345: androidx.compose.runtime:runtime: no version (a BOM or constraint may set it)\napp/build.gradle.kts:345: androidx.compose.ui:ui: no version (a BOM or constraint may set it)\napp/build.gradle.kts:345: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\napp/build.gradle.kts:412: unrecognised: Ward can't read this declaration: default = libs.core.config.dagger.staticDefaults,\napp/build.gradle.kts:426: unrecognised: Ward can't read this declaration: projects.pass.account.impl)\napp/build.gradle.kts:427: unrecognised: Ward can't read this declaration: projects.pass.appConfig.api)\napp/build.gradle.kts:428: unrecognised: Ward can't read this declaration: projects.pass.autofill.impl)\napp/build.gradle.kts:429: unrecognised: Ward can't read this declaration: projects.pass.biometry.api)\napp/build.gradle.kts:430: unrecognised: Ward can't read this declaration: projects.pass.biometry.impl)\napp/build.gradle.kts:431: unrecognised: Ward can't read this declaration: projects.pass.browserAllowlist.impl)\napp/build.gradle.kts:432: unrecognised: Ward can't read this declaration: projects.pass.clipboard.impl)\napp/build.gradle.kts:433: unrecognised: Ward can't read this declaration: projects.pass.common.api)\napp/build.gradle.kts:434: unrecognised: Ward can't read this declaration: projects.pass.common.impl)\napp/build.gradle.kts:435: unrecognised: Ward can't read this declaration: projects.pass.commonPresentation.api)\napp/build.gradle.kts:436: unrecognised: Ward can't read this declaration: projects.pass.commonPresentation.impl)\napp/build.gradle.kts:437: unrecognised: Ward can't read this declaration: projects.pass.commonRust.api)\napp/build.gradle.kts:438: unrecognised: Ward can't read this declaration: projects.pass.commonRust.impl)\napp/build.gradle.kts:439: unrecognised: Ward can't read this declaration: projects.pass.commonUi.api)\napp/build.gradle.kts:440: unrecognised: Ward can't read this declaration: projects.pass.commonUi.impl)\napp/build.gradle.kts:441: unrecognised: Ward can't read this declaration: projects.pass.commonUiModels.api)\napp/build.gradle.kts:442: unrecognised: Ward can't read this declaration: projects.pass.composeComponents.impl)\napp/build.gradle.kts:443: unrecognised: Ward can't read this declaration: projects.pass.crypto.impl)\napp/build.gradle.kts:444: unrecognised: Ward can't read this declaration: projects.pass.data.api)\napp/build.gradle.kts:445: unrecognised: Ward can't read this declaration: projects.pass.data.impl)\napp/build.gradle.kts:446: unrecognised: Ward can't read this declaration: projects.pass.domain)\napp/build.gradle.kts:447: unrecognised: Ward can't read this declaration: projects.pass.image.api)\napp/build.gradle.kts:448: unrecognised: Ward can't read this declaration: projects.pass.image.impl)\napp/build.gradle.kts:450: unrecognised: Ward can't read this declaration: projects.pass.inAppUpdates.api)\napp/build.gradle.kts:460: unrecognised: Ward can't read this declaration: projects.pass.inAppReview.api)\napp/build.gradle.kts:470: unrecognised: Ward can't read this declaration: projects.pass.payments.api)\napp/build.gradle.kts:480: unrecognised: Ward can't read this declaration: projects.pass.features.account)\napp/build.gradle.kts:481: unrecognised: Ward can't read this declaration: projects.pass.features.aliasContacts)\napp/build.gradle.kts:482: unrecognised: Ward can't read this declaration: projects.pass.features.auth)\napp/build.gradle.kts:483: unrecognised: Ward can't read this declaration: projects.pass.features.credentials)\napp/build.gradle.kts:484: unrecognised: Ward can't read this declaration: projects.pass.features.featureFlags)\napp/build.gradle.kts:485: unrecognised: Ward can't read this declaration: projects.pass.features.home)\napp/build.gradle.kts:486: unrecognised: Ward can't read this declaration: projects.pass.features.itemCreate)\napp/build.gradle.kts:487: unrecognised: Ward can't read this declaration: projects.pass.features.migrate)\napp/build.gradle.kts:488: unrecognised: Ward can't read this declaration: projects.pass.features.onboarding)\napp/build.gradle.kts:489: unrecognised: Ward can't read this declaration: projects.pass.features.passkeys)\napp/build.gradle.kts:490: unrecognised: Ward can't read this declaration: projects.pass.features.profile)\napp/build.gradle.kts:491: unrecognised: Ward can't read this declaration: projects.pass.features.settings)\napp/build.gradle.kts:492: unrecognised: Ward can't read this declaration: projects.pass.searchOptions.api)"
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "pass/features/attachments/src/main/AndroidManifest.xml",
+          "line": 3
+        },
+        {
+          "file": "pass/notifications/impl/src/main/AndroidManifest.xml",
+          "line": 4
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\npass/features/attachments/src/main/AndroidManifest.xml:3: android.permission.CAMERA\npass/notifications/impl/src/main/AndroidManifest.xml:4: android.permission.POST_NOTIFICATIONS"
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "pass/features/settings/src/main/kotlin/proton/android/pass/features/settings/AboutSection.kt",
+          "line": 54
+        },
+        {
+          "file": "pass/features/settings/src/main/kotlin/proton/android/pass/features/settings/SettingsScreen.kt",
+          "line": 68
+        },
+        {
+          "file": "pass/features/settings/src/main/res/values-b+es+419/strings.xml",
+          "line": 22
+        },
+        {
+          "file": "pass/features/settings/src/main/res/values-be/strings.xml",
+          "line": 22
+        },
+        {
+          "file": "pass/features/settings/src/main/res/values-ca/strings.xml",
+          "line": 22
+        }
+      ],
+      "explanation": "A privacy policy link or text is in the app. Ward doesn't read the policy: check that it matches what the app collects and the Data safety answers.\npass/features/settings/src/main/kotlin/proton/android/pass/features/settings/AboutSection.kt:54: privacy policy\npass/features/settings/src/main/kotlin/proton/android/pass/features/settings/SettingsScreen.kt:68: privacy policy\npass/features/settings/src/main/res/values-b+es+419/strings.xml:22: privacy policy\npass/features/settings/src/main/res/values-be/strings.xml:22: privacy policy\npass/features/settings/src/main/res/values-ca/strings.xml:22: privacy policy"
+    }
+  ],
+  "inspected": [
+    "app/build.gradle.kts",
+    "app/src/gms/AndroidManifest.xml",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/java/proton/android/pass/ui/AppNavigation.kt",
+    "app/src/main/java/proton/android/pass/ui/MainActivity.kt",
+    "app/src/main/java/proton/android/pass/ui/launcher/LauncherViewModel.kt",
+    "app/src/main/java/proton/android/pass/ui/navigation/AppGraph.kt",
+    "app/src/quest/AndroidManifest.xml",
+    "appmacrobenchmark/build.gradle.kts",
+    "appmacrobenchmark/src/main/AndroidManifest.xml",
+    "gradle/libs.versions.toml",
+    "pass/account/api/build.gradle.kts",
+    "pass/account/api/src/main/AndroidManifest.xml",
+    "pass/account/fakes/build.gradle.kts",
+    "pass/account/fakes/src/main/AndroidManifest.xml",
+    "pass/account/fakes/src/main/kotlin/proton/android/pass/account/fakes/FakeAccountManager.kt",
+    "pass/account/impl/build.gradle.kts",
+    "pass/account/impl/src/main/AndroidManifest.xml",
+    "pass/app-config/api/build.gradle.kts",
+    "pass/app-config/fakes/build.gradle.kts",
+    "pass/app-config/fakes/src/main/AndroidManifest.xml",
+    "pass/autofill/api/build.gradle.kts",
+    "pass/autofill/e2e-app/build.gradle.kts",
+    "pass/autofill/e2e-app/src/main/AndroidManifest.xml",
+    "pass/autofill/fakes/build.gradle.kts",
+    "pass/autofill/fakes/src/main/AndroidManifest.xml",
+    "pass/autofill/impl/build.gradle.kts",
+    "pass/autofill/impl/src/alpha/AndroidManifest.xml",
+    "pass/autofill/impl/src/dev/AndroidManifest.xml",
+    "pass/autofill/impl/src/main/AndroidManifest.xml",
+    "pass/autofill/impl/src/quest/AndroidManifest.xml",
+    "pass/autofill/microbenchmark/build.gradle.kts",
+    "pass/autofill/microbenchmark/src/main/AndroidManifest.xml",
+    "pass/autofill/test-app/build.gradle.kts",
+    "pass/autofill/test-app/src/main/AndroidManifest.xml",
+    "pass/biometry/api/build.gradle.kts",
+    "pass/biometry/api/src/main/AndroidManifest.xml",
+    "pass/biometry/fakes/build.gradle.kts",
+    "pass/biometry/fakes/src/main/AndroidManifest.xml",
+    "pass/biometry/impl/build.gradle.kts",
+    "pass/biometry/impl/src/main/AndroidManifest.xml",
+    "pass/browser-allowlist/impl/build.gradle.kts",
+    "pass/clipboard/api/build.gradle.kts",
+    "pass/clipboard/fakes/build.gradle.kts",
+    "pass/clipboard/fakes/src/main/AndroidManifest.xml",
+    "pass/clipboard/impl/build.gradle.kts",
+    "pass/clipboard/impl/src/main/AndroidManifest.xml",
+    "pass/common-presentation/api/build.gradle.kts",
+    "pass/common-presentation/fakes/build.gradle.kts",
+    "pass/common-presentation/fakes/src/main/AndroidManifest.xml",
+    "pass/common-presentation/impl/build.gradle.kts",
+    "pass/common-presentation/impl/src/main/AndroidManifest.xml",
+    "pass/common-rust/api/build.gradle.kts",
+    "pass/common-rust/fakes/build.gradle.kts",
+    "pass/common-rust/fakes/src/main/AndroidManifest.xml",
+    "pass/common-rust/impl/build.gradle.kts",
+    "pass/common-rust/impl/src/main/AndroidManifest.xml",
+    "pass/common-test/build.gradle.kts",
+    "pass/common-test/src/main/AndroidManifest.xml",
+    "pass/common-ui-models/api/build.gradle.kts",
+    "pass/common-ui-models/fakes/build.gradle.kts",
+    "pass/common-ui-models/fakes/src/main/AndroidManifest.xml",
+    "pass/common-ui/api/build.gradle.kts",
+    "pass/common-ui/api/src/main/AndroidManifest.xml",
+    "pass/common-ui/fakes/build.gradle.kts",
+    "pass/common-ui/fakes/src/main/AndroidManifest.xml",
+    "pass/common-ui/impl/build.gradle.kts",
+    "pass/common-ui/impl/src/main/AndroidManifest.xml",
+    "pass/common/api/build.gradle.kts",
+    "pass/common/fakes/build.gradle.kts",
+    "pass/common/impl/build.gradle.kts",
+    "pass/compose-components/impl/build.gradle.kts",
+    "pass/compose-components/impl/src/main/AndroidManifest.xml",
+    "pass/crypto/api/build.gradle.kts",
+    "pass/crypto/fakes/build.gradle.kts",
+    "pass/crypto/impl/build.gradle.kts",
+    "pass/data-models/api/build.gradle.kts",
+    "pass/data/api/build.gradle.kts",
+    "pass/data/api/src/main/AndroidManifest.xml",
+    "pass/data/fakes/build.gradle.kts",
+    "pass/data/fakes/src/main/AndroidManifest.xml",
+    "pass/data/impl/build.gradle.kts",
+    "pass/data/impl/src/main/AndroidManifest.xml",
+    "pass/domain/build.gradle.kts",
+    "pass/features/account-selector/build.gradle.kts",
+    "pass/features/account-selector/src/main/AndroidManifest.xml",
+    "pass/features/account/build.gradle.kts",
+    "pass/features/account/src/main/AndroidManifest.xml",
+    "pass/features/alias-contacts/build.gradle.kts",
+    "pass/features/alias-contacts/src/main/AndroidManifest.xml",
+    "pass/features/attachments/build.gradle.kts",
+    "pass/features/attachments/src/main/AndroidManifest.xml",
+    "pass/features/attachments/src/quest/AndroidManifest.xml",
+    "pass/features/auth/build.gradle.kts",
+    "pass/features/auth/src/main/AndroidManifest.xml",
+    "pass/features/credentials/build.gradle.kts",
+    "pass/features/credentials/src/main/AndroidManifest.xml",
+    "pass/features/explore/build.gradle.kts",
+    "pass/features/explore/src/main/AndroidManifest.xml",
+    "pass/features/extrapassword/build.gradle.kts",
+    "pass/features/extrapassword/src/main/AndroidManifest.xml",
+    "pass/features/feature-flags/build.gradle.kts",
+    "pass/features/feature-flags/src/main/AndroidManifest.xml",
+    "pass/features/home-benchmark/build.gradle.kts",
+    "pass/features/home-benchmark/src/main/AndroidManifest.xml",
+    "pass/features/home-demo/build.gradle.kts",
+    "pass/features/home-demo/src/main/AndroidManifest.xml",
+    "pass/features/home/build.gradle.kts",
+    "pass/features/home/src/main/AndroidManifest.xml",
+    "pass/features/in-app-messages/build.gradle.kts",
+    "pass/features/in-app-messages/src/main/AndroidManifest.xml",
+    "pass/features/item-create/build.gradle.kts",
+    "pass/features/item-create/src/main/AndroidManifest.xml",
+    "pass/features/item-create/src/quest/AndroidManifest.xml",
+    "pass/features/item-details/build.gradle.kts",
+    "pass/features/item-details/src/main/AndroidManifest.xml",
+    "pass/features/item-history/build.gradle.kts",
+    "pass/features/item-history/src/main/AndroidManifest.xml",
+    "pass/features/item-options/build.gradle.kts",
+    "pass/features/item-options/src/main/AndroidManifest.xml",
+    "pass/features/item-trash/build.gradle.kts",
+    "pass/features/item-trash/src/main/AndroidManifest.xml",
+    "pass/features/migrate/build.gradle.kts",
+    "pass/features/migrate/src/main/AndroidManifest.xml",
+    "pass/features/onboarding/build.gradle.kts",
+    "pass/features/onboarding/src/main/AndroidManifest.xml",
+    "pass/features/passkeys/build.gradle.kts",
+    "pass/features/password/build.gradle.kts",
+    "pass/features/password/src/main/AndroidManifest.xml",
+    "pass/features/profile/build.gradle.kts",
+    "pass/features/profile/src/main/AndroidManifest.xml",
+    "pass/features/report/build.gradle.kts",
+    "pass/features/report/src/main/AndroidManifest.xml",
+    "pass/features/search-options/build.gradle.kts",
+    "pass/features/search-options/src/main/AndroidManifest.xml",
+    "pass/features/secure-links/build.gradle.kts",
+    "pass/features/secure-links/src/main/AndroidManifest.xml",
+    "pass/features/security-center/build.gradle.kts",
+    "pass/features/security-center/src/main/AndroidManifest.xml",
+    "pass/features/select-item/build.gradle.kts",
+    "pass/features/select-item/src/main/AndroidManifest.xml",
+    "pass/features/settings/build.gradle.kts",
+    "pass/features/settings/src/main/AndroidManifest.xml",
+    "pass/features/settings/src/main/kotlin/proton/android/pass/features/settings/AboutSection.kt",
+    "pass/features/settings/src/main/kotlin/proton/android/pass/features/settings/SettingsScreen.kt",
+    "pass/features/settings/src/main/res/values-b+es+419/strings.xml",
+    "pass/features/settings/src/main/res/values-be/strings.xml",
+    "pass/features/settings/src/main/res/values-ca/strings.xml",
+    "pass/features/settings/src/quest/AndroidManifest.xml",
+    "pass/features/sharing/build.gradle.kts",
+    "pass/features/sharing/src/main/AndroidManifest.xml",
+    "pass/features/sl-sync/build.gradle.kts",
+    "pass/features/sl-sync/src/main/AndroidManifest.xml",
+    "pass/features/sync/build.gradle.kts",
+    "pass/features/sync/src/main/AndroidManifest.xml",
+    "pass/features/trash/build.gradle.kts",
+    "pass/features/trash/src/main/AndroidManifest.xml",
+    "pass/features/upsell/build.gradle.kts",
+    "pass/features/upsell/fakes/build.gradle.kts",
+    "pass/features/upsell/src/main/AndroidManifest.xml",
+    "pass/features/username/build.gradle.kts",
+    "pass/features/username/src/main/AndroidManifest.xml",
+    "pass/features/vault/build.gradle.kts",
+    "pass/features/vault/src/main/AndroidManifest.xml",
+    "pass/files/api/build.gradle.kts",
+    "pass/files/fakes/build.gradle.kts",
+    "pass/files/fakes/src/main/AndroidManifest.xml",
+    "pass/files/impl/build.gradle.kts",
+    "pass/files/impl/src/main/AndroidManifest.xml",
+    "pass/image/fakes/build.gradle.kts",
+    "pass/image/fakes/src/main/AndroidManifest.xml",
+    "pass/image/impl/build.gradle.kts",
+    "pass/image/impl/src/main/AndroidManifest.xml",
+    "pass/in-app-review/api/build.gradle.kts",
+    "pass/in-app-review/api/src/main/AndroidManifest.xml",
+    "pass/in-app-review/fakes/build.gradle.kts",
+    "pass/in-app-review/fakes/src/main/AndroidManifest.xml",
+    "pass/in-app-review/impl/build.gradle.kts",
+    "pass/in-app-review/impl/src/main/AndroidManifest.xml",
+    "pass/in-app-review/no-op/build.gradle.kts",
+    "pass/in-app-updates/api/build.gradle.kts",
+    "pass/in-app-updates/api/src/main/AndroidManifest.xml",
+    "pass/in-app-updates/impl/build.gradle.kts",
+    "pass/in-app-updates/impl/src/main/AndroidManifest.xml",
+    "pass/in-app-updates/no-op/build.gradle.kts",
+    "pass/install-referrer/impl/build.gradle.kts",
+    "pass/install-referrer/no-op/build.gradle.kts",
+    "pass/log/api/build.gradle.kts",
+    "pass/log/api/src/main/AndroidManifest.xml",
+    "pass/log/fakes/build.gradle.kts",
+    "pass/log/fakes/src/main/AndroidManifest.xml",
+    "pass/log/impl/build.gradle.kts",
+    "pass/log/impl/src/main/AndroidManifest.xml",
+    "pass/navigation/api/build.gradle.kts",
+    "pass/navigation/api/src/main/AndroidManifest.xml",
+    "pass/network/api/build.gradle.kts",
+    "pass/network/fakes/build.gradle.kts",
+    "pass/network/impl/build.gradle.kts",
+    "pass/network/impl/src/main/AndroidManifest.xml",
+    "pass/notifications/api/build.gradle.kts",
+    "pass/notifications/fakes/build.gradle.kts",
+    "pass/notifications/fakes/src/main/AndroidManifest.xml",
+    "pass/notifications/impl/build.gradle.kts",
+    "pass/notifications/impl/src/main/AndroidManifest.xml",
+    "pass/notifications/impl/src/quest/AndroidManifest.xml",
+    "pass/passkeys/api/build.gradle.kts",
+    "pass/passkeys/fakes/build.gradle.kts",
+    "pass/passkeys/fakes/src/main/AndroidManifest.xml",
+    "pass/passkeys/impl/build.gradle.kts",
+    "pass/passkeys/impl/src/main/AndroidManifest.xml",
+    "pass/payments/api/build.gradle.kts",
+    "pass/payments/fakes/build.gradle.kts",
+    "pass/payments/impl/build.gradle.kts",
+    "pass/payments/no-op/build.gradle.kts",
+    "pass/preferences/api/build.gradle.kts",
+    "pass/preferences/fakes/build.gradle.kts",
+    "pass/preferences/fakes/src/main/AndroidManifest.xml",
+    "pass/preferences/impl/build.gradle.kts",
+    "pass/preferences/impl/src/main/AndroidManifest.xml",
+    "pass/proton-apps/api/build.gradle.kts",
+    "pass/proton-apps/api/src/main/AndroidManifest.xml",
+    "pass/proton-apps/fakes/build.gradle.kts",
+    "pass/proton-apps/fakes/src/main/AndroidManifest.xml",
+    "pass/proton-apps/impl/build.gradle.kts",
+    "pass/proton-apps/impl/src/main/AndroidManifest.xml",
+    "pass/protos/build.gradle.kts",
+    "pass/screenshot-tests/build.gradle.kts",
+    "pass/screenshot-tests/src/main/AndroidManifest.xml",
+    "pass/search-options/api/build.gradle.kts",
+    "pass/search-options/fakes/build.gradle.kts",
+    "pass/search-options/fakes/src/main/AndroidManifest.xml",
+    "pass/search-options/impl/build.gradle.kts",
+    "pass/search-options/impl/src/main/AndroidManifest.xml",
+    "pass/security-center/api/build.gradle.kts",
+    "pass/security-center/fakes/build.gradle.kts",
+    "pass/security-center/fakes/src/main/AndroidManifest.xml",
+    "pass/security-center/impl/build.gradle.kts",
+    "pass/security-center/impl/src/main/AndroidManifest.xml",
+    "pass/security-center/microbenchmark/build.gradle.kts",
+    "pass/security-center/microbenchmark/src/main/AndroidManifest.xml",
+    "pass/signing-certificates/build.gradle.kts",
+    "pass/telemetry/api/build.gradle.kts",
+    "pass/telemetry/fakes/build.gradle.kts",
+    "pass/telemetry/fakes/src/main/AndroidManifest.xml",
+    "pass/telemetry/impl/build.gradle.kts",
+    "pass/telemetry/impl/src/main/AndroidManifest.xml",
+    "pass/totp/api/build.gradle.kts",
+    "pass/totp/fakes/build.gradle.kts",
+    "pass/totp/fakes/src/main/AndroidManifest.xml",
+    "pass/totp/impl/build.gradle.kts",
+    "pass/totp/impl/src/main/AndroidManifest.xml",
+    "pass/tracing/impl/build.gradle.kts",
+    "pass/tracing/impl/src/main/AndroidManifest.xml",
+    "pass/tracing/no-op/build.gradle.kts",
+    "pass/tracing/no-op/src/main/AndroidManifest.xml"
+  ]
+}

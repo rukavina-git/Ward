@@ -1,0 +1,410 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "mbw/src/main/AndroidManifest.xml",
+          "line": 96
+        },
+        {
+          "file": "mbw/src/main/AndroidManifest.xml",
+          "line": 177
+        },
+        {
+          "file": "mbw/src/main/AndroidManifest.xml",
+          "line": 347
+        }
+      ],
+      "explanation": "Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\nmbw/src/main/AndroidManifest.xml:96: activity .activity.StartupActivity; exported: yes (android:exported is set); deep link schemes: bitcoin, bitid, btcpop, mycelium, http\nmbw/src/main/AndroidManifest.xml:177: activity .activity.modern.ModernMain; exported: yes (android:exported is set)\nmbw/src/main/AndroidManifest.xml:347: activity com.mycelium.giftbox.GiftBoxRootActivity; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 7
+        },
+        {
+          "file": "bitlib/build.gradle",
+          "line": 22
+        },
+        {
+          "file": "lt-api/build.gradle",
+          "line": 15
+        },
+        {
+          "file": "walletmodel/build.gradle",
+          "line": 10
+        },
+        {
+          "file": "walletcore/build.gradle",
+          "line": 18
+        },
+        {
+          "file": "wapi/build.gradle",
+          "line": 17
+        },
+        {
+          "file": "mbw/build.gradle",
+          "line": 123
+        },
+        {
+          "file": "wallet-console/build.gradle",
+          "line": 21
+        },
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 11
+        },
+        {
+          "file": "bitlib/build.gradle",
+          "line": 23
+        },
+        {
+          "file": "lt-api/build.gradle",
+          "line": 12
+        },
+        {
+          "file": "walletmodel/build.gradle",
+          "line": 13
+        },
+        {
+          "file": "walletcore/build.gradle",
+          "line": 15
+        },
+        {
+          "file": "wapi/build.gradle",
+          "line": 20
+        },
+        {
+          "file": "mbwlib/build.gradle",
+          "line": 12
+        },
+        {
+          "file": "mbw/build.gradle",
+          "line": 62
+        },
+        {
+          "file": "btchip/build.gradle",
+          "line": 9
+        },
+        {
+          "file": "wallet-console/build.gradle",
+          "line": 18
+        },
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 6
+        },
+        {
+          "file": "bitlib/build.gradle",
+          "line": 24
+        },
+        {
+          "file": "mbwlib/build.gradle",
+          "line": 18
+        },
+        {
+          "file": "mbw/build.gradle",
+          "line": 125
+        },
+        {
+          "file": "bitlib/build.gradle",
+          "line": 25
+        },
+        {
+          "file": "walletcore/build.gradle",
+          "line": 37
+        },
+        {
+          "file": "walletcore/build.gradle",
+          "line": 16
+        },
+        {
+          "file": "wallet-console/build.gradle",
+          "line": 19
+        },
+        {
+          "file": "gradle/libs.versions.toml",
+          "line": 5
+        },
+        {
+          "file": "walletcore/build.gradle",
+          "line": 28
+        },
+        {
+          "file": "testhelper/build.gradle",
+          "line": 5
+        },
+        {
+          "file": "view/build.gradle",
+          "line": 38
+        },
+        {
+          "file": "view/build.gradle",
+          "line": 39
+        },
+        {
+          "file": "bitlib/build.gradle",
+          "line": 26
+        },
+        {
+          "file": "lt-api/build.gradle",
+          "line": 13
+        },
+        {
+          "file": "walletmodel/build.gradle",
+          "line": 12
+        },
+        {
+          "file": "walletmodel/build.gradle",
+          "line": 15
+        },
+        {
+          "file": "walletmodel/build.gradle",
+          "line": 16
+        },
+        {
+          "file": "walletcore/build.gradle",
+          "line": 19
+        },
+        {
+          "file": "walletcore/build.gradle",
+          "line": 20
+        },
+        {
+          "file": "walletcore/build.gradle",
+          "line": 22
+        },
+        {
+          "file": "walletcore/build.gradle",
+          "line": 25
+        },
+        {
+          "file": "walletcore/build.gradle",
+          "line": 26
+        },
+        {
+          "file": "wapi/build.gradle",
+          "line": 19
+        },
+        {
+          "file": "wapi/build.gradle",
+          "line": 22
+        },
+        {
+          "file": "wapi/build.gradle",
+          "line": 23
+        },
+        {
+          "file": "mbwlib/build.gradle",
+          "line": 14
+        },
+        {
+          "file": "mbwlib/build.gradle",
+          "line": 15
+        },
+        {
+          "file": "mbwlib/build.gradle",
+          "line": 16
+        },
+        {
+          "file": "commonView/build.gradle.kts",
+          "line": 23
+        },
+        {
+          "file": "commonView/build.gradle.kts",
+          "line": 24
+        },
+        {
+          "file": "mbw/build.gradle",
+          "line": 74
+        },
+        {
+          "file": "mbw/build.gradle",
+          "line": 81
+        },
+        {
+          "file": "mbw/build.gradle",
+          "line": 83
+        },
+        {
+          "file": "mbw/build.gradle",
+          "line": 93
+        },
+        {
+          "file": "mbw/build.gradle",
+          "line": 96
+        },
+        {
+          "file": "mbw/build.gradle",
+          "line": 98
+        },
+        {
+          "file": "mbw/build.gradle",
+          "line": 100
+        },
+        {
+          "file": "mbw/build.gradle",
+          "line": 103
+        },
+        {
+          "file": "mbw/build.gradle",
+          "line": 119
+        },
+        {
+          "file": "mbw/build.gradle",
+          "line": 122
+        },
+        {
+          "file": "wallet-console/build.gradle",
+          "line": 22
+        },
+        {
+          "file": "wallet-console/build.gradle",
+          "line": 23
+        }
+      ],
+      "explanation": "com.fasterxml.jackson.core:jackson-databind:2.9.6 is in the affected range of 67 OSV advisories: GHSA-27xj-rqx5-2255/CVE-2020-11619, GHSA-288c-cq4h-88gq/CVE-2020-25649, GHSA-4gq5-ch57-c2mg/CVE-2018-14719, GHSA-4w82-r329-3q67/CVE-2020-8840, GHSA-57j2-w4cx-62h2/CVE-2020-36518, GHSA-58pp-9c76-5625/CVE-2020-11112, GHSA-5949-rw7g-wx7w/CVE-2021-20190, GHSA-5gvw-p9qm-jgwh/CVE-2026-59889, GHSA-5jmj-h7xm-6q6v/CVE-2026-54515, GHSA-5p34-5m6p-p58g/CVE-2020-9546, GHSA-5r5r-6hpj-8gg9/CVE-2020-35728, GHSA-5ww9-j83m-q7qx/CVE-2019-12086, GHSA-645p-88qh-w398/CVE-2018-14718, GHSA-6fpp-rgj9-8rwc/CVE-2019-14379, GHSA-758m-v56v-grj4/CVE-2020-10969, GHSA-85cw-hj65-qqv9/CVE-2019-16335, GHSA-89qr-369f-5m5x/CVE-2020-36182, GHSA-8c4j-34r4-xr8g/CVE-2020-36180, GHSA-8w26-6f25-cm9x/CVE-2020-36185, GHSA-95cm-88f5-f2c7/CVE-2020-10672, GHSA-9gph-22xh-8x98/CVE-2020-36179, GHSA-9m6f-7xcq-8vf8/CVE-2020-36183, GHSA-9mxf-g3x6-wv74/CVE-2018-14721, GHSA-9vvp-fxw6-jcxr/CVE-2020-11113, GHSA-c265-37vj-cwcc/CVE-2020-14062, GHSA-c2q3-4qrh-fm48/CVE-2020-14061, GHSA-c8hm-7hpq-7jhg/CVE-2018-19362, GHSA-cf6r-3wgc-h863/CVE-2019-14892, GHSA-cmfg-87vq-g5g4/CVE-2019-12814, GHSA-cvm9-fjm9-3572/CVE-2020-36181, GHSA-cxp5-3px4-pw24/CVE-2026-91777, GHSA-f3j5-rmmp-3fc5/CVE-2019-17267, GHSA-f9hv-mg5h-xcw9/CVE-2018-19360, GHSA-f9xh-2qgp-cq57/CVE-2020-36188, GHSA-fmmc-742q-jg75/CVE-2019-16943, GHSA-fqwf-pjwf-7vqv/CVE-2020-10673, GHSA-gjmw-vf9h-g25v/CVE-2019-17531, GHSA-gwp4-hfv6-p7hw/CVE-2019-14439, GHSA-gww7-p5w4-wrfv/CVE-2019-20330, GHSA-h3cw-g4mq-c5x2/CVE-2020-24616, GHSA-h4rc-386g-6m85/CVE-2020-11620, GHSA-h822-r4r5-v8jg/CVE-2019-14540, GHSA-hgj6-7826-r7m5/CVE-2026-54514, GHSA-j823-4qch-3rgm/CVE-2020-14060, GHSA-jjjh-jjxp-wpff/CVE-2022-42003, GHSA-m6x4-97wx-4q27/CVE-2020-36184, GHSA-mc6h-4qgp-37qh/CVE-2020-14195, GHSA-mph4-vhrx-mv67/CVE-2019-12384, GHSA-mx7p-6679-8g3q/CVE-2019-16942, GHSA-mx9v-gmh4-mgqw/CVE-2018-19361, GHSA-p43x-xfjf-5jhr/CVE-2020-9548, GHSA-q93h-jc49-78gg/CVE-2020-9547, GHSA-qjw2-hr98-qgfh/CVE-2020-24750, GHSA-qmqc-x3r4-6v39/CVE-2019-14893, GHSA-r3gr-cxrf-hg25/CVE-2020-35491, GHSA-r695-7vr9-jgc2/CVE-2020-36187, GHSA-rf6r-2c4q-2vwg/CVE-2020-10968, GHSA-rgv9-q543-rqg4/CVE-2022-42004, GHSA-rpr3-cw39-3pxh/CVE-2020-10650, GHSA-v3xw-c963-f5hc/CVE-2020-11111, GHSA-v585-23hc-c647/CVE-2020-36186, GHSA-vfqx-33qm-g869/CVE-2020-36189, GHSA-vvgp-rfg2-7rr6/CVE-2026-77310, GHSA-wh8g-3j2c-rqj5/CVE-2020-35490, GHSA-wjgm-6hv5-3cvf/CVE-2026-19032, GHSA-wv8q-qhhj-9h54/CVE-2026-91776, GHSA-x2w5-5m2g-7h5m/CVE-2018-14720. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). com.google.guava:guava:32.1.3-android is in the affected range of 1 OSV advisory: GHSA-xxph-c9ww-hj94/CVE-2026-102554. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). org.bouncycastle:bcprov-jdk18on:1.79 is in the affected range of 5 OSV advisories: GHSA-574f-3g2m-x479/CVE-2025-14813, GHSA-9pwp-9qqc-pr26/CVE-2026-8763, GHSA-c3fc-8qff-9hwx/CVE-2026-0636, GHSA-p93r-85wp-75v3/CVE-2026-5598, GHSA-qp49-qgx5-5m26/CVE-2026-13506. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). org.bouncycastle:bcpkix-jdk18on:1.79 is in the affected range of 1 OSV advisory: GHSA-wg6q-6289-32hp/CVE-2026-5588. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). com.fasterxml.jackson.core:jackson-core:2.9.6 is in the affected range of 4 OSV advisories: GHSA-7hhh-6rmp-j9qf/CVE-2026-89425, GHSA-h46c-h94j-95f3/CVE-2025-52999, GHSA-r7wm-3cxj-wff9/CVE-2026-68494, GHSA-wf8f-6423-gfxg/CVE-2025-49128. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). org.bitcoinj:bitcoinj-core:0.17 is in the affected range of 1 OSV advisory: GHSA-hfcf-v2f8-x9pc/CVE-2026-44714. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). 80 of the other dependencies with exact versions match no OSV advisory, but 34 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT).\ngradle/libs.versions.toml:7: version 2.9.6\nbitlib/build.gradle:22: implementation (catalog libs.jackson.databind) in module bitlib\nlt-api/build.gradle:15: implementation (catalog libs.jackson.databind) in module lt-api\nwalletmodel/build.gradle:10: implementation (catalog libs.jackson.databind) in module walletmodel\nwalletcore/build.gradle:18: implementation (catalog libs.jackson.databind) in module walletcore\nwapi/build.gradle:17: implementation (catalog libs.jackson.databind) in module wapi\nmbw/build.gradle:123: implementation (catalog libs.jackson.databind) in module mbw\nwallet-console/build.gradle:21: implementation (catalog libs.jackson.databind) in module wallet-console\ngradle/libs.versions.toml:11: version 32.1.3-android\nbitlib/build.gradle:23: implementation (catalog libs.guava) in module bitlib\nlt-api/build.gradle:12: implementation (catalog libs.guava) in module lt-api\nwalletmodel/build.gradle:13: implementation (catalog libs.guava) in module walletmodel\nwalletcore/build.gradle:15: implementation (catalog libs.guava) in module walletcore\nwapi/build.gradle:20: implementation (catalog libs.guava) in module wapi\nmbwlib/build.gradle:12: implementation (catalog libs.guava) in module mbwlib\nmbw/build.gradle:62: implementation (catalog libs.guava) in module mbw\nbtchip/build.gradle:9: implementation (catalog libs.guava) in module btchip\nwallet-console/build.gradle:18: implementation (catalog libs.guava) in module wallet-console\ngradle/libs.versions.toml:6: version 1.79\nbitlib/build.gradle:24: implementation (catalog libs.bouncycastle.bcprov) in module bitlib\nmbwlib/build.gradle:18: implementation (catalog libs.bouncycastle.bcprov) in module mbwlib\nmbw/build.gradle:125: implementation (catalog libs.bouncycastle.bcprov) in module mbw\nbitlib/build.gradle:25: implementation (catalog libs.bouncycastle.bcpkix) in module bitlib\nwalletcore/build.gradle:37: implementation (catalog libs.bouncycastle.bcpkix) in module walletcore\nwalletcore/build.gradle:16: implementation (catalog libs.jackson.core) in module walletcore\nwallet-console/build.gradle:19: implementation (catalog libs.jackson.core) in module wallet-console\ngradle/libs.versions.toml:5: version 0.17\nwalletcore/build.gradle:28: implementation (catalog libs.bitcoinj.core) in module walletcore\ntesthelper/build.gradle:5: org.jetbrains.kotlin:kotlin-stdlib: version is a variable, range or dynamic\nview/build.gradle:38: androidx.appcompat:appcompat: version is a variable, range or dynamic\nview/build.gradle:39: org.jetbrains.kotlin:kotlin-stdlib-jdk7: version is a variable, range or dynamic\nbitlib/build.gradle:26: org.jetbrains.kotlin:kotlin-stdlib: version is a variable, range or dynamic\nlt-api/build.gradle:13: com.squareup.okhttp:okhttp: version is a variable, range or dynamic\nwalletmodel/build.gradle:12: com.squareup.okhttp:okhttp: version is a variable, range or dynamic\nwalletmodel/build.gradle:15: org.jetbrains.kotlin:kotlin-stdlib: version is a variable, range or dynamic\nwalletmodel/build.gradle:16: com.google.code.gson:gson: version is a variable, range or dynamic\nwalletcore/build.gradle:19: com.google.http-client:google-http-client-jackson2: version is a variable, range or dynamic\nwalletcore/build.gradle:20: org.jetbrains.kotlin:kotlin-stdlib: version is a variable, range or dynamic\nwalletcore/build.gradle:22: com.google.code.gson:gson: version is a variable, range or dynamic\nwalletcore/build.gradle:25: app.cash.sqldelight:sqlite-driver: version is a variable, range or dynamic\nwalletcore/build.gradle:26: app.cash.sqldelight:primitive-adapters: version is a variable, range or dynamic\nwapi/build.gradle:19: com.squareup.okhttp:okhttp: version is a variable, range or dynamic\nwapi/build.gradle:22: org.jetbrains.kotlin:kotlin-stdlib: version is a variable, range or dynamic\nwapi/build.gradle:23: com.google.code.gson:gson: version is a variable, range or dynamic\nmbwlib/build.gradle:14: com.squareup:otto: version is a variable, range or dynamic\nmbwlib/build.gradle:15: com.squareup.okhttp:okhttp: version is a variable, range or dynamic\nmbwlib/build.gradle:16: com.squareup.wire:wire-runtime: version is a variable, range or dynamic\ncommonView/build.gradle.kts:23: unrecognised: Ward can't read this declaration: compose.material3)\ncommonView/build.gradle.kts:24: unrecognised: Ward can't read this declaration: compose.components.uiToolingPreview)\nmbw/build.gradle:74: androidx.appcompat:appcompat: version is a variable, range or dynamic\nmbw/build.gradle:81: com.google.firebase:firebase-dynamic-links: no version (a BOM or constraint may set it)\nmbw/build.gradle:81: com.google.firebase:firebase-messaging-ktx: no version (a BOM or constraint may set it)\nmbw/build.gradle:83: com.squareup:otto: version is a variable, range or dynamic\nmbw/build.gradle:93: androidx.work:work-runtime-ktx: version is a variable, range or dynamic\nmbw/build.gradle:96: com.google.android.material:material: version is a variable, range or dynamic\nmbw/build.gradle:98: com.squareup.wire:wire-runtime: version is a variable, range or dynamic\nmbw/build.gradle:100: com.squareup.okhttp:okhttp: version is a variable, range or dynamic\nmbw/build.gradle:103: androidx.constraintlayout:constraintlayout: version is a variable, range or dynamic\nmbw/build.gradle:119: org.jetbrains.kotlin:kotlin-stdlib: version is a variable, range or dynamic\nmbw/build.gradle:122: com.google.http-client:google-http-client-jackson2: version is a variable, range or dynamic\nwallet-console/build.gradle:22: com.google.http-client:google-http-client-jackson2: version is a variable, range or dynamic\nwallet-console/build.gradle:23: org.jetbrains.kotlin:kotlin-stdlib: version is a variable, range or dynamic"
+    },
+    {
+      "title": "MASTG-TEST-0235: Android App Configurations Allowing Cleartext Traffic",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0026"
+      ],
+      "locations": [
+        {
+          "file": "mbw/src/main/AndroidManifest.xml",
+          "line": 58
+        }
+      ],
+      "explanation": "The base cleartext default depends on targetSdk, which Ward couldn't resolve.\nmbw/src/main/AndroidManifest.xml:58: networkSecurityConfig @xml/network_security_config"
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "mbw/src/main/AndroidManifest.xml",
+          "line": 10
+        },
+        {
+          "file": "mbw/src/main/AndroidManifest.xml",
+          "line": 11
+        },
+        {
+          "file": "mbw/src/main/AndroidManifest.xml",
+          "line": 13
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\nmbw/src/main/AndroidManifest.xml:10: android.permission.CAMERA\nmbw/src/main/AndroidManifest.xml:11: android.permission.ACCESS_COARSE_LOCATION\nmbw/src/main/AndroidManifest.xml:13: android.permission.WRITE_EXTERNAL_STORAGE"
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "mbw/src/main/res/layout/activity_set_segwit_change.xml",
+          "line": 52
+        },
+        {
+          "file": "mbw/src/main/res/values-fil/strings.xml",
+          "line": 322
+        },
+        {
+          "file": "mbw/src/main/res/values-in/strings.xml",
+          "line": 355
+        },
+        {
+          "file": "mbw/src/main/res/values-iw/strings.xml",
+          "line": 488
+        },
+        {
+          "file": "mbw/src/main/res/values/strings.xml",
+          "line": 249
+        }
+      ],
+      "explanation": "A privacy policy link or text is in the app. Ward doesn't read the policy: check that it matches what the app collects and the Data safety answers.\nmbw/src/main/res/layout/activity_set_segwit_change.xml:52: privacy policy\nmbw/src/main/res/values-fil/strings.xml:322: privacy policy\nmbw/src/main/res/values-in/strings.xml:355: privacy policy\nmbw/src/main/res/values-iw/strings.xml:488: privacy policy\nmbw/src/main/res/values/strings.xml:249: privacy policy"
+    }
+  ],
+  "inspected": [
+    "LVL/src/main/AndroidManifest.xml",
+    "bitlib/build.gradle",
+    "btchip/build.gradle",
+    "common/build.gradle.kts",
+    "common/src/androidMain/AndroidManifest.xml",
+    "commonView/build.gradle.kts",
+    "commonView/src/androidMain/AndroidManifest.xml",
+    "gradle/libs.versions.toml",
+    "libs/nordpol/src/main/AndroidManifest.xml",
+    "lt-api/build.gradle",
+    "lt-api/src/main/java/com/mycelium/lt/api/LtApi.java",
+    "lt-api/src/main/java/com/mycelium/lt/api/LtApiClient.java",
+    "lt-api/src/main/java/com/mycelium/lt/api/LtConst.java",
+    "mbw/build.gradle",
+    "mbw/src/main/AndroidManifest.xml",
+    "mbw/src/main/java/com/mycelium/bequant/InvestmentModule.kt",
+    "mbw/src/main/java/com/mycelium/bequant/market/AccountFragment.kt",
+    "mbw/src/main/res/layout/activity_set_segwit_change.xml",
+    "mbw/src/main/res/values-fil/strings.xml",
+    "mbw/src/main/res/values-in/strings.xml",
+    "mbw/src/main/res/values-iw/strings.xml",
+    "mbw/src/main/res/values/strings.xml",
+    "mbw/src/main/res/xml/network_security_config.xml",
+    "mbwlib/build.gradle",
+    "supportChat/build.gradle.kts",
+    "testhelper/build.gradle",
+    "testhelper/src/main/AndroidManifest.xml",
+    "trezor/build.gradle",
+    "trezor/src/main/AndroidManifest.xml",
+    "view/build.gradle",
+    "view/src/main/AndroidManifest.xml",
+    "wallet-console/build.gradle",
+    "walletcore/build.gradle",
+    "walletmodel/build.gradle",
+    "wapi/build.gradle"
+  ]
+}

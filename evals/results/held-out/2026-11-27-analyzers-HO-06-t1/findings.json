@@ -1,0 +1,199 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 43
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 91
+        }
+      ],
+      "explanation": "Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\napp/src/main/AndroidManifest.xml:43: activity .ui.MainActivity; exported: yes (android:exported is set); deep link schemes: otpauth\napp/src/main/AndroidManifest.xml:91: activity .ui.PanicResponderActivity; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASWE-0042: Latest Platform Version Not Targeted",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-1"
+      ],
+      "maswe": [
+        "MASWE-0042"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle",
+          "line": 30
+        }
+      ],
+      "explanation": "targetSdk is 35. Since 2026-08-31, Google Play accepts new phone and tablet apps and updates only if they target API 36 or higher (rule checked 2026-11-23).\napp/build.gradle:30: targetSdk 35"
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle",
+          "line": 203
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 172
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 173
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 174
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 181
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 184
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 186
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 187
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 188
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 191
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 192
+        },
+        {
+          "file": "app/build.gradle",
+          "line": 193
+        }
+      ],
+      "explanation": "org.bouncycastle:bcprov-jdk18on:1.80 is in the affected range of 5 OSV advisories: GHSA-574f-3g2m-x479/CVE-2025-14813, GHSA-9pwp-9qqc-pr26/CVE-2026-8763, GHSA-c3fc-8qff-9hwx/CVE-2026-0636, GHSA-p93r-85wp-75v3/CVE-2026-5598, GHSA-qp49-qgx5-5m26/CVE-2026-13506. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). 21 of the other dependencies with exact versions match no OSV advisory, but 11 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT).\napp/build.gradle:203: implementation (string notation) in module app\napp/build.gradle:172: androidx.camera:camera-camera2: version is a variable, range or dynamic\napp/build.gradle:173: androidx.camera:camera-lifecycle: version is a variable, range or dynamic\napp/build.gradle:174: androidx.camera:camera-view: version is a variable, range or dynamic\napp/build.gradle:181: androidx.room:room-runtime: version is a variable, range or dynamic\napp/build.gradle:184: com.google.dagger:hilt-android: version is a variable, range or dynamic\napp/build.gradle:186: com.github.bumptech.glide:annotations: version is a variable, range or dynamic\napp/build.gradle:187: com.github.bumptech.glide:glide: version is a variable, range or dynamic\napp/build.gradle:188: com.github.bumptech.glide:recyclerview-integration: version is a variable, range or dynamic\napp/build.gradle:191: com.github.topjohnwu.libsu:core: version is a variable, range or dynamic\napp/build.gradle:192: com.github.topjohnwu.libsu:io: version is a variable, range or dynamic\napp/build.gradle:193: com.google.guava:guava: version is a variable, range or dynamic"
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 5
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\napp/src/main/AndroidManifest.xml:5: android.permission.CAMERA"
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 21
+        }
+      ],
+      "explanation": "Ward found no privacy policy link or text in the scanned files. Google Play requires every app to have a privacy policy link or text inside the app, as well as in Play Console (rule checked 2026-11-23, https://support.google.com/googleplay/android-developer/answer/10144311).\napp/src/main/AndroidManifest.xml:21: The app's manifest: no privacy policy link anywhere in the app."
+    },
+    {
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 26
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 25
+        }
+      ],
+      "explanation": "Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/main/AndroidManifest.xml:26: rules file @xml/backup_rules\napp/src/main/AndroidManifest.xml:25: rules file @xml/backup_rules_old"
+    },
+    {
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 26
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 25
+        }
+      ],
+      "explanation": "Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.\napp/src/main/AndroidManifest.xml:26: rules file @xml/backup_rules\napp/src/main/AndroidManifest.xml:25: rules file @xml/backup_rules_old"
+    }
+  ],
+  "inspected": [
+    "app/build.gradle",
+    "app/src/main/AndroidManifest.xml"
+  ]
+}

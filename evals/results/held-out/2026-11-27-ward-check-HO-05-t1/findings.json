@@ -1,0 +1,748 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0355: References to Unauthorized Database Access through Content Providers",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 421
+        }
+      ],
+      "explanation": "A content provider is exported with no permission: any installed app can query it. If it is public by design, accept it with a reason.\napp/src/main/AndroidManifest.xml:421: provider .widget.WidgetIconProvider; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0357: References to Oversharing of File-Based Content Providers",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 421
+        }
+      ],
+      "explanation": "A content provider is exported with no permission: any installed app can query it. If it is public by design, accept it with a reason.\napp/src/main/AndroidManifest.xml:421: provider .widget.WidgetIconProvider; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "cert4android/src/androidMain/AndroidManifest.xml",
+          "line": 13
+        },
+        {
+          "file": "cert4android/src/androidMain/kotlin/at/bitfire/cert4android/TrustCertificateActivity.kt",
+          "line": 99
+        },
+        {
+          "file": "cert4android/src/androidMain/AndroidManifest.xml",
+          "line": 8
+        },
+        {
+          "file": "app/src/generic/AndroidManifest.xml",
+          "line": 9
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 223
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 230
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 241
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 268
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 281
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 312
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 599
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 617
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 641
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 666
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 698
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 145
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 156
+        },
+        {
+          "file": "wear/src/main/AndroidManifest.xml",
+          "line": 167
+        },
+        {
+          "file": "app/src/googleplay/AndroidManifest.xml",
+          "line": 42
+        }
+      ],
+      "explanation": "cert4android's TrustCertificateActivity is exported with no permission and records a certificate trust decision taken from the intent (EXTRA_CERTIFICATE + EXTRA_TRUSTED). Any app can start it, and on a repeat delivery (singleInstance, onNewIntent) the attacker's certificate is saved as user-trusted without a tap. User-trusted certificates bypass hostname checks, so CalDAV/Tasks.org traffic, including Basic-auth credentials, can be intercepted. Ward's analyzer said: Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\ncert4android/src/androidMain/AndroidManifest.xml:13: TrustCertificateActivity is exported with no android:permission.\ncert4android/src/androidMain/kotlin/at/bitfire/cert4android/TrustCertificateActivity.kt:99: A trust decision taken from the caller's intent extra is registered directly.\ncert4android/src/androidMain/AndroidManifest.xml:8: activity .TrustCertificateActivity; exported: yes (android:exported is set)\napp/src/generic/AndroidManifest.xml:9: activity net.openid.appauth.RedirectUriReceiverActivity; exported: yes (android:exported is set); deep link schemes: msauth\napp/src/main/AndroidManifest.xml:223: activity .compose.FilterSelectionActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:230: activity .compose.IconPickerActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:241: activity .activities.UriHandler; exported: yes (android:exported is set); deep link schemes: content, content\napp/src/main/AndroidManifest.xml:268: activity .widget.ShortcutConfigActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:281: activity com.todoroo.astrid.activity.ShareLinkActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:312: activity .widget.WidgetConfigActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:599: activity .dashclock.DashClockSettings; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:617: activity .locale.ui.activity.TaskerCreateTaskActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:641: activity-alias com.twofortyfouram.locale.example.setting.toast.ui.activity.PluginActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:666: activity com.todoroo.astrid.activity.MainActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:698: activity .preferences.NotificationPreferences; exported: yes (android:exported is set)\nwear/src/main/AndroidManifest.xml:145: activity .complications.ComplicationConfigActivity; exported: yes (android:exported is set)\nwear/src/main/AndroidManifest.xml:156: activity .complications.FilterConfigActivity; exported: yes (android:exported is set)\nwear/src/main/AndroidManifest.xml:167: activity .complications.NextTaskConfigActivity; exported: yes (android:exported is set)\napp/src/googleplay/AndroidManifest.xml:42: activity com.microsoft.identity.client.BrowserTabActivity; exported: yes (android:exported is set); deep link schemes: msauth"
+    },
+    {
+      "title": "MASTG-TEST-0366: Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "kmp/src/androidMain/kotlin/org/tasks/pebble/PebbleService.kt",
+          "line": 38
+        },
+        {
+          "file": "kmp/src/androidMain/kotlin/org/tasks/pebble/PebbleMessageHandler.kt",
+          "line": 131
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 339
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 518
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 527
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 537
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 564
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 654
+        }
+      ],
+      "explanation": "PebbleService registers a context receiver for com.getpebble.action.app.RECEIVE with RECEIVER_EXPORTED and no permission, on every app start. Any installed app can send Pebble-formatted messages that complete or save tasks (MSG_COMPLETE_TASK, MSG_SAVE_TASK) and trigger task reads. Manifest receivers (FireReceiver checks for an explicit intent; system-event receivers) weren't found to act on untrusted extras. Ward's analyzer said: Exported receivers without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\nkmp/src/androidMain/kotlin/org/tasks/pebble/PebbleService.kt:38: Receiver that modifies tasks is registered as exported with no sender permission.\nkmp/src/androidMain/kotlin/org/tasks/pebble/PebbleMessageHandler.kt:131: Unauthenticated broadcast can save tasks.\napp/src/main/AndroidManifest.xml:339: receiver .widget.TasksWidget; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:518: receiver .receivers.SystemEventReceiver; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:527: receiver .receivers.ScheduleExactAlarmsPermissionReceiver; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:537: receiver .receivers.MyPackageReplacedReceiver; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:564: receiver .receivers.LocationProviderChangedReceiver; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:654: receiver .locale.receiver.FireReceiver; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "app/build.gradle.kts",
+          "line": 167
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 168
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 221
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 245
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 246
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 247
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 248
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 251
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 265
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 267
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 268
+        },
+        {
+          "file": "app/build.gradle.kts",
+          "line": 282
+        },
+        {
+          "file": "data/build.gradle.kts",
+          "line": 52
+        },
+        {
+          "file": "kmp/build.gradle.kts",
+          "line": 59
+        },
+        {
+          "file": "kmp/build.gradle.kts",
+          "line": 67
+        },
+        {
+          "file": "kmp/build.gradle.kts",
+          "line": 84
+        },
+        {
+          "file": "kmp/build.gradle.kts",
+          "line": 118
+        },
+        {
+          "file": "kmp/build.gradle.kts",
+          "line": 119
+        },
+        {
+          "file": "kmp/build.gradle.kts",
+          "line": 128
+        },
+        {
+          "file": "kmp/build.gradle.kts",
+          "line": 129
+        },
+        {
+          "file": "kmp/build.gradle.kts",
+          "line": 130
+        },
+        {
+          "file": "kmp/build.gradle.kts",
+          "line": 131
+        },
+        {
+          "file": "wear/build.gradle.kts",
+          "line": 83
+        },
+        {
+          "file": "wear/build.gradle.kts",
+          "line": 84
+        },
+        {
+          "file": "wear/build.gradle.kts",
+          "line": 85
+        },
+        {
+          "file": "wear/build.gradle.kts",
+          "line": 88
+        },
+        {
+          "file": "wear/build.gradle.kts",
+          "line": 89
+        },
+        {
+          "file": "wear/build.gradle.kts",
+          "line": 90
+        },
+        {
+          "file": "wear/build.gradle.kts",
+          "line": 92
+        },
+        {
+          "file": "cert4android/build.gradle.kts",
+          "line": 38
+        },
+        {
+          "file": "cert4android/build.gradle.kts",
+          "line": 39
+        },
+        {
+          "file": "cert4android/build.gradle.kts",
+          "line": 40
+        },
+        {
+          "file": "cert4android/build.gradle.kts",
+          "line": 42
+        },
+        {
+          "file": "composeApp/build.gradle.kts",
+          "line": 60
+        },
+        {
+          "file": "composeApp/build.gradle.kts",
+          "line": 61
+        },
+        {
+          "file": "composeApp/build.gradle.kts",
+          "line": 66
+        },
+        {
+          "file": "composeApp/build.gradle.kts",
+          "line": 67
+        },
+        {
+          "file": "composeApp/build.gradle.kts",
+          "line": 71
+        },
+        {
+          "file": "composeApp/build.gradle.kts",
+          "line": 72
+        },
+        {
+          "file": "composeApp/build.gradle.kts",
+          "line": 74
+        },
+        {
+          "file": "composeApp/build.gradle.kts",
+          "line": 75
+        },
+        {
+          "file": "composeApp/build.gradle.kts",
+          "line": 94
+        },
+        {
+          "file": "composeApp/build.gradle.kts",
+          "line": 104
+        },
+        {
+          "file": "composeApp/build.gradle.kts",
+          "line": 164
+        },
+        {
+          "file": "composeApp/build.gradle.kts",
+          "line": 165
+        },
+        {
+          "file": "composeApp/build.gradle.kts",
+          "line": 166
+        }
+      ],
+      "explanation": "143 of the declared dependencies with exact versions match no OSV advisory, but 46 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT).\napp/build.gradle.kts:167: unrecognised: Ward can't read this declaration: projects.data)\napp/build.gradle.kts:168: unrecognised: Ward can't read this declaration: projects.kmp)\napp/build.gradle.kts:221: androidx.compose.material3:material3: no version (a BOM or constraint may set it)\napp/build.gradle.kts:245: androidx.compose.ui:ui: no version (a BOM or constraint may set it)\napp/build.gradle.kts:246: androidx.compose.foundation:foundation: no version (a BOM or constraint may set it)\napp/build.gradle.kts:247: androidx.compose.material:material: no version (a BOM or constraint may set it)\napp/build.gradle.kts:248: androidx.compose.runtime:runtime-livedata: no version (a BOM or constraint may set it)\napp/build.gradle.kts:251: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\napp/build.gradle.kts:265: com.google.firebase:firebase-crashlytics: no version (a BOM or constraint may set it)\napp/build.gradle.kts:267: com.google.firebase:firebase-config: no version (a BOM or constraint may set it)\napp/build.gradle.kts:268: com.google.firebase:firebase-messaging: no version (a BOM or constraint may set it)\napp/build.gradle.kts:282: unrecognised: Ward can't read this declaration: projects.wearDatalayer)\ndata/build.gradle.kts:52: unrecognised: Ward can't read this declaration: kotlin(\"test\"))\nkmp/build.gradle.kts:59: unrecognised: Ward can't read this declaration: libs.bitfire.ical4android.get().toString()) {\nkmp/build.gradle.kts:67: unrecognised: Ward can't read this declaration: libs.dmfs.opentasks.provider.get().toString()) {\nkmp/build.gradle.kts:84: unrecognised: Ward can't read this declaration: kotlin(\"test\"))\nkmp/build.gradle.kts:118: unrecognised: Ward can't read this declaration: projects.cert4android)\nkmp/build.gradle.kts:119: unrecognised: Ward can't read this declaration: projects.data)\nkmp/build.gradle.kts:128: unrecognised: Ward can't read this declaration: compose.components.resources)\nkmp/build.gradle.kts:129: unrecognised: Ward can't read this declaration: compose.foundation)\nkmp/build.gradle.kts:130: unrecognised: Ward can't read this declaration: compose.material3)\nkmp/build.gradle.kts:131: unrecognised: Ward can't read this declaration: compose.runtime)\nwear/build.gradle.kts:83: unrecognised: Ward can't read this declaration: compose.components.resources)\nwear/build.gradle.kts:84: unrecognised: Ward can't read this declaration: projects.wearDatalayer)\nwear/build.gradle.kts:85: unrecognised: Ward can't read this declaration: projects.kmp)\nwear/build.gradle.kts:88: androidx.compose.ui:ui: no version (a BOM or constraint may set it)\nwear/build.gradle.kts:89: androidx.compose.ui:ui-graphics: no version (a BOM or constraint may set it)\nwear/build.gradle.kts:90: androidx.compose.ui:ui-tooling-preview: no version (a BOM or constraint may set it)\nwear/build.gradle.kts:92: com.google.firebase:firebase-crashlytics: no version (a BOM or constraint may set it)\ncert4android/build.gradle.kts:38: unrecognised: Ward can't read this declaration: compose.foundation)\ncert4android/build.gradle.kts:39: unrecognised: Ward can't read this declaration: compose.material3)\ncert4android/build.gradle.kts:40: unrecognised: Ward can't read this declaration: compose.runtime)\ncert4android/build.gradle.kts:42: unrecognised: Ward can't read this declaration: compose.components.resources)\ncomposeApp/build.gradle.kts:60: unrecognised: Ward can't read this declaration: compose.uiTest)\ncomposeApp/build.gradle.kts:61: unrecognised: Ward can't read this declaration: compose.desktop.currentOs)\ncomposeApp/build.gradle.kts:66: unrecognised: Ward can't read this declaration: projects.data)\ncomposeApp/build.gradle.kts:67: unrecognised: Ward can't read this declaration: projects.kmp)\ncomposeApp/build.gradle.kts:71: unrecognised: Ward can't read this declaration: compose.components.resources)\ncomposeApp/build.gradle.kts:72: unrecognised: Ward can't read this declaration: compose.foundation)\ncomposeApp/build.gradle.kts:74: unrecognised: Ward can't read this declaration: compose.runtime)\ncomposeApp/build.gradle.kts:75: unrecognised: Ward can't read this declaration: compose.ui)\ncomposeApp/build.gradle.kts:94: unrecognised: Ward can't read this declaration: compose.preview)\ncomposeApp/build.gradle.kts:104: unrecognised: Ward can't read this declaration: compose.desktop.currentOs)\ncomposeApp/build.gradle.kts:164: unrecognised: Ward can't read this declaration form: \"googleplayImplementation\"(platform(libs.firebase))\ncomposeApp/build.gradle.kts:165: unrecognised: Ward can't read this declaration form: \"googleplayImplementation\"(libs.firebase.messaging)\ncomposeApp/build.gradle.kts:166: unrecognised: Ward can't read this declaration form: \"googleplayImplementation\"(libs.play.services.code.scanner)"
+    },
+    {
+      "title": "MASTG-TEST-0339: SQL Injection in Content Providers",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-4"
+      ],
+      "maswe": [
+        "MASWE-0050"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/org/tasks/provider/TasksContentProvider.kt",
+          "line": 60
+        }
+      ],
+      "explanation": "The exported TasksContentProvider (todoagenda URI) puts the caller's selection string straight into SQL via SupportSQLiteQueryBuilder and runs only `.sql`, dropping selectionArgs. A caller holding READ_TASKS can inject SQL (e.g. UNION SELECT) to read any table.\napp/src/main/java/org/tasks/provider/TasksContentProvider.kt:60: Caller-controlled selection is concatenated into the raw SQL that rawQuery executes."
+    },
+    {
+      "title": "MASTG-TEST-0208: Insufficient Key Sizes",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CRYPTO-2"
+      ],
+      "maswe": [
+        "MASWE-0013"
+      ],
+      "locations": [
+        {
+          "file": "kmp/src/androidMain/kotlin/org/tasks/security/AndroidKeyProvider.kt",
+          "line": 27
+        }
+      ],
+      "explanation": "The AndroidKeyStore AES key that encrypts stored account passwords is generated without setKeySize, so it gets the 128-bit default, which the test treats as insufficient.\nkmp/src/androidMain/kotlin/org/tasks/security/AndroidKeyProvider.kt:27: KeyGenParameterSpec built without setKeySize(256); AES defaults to 128 bits."
+    },
+    {
+      "title": "MASTG-TEST-0282: Unsafe Custom Trust Evaluation",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "cert4android/src/androidMain/kotlin/at/bitfire/cert4android/CustomCertStore.kt",
+          "line": 83
+        },
+        {
+          "file": "cert4android/src/androidMain/kotlin/at/bitfire/cert4android/TrustCertificateActivity.kt",
+          "line": 99
+        }
+      ],
+      "explanation": "The custom X509TrustManager (cert4android) trusts any certificate stored as user-trusted before checking the system store. Because the exported TrustCertificateActivity lets another app record that decision, a certificate can be trusted without real user validation.\ncert4android/src/androidMain/kotlin/at/bitfire/cert4android/CustomCertStore.kt:83: User-trusted certificates are accepted before system validation.\ncert4android/src/androidMain/kotlin/at/bitfire/cert4android/TrustCertificateActivity.kt:99: The trust decision can come from an external intent extra."
+    },
+    {
+      "title": "MASTG-TEST-0283: Incorrect Implementation of Server Hostname Verification",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "cert4android/src/jvmCommonMain/kotlin/at/bitfire/cert4android/CustomCertManager.kt",
+          "line": 78
+        }
+      ],
+      "explanation": "The HostnameVerifier returns true for any hostname when the leaf certificate is in the user-trusted store, so a user-trusted (or externally injected) certificate is valid for every host.\ncert4android/src/jvmCommonMain/kotlin/at/bitfire/cert4android/CustomCertManager.kt:78: Hostname mismatch is accepted when the certificate is user-trusted."
+    },
+    {
+      "title": "MASTG-TEST-0374: References to Implicit Intents Carrying Sensitive Extras",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0032"
+      ],
+      "locations": [
+        {
+          "file": "kmp/src/androidMain/kotlin/org/tasks/pebble/PebbleProtocol.kt",
+          "line": 138
+        }
+      ],
+      "explanation": "Task titles and details are sent to the Pebble companion app through PebbleKit.sendDataToPebbleWithTransactionId, which dispatches a broadcast from library code; whether the library restricts the recipient package can't be seen in the app's sources.\nkmp/src/androidMain/kotlin/org/tasks/pebble/PebbleProtocol.kt:138: Task data handed to PebbleKit's broadcast-based transport."
+    },
+    {
+      "title": "MASWE-0030: Improper Use of the Clipboard",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0030"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/org/tasks/utility/CopyToClipboard.kt",
+          "line": 19
+        },
+        {
+          "file": "app/src/main/java/org/tasks/preferences/fragments/TasksAccount.kt",
+          "line": 151
+        }
+      ],
+      "explanation": "The generated Tasks.org app password is copied to the clipboard with a plain ClipData and no EXTRA_IS_SENSITIVE flag, so it appears in clipboard previews and stays readable by keyboards and clipboard managers.\napp/src/main/java/org/tasks/utility/CopyToClipboard.kt:19: Clip is set without marking it sensitive.\napp/src/main/java/org/tasks/preferences/fragments/TasksAccount.kt:151: Used for the password field of the new app-password dialog."
+    },
+    {
+      "title": "MASTG-TEST-0315: Sensitive Data Exposed via Notifications",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PLATFORM-3",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0037"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/org/tasks/notifications/NotificationManager.kt",
+          "line": 493
+        }
+      ],
+      "explanation": "minSdk is 26 and reminder notifications show the task title and description with no lock-screen visibility (setVisibility/setPublicVersion is never used). Whether users' task content counts as sensitive is a product decision.\napp/src/main/java/org/tasks/notifications/NotificationManager.kt:493: Task title is shown in the reminder notification, public on the lock screen by default."
+    },
+    {
+      "title": "MASTG-TEST-0318: References to SDK APIs Known to Handle Sensitive User Data",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PRIVACY-1",
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0073"
+      ],
+      "locations": [
+        {
+          "file": "app/src/googleplay/java/org/tasks/analytics/Firebase.kt",
+          "line": 294
+        },
+        {
+          "file": "app/src/main/java/org/tasks/provider/TasksContentProvider.kt",
+          "line": 91
+        }
+      ],
+      "explanation": "The googleplay build sends events to PostHog via PostHog.capture, including the package name of each app that queries the content provider (installed-apps data).\napp/src/googleplay/java/org/tasks/analytics/Firebase.kt:294: Third-party analytics SDK call.\napp/src/main/java/org/tasks/provider/TasksContentProvider.kt:91: Calling app's package name is sent as an analytics property."
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "kmp/src/commonMain/kotlin/org/tasks/TasksUrls.kt",
+          "line": 25
+        },
+        {
+          "file": "kmp/src/commonMain/kotlin/org/tasks/analytics/AnalyticsEvents.kt",
+          "line": 90
+        },
+        {
+          "file": "kmp/src/commonMain/kotlin/org/tasks/compose/WelcomeScreen.kt",
+          "line": 54
+        },
+        {
+          "file": "kmp/src/commonMain/kotlin/org/tasks/compose/WelcomeScreen.kt",
+          "line": 320
+        },
+        {
+          "file": "kmp/src/commonMain/kotlin/org/tasks/compose/WelcomeScreen.kt",
+          "line": 336
+        }
+      ],
+      "explanation": "A privacy policy link or text is in the app. Ward doesn't read the policy: check that it matches what the app collects and the Data safety answers.\nkmp/src/commonMain/kotlin/org/tasks/TasksUrls.kt:25: privacy policy\nkmp/src/commonMain/kotlin/org/tasks/analytics/AnalyticsEvents.kt:90: privacy policy\nkmp/src/commonMain/kotlin/org/tasks/compose/WelcomeScreen.kt:54: privacy policy\nkmp/src/commonMain/kotlin/org/tasks/compose/WelcomeScreen.kt:320: privacy policy\nkmp/src/commonMain/kotlin/org/tasks/compose/WelcomeScreen.kt:336: privacy policy"
+    },
+    {
+      "title": "MASWE-0076: Lack of Proper Data Management Controls",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-4"
+      ],
+      "maswe": [
+        "MASWE-0076"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/org/tasks/preferences/fragments/BaseAccountPreference.kt",
+          "line": 56
+        },
+        {
+          "file": "app/src/main/java/org/tasks/preferences/fragments/BaseAccountPreference.kt",
+          "line": 67
+        }
+      ],
+      "explanation": "Ward found no sign-up code. If users can create an account in the app (including through a third-party sign-in your backend turns into an account), Google Play requires an in-app path to delete it.\napp/src/main/java/org/tasks/preferences/fragments/BaseAccountPreference.kt:56: deletion signal\napp/src/main/java/org/tasks/preferences/fragments/BaseAccountPreference.kt:67: deletion signal"
+    },
+    {
+      "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "composeApp/src/androidMain/AndroidManifest.xml",
+          "line": 5
+        }
+      ],
+      "explanation": "Backup is on (android:allowBackup=\"true\") and there are no backup rules (dataExtractionRules, fullBackupContent), so every app file goes into cloud backups and device transfers.\ncomposeApp/src/androidMain/AndroidManifest.xml:5: android:allowBackup=\"true\""
+    },
+    {
+      "title": "MASTG-TEST-0231: References to Logging APIs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0005"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/org/tasks/http/HttpClientFactory.kt",
+          "line": 64
+        }
+      ],
+      "explanation": "Release builds plant a FileLogger (Timber DebugTree, all priorities) and the Microsoft Graph client logs HTTP HEADERS in release via Timber.d. Authorization is sanitized, but Cookie/Set-Cookie headers are not; logs go to cacheDir and can be exported with logcat in a support zip. Whether those Graph cookies are session-sensitive needs a human decision.\napp/src/main/java/org/tasks/http/HttpClientFactory.kt:64: Release builds log request/response headers of the Graph client; only Authorization is sanitized."
+    },
+    {
+      "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0006"
+      ],
+      "locations": [
+        {
+          "file": "composeApp/src/androidMain/AndroidManifest.xml",
+          "line": 5
+        }
+      ],
+      "explanation": "Backup is on (android:allowBackup=\"true\") and there are no backup rules (dataExtractionRules, fullBackupContent), so every app file goes into cloud backups and device transfers.\ncomposeApp/src/androidMain/AndroidManifest.xml:5: android:allowBackup=\"true\""
+    }
+  ],
+  "inspected": [
+    "app/build.gradle.kts",
+    "app/src/debug/AndroidManifest.xml",
+    "app/src/debug/java/org/tasks/BuildSetup.kt",
+    "app/src/generic/AndroidManifest.xml",
+    "app/src/generic/java/org/tasks/sync/microsoft/MicrosoftSignInViewModel.kt",
+    "app/src/googleplay/AndroidManifest.xml",
+    "app/src/googleplay/java/org/tasks/analytics/Firebase.kt",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/java/com/todoroo/astrid/provider/Astrid2TaskProvider.kt",
+    "app/src/main/java/org/tasks/LocalBroadcastManager.kt",
+    "app/src/main/java/org/tasks/TasksApplication.kt",
+    "app/src/main/java/org/tasks/activities/CameraActivity.kt",
+    "app/src/main/java/org/tasks/activities/UriHandler.kt",
+    "app/src/main/java/org/tasks/billing/Inventory.kt",
+    "app/src/main/java/org/tasks/compose/FilterSelectionActivity.kt",
+    "app/src/main/java/org/tasks/compose/settings/ShortcutWidgetHelper.kt",
+    "app/src/main/java/org/tasks/data/ContentProviderDaoBlocking.kt",
+    "app/src/main/java/org/tasks/dialogs/AddAttachmentDialog.kt",
+    "app/src/main/java/org/tasks/http/AndroidCookieStorage.kt",
+    "app/src/main/java/org/tasks/http/HttpClientFactory.kt",
+    "app/src/main/java/org/tasks/injection/ApplicationModule.kt",
+    "app/src/main/java/org/tasks/jobs/WorkManagerImpl.kt",
+    "app/src/main/java/org/tasks/locale/receiver/FireReceiver.java",
+    "app/src/main/java/org/tasks/location/LocationServiceAndroid.kt",
+    "app/src/main/java/org/tasks/logging/FileLogger.kt",
+    "app/src/main/java/org/tasks/notifications/NotificationManager.kt",
+    "app/src/main/java/org/tasks/preferences/Preferences.kt",
+    "app/src/main/java/org/tasks/preferences/fragments/BaseAccountPreference.kt",
+    "app/src/main/java/org/tasks/preferences/fragments/TasksAccount.kt",
+    "app/src/main/java/org/tasks/preferences/fragments/Widgets.kt",
+    "app/src/main/java/org/tasks/provider/TasksContentProvider.kt",
+    "app/src/main/java/org/tasks/reminders/NotificationActivity.kt",
+    "app/src/main/java/org/tasks/reminders/SnoozeActivity.kt",
+    "app/src/main/java/org/tasks/tags/TagPickerActivity.kt",
+    "app/src/main/java/org/tasks/utility/CopyToClipboard.kt",
+    "app/src/main/java/org/tasks/widget/AppWidgetManager.kt",
+    "app/src/main/java/org/tasks/widget/TasksWidget.kt",
+    "app/src/release/java/org/tasks/BuildSetup.kt",
+    "cert4android/build.gradle.kts",
+    "cert4android/src/androidMain/AndroidManifest.xml",
+    "cert4android/src/androidMain/kotlin/at/bitfire/cert4android/CustomCertStore.kt",
+    "cert4android/src/androidMain/kotlin/at/bitfire/cert4android/TrustCertificateActivity.kt",
+    "cert4android/src/androidMain/kotlin/at/bitfire/cert4android/UserDecisionRegistry.kt",
+    "cert4android/src/jvmCommonMain/kotlin/at/bitfire/cert4android/CustomCertManager.kt",
+    "composeApp/build.gradle.kts",
+    "composeApp/src/androidMain/AndroidManifest.xml",
+    "composeApp/src/androidMain/kotlin/org/tasks/auth/AndroidSignInHandler.kt",
+    "composeApp/src/googleplay/AndroidManifest.xml",
+    "data/build.gradle.kts",
+    "data/src/commonMain/AndroidManifest.xml",
+    "gradle/libs.versions.toml",
+    "kmp/build.gradle.kts",
+    "kmp/src/androidMain/AndroidManifest.xml",
+    "kmp/src/androidMain/kotlin/org/tasks/http/AndroidOkHttpClientFactory.kt",
+    "kmp/src/androidMain/kotlin/org/tasks/location/LocationUpdateReceiver.kt",
+    "kmp/src/androidMain/kotlin/org/tasks/pebble/PebbleMessageHandler.kt",
+    "kmp/src/androidMain/kotlin/org/tasks/pebble/PebbleProtocol.kt",
+    "kmp/src/androidMain/kotlin/org/tasks/pebble/PebbleService.kt",
+    "kmp/src/androidMain/kotlin/org/tasks/security/AndroidKeyProvider.kt",
+    "kmp/src/commonMain/kotlin/org/tasks/TasksUrls.kt",
+    "kmp/src/commonMain/kotlin/org/tasks/analytics/AnalyticsEvents.kt",
+    "kmp/src/commonMain/kotlin/org/tasks/caldav/property/PropertyUtils.kt",
+    "kmp/src/commonMain/kotlin/org/tasks/compose/WelcomeScreen.kt",
+    "kmp/src/commonMain/kotlin/org/tasks/compose/settings/CaldavAccountScreen.kt",
+    "kmp/src/commonMain/kotlin/org/tasks/compose/settings/EtebaseAccountScreen.kt",
+    "kmp/src/commonMain/kotlin/org/tasks/compose/settings/TasksAccountScreen.kt",
+    "kmp/src/commonMain/kotlin/org/tasks/compose/settings/TextInputCard.kt",
+    "kmp/src/commonMain/kotlin/org/tasks/http/MicrosoftGraphClient.kt",
+    "kmp/src/jvmCommonMain/kotlin/org/tasks/auth/PKCE.jvmCommon.kt",
+    "kmp/src/jvmCommonMain/kotlin/org/tasks/security/KeyStoreEncryption.kt",
+    "wear-datalayer/build.gradle.kts",
+    "wear-datalayer/src/main/AndroidManifest.xml",
+    "wear/build.gradle.kts",
+    "wear/src/main/AndroidManifest.xml",
+    "wear/src/main/java/org/tasks/complications/ComplicationUpdateService.kt",
+    "wear/src/main/java/org/tasks/presentation/MainActivityViewModel.kt"
+  ]
+}

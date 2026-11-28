@@ -1,0 +1,257 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0355: References to Unauthorized Database Access through Content Providers",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "owncloudApp/src/qa/AndroidManifest.xml",
+          "line": 20
+        }
+      ],
+      "explanation": "A content provider is exported with no permission: any installed app can query it. If it is public by design, accept it with a reason.\nowncloudApp/src/qa/AndroidManifest.xml:20: provider com.owncloud.android.test.TestPreferencesProvider; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0357: References to Oversharing of File-Based Content Providers",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "owncloudApp/src/qa/AndroidManifest.xml",
+          "line": 20
+        }
+      ],
+      "explanation": "A content provider is exported with no permission: any installed app can query it. If it is public by design, accept it with a reason.\nowncloudApp/src/qa/AndroidManifest.xml:20: provider com.owncloud.android.test.TestPreferencesProvider; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "owncloudApp/src/main/AndroidManifest.xml",
+          "line": 94
+        },
+        {
+          "file": "owncloudApp/src/main/AndroidManifest.xml",
+          "line": 238
+        }
+      ],
+      "explanation": "Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\nowncloudApp/src/main/AndroidManifest.xml:94: activity .ui.activity.ReceiveExternalFilesActivity; exported: yes (android:exported is set)\nowncloudApp/src/main/AndroidManifest.xml:238: activity .presentation.authentication.LoginActivity; exported: yes (android:exported is set); deep link schemes: @string/oauth2_redirect_uri_scheme, @string/deep_link_uri_schemes"
+    },
+    {
+      "title": "MASTG-TEST-0365: Exported And Unprotected Services That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "owncloudApp/src/main/AndroidManifest.xml",
+          "line": 121
+        },
+        {
+          "file": "owncloudApp/src/main/AndroidManifest.xml",
+          "line": 132
+        }
+      ],
+      "explanation": "Exported services without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\nowncloudApp/src/main/AndroidManifest.xml:121: service .presentation.authentication.AccountAuthenticatorService; exported: yes (android:exported is set)\nowncloudApp/src/main/AndroidManifest.xml:132: service .syncadapter.FileSyncService; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "owncloudComLibrary/build.gradle",
+          "line": 20
+        },
+        {
+          "file": "owncloudApp/build.gradle",
+          "line": 35
+        },
+        {
+          "file": "owncloudApp/build.gradle",
+          "line": 36
+        }
+      ],
+      "explanation": "org.apache.commons:commons-lang3:3.12.0 is in the affected range of 1 OSV advisory: GHSA-j288-q9x7-2f5v/CVE-2025-48924. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT). 41 of the other dependencies with exact versions match no OSV advisory, but 2 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-26T21:30:18.923Z (published Mon, 23 Nov 2026 21:33:52 GMT).\nowncloudComLibrary/build.gradle:20: implementation (string notation) in module owncloudComLibrary\nowncloudApp/build.gradle:35: unrecognised: Ward can't read this declaration: libs.androidx.browser) { because \"CustomTabs required for OAuth2 and OIDC\" }\nowncloudApp/build.gradle:36: unrecognised: Ward can't read this declaration: libs.androidx.enterprise.feedback) { because \"MDM feedback\" }"
+    },
+    {
+      "title": "MASTG-TEST-0235: Android App Configurations Allowing Cleartext Traffic",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0026"
+      ],
+      "locations": [
+        {
+          "file": "owncloudApp/src/main/res/xml/network_security_config.xml",
+          "line": 3
+        }
+      ],
+      "explanation": "The network security config's base-config permits cleartext traffic for every domain.\nowncloudApp/src/main/res/xml/network_security_config.xml:3: base-config cleartextTrafficPermitted=\"true\""
+    },
+    {
+      "title": "MASTG-TEST-0285: Outdated Android Version Allowing Trust in User-Provided CAs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "owncloudApp/src/main/res/xml/network_security_config.xml",
+          "line": 5
+        }
+      ],
+      "explanation": "The network security config trusts user-installed CAs outside debug-overrides, so anyone who can install a certificate on the device can read the app's TLS traffic.\nowncloudApp/src/main/res/xml/network_security_config.xml:5: base-config trusts user-installed CAs"
+    },
+    {
+      "title": "MASTG-TEST-0286: Network Security Configuration Allowing Trust in User-Provided CAs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "owncloudApp/src/main/res/xml/network_security_config.xml",
+          "line": 5
+        }
+      ],
+      "explanation": "The network security config trusts user-installed CAs outside debug-overrides, so anyone who can install a certificate on the device can read the app's TLS traffic.\nowncloudApp/src/main/res/xml/network_security_config.xml:5: base-config trusts user-installed CAs"
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "owncloudApp/src/main/AndroidManifest.xml",
+          "line": 25
+        },
+        {
+          "file": "owncloudApp/src/main/AndroidManifest.xml",
+          "line": 30
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\nowncloudApp/src/main/AndroidManifest.xml:25: android.permission.WRITE_EXTERNAL_STORAGE\nowncloudApp/src/main/AndroidManifest.xml:30: android.permission.POST_NOTIFICATIONS"
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "owncloudApp/src/main/java/com/owncloud/android/extensions/ActivityExt.kt",
+          "line": 72
+        },
+        {
+          "file": "owncloudApp/src/main/java/com/owncloud/android/extensions/ActivityExt.kt",
+          "line": 149
+        },
+        {
+          "file": "owncloudApp/src/main/java/com/owncloud/android/extensions/ActivityExt.kt",
+          "line": 150
+        },
+        {
+          "file": "owncloudApp/src/main/java/com/owncloud/android/extensions/ActivityExt.kt",
+          "line": 152
+        },
+        {
+          "file": "owncloudApp/src/main/java/com/owncloud/android/extensions/ActivityExt.kt",
+          "line": 154
+        }
+      ],
+      "explanation": "A privacy policy link or text is in the app. Ward doesn't read the policy: check that it matches what the app collects and the Data safety answers.\nowncloudApp/src/main/java/com/owncloud/android/extensions/ActivityExt.kt:72: privacy policy\nowncloudApp/src/main/java/com/owncloud/android/extensions/ActivityExt.kt:149: privacy policy\nowncloudApp/src/main/java/com/owncloud/android/extensions/ActivityExt.kt:150: privacy policy\nowncloudApp/src/main/java/com/owncloud/android/extensions/ActivityExt.kt:152: privacy policy\nowncloudApp/src/main/java/com/owncloud/android/extensions/ActivityExt.kt:154: privacy policy"
+    }
+  ],
+  "inspected": [
+    "gradle/libs.versions.toml",
+    "owncloudApp/build.gradle",
+    "owncloudApp/src/main/AndroidManifest.xml",
+    "owncloudApp/src/main/java/com/owncloud/android/extensions/ActivityExt.kt",
+    "owncloudApp/src/main/java/com/owncloud/android/presentation/accounts/ManageAccountsAdapter.kt",
+    "owncloudApp/src/main/java/com/owncloud/android/presentation/accounts/ManageAccountsDialogFragment.kt",
+    "owncloudApp/src/main/java/com/owncloud/android/presentation/authentication/AccountUtils.java",
+    "owncloudApp/src/main/res/xml/network_security_config.xml",
+    "owncloudApp/src/qa/AndroidManifest.xml",
+    "owncloudComLibrary/build.gradle",
+    "owncloudComLibrary/src/main/AndroidManifest.xml",
+    "owncloudData/build.gradle",
+    "owncloudData/src/main/AndroidManifest.xml",
+    "owncloudDomain/build.gradle",
+    "owncloudDomain/src/main/AndroidManifest.xml",
+    "owncloudTestUtil/build.gradle",
+    "owncloudTestUtil/src/main/AndroidManifest.xml"
+  ]
+}

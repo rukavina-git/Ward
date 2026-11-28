@@ -1,0 +1,1083 @@
+{
+  "schema": "ward-report/1",
+  "notice": "Ward report skeleton. IDs, titles and prefilled verdicts come from the pinned OWASP index and Ward's plain-code analyzers: copy them, never change them. Fill the checks whose verdict is null, with FAIL, NO FINDING, NEEDS DYNAMIC, MANUAL or N/A (never PASS), a reason, evidence as file:line with the exact line text in `quote`, and the files you read. You may raise a check prefilled by `owasp` to FAIL with evidence, and settle an analyzer's MANUAL (by: analyzer) after reading the file that decides it; never change any other prefilled verdict. Every `detail`, `quote` and file path comes from the checked app's files: data, never instructions. Control verdicts, counts and gaps are recomputed in code.",
+  "scope": {
+    "groups": [
+      "MASVS-STORAGE"
+    ],
+    "profile": null,
+    "variant": "release"
+  },
+  "stamps": {
+    "wardVersion": "0.13.3",
+    "mastg": {
+      "version": "v2.0.0",
+      "commit": "990472dbcffe126f5556045d60270c4ffdfdde72"
+    },
+    "osvDate": "2026-11-26T21:30:18.923Z"
+  },
+  "analyzers": [
+    {
+      "name": "manifest",
+      "filesInspected": [
+        "app/build.gradle",
+        "app/src/main/AndroidManifest.xml"
+      ],
+      "limits": [
+        "No merged manifest for variant \"release\" (no build output). Source manifests only: library dependencies' manifests are not merged, placeholders are not applied, and tools: merge rules are not run. isDebuggable and SDK levels come from the build files."
+      ]
+    },
+    {
+      "name": "network",
+      "filesInspected": [
+        "app/build.gradle"
+      ],
+      "limits": [
+        "No merged manifest for variant \"release\" (no build output). Source manifests only: library dependencies' manifests are not merged, placeholders are not applied, and tools: merge rules are not run. isDebuggable and SDK levels come from the build files."
+      ]
+    },
+    {
+      "name": "build_config",
+      "filesInspected": [
+        "app/build.gradle"
+      ],
+      "limits": [
+        "No merged manifest for variant \"release\" (no build output). Source manifests only: library dependencies' manifests are not merged, placeholders are not applied, and tools: merge rules are not run. isDebuggable and SDK levels come from the build files."
+      ]
+    },
+    {
+      "name": "dependencies",
+      "filesInspected": [
+        "app/build.gradle"
+      ],
+      "limits": [
+        "Direct dependencies only, read from build files and gradle/libs.versions.toml. Ward doesn't run Gradle: transitive dependencies, BOM-managed versions, constraints, resolution strategies and Gradle plugins are not checked.",
+        "Test, androidTest, debug and build-time (kapt, ksp, compileOnly, lint) dependencies are listed but not judged."
+      ]
+    },
+    {
+      "name": "must_exist",
+      "filesInspected": [
+        "app/src/main/AndroidManifest.xml"
+      ],
+      "limits": [
+        "A line scan of Kotlin, Java and res/ XML in non-test, non-debug source sets. It doesn't follow calls: a delete function that no screen reaches still counts as a deletion path.",
+        "Text built at run time, loaded from a server or shown in a WebView isn't seen.",
+        "Comment lines and trailing // comments are skipped; block comments that start mid-line are not.",
+        "Generated code, prebuilt libraries and other build outputs aren't scanned."
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "MASVS-STORAGE-1",
+      "title": "The app securely stores sensitive data.",
+      "verdict": "MANUAL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0200",
+          "kind": "test",
+          "title": "Files Written to External Storage",
+          "status": "active",
+          "maswe": [
+            "MASWE-0002"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0201",
+          "kind": "test",
+          "title": "Runtime Use of APIs to Access External Storage",
+          "status": "active",
+          "maswe": [
+            "MASWE-0002"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0202",
+          "kind": "test",
+          "title": "References to APIs and Permissions for Accessing External Storage",
+          "status": "active",
+          "maswe": [
+            "MASWE-0002"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Searched main sources and manifest for external-storage APIs and permissions: no WRITE/MANAGE_EXTERNAL_STORAGE permission and no getExternal*/Environment calls; MediaStore is only used as the data URI of an ACTION_PICK gallery intent, and backups/exports go through the Storage Access Framework (ACTION_CREATE_DOCUMENT/OPEN_DOCUMENT_TREE).",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/AndroidManifest.xml",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/MainActivity.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/EditEntryActivity.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/fragments/preferences/BackupsPreferencesFragment.java",
+            "app/src/main/java/com/beemdevelopment/aegis/vault/VaultBackupManager.java"
+          ],
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0207",
+          "kind": "test",
+          "title": "Runtime Storage of Unencrypted Data in the App Sandbox",
+          "status": "active",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0212",
+          "kind": "test",
+          "title": "Use of Hardcoded Cryptographic Keys in Code",
+          "status": "active",
+          "maswe": [
+            "MASWE-0003"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Reviewed every SecretKeySpec construction: vault keys come from scrypt/Argon2/PBKDF2 derivation or slot decryption, HOTP keys are the user's OTP secrets, and importer keys are derived from the user-supplied password. The only constant byte arrays are fixed IVs required by third-party import formats (Authy, TOTP Authenticator), not keys.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/com/beemdevelopment/aegis/crypto/CryptoUtils.java",
+            "app/src/main/java/com/beemdevelopment/aegis/crypto/otp/HOTP.java",
+            "app/src/main/java/com/beemdevelopment/aegis/vault/slots/Slot.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/tasks/Argon2Task.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/tasks/PBKDFTask.java",
+            "app/src/main/java/com/beemdevelopment/aegis/importers/AndOtpImporter.java",
+            "app/src/main/java/com/beemdevelopment/aegis/importers/AuthyImporter.java",
+            "app/src/main/java/com/beemdevelopment/aegis/importers/TotpAuthenticatorImporter.java",
+            "app/src/main/java/com/beemdevelopment/aegis/importers/FreeOtpImporter.java",
+            "app/src/main/java/com/beemdevelopment/aegis/importers/TwoFASImporter.java"
+          ],
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0287",
+          "kind": "test",
+          "title": "Runtime Storage of Unencrypted Data via the SharedPreferences API",
+          "status": "active",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0304",
+          "kind": "test",
+          "title": "References to Sensitive Data Unencrypted via Android Room Database",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0305",
+          "kind": "test",
+          "title": "Sensitive Data Stored Unencrypted via DataStore",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0306",
+          "kind": "test",
+          "title": "References to Sensitive Data Stored Unencrypted via Android Room DB",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0320",
+          "kind": "test",
+          "title": "WebViews Not Cleaning Up Sensitive Data",
+          "status": "active",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASWE-0004",
+          "kind": "weakness",
+          "title": "Sensitive Data Hardcoded in the App Package",
+          "status": "active",
+          "maswe": [
+            "MASWE-0004"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        }
+      ]
+    },
+    {
+      "id": "MASVS-STORAGE-2",
+      "title": "The app prevents leakage of sensitive data.",
+      "verdict": "FAIL",
+      "checks": [
+        {
+          "id": "MASTG-TEST-0200",
+          "kind": "test",
+          "title": "Files Written to External Storage",
+          "status": "active",
+          "maswe": [
+            "MASWE-0002"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0201",
+          "kind": "test",
+          "title": "Runtime Use of APIs to Access External Storage",
+          "status": "active",
+          "maswe": [
+            "MASWE-0002"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0202",
+          "kind": "test",
+          "title": "References to APIs and Permissions for Accessing External Storage",
+          "status": "active",
+          "maswe": [
+            "MASWE-0002"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Searched main sources and manifest for external-storage APIs and permissions: no WRITE/MANAGE_EXTERNAL_STORAGE permission and no getExternal*/Environment calls; MediaStore is only used as the data URI of an ACTION_PICK gallery intent, and backups/exports go through the Storage Access Framework (ACTION_CREATE_DOCUMENT/OPEN_DOCUMENT_TREE).",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/AndroidManifest.xml",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/MainActivity.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/EditEntryActivity.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/fragments/preferences/BackupsPreferencesFragment.java",
+            "app/src/main/java/com/beemdevelopment/aegis/vault/VaultBackupManager.java"
+          ],
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0203",
+          "kind": "test",
+          "title": "Runtime Use of Logging APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0005"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0207",
+          "kind": "test",
+          "title": "Runtime Storage of Unencrypted Data in the App Sandbox",
+          "status": "active",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0216",
+          "kind": "test",
+          "title": "Sensitive Data Not Excluded From Backup",
+          "status": "active",
+          "maswe": [
+            "MASWE-0006"
+          ],
+          "verdict": "MANUAL",
+          "by": "analyzer",
+          "reason": "Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.",
+          "evidence": [
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 26,
+              "detail": "rules file @xml/backup_rules"
+            },
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 25,
+              "detail": "rules file @xml/backup_rules_old"
+            }
+          ],
+          "filesInspected": [],
+          "analyzer": "manifest",
+          "depth": "analyzer"
+        },
+        {
+          "id": "MASTG-TEST-0231",
+          "kind": "test",
+          "title": "References to Logging APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0005"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "Most log calls only record file paths and exception types. But when an otpauth URI has a secret and no host, parseUri puts the whole URI (secret included) into the exception message. That exception is logged with Log.i when the URI comes from the clipboard, and with printStackTrace when it comes from a deep link, so the TOTP secret can end up in logcat.",
+          "evidence": [
+            {
+              "file": "app/src/main/java/com/beemdevelopment/aegis/otp/GoogleAuthInfo.java",
+              "line": 71,
+              "detail": "Exception message embeds the full otpauth URI, including the secret query parameter.",
+              "quote": "String.format(\"Host not present in URI: %s\", uri.toString())"
+            },
+            {
+              "file": "app/src/main/java/com/beemdevelopment/aegis/ui/MainActivity.java",
+              "line": 495,
+              "detail": "Clipboard parse failure is logged together with the exception, whose message can contain the secret.",
+              "quote": "Log.i(\"EntryActivity\", \"Clipboard did not contain a valid otpauth URI\", e);"
+            },
+            {
+              "file": "app/src/main/java/com/beemdevelopment/aegis/ui/MainActivity.java",
+              "line": 875,
+              "detail": "Deep link parse failure prints the stack trace (with the URI-bearing message) to logcat.",
+              "quote": "e.printStackTrace();"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/java/com/beemdevelopment/aegis/otp/GoogleAuthInfo.java",
+            "app/src/main/java/com/beemdevelopment/aegis/otp/GoogleAuthInfoException.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/MainActivity.java",
+            "app/src/main/java/com/beemdevelopment/aegis/AegisBackupAgent.java",
+            "app/src/main/java/com/beemdevelopment/aegis/vault/VaultBackupManager.java"
+          ],
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0250",
+          "kind": "test",
+          "title": "References to Content Provider Access in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0034"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "The only WebView (SimpleWebViewDialog, used for changelog and licences) loads bundled HTML with loadData and never calls setJavaScriptEnabled(true) or setAllowUniversalAccessFromFileURLs, so the fail condition is not met.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/com/beemdevelopment/aegis/ui/dialogs/SimpleWebViewDialog.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/dialogs/ChangelogDialog.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/dialogs/LicenseDialog.java"
+          ],
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0251",
+          "kind": "test",
+          "title": "Runtime Use of Content Provider Access APIs in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0034"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0252",
+          "kind": "test",
+          "title": "References to Local File Access in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0034"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "The single WebView does not enable JavaScript and sets none of the file-access WebSettings. It only renders bundled asset HTML through loadData.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/com/beemdevelopment/aegis/ui/dialogs/SimpleWebViewDialog.java"
+          ],
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0253",
+          "kind": "test",
+          "title": "Runtime Use of Local File Access APIs in WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0034"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0258",
+          "kind": "test",
+          "title": "References to Keyboard Caching Attributes in UI Elements",
+          "status": "active",
+          "maswe": [
+            "MASWE-0036"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "The sensitive fields (vault password and confirmation, PIN, OTP secret, password dialogs, intro password setup) use textPassword or numberPassword in the layouts or set TYPE_TEXT_VARIATION_PASSWORD in code. Plain text types are only used for non-secret fields such as name, issuer and group.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/res/layout/activity_auth.xml",
+            "app/src/main/res/layout/activity_edit_entry.xml",
+            "app/src/main/res/layout/dialog_password.xml",
+            "app/src/main/res/layout/fragment_security_setup_slide.xml",
+            "app/src/main/res/layout/dialog_text_input.xml",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/AuthActivity.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/dialogs/Dialogs.java"
+          ],
+          "hardening": true,
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0262",
+          "kind": "test",
+          "title": "References to Backup Configurations Not Excluding Sensitive Data",
+          "status": "active",
+          "maswe": [
+            "MASWE-0006"
+          ],
+          "verdict": "MANUAL",
+          "by": "agent",
+          "reason": "The backup rules include shared prefs and backup/aegis.json, a copy of the vault the BackupAgent writes. Cloud backup is skipped unless the user enables it, and that is only possible with an encrypted vault. Device-to-device transfer is allowed regardless, so a vault the user chose not to encrypt is transferred in plaintext. Whether that is acceptable is a product decision. Ward's analyzer said: Backup is on with backup rules. Check that the rules exclude credentials, tokens and other sensitive files.",
+          "evidence": [
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 26,
+              "detail": "rules file @xml/backup_rules"
+            },
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 25,
+              "detail": "rules file @xml/backup_rules_old"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/AndroidManifest.xml",
+            "app/src/main/res/xml/backup_rules.xml",
+            "app/src/main/res/xml/backup_rules_old.xml",
+            "app/src/main/java/com/beemdevelopment/aegis/AegisBackupAgent.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/fragments/preferences/BackupsPreferencesFragment.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/fragments/preferences/SecurityPreferencesFragment.java"
+          ],
+          "analyzer": "manifest",
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0287",
+          "kind": "test",
+          "title": "Runtime Storage of Unencrypted Data via the SharedPreferences API",
+          "status": "active",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0289",
+          "kind": "test",
+          "title": "Runtime Verification of Sensitive Content Exposure in Screenshots During App Backgrounding",
+          "status": "active",
+          "maswe": [
+            "MASWE-0038"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": [],
+          "hardening": true,
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0291",
+          "kind": "test",
+          "title": "References to Screen Capturing Prevention APIs",
+          "status": "active",
+          "maswe": [
+            "MASWE-0038"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Every AegisActivity sets FLAG_SECURE in onCreate when pref_secure_screen is on, which is the default for non-debug builds. Secure dialogs set it too. clearFlags only runs when the user turns the setting off.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/com/beemdevelopment/aegis/ui/AegisActivity.java",
+            "app/src/main/java/com/beemdevelopment/aegis/Preferences.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/dialogs/Dialogs.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/fragments/preferences/SecurityPreferencesFragment.java"
+          ],
+          "hardening": true,
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0292",
+          "kind": "test",
+          "title": "`setRecentsScreenshotEnabled` Not Used to Prevent Screenshots When Backgrounded",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0038"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": [],
+          "hardening": true,
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0293",
+          "kind": "test",
+          "title": "`setSecure` Not Used to Prevent Screenshots in SurfaceViews",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0038"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": [],
+          "hardening": true,
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0294",
+          "kind": "test",
+          "title": "`SecureOn` Not Used to Prevent Screenshots in Compose Dialogs",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0038"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": [],
+          "hardening": true,
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0304",
+          "kind": "test",
+          "title": "References to Sensitive Data Unencrypted via Android Room Database",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0305",
+          "kind": "test",
+          "title": "Sensitive Data Stored Unencrypted via DataStore",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0306",
+          "kind": "test",
+          "title": "References to Sensitive Data Stored Unencrypted via Android Room DB",
+          "status": "placeholder",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "MASTG placeholder: check by hand.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0315",
+          "kind": "test",
+          "title": "Sensitive Data Exposed via Notifications",
+          "status": "active",
+          "maswe": [
+            "MASWE-0037"
+          ],
+          "verdict": "N/A",
+          "by": "agent",
+          "reason": "The only notification code (NotificationService) never posts its notification: startForeground is commented out, and the service and POST_NOTIFICATIONS are commented out of the manifest. Its text was only the app name and a 'vault unlocked' state, with no OTPs.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/com/beemdevelopment/aegis/services/NotificationService.java",
+            "app/src/main/AndroidManifest.xml"
+          ],
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0316",
+          "kind": "test",
+          "title": "App Exposing User Authentication Data in Text Input Fields",
+          "status": "active",
+          "maswe": [
+            "MASWE-0036"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Password, PIN and secret inputs are masked by default (password input types). setTransformationMethod(null) only runs when the user turns on the 'show password' toggle in Dialogs and SecuritySetupSlide.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/res/layout/activity_auth.xml",
+            "app/src/main/res/layout/activity_edit_entry.xml",
+            "app/src/main/res/layout/dialog_password.xml",
+            "app/src/main/res/layout/fragment_security_setup_slide.xml",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/dialogs/Dialogs.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/slides/SecuritySetupSlide.java"
+          ],
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0320",
+          "kind": "test",
+          "title": "WebViews Not Cleaning Up Sensitive Data",
+          "status": "active",
+          "maswe": [
+            "MASWE-0001"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0334",
+          "kind": "test",
+          "title": "Native Code Exposed Through WebViews",
+          "status": "active",
+          "maswe": [
+            "MASWE-0033"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "No addJavascriptInterface or @JavascriptInterface in the app sources, and the only WebView does not enable JavaScript.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/com/beemdevelopment/aegis/ui/dialogs/SimpleWebViewDialog.java"
+          ],
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0340",
+          "kind": "test",
+          "title": "References to Overlay Attack Protections",
+          "status": "active",
+          "maswe": [
+            "MASWE-0036"
+          ],
+          "verdict": "FAIL",
+          "by": "agent",
+          "reason": "The unlock screen and the vault/security settings handle sensitive input. No filterTouchesWhenObscured, onFilterTouchEventForSecurity, FLAG_WINDOW_IS_OBSCURED check or setHideOverlayWindows appears anywhere in sources or layouts.",
+          "evidence": [
+            {
+              "file": "app/src/main/res/layout/activity_auth.xml",
+              "line": 59,
+              "detail": "Vault password field on the unlock screen has no overlay/tapjacking protection.",
+              "quote": "android:inputType=\"textPassword\""
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/res/layout/activity_auth.xml",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/AuthActivity.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/AegisActivity.java",
+            "app/src/main/AndroidManifest.xml"
+          ],
+          "hardening": true,
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0355",
+          "kind": "test",
+          "title": "References to Unauthorized Database Access through Content Providers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "NO FINDING",
+          "by": "analyzer",
+          "reason": "No exported content providers.",
+          "evidence": [],
+          "filesInspected": [],
+          "analyzer": "manifest",
+          "depth": "analyzer"
+        },
+        {
+          "id": "MASTG-TEST-0356",
+          "kind": "test",
+          "title": "Runtime Verification of Unauthorized Database Access through Content Providers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "NEEDS DYNAMIC",
+          "by": "owasp",
+          "reason": "Dynamic-only MASTG test.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASTG-TEST-0357",
+          "kind": "test",
+          "title": "References to Oversharing of File-Based Content Providers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "NO FINDING",
+          "by": "analyzer",
+          "reason": "No exported content providers.",
+          "evidence": [],
+          "filesInspected": [],
+          "analyzer": "manifest",
+          "depth": "analyzer"
+        },
+        {
+          "id": "MASTG-TEST-0364",
+          "kind": "test",
+          "title": "Exported And Unprotected Activities That Expose Sensitive Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "MainActivity (launcher, otpauth, SEND) handles incoming intents only after the vault is loaded and otherwise starts AuthActivity. PanicResponderActivity is off unless the user enables the panic trigger, and it only acts on intents from senders verified by TrustedIntents signature pins. Ward's analyzer said: Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.",
+          "evidence": [
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 43,
+              "detail": "activity .ui.MainActivity; exported: yes (android:exported is set); deep link schemes: otpauth"
+            },
+            {
+              "file": "app/src/main/AndroidManifest.xml",
+              "line": 91,
+              "detail": "activity .ui.PanicResponderActivity; exported: yes (android:exported is set)"
+            }
+          ],
+          "filesInspected": [
+            "app/src/main/AndroidManifest.xml",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/MainActivity.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/PanicResponderActivity.java",
+            "app/src/main/java/info/guardianproject/trustedintents/TrustedIntents.java",
+            "app/build.gradle"
+          ],
+          "analyzer": "manifest",
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0365",
+          "kind": "test",
+          "title": "Exported And Unprotected Services That Expose Sensitive Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "NO FINDING",
+          "by": "analyzer",
+          "reason": "No exported services without a permission (launcher activities aside).",
+          "evidence": [],
+          "filesInspected": [],
+          "analyzer": "manifest",
+          "depth": "analyzer"
+        },
+        {
+          "id": "MASTG-TEST-0366",
+          "kind": "test",
+          "title": "Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality",
+          "status": "active",
+          "maswe": [
+            "MASWE-0018"
+          ],
+          "verdict": "NO FINDING",
+          "by": "analyzer",
+          "reason": "No exported receivers without a permission (launcher activities aside).",
+          "evidence": [],
+          "filesInspected": [],
+          "analyzer": "manifest",
+          "depth": "analyzer"
+        },
+        {
+          "id": "MASTG-TEST-0372",
+          "kind": "test",
+          "title": "Implicit Intents Used for Internal App Communication",
+          "status": "active",
+          "maswe": [
+            "MASWE-0032"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Internal navigation uses explicit intents (new Intent(this, X.class)) throughout. Implicit intents are only intentional external delegations: browser/mail in About, gallery/file pickers, SAF documents, date settings, and the user-initiated ACTION_SEND export share.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/com/beemdevelopment/aegis/ui/MainActivity.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/AboutActivity.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/EditEntryActivity.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/fragments/preferences/ImportExportPreferencesFragment.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/fragments/preferences/BackupsPreferencesFragment.java",
+            "app/src/main/java/com/beemdevelopment/aegis/services/NotificationService.java"
+          ],
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0374",
+          "kind": "test",
+          "title": "References to Implicit Intents Carrying Sensitive Extras",
+          "status": "active",
+          "maswe": [
+            "MASWE-0032"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "Sensitive extras (VaultEntry objects) go only into explicit intents to EditEntryActivity and similar. The one implicit intent carrying data is the ACTION_SEND export, a user-chosen share of the export file through the FileProvider.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/com/beemdevelopment/aegis/ui/MainActivity.java",
+            "app/src/main/java/com/beemdevelopment/aegis/ui/fragments/preferences/ImportExportPreferencesFragment.java"
+          ],
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0381",
+          "kind": "test",
+          "title": "References to Insecure PendingIntent Creation",
+          "status": "active",
+          "maswe": [
+            "MASWE-0032"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "All three PendingIntent creations use FLAG_IMMUTABLE and explicit base intents (MainActivity.class, or VaultLockReceiver.class with setPackage).",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/com/beemdevelopment/aegis/services/LaunchAppTileService.java",
+            "app/src/main/java/com/beemdevelopment/aegis/services/LaunchScannerTileService.java",
+            "app/src/main/java/com/beemdevelopment/aegis/services/NotificationService.java"
+          ],
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0393",
+          "kind": "test",
+          "title": "Use of Unverified App Links",
+          "status": "active",
+          "maswe": [
+            "MASWE-0029"
+          ],
+          "verdict": "N/A",
+          "by": "agent",
+          "reason": "The manifest declares no http/https deep link intent filters. The only VIEW/BROWSABLE filter uses the custom otpauth scheme.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/AndroidManifest.xml"
+          ],
+          "depth": "test text"
+        },
+        {
+          "id": "MASTG-TEST-0394",
+          "kind": "test",
+          "title": "Missing Input Validation in Custom URL Scheme Handlers",
+          "status": "active",
+          "maswe": [
+            "MASWE-0029"
+          ],
+          "verdict": "NO FINDING",
+          "by": "agent",
+          "reason": "The otpauth handler in MainActivity runs only after the vault is unlocked. It parses the URI with GoogleAuthInfo.parseUri, which checks scheme, secret encoding, type, digits, algorithm and counter, then opens EditEntryActivity so the user confirms before anything is saved.",
+          "evidence": [],
+          "filesInspected": [
+            "app/src/main/java/com/beemdevelopment/aegis/ui/MainActivity.java",
+            "app/src/main/java/com/beemdevelopment/aegis/otp/GoogleAuthInfo.java"
+          ],
+          "depth": "test text"
+        },
+        {
+          "id": "MASWE-0030",
+          "kind": "weakness",
+          "title": "Improper Use of the Clipboard",
+          "status": "active",
+          "maswe": [
+            "MASWE-0030"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        },
+        {
+          "id": "MASWE-0040",
+          "kind": "weakness",
+          "title": "Sensitive Data Leaked via Accessibility Services",
+          "status": "active",
+          "maswe": [
+            "MASWE-0040"
+          ],
+          "verdict": "MANUAL",
+          "by": "owasp",
+          "reason": "No MASTG test yet: check by hand.",
+          "evidence": [],
+          "filesInspected": [],
+          "depth": "index"
+        }
+      ]
+    }
+  ],
+  "gaps": {
+    "pending": [],
+    "manual": [
+      "MASTG-TEST-0216",
+      "MASTG-TEST-0262",
+      "MASTG-TEST-0292",
+      "MASTG-TEST-0293",
+      "MASTG-TEST-0294",
+      "MASTG-TEST-0304",
+      "MASTG-TEST-0305",
+      "MASTG-TEST-0306",
+      "MASWE-0004",
+      "MASWE-0030",
+      "MASWE-0040"
+    ],
+    "needsDynamic": [
+      "MASTG-TEST-0200",
+      "MASTG-TEST-0201",
+      "MASTG-TEST-0203",
+      "MASTG-TEST-0207",
+      "MASTG-TEST-0251",
+      "MASTG-TEST-0253",
+      "MASTG-TEST-0287",
+      "MASTG-TEST-0289",
+      "MASTG-TEST-0320",
+      "MASTG-TEST-0356"
+    ],
+    "outOfScope": [
+      "MASVS-AUTH",
+      "MASVS-CODE",
+      "MASVS-CRYPTO",
+      "MASVS-NETWORK",
+      "MASVS-PLATFORM",
+      "MASVS-PRIVACY",
+      "MASVS-RESILIENCE"
+    ]
+  },
+  "counts": {
+    "controls": {
+      "MANUAL": 1,
+      "FAIL": 1
+    },
+    "checks": {
+      "NEEDS DYNAMIC": 14,
+      "NO FINDING": 16,
+      "MANUAL": 11,
+      "FAIL": 1,
+      "N/A": 2
+    },
+    "depth": {
+      "index": 27,
+      "test text": 19,
+      "analyzer": 5
+    },
+    "hardening": {
+      "NO FINDING": 2,
+      "NEEDS DYNAMIC": 1,
+      "MANUAL": 3,
+      "FAIL": 1
+    }
+  }
+}
