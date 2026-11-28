@@ -123,9 +123,10 @@ Learn: local tools that are safe by design.
 - [ ] .ward/decisions.json; reruns show new or changed items; /ward:fix
 
 ## Plan 9: website and v1 release
-- [ ] Full end-to-end eval (moved from Plan 6, ADR 0013): all four
-      setups plus analyzers only, example app and held-out, at least 3
-      trials, spread reported
+- [ ] Final eval, cut to fit a Pro plan (Karlo, 2026-11-28): ward-check
+      plus analyzers-only, on a small sample, one trial. Not all four
+      setups x 3 trials (about 360 agent runs at ~$2.50 API-equivalent
+      each; weeks of limits shared with other projects)
 - [ ] Static site: landing, demo video or slideshow of a real run,
       2-minute install guide, in-browser search, sample report, eval page
       with traces
