@@ -6,14 +6,14 @@
   "keyVersion": 2,
   "lineWindow": 5,
   "app": "clean",
-  "provisional": true,
+  "provisional": false,
   "findings": 3,
-  "ungraded": 3,
+  "ungraded": 0,
   "duplicates": 0,
   "decoyHits": [],
-  "falseAlarms": 0,
+  "falseAlarms": 1,
   "realUnplanted": 0,
-  "generic": 0,
+  "generic": 2,
   "precision": null,
   "citations": {
     "locations": 7,
@@ -24,29 +24,24 @@
       "index": 0,
       "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [],
-        "suggested": "false-alarm"
+        "kind": "generic",
+        "how": "hand"
       }
     },
     {
       "index": 1,
       "title": "MASTG-TEST-0318: References to SDK APIs Known to Handle Sensitive User Data",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [
-          "EA-D5"
-        ],
-        "suggested": "false-alarm"
+        "kind": "false-alarm",
+        "how": "hand"
       }
     },
     {
       "index": 2,
       "title": "MASWE-0072: Inadequate Privacy Policy",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [],
-        "suggested": "false-alarm"
+        "kind": "generic",
+        "how": "hand"
       }
     }
   ]

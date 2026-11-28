@@ -6,17 +6,17 @@
   "keyVersion": 2,
   "lineWindow": 5,
   "app": "clean",
-  "provisional": true,
+  "provisional": false,
   "findings": 16,
-  "ungraded": 13,
+  "ungraded": 0,
   "duplicates": 0,
   "decoyHits": [
     "EA-D4",
     "EA-D7"
   ],
-  "falseAlarms": 3,
-  "realUnplanted": 0,
-  "generic": 0,
+  "falseAlarms": 4,
+  "realUnplanted": 1,
+  "generic": 11,
   "precision": null,
   "citations": {
     "locations": 24,
@@ -38,123 +38,104 @@
       "index": 1,
       "title": "MASTG-TEST-0392: References to Enforced Updating APIs",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [],
-        "suggested": "false-alarm"
+        "kind": "generic",
+        "how": "hand"
       }
     },
     {
       "index": 2,
       "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [],
-        "suggested": "false-alarm"
+        "kind": "generic",
+        "how": "hand"
       }
     },
     {
       "index": 3,
       "title": "MASTG-TEST-0338: References to Storage Integrity Check APIs",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [],
-        "suggested": "false-alarm"
+        "kind": "generic",
+        "how": "hand"
       }
     },
     {
       "index": 4,
       "title": "MASTG-TEST-0295: GMS Security Provider Not Updated",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [],
-        "suggested": "false-alarm"
+        "kind": "generic",
+        "how": "hand"
       }
     },
     {
       "index": 5,
       "title": "MASTG-TEST-0242: Missing Certificate Pinning in Network Security Configuration",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [
-          "EA-D7"
-        ],
-        "suggested": "EA-D7"
+        "kind": "generic",
+        "how": "hand"
       }
     },
     {
       "index": 6,
       "title": "MASTG-TEST-0258: References to Keyboard Caching Attributes in UI Elements",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [],
-        "suggested": "false-alarm"
+        "kind": "real-unplanted",
+        "how": "hand"
       }
     },
     {
       "index": 7,
       "title": "MASTG-TEST-0291: References to Screen Capturing Prevention APIs",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [],
-        "suggested": "false-alarm"
+        "kind": "generic",
+        "how": "hand"
       }
     },
     {
       "index": 8,
       "title": "MASTG-TEST-0340: References to Overlay Attack Protections",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [],
-        "suggested": "false-alarm"
+        "kind": "generic",
+        "how": "hand"
       }
     },
     {
       "index": 9,
       "title": "MASTG-TEST-0254: Dangerous App Permissions",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [
-          "EA-D7"
-        ],
-        "suggested": "EA-D7"
+        "kind": "generic",
+        "how": "hand"
       }
     },
     {
       "index": 10,
       "title": "MASTG-TEST-0318: References to SDK APIs Known to Handle Sensitive User Data",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [
-          "EA-D5"
-        ],
-        "suggested": "false-alarm"
+        "kind": "false-alarm",
+        "how": "hand"
       }
     },
     {
       "index": 11,
       "title": "MASWE-0072: Inadequate Privacy Policy",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [],
-        "suggested": "false-alarm"
+        "kind": "generic",
+        "how": "hand"
       }
     },
     {
       "index": 12,
       "title": "MASTG-TEST-0324: References to Root Detection Mechanisms",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [],
-        "suggested": "false-alarm"
+        "kind": "generic",
+        "how": "hand"
       }
     },
     {
       "index": 13,
       "title": "MASTG-TEST-0352: References to Debugging Detection APIs",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [],
-        "suggested": "false-alarm"
+        "kind": "generic",
+        "how": "hand"
       }
     },
     {

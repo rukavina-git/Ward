@@ -5,7 +5,7 @@
       "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
       "candidates": [],
       "suggested": "false-alarm",
-      "label": null,
+      "label": "generic",
       "proposed": "generic",
       "proposedWhy": "Two dependencies without a readable version: MANUAL advice, no known CVE."
     },
@@ -16,7 +16,7 @@
         "EA-D5"
       ],
       "suggested": "false-alarm",
-      "label": null,
+      "label": "false-alarm",
       "proposed": "false-alarm",
       "proposedWhy": "Twin sends an opaque user ID after opt-in with category and amount band: the fixed EA-21. Karlo: the Data safety point may count as real-unplanted."
     },
@@ -25,7 +25,7 @@
       "title": "MASWE-0072: Inadequate Privacy Policy",
       "candidates": [],
       "suggested": "false-alarm",
-      "label": null,
+      "label": "generic",
       "proposed": "generic",
       "proposedWhy": "Privacy policy present; MANUAL review advice."
     }

@@ -5,7 +5,7 @@
       "title": "MASTG-TEST-0392: References to Enforced Updating APIs",
       "candidates": [],
       "suggested": "false-alarm",
-      "label": null,
+      "label": "generic",
       "proposed": "generic",
       "proposedWhy": "No enforced updates: hardening."
     },
@@ -14,7 +14,7 @@
       "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
       "candidates": [],
       "suggested": "false-alarm",
-      "label": null,
+      "label": "generic",
       "proposed": "generic",
       "proposedWhy": "Two dependencies without a version: MANUAL advice, no known CVE."
     },
@@ -23,7 +23,7 @@
       "title": "MASTG-TEST-0338: References to Storage Integrity Check APIs",
       "candidates": [],
       "suggested": "false-alarm",
-      "label": null,
+      "label": "generic",
       "proposed": "generic",
       "proposedWhy": "Lock flag in plain SharedPreferences: tampering needs root; hardening."
     },
@@ -32,7 +32,7 @@
       "title": "MASTG-TEST-0295: GMS Security Provider Not Updated",
       "candidates": [],
       "suggested": "false-alarm",
-      "label": null,
+      "label": "generic",
       "proposed": "generic",
       "proposedWhy": "Security Provider not updated: hardening."
     },
@@ -43,7 +43,7 @@
         "EA-D7"
       ],
       "suggested": "EA-D7",
-      "label": null,
+      "label": "generic",
       "proposed": "generic",
       "proposedWhy": "No pin-set: L2 hardening, MANUAL; candidate EA-D7 is location only."
     },
@@ -52,7 +52,7 @@
       "title": "MASTG-TEST-0258: References to Keyboard Caching Attributes in UI Elements",
       "candidates": [],
       "suggested": "false-alarm",
-      "label": null,
+      "label": "real-unplanted",
       "proposed": "real-unplanted",
       "proposedWhy": "Private note field has no keyboardOptions (autoCorrect/incognito), so the IME can learn it; low severity. Karlo: or false-alarm."
     },
@@ -61,7 +61,7 @@
       "title": "MASTG-TEST-0291: References to Screen Capturing Prevention APIs",
       "candidates": [],
       "suggested": "false-alarm",
-      "label": null,
+      "label": "generic",
       "proposed": "generic",
       "proposedWhy": "No FLAG_SECURE: hardening."
     },
@@ -70,7 +70,7 @@
       "title": "MASTG-TEST-0340: References to Overlay Attack Protections",
       "candidates": [],
       "suggested": "false-alarm",
-      "label": null,
+      "label": "generic",
       "proposed": "generic",
       "proposedWhy": "No overlay protection: hardening."
     },
@@ -81,7 +81,7 @@
         "EA-D7"
       ],
       "suggested": "EA-D7",
-      "label": null,
+      "label": "generic",
       "proposed": "generic",
       "proposedWhy": "Dangerous permissions listed for review (MANUAL); twin asks only what it needs."
     },
@@ -92,7 +92,7 @@
         "EA-D5"
       ],
       "suggested": "false-alarm",
-      "label": null,
+      "label": "false-alarm",
       "proposed": "false-alarm",
       "proposedWhy": "Twin sends an opaque user ID after opt-in consent, with category and amount band: this is the fixed EA-21, not a leak."
     },
@@ -101,7 +101,7 @@
       "title": "MASWE-0072: Inadequate Privacy Policy",
       "candidates": [],
       "suggested": "false-alarm",
-      "label": null,
+      "label": "generic",
       "proposed": "generic",
       "proposedWhy": "Privacy policy present; MANUAL review advice."
     },
@@ -110,7 +110,7 @@
       "title": "MASTG-TEST-0324: References to Root Detection Mechanisms",
       "candidates": [],
       "suggested": "false-alarm",
-      "label": null,
+      "label": "generic",
       "proposed": "generic",
       "proposedWhy": "No root detection: hardening."
     },
@@ -119,7 +119,7 @@
       "title": "MASTG-TEST-0352: References to Debugging Detection APIs",
       "candidates": [],
       "suggested": "false-alarm",
-      "label": null,
+      "label": "generic",
       "proposed": "generic",
       "proposedWhy": "No debugger detection: hardening."
     }

@@ -97,12 +97,12 @@ Scope from the council of 2026-11-24
       owner's choice)
 - [x] Depth marking ("test text read" vs "title only"), free proxy
       metrics, strict scoring pre-registered
-- [ ] Skill v2: test text in the skeleton, NO FINDING tied to evidence;
+- [x] Skill v2: test text in the skeleton, NO FINDING tied to evidence;
       dev runs on the example app until the proxy passes
-- [ ] Label held-out batch 2 (20 cases, frozen; Karlo spot-checks)
-- [ ] Prompt-injection tests in code: hostile text can't change IDs,
+- [x] Label held-out batch 2 (20 cases, frozen; Karlo spot-checks)
+- [x] Prompt-injection tests in code: hostile text can't change IDs,
       verdicts or the summary
-- [ ] Prompt-injection agent runs (1–3): canary next to a planted bug
+- [x] Prompt-injection agent runs (1–3): canary next to a planted bug
 - [ ] Skill v2 on the held-out set (30 cases, strict and lenient), plus
       the analyzers-only arm
 - Dropped: retrieval fixes (reranking); `search` is never called

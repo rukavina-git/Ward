@@ -7,7 +7,7 @@
         "EA-15"
       ],
       "suggested": "EA-15",
-      "label": null,
+      "label": "EA-15",
       "proposed": "EA-15",
       "proposedWhy": "Exported HelpActivity loads any URL into the WebView whose JS bridge returns the session token: EA-15 (with EA-14)."
     },
@@ -18,7 +18,7 @@
         "EA-02"
       ],
       "suggested": "EA-02",
-      "label": null,
+      "label": "EA-02",
       "proposed": "EA-02",
       "proposedWhy": "Plaintext CSV backup in public Documents survives sign-out: EA-02."
     },
@@ -31,7 +31,7 @@
         "EA-22"
       ],
       "suggested": "EA-22",
-      "label": null,
+      "label": "EA-22",
       "proposed": "EA-22",
       "proposedWhy": "Background and fine location for a city tag: EA-22."
     },
@@ -42,7 +42,7 @@
         "EA-21"
       ],
       "suggested": "EA-21",
-      "label": null,
+      "label": "EA-21",
       "proposed": "EA-21",
       "proposedWhy": "Email as the Mixpanel identity plus merchant names: EA-21."
     },
@@ -53,7 +53,7 @@
         "EA-23"
       ],
       "suggested": "EA-23",
-      "label": null,
+      "label": "generic",
       "proposed": "generic",
       "proposedWhy": "Privacy policy present; MANUAL review advice."
     },
@@ -64,7 +64,7 @@
         "EA-03"
       ],
       "suggested": null,
-      "label": null,
+      "label": "EA-23",
       "proposed": "EA-23",
       "proposedWhy": "No in-app account deletion: EA-23 (candidate EA-03 from citing ApiClient.kt only)."
     },
@@ -76,7 +76,7 @@
         "EA-21"
       ],
       "suggested": "EA-20",
-      "label": null,
+      "label": "EA-20",
       "proposed": "EA-20",
       "proposedWhy": "Tracking starts at app open, ConsentStore never checked: EA-20."
     },
@@ -89,7 +89,7 @@
         "EA-22"
       ],
       "suggested": null,
-      "label": null,
+      "label": "EA-02",
       "proposed": "EA-02",
       "proposedWhy": "Unencrypted CSV in public Documents with WRITE_EXTERNAL_STORAGE: EA-02."
     },
@@ -102,7 +102,7 @@
         "EA-22"
       ],
       "suggested": "EA-04",
-      "label": null,
+      "label": "EA-04",
       "proposed": "EA-04",
       "proposedWhy": "allowBackup with no rules, credentials included: EA-04."
     },
@@ -115,7 +115,7 @@
         "EA-22"
       ],
       "suggested": "EA-04",
-      "label": null,
+      "label": "EA-04",
       "proposed": "EA-04",
       "proposedWhy": "Same as #30 under a second test: EA-04."
     }

@@ -51,7 +51,7 @@ plan, not billed (ADR 0007).
 - **What it means:** both fixes do what they should on one run each:
   the twin's noise drops to one arguable finding, and nothing planted
   is lost. Still one trial per app; the held-out run (step 06) is the
-  real test. Labels are proposals until Karlo confirms them.
+  real test. Labels confirmed by Karlo on 2026-11-28 as proposed (Mixpanel on the twin a false alarm; keyboard caching real-unplanted; background location EA-22, lenient only).
 - **Raw data:** `evals/results/example-app/2026-11-25-ward-check-{clean-t2,planted-t2,clean-t3}/`.
 
 ## 2026-11-25 Skill v2 dev run, clean twin (plan 6, step 02)

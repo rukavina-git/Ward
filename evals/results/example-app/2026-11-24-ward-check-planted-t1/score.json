@@ -6,17 +6,17 @@
   "keyVersion": 2,
   "lineWindow": 5,
   "app": "planted",
-  "provisional": true,
+  "provisional": false,
   "findings": 30,
-  "ungraded": 10,
-  "duplicates": 4,
+  "ungraded": 0,
+  "duplicates": 5,
   "decoyHits": [
     "EA-D4"
   ],
   "falseAlarms": 1,
   "realUnplanted": 0,
-  "generic": 0,
-  "precision": 0.95,
+  "generic": 4,
+  "precision": 0.9615384615384616,
   "citations": {
     "locations": 44,
     "bad": []
@@ -81,12 +81,8 @@
       "index": 5,
       "title": "MASTG-TEST-0392: References to Enforced Updating APIs",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [
-          "EA-17",
-          "EA-18"
-        ],
-        "suggested": null
+        "kind": "generic",
+        "how": "hand"
       }
     },
     {
@@ -225,11 +221,8 @@
       "index": 18,
       "title": "MASTG-TEST-0242: Missing Certificate Pinning in Network Security Configuration",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [
-          "EA-04"
-        ],
-        "suggested": "EA-04"
+        "kind": "generic",
+        "how": "hand"
       }
     },
     {
@@ -269,114 +262,97 @@
       "index": 22,
       "title": "MASTG-TEST-0340: References to Overlay Attack Protections",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [],
-        "suggested": null
+        "kind": "generic",
+        "how": "hand"
       }
     },
     {
       "index": 23,
       "title": "MASTG-TEST-0254: Dangerous App Permissions",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [
-          "EA-02",
-          "EA-22",
-          "EA-04"
+        "kind": "issue",
+        "items": [
+          "EA-22"
         ],
-        "suggested": "EA-22"
+        "how": "hand"
       }
     },
     {
       "index": 24,
       "title": "MASTG-TEST-0318: References to SDK APIs Known to Handle Sensitive User Data",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [
+        "kind": "issue",
+        "items": [
           "EA-21"
         ],
-        "suggested": "EA-21"
+        "how": "hand"
       }
     },
     {
       "index": 25,
       "title": "MASWE-0072: Inadequate Privacy Policy",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [
-          "EA-23"
-        ],
-        "suggested": "EA-23"
+        "kind": "generic",
+        "how": "hand"
       }
     },
     {
       "index": 26,
       "title": "MASWE-0076: Lack of Proper Data Management Controls",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [
-          "EA-03"
+        "kind": "issue",
+        "items": [
+          "EA-23"
         ],
-        "suggested": null
+        "how": "hand"
       }
     },
     {
       "index": 27,
       "title": "MASTG-TEST-0202: References to APIs and Permissions for Accessing External Storage",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [
-          "EA-02",
-          "EA-04",
-          "EA-22"
+        "kind": "issue",
+        "items": [
+          "EA-02"
         ],
-        "suggested": null
+        "how": "hand"
       }
     },
     {
       "index": 28,
       "title": "MASTG-TEST-0216: Sensitive Data Not Excluded From Backup",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [
-          "EA-02",
-          "EA-04",
-          "EA-22"
+        "kind": "issue",
+        "items": [
+          "EA-04"
         ],
-        "suggested": "EA-04"
+        "how": "hand"
       }
     },
     {
       "index": 29,
       "title": "MASTG-TEST-0262: References to Backup Configurations Not Excluding Sensitive Data",
       "outcome": {
-        "kind": "ungraded",
-        "candidates": [
-          "EA-02",
-          "EA-04",
-          "EA-22"
+        "kind": "issue",
+        "items": [
+          "EA-04"
         ],
-        "suggested": "EA-04"
+        "how": "hand"
       }
     }
   ],
   "issues": {
-    "found": 15,
+    "found": 20,
     "total": 23,
-    "recall": 0.6521739130434783,
+    "recall": 0.8695652173913043,
     "missed": [
-      "EA-02",
       "EA-03",
-      "EA-04",
       "EA-05",
-      "EA-20",
-      "EA-21",
-      "EA-22",
-      "EA-23"
+      "EA-20"
     ],
     "byDifficulty": {
       "obvious": {
-        "found": 6,
+        "found": 8,
         "total": 9
       },
       "cross-file": {
@@ -384,7 +360,7 @@
         "total": 6
       },
       "config": {
-        "found": 4,
+        "found": 6,
         "total": 6
       },
       "merged-manifest": {
@@ -392,13 +368,13 @@
         "total": 1
       },
       "absence": {
-        "found": 0,
+        "found": 1,
         "total": 1
       }
     },
     "byMasvsGroup": {
       "STORAGE": {
-        "found": 1,
+        "found": 3,
         "total": 5
       },
       "CRYPTO": {
@@ -426,13 +402,13 @@
         "total": 2
       },
       "PRIVACY": {
-        "found": 0,
+        "found": 3,
         "total": 4
       }
     },
     "byCategory": {
       "security": {
-        "found": 13,
+        "found": 15,
         "total": 17
       },
       "play": {
@@ -440,7 +416,7 @@
         "total": 2
       },
       "privacy": {
-        "found": 0,
+        "found": 3,
         "total": 4
       }
     }
