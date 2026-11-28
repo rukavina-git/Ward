@@ -485,6 +485,37 @@ describe("analyzeDependencies", () => {
     expect(r.verdicts.at(-1)?.verdict).toBe("MANUAL");
   });
 
+  it("names 10 advisories in the reason and counts the rest", async () => {
+    // Mycelium's jackson-databind 2.9.6 matched 67, which broke the
+    // report's 4000-character reason cap (held-out HO-18).
+    const entries: Record<string, string> = {};
+    for (let i = 0; i < 67; i++) {
+      const id = `GHSA-many-${String(i).padStart(4, "0")}`;
+      entries[`${id}.json`] = advisory(id, "com.google.code.gson:gson", [
+        { introduced: "0" },
+        { fixed: "2.8.9" },
+      ]);
+    }
+    const cacheDir = temp();
+    await loadOsv({
+      minAdvisories: 1,
+      cacheDir,
+      fetch: fakeFetch(zip(entries)),
+      now: at("2026-11-23T08:00:00Z"),
+    });
+    const r = await analyzeDependencies(copyFixture("example-app"), "release", {
+      minAdvisories: 1,
+      cacheDir,
+      now: at("2026-11-23T09:00:00Z"),
+    });
+    const fail = r.verdicts.find((v) => v.verdict === "FAIL");
+    expect(fail?.advisories).toHaveLength(67);
+    expect(fail?.reason).toContain("67 OSV advisories");
+    expect(fail?.reason).toContain("and 57 more (see advisories)");
+    expect(fail?.reason.match(/GHSA-many-/g)).toHaveLength(10);
+    expect(fail?.reason.length).toBeLessThan(1000);
+  });
+
   it("clean twin: no FAIL", async () => {
     const r = await analyzeDependencies(
       copyFixture("example-app-clean"),

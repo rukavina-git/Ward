@@ -7,6 +7,8 @@
 import * as z from "zod/v4";
 
 export const REPORT_SCHEMA = "ward-report/1";
+/** Longest `reason` a check may have. */
+export const REASON_MAX = 4000;
 
 /** PRODUCT.md's verdicts. Never PASS. */
 export const VERDICTS = [
@@ -70,7 +72,7 @@ export const checkSchema = z.object({
    * the agent settles an analyzer's MANUAL (`by` is then agent).
    */
   analyzer: z.string().optional(),
-  reason: z.string().max(4000).nullable(),
+  reason: z.string().max(REASON_MAX).nullable(),
   evidence: z.array(evidenceSchema),
   /**
    * Files the agent read to reach its verdict, relative to the project

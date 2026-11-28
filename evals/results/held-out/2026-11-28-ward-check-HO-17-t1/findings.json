@@ -1,0 +1,826 @@
+{
+  "findings": [
+    {
+      "title": "MASTG-TEST-0364: Exported And Unprotected Activities That Expose Sensitive Functionality",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-AUTH-1",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0018"
+      ],
+      "locations": [
+        {
+          "file": "android-design-system/design-system-internal/src/main/AndroidManifest.xml",
+          "line": 21
+        },
+        {
+          "file": "autofill/autofill-internal/src/main/AndroidManifest.xml",
+          "line": 20
+        },
+        {
+          "file": "duckchat/duckchat-impl/src/main/AndroidManifest.xml",
+          "line": 52
+        },
+        {
+          "file": "feature-toggles/feature-toggles-internal/src/main/AndroidManifest.xml",
+          "line": 5
+        },
+        {
+          "file": "new-tab-page/new-tab-page-impl/src/main/AndroidManifest.xml",
+          "line": 21
+        },
+        {
+          "file": "saved-sites/saved-sites-internal/src/main/AndroidManifest.xml",
+          "line": 21
+        },
+        {
+          "file": "sync/sync-internal/src/main/AndroidManifest.xml",
+          "line": 20
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 96
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 229
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 269
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 282
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 341
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 355
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 363
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 385
+        },
+        {
+          "file": "app/src/internal/AndroidManifest.xml",
+          "line": 10
+        }
+      ],
+      "explanation": "Exported activities from *-internal modules and app/src/internal ship only in the internal flavor (internalImplementation). Release exports are browser entry points (IntentDispatcher, BrowserActivity, SystemSearch, SelectedText*, Settings, NewTabSettings); BrowserActivity is exported without a filter and its extra handling needs manual review. Ward's analyzer said: Exported activities without a permission. Ward lists them; check whether each one exposes sensitive functionality or trusts its intent's data.\nandroid-design-system/design-system-internal/src/main/AndroidManifest.xml:21: activity com.duckduckgo.common.ui.internal.ui.AppComponentsActivity; exported: yes (android:exported is set)\nautofill/autofill-internal/src/main/AndroidManifest.xml:20: activity com.duckduckgo.autofill.internal.AutofillInternalSettingsActivity; exported: yes (android:exported is set)\nduckchat/duckchat-impl/src/main/AndroidManifest.xml:52: activity .ui.nativeinput.textselection.SelectedTextDuckAiActivity; exported: yes (android:exported is set)\nfeature-toggles/feature-toggles-internal/src/main/AndroidManifest.xml:5: activity com.duckduckgo.examplefeature.internal.ui.FeatureToggleInventoryActivity; exported: yes (android:exported is set)\nnew-tab-page/new-tab-page-impl/src/main/AndroidManifest.xml:21: activity com.duckduckgo.newtabpage.impl.settings.NewTabSettingsActivity; exported: yes (android:exported is set)\nsaved-sites/saved-sites-internal/src/main/AndroidManifest.xml:21: activity com.duckduckgo.savedsites.internal.SavedSitesInternalSettingsActivity; exported: yes (android:exported is set)\nsync/sync-internal/src/main/AndroidManifest.xml:20: activity .ui.SyncInternalSettingsActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:96: activity com.duckduckgo.app.launch.LaunchBridgeActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:229: activity com.duckduckgo.app.systemsearch.SystemSearchActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:269: activity com.duckduckgo.widget.DuckAiPinShortcutActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:282: activity com.duckduckgo.app.dispatchers.IntentDispatcherActivity; exported: yes (android:exported is set); deep link schemes: https, http, duck, https, http, duck, https, http, duck\napp/src/main/AndroidManifest.xml:341: activity-alias com.duckduckgo.app.dispatchers.PdfViewerHandler; exported: yes (android:exported is set); deep link schemes: content\napp/src/main/AndroidManifest.xml:355: activity .BrowserActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:363: activity com.duckduckgo.app.SelectedTextSearchActivity; exported: yes (android:exported is set)\napp/src/main/AndroidManifest.xml:385: activity com.duckduckgo.app.settings.SettingsActivity; exported: yes (android:exported is set)\napp/src/internal/AndroidManifest.xml:10: activity .webview.WebViewDevSettingsActivity; exported: yes (android:exported is set)"
+    },
+    {
+      "title": "MASTG-TEST-0326: References to APIs Allowing Fallback to Non-Biometric Authentication",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-2"
+      ],
+      "maswe": [
+        "MASWE-0021"
+      ],
+      "locations": [
+        {
+          "file": "autofill/autofill-impl/src/main/java/com/duckduckgo/autofill/impl/deviceauth/AuthLauncher.kt",
+          "line": 149
+        }
+      ],
+      "explanation": "Access to saved passwords is gated by BiometricPrompt allowing DEVICE_CREDENTIAL (and setDeviceCredentialAllowed on API 28-29), i.e. fallback to PIN/pattern for sensitive data. Hardening-level weakness.\nautofill/autofill-impl/src/main/java/com/duckduckgo/autofill/impl/deviceauth/AuthLauncher.kt:149: Allowed authenticators include DEVICE_CREDENTIAL."
+    },
+    {
+      "title": "MASTG-TEST-0327: References to APIs for Event-Bound Biometric Authentication",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-AUTH-2",
+        "MASVS-CRYPTO-2"
+      ],
+      "maswe": [
+        "MASWE-0020"
+      ],
+      "locations": [
+        {
+          "file": "autofill/autofill-impl/src/main/java/com/duckduckgo/autofill/impl/deviceauth/AuthLauncher.kt",
+          "line": 77
+        },
+        {
+          "file": "sync/sync-impl/src/main/java/com/duckduckgo/sync/impl/auth/AuthLauncher.kt",
+          "line": 76
+        }
+      ],
+      "explanation": "BiometricPrompt.authenticate is called without a CryptoObject for password-manager and Sync access, and no key is generated with setUserAuthenticationRequired(true); success is purely event-bound (onAuthenticationSucceeded).\nautofill/autofill-impl/src/main/java/com/duckduckgo/autofill/impl/deviceauth/AuthLauncher.kt:77: authenticate() without CryptoObject guards saved passwords.\nsync/sync-impl/src/main/java/com/duckduckgo/sync/impl/auth/AuthLauncher.kt:76: authenticate() without CryptoObject guards Sync actions."
+    },
+    {
+      "title": "MASTG-TEST-0272: Identify Dependencies with Known Vulnerabilities in the Android Project",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-CODE-3"
+      ],
+      "maswe": [
+        "MASWE-0044"
+      ],
+      "locations": [
+        {
+          "file": "build.gradle",
+          "line": 250
+        },
+        {
+          "file": "ad-blocking/ad-blocking-impl/build.gradle",
+          "line": 38
+        },
+        {
+          "file": "ad-blocking/ad-blocking-impl/build.gradle",
+          "line": 40
+        },
+        {
+          "file": "ad-blocking/ad-blocking-impl/build.gradle",
+          "line": 41
+        },
+        {
+          "file": "ad-blocking/ad-blocking-impl/build.gradle",
+          "line": 42
+        },
+        {
+          "file": "ad-blocking/ad-blocking-impl/build.gradle",
+          "line": 43
+        },
+        {
+          "file": "ad-blocking/ad-blocking-impl/build.gradle",
+          "line": 44
+        },
+        {
+          "file": "ad-blocking/ad-blocking-impl/build.gradle",
+          "line": 45
+        },
+        {
+          "file": "ad-blocking/ad-blocking-impl/build.gradle",
+          "line": 46
+        },
+        {
+          "file": "ad-blocking/ad-blocking-impl/build.gradle",
+          "line": 47
+        },
+        {
+          "file": "ad-blocking/ad-blocking-impl/build.gradle",
+          "line": 48
+        },
+        {
+          "file": "ad-blocking/ad-blocking-impl/build.gradle",
+          "line": 70
+        },
+        {
+          "file": "ad-blocking/ad-blocking-impl/build.gradle",
+          "line": 71
+        },
+        {
+          "file": "ad-blocking/ad-blocking-impl/build.gradle",
+          "line": 73
+        },
+        {
+          "file": "android-design-system/design-system-internal/build.gradle",
+          "line": 38
+        },
+        {
+          "file": "android-design-system/design-system-internal/build.gradle",
+          "line": 48
+        },
+        {
+          "file": "android-design-system/design-system-internal/build.gradle",
+          "line": 50
+        },
+        {
+          "file": "android-design-system/design-system-internal/build.gradle",
+          "line": 51
+        },
+        {
+          "file": "android-design-system/design-system-internal/build.gradle",
+          "line": 53
+        },
+        {
+          "file": "android-design-system/design-system-internal/build.gradle",
+          "line": 54
+        },
+        {
+          "file": "android-design-system/design-system-internal/build.gradle",
+          "line": 55
+        },
+        {
+          "file": "android-design-system/design-system-internal/build.gradle",
+          "line": 56
+        },
+        {
+          "file": "android-design-system/design-system-internal/build.gradle",
+          "line": 57
+        },
+        {
+          "file": "android-design-system/design-system-internal/build.gradle",
+          "line": 58
+        },
+        {
+          "file": "android-design-system/design-system-internal/build.gradle",
+          "line": 59
+        },
+        {
+          "file": "android-design-system/design-system-internal/build.gradle",
+          "line": 60
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 62
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 64
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 65
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 66
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 67
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 68
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 69
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 70
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 72
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 73
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 75
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 77
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 79
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 80
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 81
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 84
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 85
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 86
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 87
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 88
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 89
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 90
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 92
+        },
+        {
+          "file": "android-design-system/design-system/build.gradle",
+          "line": 97
+        }
+      ],
+      "explanation": "4 of the declared dependencies with exact versions match no OSV advisory, but 633 declarations have no version Ward can read (see evidence). Check those, and transitive dependencies, with a Gradle-aware scanner. OSV Maven data downloaded 2026-11-28T09:21:03.418Z (published Fri, 27 Nov 2026 10:03:35 GMT).\nbuild.gradle:250: javax.inject:javax.inject: version is a variable, range or dynamic\nad-blocking/ad-blocking-impl/build.gradle:38: unrecognised: Ward can't read this declaration: AndroidX.dataStore.preferences\nad-blocking/ad-blocking-impl/build.gradle:40: unrecognised: Ward can't read this declaration: AndroidX.core.ktx\nad-blocking/ad-blocking-impl/build.gradle:41: unrecognised: Ward can't read this declaration: AndroidX.work.runtimeKtx\nad-blocking/ad-blocking-impl/build.gradle:42: unrecognised: Ward can't read this declaration: AndroidX.room.runtime\nad-blocking/ad-blocking-impl/build.gradle:43: unrecognised: Ward can't read this declaration: AndroidX.appCompat\nad-blocking/ad-blocking-impl/build.gradle:44: unrecognised: Ward can't read this declaration: AndroidX.lifecycle.runtime.ktx\nad-blocking/ad-blocking-impl/build.gradle:45: unrecognised: Ward can't read this declaration: AndroidX.lifecycle.viewModelKtx\nad-blocking/ad-blocking-impl/build.gradle:46: unrecognised: Ward can't read this declaration: Google.android.material\nad-blocking/ad-blocking-impl/build.gradle:47: unrecognised: Ward can't read this declaration: KotlinX.coroutines.android\nad-blocking/ad-blocking-impl/build.gradle:48: unrecognised: Ward can't read this declaration: KotlinX.coroutines.core\nad-blocking/ad-blocking-impl/build.gradle:70: com.squareup.logcat:logcat: version is a variable, range or dynamic\nad-blocking/ad-blocking-impl/build.gradle:71: com.airbnb.android:lottie: version is a variable, range or dynamic\nad-blocking/ad-blocking-impl/build.gradle:73: unrecognised: Ward can't read this declaration: Android.tools.desugarJdkLibs\nandroid-design-system/design-system-internal/build.gradle:38: com.squareup.logcat:logcat: version is a variable, range or dynamic\nandroid-design-system/design-system-internal/build.gradle:48: androidx.datastore:datastore-preferences: version is a variable, range or dynamic\nandroid-design-system/design-system-internal/build.gradle:50: com.airbnb.android:lottie-compose: version is a variable, range or dynamic\nandroid-design-system/design-system-internal/build.gradle:51: com.facebook.shimmer:shimmer: version is a variable, range or dynamic\nandroid-design-system/design-system-internal/build.gradle:53: unrecognised: Ward can't read this declaration: AndroidX.activity.compose\nandroid-design-system/design-system-internal/build.gradle:54: unrecognised: Ward can't read this declaration: AndroidX.appCompat\nandroid-design-system/design-system-internal/build.gradle:55: unrecognised: Ward can't read this declaration: Google.android.material\nandroid-design-system/design-system-internal/build.gradle:56: unrecognised: Ward can't read this declaration: AndroidX.constraintLayout\nandroid-design-system/design-system-internal/build.gradle:57: unrecognised: Ward can't read this declaration: AndroidX.core.splashscreen\nandroid-design-system/design-system-internal/build.gradle:58: unrecognised: Ward can't read this declaration: AndroidX.fragment.ktx\nandroid-design-system/design-system-internal/build.gradle:59: unrecognised: Ward can't read this declaration: AndroidX.recyclerView\nandroid-design-system/design-system-internal/build.gradle:60: unrecognised: Ward can't read this declaration: AndroidX.lifecycle.viewModelKtx\nandroid-design-system/design-system/build.gradle:62: androidx.datastore:datastore-preferences: version is a variable, range or dynamic\nandroid-design-system/design-system/build.gradle:64: unrecognised: Ward can't read this declaration: AndroidX.appCompat\nandroid-design-system/design-system/build.gradle:65: unrecognised: Ward can't read this declaration: Google.android.material\nandroid-design-system/design-system/build.gradle:66: unrecognised: Ward can't read this declaration: AndroidX.constraintLayout\nandroid-design-system/design-system/build.gradle:67: unrecognised: Ward can't read this declaration: AndroidX.core.splashscreen\nandroid-design-system/design-system/build.gradle:68: unrecognised: Ward can't read this declaration: AndroidX.fragment.ktx\nandroid-design-system/design-system/build.gradle:69: unrecognised: Ward can't read this declaration: AndroidX.recyclerView\nandroid-design-system/design-system/build.gradle:70: unrecognised: Ward can't read this declaration: AndroidX.lifecycle.viewModelKtx\nandroid-design-system/design-system/build.gradle:72: androidx.core:core-ktx: version is a variable, range or dynamic\nandroid-design-system/design-system/build.gradle:73: androidx.localbroadcastmanager:localbroadcastmanager: version is a variable, range or dynamic\nandroid-design-system/design-system/build.gradle:75: com.github.bumptech.glide:glide: version is a variable, range or dynamic\nandroid-design-system/design-system/build.gradle:77: com.google.android.flexbox:flexbox: version is a variable, range or dynamic\nandroid-design-system/design-system/build.gradle:79: io.coil-kt.coil3:coil-bom: version is a variable, range or dynamic\nandroid-design-system/design-system/build.gradle:80: io.coil-kt.coil3:coil-compose: no version (a BOM or constraint may set it)\nandroid-design-system/design-system/build.gradle:81: io.coil-kt.coil3:coil-network-okhttp: no version (a BOM or constraint may set it)\nandroid-design-system/design-system/build.gradle:84: unrecognised: Ward can't read this declaration: platform(AndroidX.compose.bom))\nandroid-design-system/design-system/build.gradle:85: unrecognised: Ward can't read this declaration: AndroidX.compose.foundation)\nandroid-design-system/design-system/build.gradle:86: unrecognised: Ward can't read this declaration: AndroidX.compose.foundation.layout)\nandroid-design-system/design-system/build.gradle:87: unrecognised: Ward can't read this declaration: AndroidX.compose.material3)\nandroid-design-system/design-system/build.gradle:88: unrecognised: Ward can't read this declaration: AndroidX.compose.runtime)\nandroid-design-system/design-system/build.gradle:89: unrecognised: Ward can't read this declaration: AndroidX.compose.ui)\nandroid-design-system/design-system/build.gradle:90: unrecognised: Ward can't read this declaration: AndroidX.compose.ui.tooling)\nandroid-design-system/design-system/build.gradle:92: org.jetbrains.kotlinx:kotlinx-collections-immutable: version is a variable, range or dynamic\nandroid-design-system/design-system/build.gradle:97: com.airbnb.android:lottie: version is a variable, range or dynamic"
+    },
+    {
+      "title": "MASTG-TEST-0393: Use of Unverified App Links",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-CODE-4",
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0029"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 294
+        }
+      ],
+      "explanation": "IntentDispatcherActivity declares http/https VIEW+BROWSABLE filters without autoVerify, but they have no host: this is the generic default-browser registration, not an App Link claiming a domain, so verification does not apply in the usual sense. Needs a human call.\napp/src/main/AndroidManifest.xml:294: Host-less https scheme in a browser intent filter without autoVerify."
+    },
+    {
+      "title": "MASTG-TEST-0399: SafeBrowsing Disabled",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-CODE-4",
+        "MASVS-PLATFORM-2"
+      ],
+      "maswe": [
+        "MASWE-0035"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 92
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 93
+        }
+      ],
+      "explanation": "The manifest sets android.webkit.WebView.EnableSafeBrowsing to false for all WebViews (the app relies on its own malicious-site protection instead).\napp/src/main/AndroidManifest.xml:92: SafeBrowsing meta-data is declared...\napp/src/main/AndroidManifest.xml:93: ...and set to false."
+    },
+    {
+      "title": "MASTG-TEST-0235: Android App Configurations Allowing Cleartext Traffic",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0026"
+      ],
+      "locations": [
+        {
+          "file": "app/src/fdroid/res/xml/network_security_config.xml",
+          "line": 26
+        }
+      ],
+      "explanation": "The network security config's base-config permits cleartext traffic for every domain.\napp/src/fdroid/res/xml/network_security_config.xml:26: base-config cleartextTrafficPermitted=\"true\""
+    },
+    {
+      "title": "MASTG-TEST-0283: Incorrect Implementation of Server Hostname Verification",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/duckduckgo/app/browser/certificates/rootstore/TrustedCertificateStore.kt",
+          "line": 66
+        }
+      ],
+      "explanation": "No HostnameVerifier is used, but the WebView SSL-error fallback trusts a certificate once its signature chain reaches a bundled Let's Encrypt root, without checking that the leaf matches the hostname or is within validity. A mismatched-host cert that also triggers SSL_UNTRUSTED can therefore be accepted.\napp/src/main/java/com/duckduckgo/app/browser/certificates/rootstore/TrustedCertificateStore.kt:66: Validation only looks up the issuer by CN and verifies signatures; no hostname or leaf-validity check."
+    },
+    {
+      "title": "MASTG-TEST-0284: Incorrect SSL Error Handling in WebViews",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-NETWORK-1"
+      ],
+      "maswe": [
+        "MASWE-0027"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/duckduckgo/app/browser/BrowserWebViewClient.kt",
+          "line": 1006
+        },
+        {
+          "file": "app/src/main/java/com/duckduckgo/app/browser/BrowserWebViewClient.kt",
+          "line": 1017
+        },
+        {
+          "file": "app/src/main/java/com/duckduckgo/app/browser/urlextraction/UrlExtractingWebViewClient.kt",
+          "line": 135
+        }
+      ],
+      "explanation": "onReceivedSslError decides only on getPrimaryError(): when it is SSL_UNTRUSTED and the chain verifies to a bundled Let's Encrypt root, it calls proceed() without checking other errors (SSL_IDMISMATCH, SSL_EXPIRED) via hasError(). The same pattern is in the URL-extraction WebView.\napp/src/main/java/com/duckduckgo/app/browser/BrowserWebViewClient.kt:1006: Decision based solely on the primary SSL error.\napp/src/main/java/com/duckduckgo/app/browser/BrowserWebViewClient.kt:1017: proceed() after the partial chain check.\napp/src/main/java/com/duckduckgo/app/browser/urlextraction/UrlExtractingWebViewClient.kt:135: Same proceed() pattern in the URL-extraction WebView."
+    },
+    {
+      "title": "MASTG-TEST-0372: Implicit Intents Used for Internal App Communication",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0032"
+      ],
+      "locations": [
+        {
+          "file": "network-protection/network-protection-impl/src/main/java/com/duckduckgo/networkprotection/impl/snooze/VpnDisableOnCall.kt",
+          "line": 52
+        },
+        {
+          "file": "network-protection/network-protection-impl/src/main/java/com/duckduckgo/networkprotection/impl/snooze/VpnDisableOnCall.kt",
+          "line": 58
+        }
+      ],
+      "explanation": "Internal VPN call-state actions are sent as implicit broadcasts with no package or permission, so any app can register a receiver for these actions.\nnetwork-protection/network-protection-impl/src/main/java/com/duckduckgo/networkprotection/impl/snooze/VpnDisableOnCall.kt:52: Implicit broadcast for an app-internal action.\nnetwork-protection/network-protection-impl/src/main/java/com/duckduckgo/networkprotection/impl/snooze/VpnDisableOnCall.kt:58: Implicit broadcast for an app-internal action."
+    },
+    {
+      "title": "MASTG-TEST-0316: App Exposing User Authentication Data in Text Input Fields",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-PLATFORM-3",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0036"
+      ],
+      "locations": [
+        {
+          "file": "android-design-system/design-system/src/main/java/com/duckduckgo/common/ui/view/text/DaxTextInput.kt",
+          "line": 180
+        },
+        {
+          "file": "app/src/main/res/layout/http_authentication.xml",
+          "line": 44
+        }
+      ],
+      "explanation": "DaxTextInput in password mode reveals the password (transformationMethod null, VISIBLE_PASSWORD) whenever the field gains focus, so password entry, e.g. the HTTP authentication dialog, is unmasked while typing.\nandroid-design-system/design-system/src/main/java/com/duckduckgo/common/ui/view/text/DaxTextInput.kt:180: On focus, password fields call showPassword(), which removes masking.\napp/src/main/res/layout/http_authentication.xml:44: HTTP auth password entry uses this DaxTextInput password type."
+    },
+    {
+      "title": "MASTG-TEST-0254: Dangerous App Permissions",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1"
+      ],
+      "maswe": [
+        "MASWE-0066"
+      ],
+      "locations": [
+        {
+          "file": "app-tracking-protection/vpn-impl/src/main/AndroidManifest.xml",
+          "line": 8
+        },
+        {
+          "file": "duckchat/duckchat-impl/src/main/AndroidManifest.xml",
+          "line": 21
+        },
+        {
+          "file": "network-protection/network-protection-impl/src/main/AndroidManifest.xml",
+          "line": 21
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 8
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 13
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 14
+        },
+        {
+          "file": "app/src/main/AndroidManifest.xml",
+          "line": 20
+        }
+      ],
+      "explanation": "Dangerous (runtime) permissions requested. Check that each is needed for a feature, and that a weaker one (coarse instead of fine location, foreground instead of background) would not do.\napp-tracking-protection/vpn-impl/src/main/AndroidManifest.xml:8: android.permission.POST_NOTIFICATIONS\nduckchat/duckchat-impl/src/main/AndroidManifest.xml:21: android.permission.RECORD_AUDIO\nnetwork-protection/network-protection-impl/src/main/AndroidManifest.xml:21: android.permission.READ_PHONE_STATE\napp/src/main/AndroidManifest.xml:8: android.permission.WRITE_EXTERNAL_STORAGE\napp/src/main/AndroidManifest.xml:13: android.permission.ACCESS_FINE_LOCATION\napp/src/main/AndroidManifest.xml:14: android.permission.ACCESS_COARSE_LOCATION\napp/src/main/AndroidManifest.xml:20: android.permission.CAMERA"
+    },
+    {
+      "title": "MASWE-0073: Inadequate Data Collection Declarations",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-1",
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0073"
+      ],
+      "locations": [
+        {
+          "file": "subscriptions/subscriptions-impl/src/main/java/com/duckduckgo/subscriptions/impl/feedback/FeedbackHelpUrlProvider.kt",
+          "line": 87
+        },
+        {
+          "file": "subscriptions/subscriptions-impl/src/main/java/com/duckduckgo/subscriptions/impl/feedback/FeedbackHelpUrlProvider.kt",
+          "line": 88
+        }
+      ],
+      "explanation": "The app has account creation, so the Data safety form in Play Console needs a working web link where users can request account deletion without the app. That field lives in Play Console, which Ward can't see.\nsubscriptions/subscriptions-impl/src/main/java/com/duckduckgo/subscriptions/impl/feedback/FeedbackHelpUrlProvider.kt:87: deletion URL in the app\nsubscriptions/subscriptions-impl/src/main/java/com/duckduckgo/subscriptions/impl/feedback/FeedbackHelpUrlProvider.kt:88: deletion URL in the app"
+    },
+    {
+      "title": "MASWE-0072: Inadequate Privacy Policy",
+      "category": "privacy",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-PRIVACY-3"
+      ],
+      "maswe": [
+        "MASWE-0072"
+      ],
+      "locations": [
+        {
+          "file": "app/src/internal/java/com/duckduckgo/app/audit/AuditSettingsViewModel.kt",
+          "line": 93
+        },
+        {
+          "file": "app/src/internal/java/com/duckduckgo/app/audit/AuditSettingsViewModel.kt",
+          "line": 94
+        },
+        {
+          "file": "app/src/internal/java/com/duckduckgo/app/audit/AuditSettingsViewModel.kt",
+          "line": 95
+        },
+        {
+          "file": "app/src/internal/java/com/duckduckgo/app/audit/AuditSettingsViewModel.kt",
+          "line": 96
+        },
+        {
+          "file": "app/src/internal/java/com/duckduckgo/app/audit/AuditSettingsViewModel.kt",
+          "line": 97
+        }
+      ],
+      "explanation": "A privacy policy link or text is in the app. Ward doesn't read the policy: check that it matches what the app collects and the Data safety answers.\napp/src/internal/java/com/duckduckgo/app/audit/AuditSettingsViewModel.kt:93: privacy policy\napp/src/internal/java/com/duckduckgo/app/audit/AuditSettingsViewModel.kt:94: privacy policy\napp/src/internal/java/com/duckduckgo/app/audit/AuditSettingsViewModel.kt:95: privacy policy\napp/src/internal/java/com/duckduckgo/app/audit/AuditSettingsViewModel.kt:96: privacy policy\napp/src/internal/java/com/duckduckgo/app/audit/AuditSettingsViewModel.kt:97: privacy policy"
+    },
+    {
+      "title": "MASTG-TEST-0202: References to APIs and Permissions for Accessing External Storage",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "MANUAL",
+      "masvs": [
+        "MASVS-STORAGE-1",
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0002"
+      ],
+      "locations": [
+        {
+          "file": "duckchat/duckchat-impl/src/main/java/com/duckduckgo/duckchat/impl/history/ChatExportWriter.kt",
+          "line": 68
+        }
+      ],
+      "explanation": "WRITE_EXTERNAL_STORAGE is declared (maxSdkVersion 29) and Duck.ai chat export writes the full chat text/zip unencrypted to the public Downloads folder. It is a user-initiated export, so whether this counts as unintended sensitive-data exposure needs a human decision. The Sync recovery-code PDF goes to cacheDir (internal), not shared storage.\nduckchat/duckchat-impl/src/main/java/com/duckduckgo/duckchat/impl/history/ChatExportWriter.kt:68: Chat export is written in plaintext to the shared public Downloads directory."
+    },
+    {
+      "title": "MASTG-TEST-0231: References to Logging APIs",
+      "category": "security",
+      "severity": "medium",
+      "verdict": "FAIL",
+      "masvs": [
+        "MASVS-STORAGE-2"
+      ],
+      "maswe": [
+        "MASWE-0005"
+      ],
+      "locations": [
+        {
+          "file": "app/src/main/java/com/duckduckgo/app/email/sync/EmailSync.kt",
+          "line": 93
+        },
+        {
+          "file": "pir/pir-impl/src/main/java/com/duckduckgo/pir/impl/scripts/PirMessagingInterface.kt",
+          "line": 75
+        }
+      ],
+      "explanation": "Release code logs the Email Protection personal access token and the PIR JS-bridge secret via logcat{}. Output reaches Logcat only when a logger is installed (debuggable build or the AppTP verboseLogging toggle), but the sensitive values are passed to the logging API in release code.\napp/src/main/java/com/duckduckgo/app/email/sync/EmailSync.kt:93: Email Protection username and personal access token are interpolated into a log message.\npir/pir-impl/src/main/java/com/duckduckgo/pir/impl/scripts/PirMessagingInterface.kt:75: JS bridge message and its shared secret are logged."
+    }
+  ],
+  "inspected": [
+    "ad-blocking/ad-blocking-impl/build.gradle",
+    "ad-blocking/ad-blocking-impl/src/main/AndroidManifest.xml",
+    "ad-blocking/ad-blocking-impl/src/main/java/com/duckduckgo/adblocking/impl/duckplayer/RealDuckPlayer.kt",
+    "android-design-system/design-system-internal/build.gradle",
+    "android-design-system/design-system-internal/src/main/AndroidManifest.xml",
+    "android-design-system/design-system/build.gradle",
+    "android-design-system/design-system/src/main/AndroidManifest.xml",
+    "android-design-system/design-system/src/main/java/com/duckduckgo/common/ui/view/text/DaxTextInput.kt",
+    "android-design-system/fonts/src/main/AndroidManifest.xml",
+    "anrs/anrs-impl/src/main/java/com/duckduckgo/app/anr/AnrSupervisor.kt",
+    "anrs/anrs-internal/build.gradle",
+    "anrs/anrs-internal/src/main/AndroidManifest.xml",
+    "app-tracking-protection/vpn-api/build.gradle",
+    "app-tracking-protection/vpn-api/src/main/AndroidManifest.xml",
+    "app-tracking-protection/vpn-impl/build.gradle",
+    "app-tracking-protection/vpn-impl/src/main/AndroidManifest.xml",
+    "app-tracking-protection/vpn-impl/src/main/java/com/duckduckgo/mobile/android/vpn/logging/AndroidLogcatLoggerRegistrar.kt",
+    "app-tracking-protection/vpn-impl/src/main/java/com/duckduckgo/mobile/android/vpn/service/DeviceShieldTileService.kt",
+    "app-tracking-protection/vpn-internal/build.gradle",
+    "app-tracking-protection/vpn-internal/src/main/AndroidManifest.xml",
+    "app/build.gradle",
+    "app/src/fdroid/res/xml/network_security_config.xml",
+    "app/src/internal/AndroidManifest.xml",
+    "app/src/internal/java/com/duckduckgo/app/audit/AuditSettingsViewModel.kt",
+    "app/src/internal/res/xml/network_security_config.xml",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/java/com/duckduckgo/app/autocomplete/api/AutoComplete.kt",
+    "app/src/main/java/com/duckduckgo/app/browser/BrowserTabFragment.kt",
+    "app/src/main/java/com/duckduckgo/app/browser/BrowserWebViewClient.kt",
+    "app/src/main/java/com/duckduckgo/app/browser/SpecialUrlDetector.kt",
+    "app/src/main/java/com/duckduckgo/app/browser/certificates/rootstore/TrustedCertificateStore.kt",
+    "app/src/main/java/com/duckduckgo/app/browser/urlextraction/UrlExtractingWebView.kt",
+    "app/src/main/java/com/duckduckgo/app/browser/urlextraction/UrlExtractingWebViewClient.kt",
+    "app/src/main/java/com/duckduckgo/app/browser/webview/MaliciousSiteBlockerWebViewIntegration.kt",
+    "app/src/main/java/com/duckduckgo/app/browser/webview/SslWarningLayout.kt",
+    "app/src/main/java/com/duckduckgo/app/browser/webview/WebContentDebugging.kt",
+    "app/src/main/java/com/duckduckgo/app/browser/webview/WebViewActivity.kt",
+    "app/src/main/java/com/duckduckgo/app/dispatchers/IntentDispatcherViewModel.kt",
+    "app/src/main/java/com/duckduckgo/app/email/sync/EmailSync.kt",
+    "app/src/main/java/com/duckduckgo/app/global/DuckDuckGoApplication.kt",
+    "app/src/main/java/com/duckduckgo/app/notification/NotificationFactory.kt",
+    "app/src/main/java/com/duckduckgo/app/survey/api/SurveyDownloader.kt",
+    "app/src/main/java/com/duckduckgo/app/survey/ui/SurveyActivity.kt",
+    "app/src/main/java/com/duckduckgo/widget/SearchAndFavoritesWidget.kt",
+    "app/src/main/java/com/duckduckgo/widget/SearchWidgetConfigurator.kt",
+    "app/src/main/java/com/duckduckgo/widget/WidgetUpdater.kt",
+    "app/src/main/res/layout/http_authentication.xml",
+    "app/src/play/res/xml/network_security_config.xml",
+    "attributed-metrics/attributed-metrics-internal/build.gradle",
+    "attributed-metrics/attributed-metrics-internal/src/main/AndroidManifest.xml",
+    "autoconsent/autoconsent-impl/build.gradle",
+    "autoconsent/autoconsent-impl/src/main/AndroidManifest.xml",
+    "autofill/autofill-api/src/main/java/com/duckduckgo/autofill/api/AutofillCredentialDialogs.kt",
+    "autofill/autofill-impl/build.gradle",
+    "autofill/autofill-impl/src/main/AndroidManifest.xml",
+    "autofill/autofill-impl/src/main/java/com/duckduckgo/autofill/impl/AutofillJavascriptInterface.kt",
+    "autofill/autofill-impl/src/main/java/com/duckduckgo/autofill/impl/deviceauth/AuthLauncher.kt",
+    "autofill/autofill-impl/src/main/java/com/duckduckgo/autofill/impl/deviceauth/SupportedDeviceAuthChecker.kt",
+    "autofill/autofill-impl/src/main/java/com/duckduckgo/autofill/impl/email/incontext/ResultHandlerInContextEmailProtectionPrompt.kt",
+    "autofill/autofill-impl/src/main/java/com/duckduckgo/autofill/impl/securestorage/SecureStorageKeyGenerator.kt",
+    "autofill/autofill-impl/src/main/java/com/duckduckgo/autofill/impl/securestorage/encryption/EncryptionHelper.kt",
+    "autofill/autofill-impl/src/main/java/com/duckduckgo/autofill/impl/service/AutofillProviderSuggestions.kt",
+    "autofill/autofill-impl/src/main/java/com/duckduckgo/autofill/impl/ui/credential/management/AutofillManagementActivity.kt",
+    "autofill/autofill-impl/src/main/res/layout/fragment_autofill_management_edit_mode.xml",
+    "autofill/autofill-internal/build.gradle",
+    "autofill/autofill-internal/src/main/AndroidManifest.xml",
+    "autofill/autofill-test/build.gradle",
+    "autofill/autofill-test/src/main/AndroidManifest.xml",
+    "browser/browser-feature-toggles/build.gradle",
+    "browser/browser-feature-toggles/src/main/AndroidManifest.xml",
+    "browser/browser-ui/build.gradle",
+    "browser/browser-ui/src/main/AndroidManifest.xml",
+    "build.gradle",
+    "common/common-test/build.gradle",
+    "common/common-test/src/main/AndroidManifest.xml",
+    "common/common-utils/build.gradle",
+    "common/common-utils/src/main/AndroidManifest.xml",
+    "common/common-utils/src/main/java/com/duckduckgo/common/utils/extensions/IntentExtensions.kt",
+    "credential-exchange/credential-exchange-impl/build.gradle",
+    "credential-exchange/credential-exchange-impl/src/main/AndroidManifest.xml",
+    "custom-tabs/custom-tabs-impl/src/main/java/com/duckduckgo/customtabs/impl/service/DuckDuckGoCustomTabService.kt",
+    "dax-prompts/dax-prompts-impl/build.gradle",
+    "dax-prompts/dax-prompts-impl/src/main/AndroidManifest.xml",
+    "desktop-app-promotion/desktop-app-promotion-impl/build.gradle",
+    "desktop-app-promotion/desktop-app-promotion-impl/src/main/AndroidManifest.xml",
+    "downloads/downloads-api/src/main/java/com/duckduckgo/downloads/api/FileDownloader.kt",
+    "downloads/downloads-impl/build.gradle",
+    "downloads/downloads-impl/src/main/AndroidManifest.xml",
+    "downloads/downloads-impl/src/main/java/com/duckduckgo/downloads/impl/DefaultFileDownloadNotificationManager.kt",
+    "downloads/downloads-impl/src/main/java/com/duckduckgo/downloads/impl/MediaScanner.kt",
+    "duckchat/duckchat-impl/build.gradle",
+    "duckchat/duckchat-impl/src/main/AndroidManifest.xml",
+    "duckchat/duckchat-impl/src/main/java/com/duckduckgo/duckchat/impl/history/ChatExportWriter.kt",
+    "duckchat/duckchat-impl/src/main/java/com/duckduckgo/duckchat/impl/repository/DuckChatFeatureRepository.kt",
+    "duckchat/duckchat-internal/build.gradle",
+    "duckchat/duckchat-internal/src/main/AndroidManifest.xml",
+    "element-hiding/element-hiding-store/build.gradle",
+    "element-hiding/element-hiding-store/src/main/AndroidManifest.xml",
+    "feature-toggles/feature-toggles-api/src/main/java/com/duckduckgo/feature/toggles/api/FeatureToggles.kt",
+    "feature-toggles/feature-toggles-internal/build.gradle",
+    "feature-toggles/feature-toggles-internal/src/main/AndroidManifest.xml",
+    "feedback/feedback-impl/build.gradle",
+    "feedback/feedback-impl/src/main/AndroidManifest.xml",
+    "fingerprint-protection/fingerprint-protection-store/build.gradle",
+    "fingerprint-protection/fingerprint-protection-store/src/main/AndroidManifest.xml",
+    "macos/macos-impl/build.gradle",
+    "macos/macos-impl/src/main/AndroidManifest.xml",
+    "macrobenchmark/build.gradle",
+    "macrobenchmark/src/main/AndroidManifest.xml",
+    "navigation/navigation-api/src/main/java/com/duckduckgo/navigation/api/GlobalActivityStarter.kt",
+    "network-protection/network-protection-impl/build.gradle",
+    "network-protection/network-protection-impl/src/main/AndroidManifest.xml",
+    "network-protection/network-protection-impl/src/main/java/com/duckduckgo/networkprotection/impl/notification/NetPDisabledNotificationBuilder.kt",
+    "network-protection/network-protection-impl/src/main/java/com/duckduckgo/networkprotection/impl/snooze/VpnCallStateReceiver.kt",
+    "network-protection/network-protection-impl/src/main/java/com/duckduckgo/networkprotection/impl/snooze/VpnDisableOnCall.kt",
+    "network-protection/network-protection-impl/src/main/java/com/wireguard/crypto/Key.kt",
+    "network-protection/network-protection-internal/build.gradle",
+    "network-protection/network-protection-internal/src/main/AndroidManifest.xml",
+    "new-tab-page/new-tab-page-impl/build.gradle",
+    "new-tab-page/new-tab-page-impl/src/main/AndroidManifest.xml",
+    "next-steps/next-steps-impl/build.gradle",
+    "next-steps/next-steps-impl/src/main/AndroidManifest.xml",
+    "pir/pir-impl/build.gradle",
+    "pir/pir-impl/src/main/AndroidManifest.xml",
+    "pir/pir-impl/src/main/java/com/duckduckgo/pir/impl/notifications/PirNotificationManager.kt",
+    "pir/pir-impl/src/main/java/com/duckduckgo/pir/impl/scripts/PirMessagingInterface.kt",
+    "pir/pir-internal/build.gradle",
+    "pir/pir-internal/src/main/AndroidManifest.xml",
+    "privacy-config/privacy-config-internal/build.gradle",
+    "privacy-config/privacy-config-internal/src/main/AndroidManifest.xml",
+    "privacy-dashboard/privacy-dashboard-impl/build.gradle",
+    "privacy-dashboard/privacy-dashboard-impl/src/main/AndroidManifest.xml",
+    "prompts-coordinator/prompts-coordinator-impl/build.gradle",
+    "prompts-coordinator/prompts-coordinator-impl/src/main/AndroidManifest.xml",
+    "remote-messaging/remote-messaging-impl/build.gradle",
+    "remote-messaging/remote-messaging-impl/src/main/AndroidManifest.xml",
+    "remote-messaging/remote-messaging-internal/build.gradle",
+    "remote-messaging/remote-messaging-internal/src/main/AndroidManifest.xml",
+    "runtime-checks/runtime-checks-store/build.gradle",
+    "runtime-checks/runtime-checks-store/src/main/AndroidManifest.xml",
+    "saved-sites/saved-sites-impl/build.gradle",
+    "saved-sites/saved-sites-impl/src/main/AndroidManifest.xml",
+    "saved-sites/saved-sites-internal/build.gradle",
+    "saved-sites/saved-sites-internal/src/main/AndroidManifest.xml",
+    "serp-logos/serp-logos-impl/build.gradle",
+    "serp-logos/serp-logos-impl/src/main/AndroidManifest.xml",
+    "settings/settings-impl/build.gradle",
+    "settings/settings-impl/src/main/AndroidManifest.xml",
+    "site-permissions/site-permissions-impl/build.gradle",
+    "site-permissions/site-permissions-impl/src/main/AndroidManifest.xml",
+    "subscriptions/subscriptions-impl/build.gradle",
+    "subscriptions/subscriptions-impl/src/main/AndroidManifest.xml",
+    "subscriptions/subscriptions-impl/src/main/java/com/duckduckgo/subscriptions/impl/auth/PkceGenerator.kt",
+    "subscriptions/subscriptions-impl/src/main/java/com/duckduckgo/subscriptions/impl/feedback/FeedbackHelpUrlProvider.kt",
+    "subscriptions/subscriptions-impl/src/main/java/com/duckduckgo/subscriptions/impl/messaging/SubscriptionMessagingInterface.kt",
+    "subscriptions/subscriptions-impl/src/main/java/com/duckduckgo/subscriptions/impl/ui/SubscriptionsWebViewActivity.kt",
+    "subscriptions/subscriptions-impl/src/main/java/com/duckduckgo/subscriptions/impl/ui/SubscriptionsWebViewClient.kt",
+    "subscriptions/subscriptions-internal/build.gradle",
+    "subscriptions/subscriptions-internal/src/main/AndroidManifest.xml",
+    "sync/sync-impl/build.gradle",
+    "sync/sync-impl/src/main/AndroidManifest.xml",
+    "sync/sync-impl/src/main/java/com/duckduckgo/sync/impl/RecoveryCodePDF.kt",
+    "sync/sync-impl/src/main/java/com/duckduckgo/sync/impl/SyncAccountRepository.kt",
+    "sync/sync-impl/src/main/java/com/duckduckgo/sync/impl/ThirdPartyCredentialManager.kt",
+    "sync/sync-impl/src/main/java/com/duckduckgo/sync/impl/auth/AuthLauncher.kt",
+    "sync/sync-impl/src/main/java/com/duckduckgo/sync/impl/auth/SupportedDeviceAuthChecker.kt",
+    "sync/sync-impl/src/main/java/com/duckduckgo/sync/impl/crypto/SyncJweCrypto.kt",
+    "sync/sync-impl/src/main/java/com/duckduckgo/sync/impl/exchange/v2/ExchangeV2Runner.kt",
+    "sync/sync-impl/src/main/java/com/duckduckgo/sync/impl/ui/recoverycode/RecoveryCodeActivity.kt",
+    "sync/sync-internal/build.gradle",
+    "sync/sync-internal/src/main/AndroidManifest.xml",
+    "traces/traces-impl/build.gradle",
+    "traces/traces-impl/src/main/AndroidManifest.xml",
+    "traces/traces-impl/src/main/java/com/duckduckgo/traces/impl/AppStartUpTracer.kt",
+    "voice-search/voice-search-impl/build.gradle",
+    "voice-search/voice-search-impl/src/main/AndroidManifest.xml",
+    "windows/windows-impl/build.gradle",
+    "windows/windows-impl/src/main/AndroidManifest.xml"
+  ]
+}

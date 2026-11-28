@@ -5,7 +5,7 @@
 - [x] 03 label held-out batch 2 (18 cases, re-frozen 2026-11-26 after review; Karlo's spot check of 5 passed 2026-11-27)
 - [x] 04 prompt-injection tests in code (see commit below)
 - [x] 05 prompt-injection agent runs (3 of 3 held; t3 rerun after a plan-limit stop)
-- [ ] 06 skill v2 on the held-out set, plus analyzers-only (analyzers 20/20; ward-check 13/20, left: HO-17, 18, 19, 20, 23, 24, 25; nothing scored yet; HO-11, 12, 16, 21, 22, 26, 27, 28 dropped for good, Karlo 2026-11-28)
+- [ ] 06 skill v2 on the held-out set, plus analyzers-only (analyzers 20/20; ward-check 15/20, left: HO-19, 20, 23, 24, 25; nothing scored yet; HO-11, 12, 16, 21, 22, 26, 27, 28 dropped for good, Karlo 2026-11-28)
 
 ## Deviations
 - Step 01: plan folder and step file written this run. Depth is set in
@@ -71,6 +71,14 @@
   Two trial analyzer runs (HO-10, HO-20) made while building it were
   deleted unscored before the bar was committed. Scorer re-run: v1
   tables' numbers unchanged.
+- Step 06, HO-18 (2026-11-28): the run failed the report schema, a Ward
+  bug, not the agent: the dependencies analyzer named all 67 advisories
+  of jackson-databind 2.9.6, and the merged reason passed the
+  4000-character cap. Fixed in code (first 10 named, the rest counted;
+  a merged analyzer reason is capped too), tests added, server 0.13.4.
+  HO-18 was rebuilt from its own report with only that reason shortened
+  (`rebuild.mjs` in the run folder, `report.original.json` kept); no
+  agent rerun (Karlo's call). Runs from HO-19 on use 0.13.4.
 
 ## Gotchas
 Carried over: see docs/plans/the-check/progress.md.

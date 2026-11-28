@@ -7,6 +7,7 @@ import { isHardening } from "./hardening.js";
 import type { ChecklistControl } from "@ward/core";
 import { finalize, worst } from "./rollup.js";
 import {
+  REASON_MAX,
   REPORT_SCHEMA,
   type AnalyzerRun,
   type Check,
@@ -212,8 +213,13 @@ function apply(check: Check, analyzer: string, v: AnalyzerVerdict): void {
   const merge = check.by === "analyzer";
   check.verdict =
     (merge && check.verdict && worst([check.verdict, v.verdict])) || v.verdict;
-  check.reason =
+  const reason =
     merge && check.reason ? `${check.reason} ${v.reason}` : v.reason;
+  // Two long analyzer reasons can pass the schema's cap together.
+  check.reason =
+    reason.length > REASON_MAX
+      ? `${reason.slice(0, REASON_MAX - 1)}…`
+      : reason;
   check.evidence = merge ? [...check.evidence, ...v.evidence] : [...v.evidence];
   check.analyzer =
     merge && check.analyzer && check.analyzer !== analyzer

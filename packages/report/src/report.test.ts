@@ -2,6 +2,7 @@ import type { ChecklistControl } from "@ward/core";
 import { describe, expect, it } from "vitest";
 import { finalize, rollupControl, worst } from "./rollup.js";
 import {
+  REASON_MAX,
   reportJsonSchema,
   reportSchema,
   type Check,
@@ -210,6 +211,35 @@ describe("buildSkeleton", () => {
       reason: "no cleartext can't resolve",
     });
     expect(row("MASTG-TEST-0001")?.evidence).toHaveLength(2);
+  });
+
+  it("caps a merged analyzer reason at the schema's limit", () => {
+    const long = (name: string): AnalyzerInput => ({
+      name,
+      report: {
+        limits: [],
+        verdicts: [
+          {
+            check: name,
+            verdict: "FAIL",
+            mastg: ["MASTG-TEST-0001"],
+            reason: "x".repeat(3000),
+            evidence: [],
+          },
+        ],
+      },
+    });
+    const r = buildSkeleton({
+      controls,
+      analyzers: [long("network"), long("manifest")],
+      scope: { groups: ["MASVS-NETWORK"], profile: null, variant: "release" },
+      stamps: { wardVersion: "0.6.0", mastg: null, osvDate: null },
+      allGroups: ["MASVS-NETWORK"],
+    });
+    const merged = r.controls[0]?.checks.find((c) => c.id === "MASTG-TEST-0001");
+    expect(merged?.reason).toHaveLength(REASON_MAX);
+    expect(merged?.reason?.endsWith("…")).toBe(true);
+    expect(reportSchema.safeParse(r).success).toBe(true);
   });
 
   it("an analyzer verdict replaces the dynamic-only prefill", () => {
